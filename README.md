@@ -2,7 +2,16 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Also, I've added some usual dependencies which, in my opinion, all react projects should have.
+Also, I've added some usual dependencies which, in my opinion, all react projects should have as:
+
+- Typescript;
+- Eslint;
+- Prettier;
+- Lint Staged;
+- Conventional commits ensured by Husky;
+- Jest;
+- Storybook;
+- Default VS Code's settings.json on workspace;
 
 ## Getting Started
 
