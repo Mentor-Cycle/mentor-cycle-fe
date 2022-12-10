@@ -12,14 +12,16 @@ Also, I've added some usual dependencies which, in my opinion, all react project
 - Jest;
 - Storybook;
 - Default VS Code's settings.json on workspace;
+- Path alias on tsconfig;
+
+This project has an additional branch with styled-components installed.
+Just checkout to styled-component branch in order to start from there.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
