@@ -21,13 +21,17 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i -g yarn
+        cache: 'yarn'
+    - name: Install Prject dependencies...
     - run: yarn
+    
+    - name: Building the App...
     - run: yarn build
+    
+    - name: Testing...
     - run: yarn test
     
-    - name: SonarCloud Scan
+    - name: SonarCloud Scan...
       uses: sonarsource/sonarcloud-github-action@master
       env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
