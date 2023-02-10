@@ -2,13 +2,12 @@ name: Mentor Cycle Front-end
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: ["main", "dev"]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: ["main", "dev"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,24 +15,24 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-        
-    - name: Install Project dependencies...
-      run: yarn
-    
-    - name: Building the App...
-      run: yarn build
-    
-    - name: Testing...
-      run: yarn test
-    
-    - name: SonarCloud Scan...
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+
+      - name: Install Project dependencies...
+        run: yarn
+
+      - name: Building the App...
+        run: yarn build
+
+      - name: Testing...
+        run: yarn test:ci
+
+      - name: SonarCloud Scan...
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
