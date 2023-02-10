@@ -8,6 +8,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "test": "jest --watch",
+    "test:ci": "jest --ci --bail",
     "commit": "git-cz",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

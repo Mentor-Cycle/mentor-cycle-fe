@@ -1,4 +1,4 @@
-import ".";
+import "../pages";
 
 describe("Test", () => {
   it("should run test", () => {
