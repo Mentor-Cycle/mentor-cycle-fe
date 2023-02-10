@@ -24,13 +24,13 @@ jobs:
         cache: 'yarn'
         
     - name: Install Prject dependencies...
-    - run: yarn
+      run: yarn
     
     - name: Building the App...
-    - run: yarn build
+      run: yarn build
     
     - name: Testing...
-    - run: yarn test
+      run: yarn test
     
     - name: SonarCloud Scan...
       uses: sonarsource/sonarcloud-github-action@master
