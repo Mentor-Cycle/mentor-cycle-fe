@@ -14,6 +14,7 @@ const Home: NextPage = () => {
         <p className="text-gray-03 text-3xl">03</p>
         <p className="text-gray-02 text-3xl">04</p>
         <p className="text-gray-01 text-3xl">05</p>
+        <p className="text-danger-01">05</p>
         <div className="bg-primary-05 p-4">
           <p className="text-neutral-05 text-3xl">01</p>
           <p className="text-neutral-04 text-3xl">02</p>
