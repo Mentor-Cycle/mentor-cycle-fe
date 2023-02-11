@@ -1,5 +1,7 @@
 # Next.js Template
 
+some update
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 Also, I've added some usual dependencies which, in my opinion, all react projects should have as:
