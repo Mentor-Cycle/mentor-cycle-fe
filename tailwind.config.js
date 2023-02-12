@@ -6,6 +6,8 @@ module.exports = {
       sans: ["Poppins", "sans-serif"],
     },
     colors: {
+      transparent: "transparent",
+      current: "currentColor",
       primary: {
         "05": "#580505",
         "04": "#790404",
