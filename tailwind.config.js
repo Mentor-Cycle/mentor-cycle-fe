@@ -2,9 +2,18 @@
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+    fontFamily: {
+      sans: ["Poppins", "sans-serif"],
+    },
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      primary: {
+        "05": "#580505",
+        "04": "#790404",
+        "03": "#BA0000",
+        "02": "#E43D3D",
+        "01": "#F36B6B",
       },
       colors: {
         primary: {
