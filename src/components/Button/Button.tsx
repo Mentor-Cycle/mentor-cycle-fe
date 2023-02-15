@@ -1,6 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode } from "react";
 import clsx from "clsx";
-// import { IconType } from "react-icons";
 import { IconType } from "react-icons";
 import Link from "next/link";
 

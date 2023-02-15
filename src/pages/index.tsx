@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Button } from "@components/Button/Button";
+import { Button } from "./../components/Button/Button";
 import { MdAccountBox, MdAccountCircle } from "react-icons/md";
 
 const Home: NextPage = () => {
