@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from "@storybook/react";
 import { Button, Props } from "./Button";
-import { MdAccountCircle } from "react-icons";
+import { MdAccountCircle } from "react-icons/md";
 import "../../styles/globals.css";
 
 export default {
