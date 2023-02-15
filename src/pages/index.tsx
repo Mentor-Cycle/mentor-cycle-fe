@@ -1,27 +1,50 @@
 import type { NextPage } from "next";
+import { Button } from "@components/Button/Button";
+import { MdAccountBox, MdAccountCircle } from "react-icons/md";
 
 const Home: NextPage = () => {
   return (
     <div>
       <main className="flex flex-col items-center py-16 px-0 flex-1 min-h-screen">
-        <h1 className="text-primary-05 text-5xl">style/theme</h1>
-        <h1 className="text-primary-04 text-5xl">style/theme</h1>
-        <h1 className="text-primary-03 text-5xl">style/theme</h1>
-        <h1 className="text-primary-02 text-5xl">style/theme</h1>
-        <h1 className="text-primary-01 text-5xl">style/theme</h1>
-        <p className="text-gray-05 text-3xl">01</p>
-        <p className="text-gray-04 text-3xl">02</p>
-        <p className="text-gray-03 text-3xl">03</p>
-        <p className="text-gray-02 text-3xl">04</p>
-        <p className="text-gray-01 text-3xl">05</p>
-        <div className="bg-primary-05 p-4">
-          <p className="text-neutral-05 text-3xl">01</p>
-          <p className="text-neutral-04 text-3xl">02</p>
-          <p className="text-neutral-03 text-3xl">03</p>
-          <p className="text-neutral-02 text-3xl">04</p>
-          <p className="text-neutral-01 text-3xl">05</p>
+        <div className="bg-primary-05 w-screen h-screen p-6 grid grid-cols-2 gap-6 items-center justify-center mt-auto">
+          <Button href="/" variant="primary" size="regular">
+            Button
+          </Button>
+          <Button href="/" variant="primarySmall" size="small">
+            Button
+          </Button>
+          <Button href="/" variant="secondarySmall" size="small">
+            Button
+          </Button>
+          <Button href="/" variant="secondarySmall" size="small">
+            Button
+          </Button>
+          <Button
+            href="/"
+            variant="secondarySmall"
+            size="small"
+            icon={MdAccountBox}
+            disabled
+          >
+            Button
+          </Button>
+          <Button
+            href="/"
+            variant="primary"
+            size="small"
+            icon={MdAccountCircle}
+          >
+            Button
+          </Button>
+          <Button
+            href="/"
+            variant="primary"
+            size="regular"
+            icon={MdAccountCircle}
+          >
+            Button
+          </Button>
         </div>
-        <button className="bg-link-02 text-neutral-04 px-4 py-2">button</button>
       </main>
     </div>
   );
