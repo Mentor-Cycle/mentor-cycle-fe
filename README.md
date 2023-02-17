@@ -67,15 +67,15 @@ git clone https://github.com/oliveirabalsa/mentor-cycle-be.git
 
 4. Com repositório na sua máquina, basta você abri-lo com seu editor de código favorito, em seguida executar o comando:
 ```bash
-npm install
+yarn install
 ```
 Isso fará com que o gerenciador de pacotes do node, baixe todas as dependências necessárias para rodar, finalizado a instalação rode o comando:
 ```bash
-npm run dev
+yarn dev
 ```
 e para o Back-end:
 ```bash
-npm run start:dev
+yarn start:dev
 ```
 5. Agora com tudo instalado e rodando, basta você criar a sua **branch**, executar a sua tarefa e após finalizado lembre se adicionar ao **stage** como o comando:
 
@@ -166,33 +166,33 @@ Lembre se de colocar o título conforme o tipo da tarefa, uma mensagem que descr
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
 ## Support
