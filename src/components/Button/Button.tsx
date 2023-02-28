@@ -40,6 +40,7 @@ const Button = ({
     <button
       className={clsx(baseClasses, sizeClasses[size], variantClasses[variant])}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>
