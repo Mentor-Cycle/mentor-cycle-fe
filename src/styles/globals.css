@@ -18,3 +18,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@layer components {
+  .step-item-completed {
+    @apply bg-primary-03 transition-colors duration-500;
+  }
+}
