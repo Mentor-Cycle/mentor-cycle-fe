@@ -65,6 +65,9 @@ module.exports = {
       fontSize: {
         xxs: "0.625rem",
       },
+      padding: {
+        "7/2": "1.875rem",
+      },
     },
   },
   plugins: [],
