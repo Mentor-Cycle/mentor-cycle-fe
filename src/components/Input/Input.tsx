@@ -52,6 +52,7 @@ export const Input: FC<InputProps> = ({
     >
       {label}
       <input
+        {...props}
         className={clsx(
           sizesInput[size],
           "text-gray-03 border border-gray-03 px-6 py-4 rounded-lg my-2 placeholder:text-gray-03 cursor-pointer focus:outline-none focus:ring-1 focus:ring-gray-05 transition-colors bg-neutral-03 hover:bg-neutral-01 active:placeholder:text-secondary-01 active:text-secondary-01 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:placeholder:text-gray-03 invalid:border-danger-01 invalid:focus:ring-1 invalid:focus:ring-danger-01 invalid:text-danger-01 invalid:placeholder:text-danger-01 ",
