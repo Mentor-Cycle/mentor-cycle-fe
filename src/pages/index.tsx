@@ -18,17 +18,19 @@ const Home: NextPage = () => {
         <h1 className="text-colors-neutral-01 text-5xl font-normal mt-16">
           Em Breve
         </h1>
-        <p className="mt-10 text-colors-neutral-01 text-base">
-          Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
-          dúvidas.
-        </p>
-        <p className="mt-12 text-colors-neutral-01 text-base">
-          Conheça melhor o projeto em nossas redes:
-        </p>
+        <section className="max-w-xs">
+          <p className="mt-10 text-colors-neutral-01 text-base">
+            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
+            dúvidas.
+          </p>
+          <p className="mt-12 text-colors-neutral-01 text-base">
+            Conheça melhor o projeto em nossas redes:
+          </p>
+        </section>
+
         <section className="mt-10 w-40 flex justify-between items-center">
-          {/* linkedin and notion */}
           <a
-            href="https://www.linkedin.com/company/mentorcycle/"
+            href="https://www.linkedin.com/company/mentor-cycle/"
             target="_blank"
             rel="noreferrer"
           >
