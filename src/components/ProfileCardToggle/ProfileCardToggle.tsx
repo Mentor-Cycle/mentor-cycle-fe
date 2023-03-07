@@ -1,17 +1,9 @@
 import { useState } from "react";
-import Image from "next/image";
 import AccountOutline from "mdi-react/AccountOutlineIcon";
 import Menu from "mdi-react/MenuIcon";
+import { ProfileProps } from "./types";
 
-type ProfileProps = {
-  Icon: React.ReactNode;
-  title: string;
-  active: boolean;
-  description: string;
-  onClick?: () => void;
-};
-
-const ProfileCard = ({
+export const ProfileCard = ({
   active,
   title,
   description,
