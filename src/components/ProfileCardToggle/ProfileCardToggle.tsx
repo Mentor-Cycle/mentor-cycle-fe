@@ -13,10 +13,8 @@ export const ProfileCard = ({
   return (
     <section
       onClick={onClick}
-      className={`box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-in-out ${
-        active
-          ? "border-4 border-solid border-primary-03 p-7/2"
-          : "border border-solid border-gray-02 p-8"
+      className={`p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-in-out ${
+        active ? "border-transparent outline outline-primary-03 outline-4" : ""
       }`}
     >
       {Icon}
