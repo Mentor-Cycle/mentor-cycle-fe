@@ -6,13 +6,7 @@ import * as Label from "@radix-ui/react-label";
 export const Input: FC<InputProps> = ({
   size = "standard",
   label,
-  required = false,
-  pattern,
-  minLength,
-  maxLength,
   name,
-  placeholder,
-  type = "text",
   disabled,
   ...props
 }) => {
@@ -34,12 +28,12 @@ export const Input: FC<InputProps> = ({
 
   const sizesInput: { [key in InputSize]: string } = {
     standard: `w-full px-6 py-4 my-2`,
-    standardSmall: `flex flex-col px-4 py-4 my-2`,
+    small: `flex flex-col px-4 py-4 my-2`,
   };
 
   const sizesLabel = {
-    standard: `text-base`,
-    standardSmall: `text-sm`,
+    standard: `text-base w-full`,
+    small: `text-sm`,
   };
   return (
     <Label.Root
@@ -52,6 +46,7 @@ export const Input: FC<InputProps> = ({
     >
       {label}
       <input
+        {...props}
         className={clsx(
           sizesInput[size],
           "text-gray-03 border border-gray-03 px-6 py-4 rounded-lg my-2 placeholder:text-gray-03 cursor-pointer focus:outline-none focus:ring-1 focus:ring-gray-05 transition-colors bg-neutral-03 hover:bg-neutral-01 active:placeholder:text-secondary-01 active:text-secondary-01 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:placeholder:text-gray-03 invalid:border-danger-01 invalid:focus:ring-1 invalid:focus:ring-danger-01 invalid:text-danger-01 invalid:placeholder:text-danger-01 ",
@@ -62,15 +57,6 @@ export const Input: FC<InputProps> = ({
         )}
         value={value}
         onChange={handleChange}
-        required={required}
-        pattern={pattern}
-        minLength={minLength}
-        maxLength={maxLength}
-        name={name}
-        type={type}
-        disabled={disabled}
-        aria-label={label}
-        placeholder={placeholder}
       />
       {errorMessage && !disabled && (
         <div className={"my-2 text-danger-01 text-sm"}>{errorMessage}</div>

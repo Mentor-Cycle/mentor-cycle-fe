@@ -1,4 +1,4 @@
-export type InputSize = "standard" | "standardSmall";
+export type InputSize = "standard" | "small";
 
 export interface InputProps
   extends Omit<React.HTMLProps<HTMLInputElement>, "size"> {
