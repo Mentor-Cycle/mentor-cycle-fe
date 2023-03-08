@@ -14,7 +14,8 @@ export const Stepper: React.FC<StepperProps> = ({
   const stepClasses = clsx(
     "w-24 h-8 flex items-center justify-center relative rounded-lg text-neutral-01 transition-colors duration-500 z-10"
   );
-  const completedStepClasses = "step-item-completed bg-primary-03";
+  const completedStepClasses =
+    "bg-primary-03 transition-colors duration-500 bg-primary-03";
 
   const incompletedStepClasses = "bg-gray-03";
 
