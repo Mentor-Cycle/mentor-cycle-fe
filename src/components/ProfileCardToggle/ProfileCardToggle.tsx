@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { AiOutlineUser } from "react-icons/ai";
-import { IoMdMenu } from "react-icons/io";
+import { MdPermIdentity, MdMenu } from "react-icons/md";
 import { ProfileProps } from "./types";
 
 export const ProfileCard = ({
@@ -41,7 +40,7 @@ um mentorado"
 nossa plataforma de mentores,que irão te ajudar na sua
 carreira profissional"
         Icon={
-          <AiOutlineUser
+          <MdPermIdentity
             size={64}
             className={`${
               !isMentor ? "text-primary-03" : "text-gray-02"
@@ -59,7 +58,7 @@ carreira profissional"
         na trajetória dos mentorados
         que entrarão na plataforma"
         Icon={
-          <IoMdMenu
+          <MdMenu
             size={64}
             className={isMentor ? "text-primary-03" : "text-gray-02"}
           />

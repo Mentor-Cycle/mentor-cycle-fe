@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { AiOutlineUser } from "react-icons/ai";
-import { IoMdMenu } from "react-icons/io";
+import { MdPermIdentity, MdMenu } from "react-icons/md";
 
 import { ProfileCard } from "./ProfileCardToggle";
 import { ProfileProps } from "./types";
@@ -24,7 +23,7 @@ export const Interactive = () => {
         title="Quero ser um mentorado"
         description="Aqui você terá acesso à nossa plataforma de mentores, que irão te ajudar na sua carreira profissional"
         Icon={
-          <AiOutlineUser
+          <MdPermIdentity
             size={64}
             className={`${
               !isMentor ? "text-primary-03" : "text-gray-02"
@@ -39,7 +38,7 @@ export const Interactive = () => {
         title="Quero ajudar como mentor"
         description="Nessa opção você entrará como mentor e somará na trajetória dos mentorados que entrarão na plataforma"
         Icon={
-          <IoMdMenu
+          <MdMenu
             size={64}
             className={isMentor ? "text-primary-03" : "text-gray-02"}
           />
