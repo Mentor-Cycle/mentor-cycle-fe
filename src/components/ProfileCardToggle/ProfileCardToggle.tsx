@@ -1,6 +1,7 @@
+import clsx from "clsx";
 import { useState } from "react";
-import AccountOutline from "mdi-react/AccountOutlineIcon";
-import Menu from "mdi-react/MenuIcon";
+import { AiOutlineUser } from "react-icons/ai";
+import { IoMdMenu } from "react-icons/io";
 import { ProfileProps } from "./types";
 
 export const ProfileCard = ({
@@ -13,9 +14,10 @@ export const ProfileCard = ({
   return (
     <section
       onClick={onClick}
-      className={`p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-in-out ${
+      className={clsx(
+        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-linear",
         active ? "border-transparent outline outline-primary-03 outline-4" : ""
-      }`}
+      )}
     >
       {Icon}
       <div className="mt-8">
@@ -39,7 +41,7 @@ um mentorado"
 nossa plataforma de mentores,que irão te ajudar na sua
 carreira profissional"
         Icon={
-          <AccountOutline
+          <AiOutlineUser
             size={64}
             className={`${
               !isMentor ? "text-primary-03" : "text-gray-02"
@@ -57,7 +59,7 @@ carreira profissional"
         na trajetória dos mentorados
         que entrarão na plataforma"
         Icon={
-          <Menu
+          <IoMdMenu
             size={64}
             className={isMentor ? "text-primary-03" : "text-gray-02"}
           />
