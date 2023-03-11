@@ -24,6 +24,8 @@ const CardProfile = ({
       <div>
         <Image
           src={image}
+          width="100"
+          height="100"
           alt="profile"
           className="rounded-lg w-20 h-20 object-cover object-center"
         />
@@ -46,7 +48,9 @@ const CardProfile = ({
         <p className="text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...">
           {description}
         </p>
-        <Button size="small">Ver Perfil</Button>
+        <Button className="dark:bg-primary-03" size="small">
+          Ver Perfil
+        </Button>
       </div>
     </div>
   );
