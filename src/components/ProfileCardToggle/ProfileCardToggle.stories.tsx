@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
 
 import { ProfileCard } from "./ProfileCardToggle";
-import { ProfileProps } from "./types";
+import { ProfileProps } from "./ProfileCardToggle.types";
 import { Meta, Story } from "@storybook/react";
 
 export default {

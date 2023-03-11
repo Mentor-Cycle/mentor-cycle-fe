@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
-import { ProfileProps } from "./types";
+import { ProfileProps } from "./ProfileCardToggle.types";
 
 export const ProfileCard = ({
   active,
