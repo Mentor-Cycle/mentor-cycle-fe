@@ -24,10 +24,10 @@ const CardProfile = ({
       <div>
         <Image
           src={image}
+          width="100"
+          height="100"
           alt="profile"
           className="rounded-lg w-22 h-22 object-cover object-center"
-          width={100}
-          height={100}
         />
         <h2 className="text-2xl font-bold mt-4 text-secondary-01 truncate dark:text-neutral-01">
           {name}
