@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { StepperProps } from "./Stepper.types";
 
-export const Stepper: React.FC<StepperProps> = ({
+const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
   currentStep = 1,
 }) => {
@@ -52,3 +52,5 @@ export const Stepper: React.FC<StepperProps> = ({
     </>
   );
 };
+
+export default Stepper;
