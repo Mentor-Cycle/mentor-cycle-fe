@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Chip from "@components/Chip";
-import { Button } from "@components/Button/Button";
 import { CardProps } from "./CardProfile.types";
+import { Button } from "@components/Button";
 
 const CardProfile = ({
   chips,
@@ -25,7 +25,9 @@ const CardProfile = ({
         <Image
           src={image}
           alt="profile"
-          className="rounded-lg w-20 h-20 object-cover object-center"
+          className="rounded-lg w-22 h-22 object-cover object-center"
+          width={100}
+          height={100}
         />
         <h2 className="text-2xl font-bold mt-4 text-secondary-01 truncate dark:text-neutral-01">
           {name}
@@ -46,7 +48,9 @@ const CardProfile = ({
         <p className="text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...">
           {description}
         </p>
-        <Button size="small">Ver Perfil</Button>
+        <Button size="small" className="dark:bg-primary-03">
+          Ver Perfil
+        </Button>
       </div>
     </div>
   );

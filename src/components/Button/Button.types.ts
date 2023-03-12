@@ -10,6 +10,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: buttonVariant;
   children: ReactNode;
   disabled?: boolean;
+  className?: string;
 }
 
 export interface IconProps {

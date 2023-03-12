@@ -6,6 +6,7 @@ const Button = ({
   size = "regular",
   children,
   disabled,
+  className,
   ...props
 }: ButtonProps) => {
   const baseClasses = `flex items-center gap-3 justify-center
@@ -38,7 +39,12 @@ const Button = ({
   };
   return (
     <button
-      className={clsx(baseClasses, sizeClasses[size], variantClasses[variant])}
+      className={clsx(
+        baseClasses,
+        sizeClasses[size],
+        variantClasses[variant],
+        className
+      )}
       disabled={disabled}
       {...props}
     >
