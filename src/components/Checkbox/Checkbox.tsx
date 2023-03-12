@@ -1,8 +1,8 @@
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { BsCheck } from "react-icons/bs";
-import { Props } from "./Checkbox-types";
+import { CheckBoxType } from "./Checkbox.types";
 
-const CheckboxRadix = ({ label, id, ...props }: Props) => {
+const CheckboxRadix = ({ label, id, ...props }: CheckBoxType) => {
   return (
     <div className="flex items-center">
       <Checkbox.Root

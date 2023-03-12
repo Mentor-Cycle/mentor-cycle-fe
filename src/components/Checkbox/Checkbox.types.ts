@@ -1,6 +1,6 @@
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 
-export interface Props extends CheckboxProps {
+export interface CheckBoxType extends CheckboxProps {
   label: string;
-  id: any;
+  id: string;
 }
