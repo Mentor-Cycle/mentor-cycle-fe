@@ -1816,14 +1816,12 @@
     loader-utils "^2.0.4"
     schema-utils "^3.0.0"
     source-map "^0.7.3"
-
 "@radix-ui/primitive@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/primitive/-/primitive-1.0.0.tgz#e1d8ef30b10ea10e69c76e896f608d9276352253"
   integrity sha512-3e7rn8FDMin4CgeL7Z/49smCA3rFYY3Ha2rUQ7HRWFadS5iCRw08ZgVT1LaNTCNqgvrUiyczLflrVrF0SRQtNA==
   dependencies:
     "@babel/runtime" "^7.13.10"
-
 "@radix-ui/react-checkbox@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-checkbox/-/react-checkbox-1.0.3.tgz#bab1916c04b9f66e944e7168be2217cb74c7b94e"
@@ -1838,13 +1836,24 @@
     "@radix-ui/react-use-controllable-state" "1.0.0"
     "@radix-ui/react-use-previous" "1.0.0"
     "@radix-ui/react-use-size" "1.0.0"
-
 "@radix-ui/react-compose-refs@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-compose-refs/-/react-compose-refs-1.0.0.tgz#37595b1f16ec7f228d698590e78eeed18ff218ae"
   integrity sha512-0KaSv6sx787/hK3eF53iOkiSLwAGlFMx5lotrqD2pTjB18KbybKoEIgkNZTKC60YECDQTKGTRcDBILwZVqVKvA==
   dependencies:
     "@babel/runtime" "^7.13.10"
+"@radix-ui/react-label@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-2.0.0.tgz#f94c60459cc91a69fe0ae5bb326bc3f3c091d7e1"
+  integrity sha512-7qCcZ3j2VQspWjy+gKR4W+V/z0XueQjeiZnlPOtsyiP9HaS8bfSU7ECoI3bvvdYntQj7NElW7OAYsYRW4MQvCg==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-primitive" "1.0.1"
+
+"@radix-ui/react-primitive@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-primitive/-/react-primitive-1.0.1.tgz#c1ebcce283dd2f02e4fbefdaa49d1cb13dbc990a"
+  integrity sha512-fHbmislWVkZaIdeF6GZxF0A/NH/3BjrGIYj+Ae6eTmTCr7EB0RQAAVEiqsXK6p3/JcRqVSBQoceZroj30Jj3XA==
 
 "@radix-ui/react-context@1.0.0":
   version "1.0.0"
@@ -1914,7 +1923,6 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.0"
-
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz"
