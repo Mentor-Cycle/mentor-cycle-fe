@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { InputProps, InputSize } from "./Input.types";
 import * as Label from "@radix-ui/react-label";
 
-export const Input: FC<InputProps> = ({
+const Input: FC<InputProps> = ({
   size = "standard",
   label,
   name,
@@ -64,3 +64,5 @@ export const Input: FC<InputProps> = ({
     </Label.Root>
   );
 };
+
+export default Input;
