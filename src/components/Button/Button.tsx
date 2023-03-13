@@ -6,6 +6,7 @@ const Button = ({
   size = "regular",
   children,
   disabled,
+  className,
   ...props
 }: ButtonProps) => {
   const baseClasses = `flex items-center gap-3 justify-center
@@ -13,7 +14,7 @@ const Button = ({
     dark:text-neutral-02
     rounded-lg transition-all 
     shadow-md 
-    border-2 border-primary-03 dark:border-neutral-02
+    border-2 border-primary-02 
     hover:border-primary-01 
     active:border-primary-04  
     disabled:border-gray-02  disabled:cursor-not-allowed dark:disabled:bg-gray-03 
@@ -21,7 +22,7 @@ const Button = ({
 
   const sizeClasses = {
     regular: `p-4 text-xl gap-4 font-bold w-full`,
-    small: `p-3 text-base font-semibold gap-3`,
+    small: `p-3 text-base font-semibold gap-3 w-full`,
   };
 
   const variantClasses = {
@@ -38,7 +39,12 @@ const Button = ({
   };
   return (
     <button
-      className={clsx(baseClasses, sizeClasses[size], variantClasses[variant])}
+      className={clsx(
+        baseClasses,
+        sizeClasses[size],
+        variantClasses[variant],
+        className
+      )}
       disabled={disabled}
       {...props}
     >
