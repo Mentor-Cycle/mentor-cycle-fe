@@ -1,4 +1,3 @@
-import StepperVertical from "@components/StepperVertical";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
