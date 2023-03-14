@@ -1,10 +1,10 @@
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
 import { InputProps } from "./Input.types";
-import { Input } from "./Input";
+import Input from "./Input";
 
 export default {
-  title: "Components/Input",
+  title: "Input/Input",
   component: Input,
 } as Meta;
 

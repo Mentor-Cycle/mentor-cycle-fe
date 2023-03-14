@@ -4,7 +4,7 @@ import CardProfile from "./CardProfile";
 import { CardProps } from "./CardProfile.types";
 
 export default {
-  title: "Components/CardProfile",
+  title: "Cards/CardProfile",
   component: CardProfile,
   argTypes: {
     name: { control: "text" },
