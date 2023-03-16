@@ -117,6 +117,7 @@ const SignIn = () => {
                   handleInputChange("password", e.target.value)
                 }
               />
+              {/* falta criar logica para lembrar senha - rememberMe = true */}
               <CheckboxRadix
                 id="savedPassword"
                 label="Lembrar minha senha"
