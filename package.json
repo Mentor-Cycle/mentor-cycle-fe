@@ -14,9 +14,11 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@radix-ui/react-label": "^2.0.0",
+    "@apollo/client": "^3.7.10",
     "@radix-ui/react-checkbox": "^1.0.3",
+    "@radix-ui/react-label": "^2.0.0",
     "clsx": "^1.2.1",
+    "graphql": "^16.6.0",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -64,11 +64,18 @@ module.exports = {
     extend: {
       fontSize: {
         xxs: "0.625rem",
+        "4.5xl": "2.5rem",
+      },
+      lineHeight: {
+        11: "2.75rem",
       },
       height: {
         22: "5.5rem",
       },
       width: {
+        22: "5.5rem",
+      },
+      margin: {
         22: "5.5rem",
       },
     },
