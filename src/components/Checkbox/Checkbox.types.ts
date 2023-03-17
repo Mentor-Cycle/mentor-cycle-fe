@@ -1,5 +1,4 @@
-export interface CheckboxProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CheckBoxTypes {
   id: string;
   label: string;
   className?: string;
