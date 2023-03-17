@@ -1,25 +1,15 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import logoCircle from "../public/circle.png";
 import logo from "../public/logo.png";
 import Input from "@components/Input";
-import CheckboxRadix from "@components/Checkbox/Checkbox";
+import CheckboxRadix from "@components/Checkbox";
 import { Button } from "@components/Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { SIGN_IN_USER } from "services/apollo/mutations/mutations";
 import Link from "next/link";
-
-const SIGN_IN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    signInUser(userInput: { email: $email, password: $password }) {
-      token
-      user {
-        id
-      }
-    }
-  }
-`;
 
 const SignIn = () => {
   const [formState, setFormState] = useState({
