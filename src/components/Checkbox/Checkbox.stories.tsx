@@ -3,7 +3,7 @@ import CheckBox from "./Checkbox";
 import { CheckBoxTypes } from "./Checkbox.types";
 
 export default {
-  title: "Components/Checkbox",
+  title: "Checkbox/Checkbox",
   component: CheckBox,
 } as Meta;
 
