@@ -38,6 +38,7 @@ const Input: FC<InputProps> = ({
     >
       {label}
       <input
+        name={name}
         {...props}
         className={clsx(
           sizesInput[size],

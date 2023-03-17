@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useRef } from "react";
 import Image from "next/image";
 import logoCircle from "../public/circle.png";
 import logo from "../public/logo.png";
@@ -12,43 +12,38 @@ import { SIGN_IN_USER } from "services/apollo/mutations";
 import Link from "next/link";
 
 const SignIn = () => {
-  const [formState, setFormState] = useState({
-    username: "",
-    password: "",
-  });
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
 
-  const [signInUser, { data, error }] = useMutation(SIGN_IN_USER);
-
-  const handleInputChange = (name: string, value: string) => {
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
+  const [signInUser] = useMutation(SIGN_IN_USER);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const { data } = await signInUser({
-        variables: { email: formState.username, password: formState.password },
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-    setFormState({
-      username: "",
-      password: "",
-    });
-  };
 
+    const formElement = e.target as HTMLFormElement;
+    const formData = new FormData(formElement);
+    const { email, password, rememberMe } = Object.fromEntries(
+      formData.entries()
+    );
+    const isValid = formRef.current?.checkValidity();
+
+    if (isValid) {
+      try {
+        await signInUser({
+          variables: { email, password, rememberMe },
+        });
+        formRef.current?.reset();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
-      <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 dark:bg-gradient-to-r dark:from-link-02 dark:to-neutral-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
+      <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"
           src={logo}
@@ -83,40 +78,37 @@ const SignIn = () => {
             Já possui uma conta? Preencha os campos para entrar na plataforma
           </p>
           <form
+            ref={formRef}
             onSubmit={handleSubmit}
             className="flex flex-col max-w-[557px] mx-auto md:mx-0"
           >
             <div className="mt-8">
               <Input
-                name="username"
+                name="email"
                 type="email"
                 placeholder="user1@gmail.com"
                 label="Email"
-                value={formState.username}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleInputChange("username", e.target.value)
-                }
+                required
               />
               <Input
                 name="password"
                 type="password"
                 placeholder="******************"
                 label="Senha"
-                value={formState.password}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleInputChange("password", e.target.value)
-                }
+                required
               />
-              {/* falta criar logica para lembrar senha - rememberMe = true */}
               <Checkbox
                 id="savedPassword"
                 label="Lembrar minha senha"
                 className="mt-2 mb-4 md:mb-12"
+                name="rememberMe"
               />
             </div>
             <Button size="small" className="mb-4 md:mb-12">
               Entrar
             </Button>
+          </form>
+          <div className="flex flex-col max-w-[557px] mx-auto md:mx-0">
             <Button
               onClick={() => handleStrategyLogin("/auth/google")}
               size="small"
@@ -143,7 +135,7 @@ const SignIn = () => {
                 Se registre aqui!
               </Link>
             </p>
-          </form>
+          </div>
         </div>
       </div>
     </main>
