@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export type InputSize = "standard" | "small";
 
 export interface InputProps
