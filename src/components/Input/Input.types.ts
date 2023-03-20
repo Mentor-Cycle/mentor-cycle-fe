@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Ref } from "react";
 
 export type InputSize = "standard" | "small";
 
@@ -14,4 +14,8 @@ export interface InputProps
   placeholder?: string;
   type?: string;
   disabled?: boolean;
+}
+
+export interface InputComponentProps extends InputProps {
+  forwardedRef: Ref<HTMLInputElement>;
 }

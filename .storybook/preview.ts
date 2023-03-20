@@ -1,8 +1,12 @@
 import "tailwindcss/tailwind.css";
 
+export const globalTypes = {
+  darkMode: true,
+};
+
 export const parameters = {
   backgrounds: {
-    default: "light",
+    default: "ligth",
   },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -11,7 +15,4 @@ export const parameters = {
       date: /Date$/,
     },
   },
-};
-export const globalTypes = {
-  darkMode: true,
 };

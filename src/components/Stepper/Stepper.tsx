@@ -19,7 +19,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const incompletedStepClasses = "bg-gray-03";
 
-  const stepItem = `relative flex flex-col items-center w-full sm:w-auto sm:flex-1`;
+  const stepItem = `relative flex flex-col items-start w-full sm:w-auto sm:flex-1`;
 
   const stepSeparator = `content-[''] absolute w-full h-[3px] -left-[20%] transform translate-x-1/2 top-1/2`;
 

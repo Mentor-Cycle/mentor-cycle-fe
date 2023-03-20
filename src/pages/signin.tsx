@@ -129,7 +129,7 @@ const SignIn = () => {
             <p className="text-primary-05 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
               Não tem uma conta?{" "}
               <Link
-                href="/signup"
+                href="/signup/plan"
                 className="text-primary-03 hover:text-primary-02"
               >
                 Se registre aqui!

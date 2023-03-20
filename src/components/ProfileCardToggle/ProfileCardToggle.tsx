@@ -1,7 +1,10 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
-import { ProfileProps } from "./ProfileCardToggle.types";
+import {
+  ProfileCardToggleProps,
+  ProfileProps,
+} from "./ProfileCardToggle.types";
 
 export const ProfileCard = ({
   active,
@@ -27,12 +30,14 @@ export const ProfileCard = ({
   );
 };
 
-export const ProfileCardToggle = () => {
-  const [isMentor, setIsMentor] = useState<boolean>(false);
+export const ProfileCardToggle = ({
+  handleIsMentor,
+  isMentor,
+}: ProfileCardToggleProps) => {
   return (
     <main className="flex justify-center gap-4">
       <ProfileCard
-        onClick={() => setIsMentor(false)}
+        onClick={() => handleIsMentor(false)}
         active={!isMentor}
         title="Quero ser 
 um mentorado"
@@ -49,7 +54,7 @@ carreira profissional"
         }
       />
       <ProfileCard
-        onClick={() => setIsMentor(true)}
+        onClick={() => handleIsMentor(true)}
         active={isMentor}
         title="Quero ajudar
         como mentor"
