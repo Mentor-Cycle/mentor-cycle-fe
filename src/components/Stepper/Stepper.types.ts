@@ -1,4 +1,4 @@
 export interface StepperProps {
-  steps: number[];
-  currentStep?: number;
+  steps: number[]
+  currentStep?: number
 }

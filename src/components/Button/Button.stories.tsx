@@ -1,55 +1,55 @@
-import { StoryFn, Meta } from "@storybook/react";
-import { Button } from "./Button";
-import { ButtonProps } from "./Button.types";
-import { FcGoogle } from "react-icons/fc";
+import { StoryFn, Meta } from '@storybook/react'
+import { Button } from './Button'
+import { ButtonProps } from './Button.types'
+import { FcGoogle } from 'react-icons/fc'
 
-import "../../styles/globals.css";
+import '../../styles/globals.css'
 
 export default {
-  title: "Button/Button",
+  title: 'Button/Button',
   component: Button,
   argTypes: {
-    children: { control: "text" },
+    children: { control: 'text' },
     variant: {
       control: {
-        type: "inline-radio",
-        options: ["primary", "secondary"],
+        type: 'inline-radio',
+        options: ['primary', 'secondary'],
       },
     },
     size: {
       control: {
-        type: "inline-radio",
-        options: ["regular", "small"],
+        type: 'inline-radio',
+        options: ['regular', 'small'],
       },
     },
   },
-} as Meta;
+} as Meta
 
-const Template: StoryFn<ButtonProps> = (args) => <Button {...args} />;
+const Template: StoryFn<ButtonProps> = (args) => <Button {...args} />
 
-export const Primary = Template.bind({});
+export const Primary = Template.bind({})
 Primary.args = {
-  children: "Primary Button",
-  variant: "primary",
-  size: "regular",
-};
+  children: 'Primary Button',
+  variant: 'primary',
+  size: 'regular',
+}
 
-export const Secondary = Template.bind({});
+export const Secondary = Template.bind({})
 Secondary.args = {
-  children: "Secondary Button",
-  variant: "secondary",
-  size: "small",
-};
+  children: 'Secondary Button',
+  variant: 'secondary',
+  size: 'small',
+}
 
-export const Disabled = Template.bind({});
+export const Disabled = Template.bind({})
 Disabled.args = {
-  children: "Disabled Button",
-  variant: "primary",
-  size: "regular",
+  children: 'Disabled Button',
+  variant: 'primary',
+  size: 'regular',
   disabled: true,
-};
+}
 
-export const WithIcon = Template.bind({});
+export const WithIcon = Template.bind({})
 WithIcon.args = {
   children: (
     <>
@@ -57,9 +57,9 @@ WithIcon.args = {
       Add Item
     </>
   ),
-  variant: "primary",
-  size: "regular",
-};
+  variant: 'primary',
+  size: 'regular',
+}
 
 const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -76,4 +76,4 @@ const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
       d="M12 4v16m8-8H4"
     />
   </svg>
-);
+)

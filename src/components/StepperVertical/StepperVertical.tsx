@@ -1,8 +1,8 @@
-import clsx from "clsx";
-import { StepperVerticalProps } from "./StepperVertical.types";
+import clsx from 'clsx'
+import { StepperVerticalProps } from './StepperVertical.types'
 
 const StepperVertical: React.FC<StepperVerticalProps> = ({
-  steps = ["Perfil", "Dados pessoais", "Descrição de trabalho"],
+  steps = ['Perfil', 'Dados pessoais', 'Descrição de trabalho'],
   currentStep = 1,
 }) => {
   const ACTIVE_CLASS = `
@@ -10,14 +10,14 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
     text-secondary-03 text-2xl font-semibold
     dark:text-neutral-01 
     transition duration-700
-    bg-transparent`;
+    bg-transparent`
 
   const INACTIVE_CLASS = `
     border-l border-neutral-05 
     text-gray-03 
-    dark:text-neutral-05`;
+    dark:text-neutral-05`
 
-  const isActive = (index: number) => currentStep === index + 1;
+  const isActive = (index: number) => currentStep === index + 1
 
   return (
     <div className="w-full">
@@ -26,16 +26,16 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
           <div
             key={index}
             className={clsx(
-              "p-6",
+              'p-6',
               isActive(index) ? ACTIVE_CLASS : INACTIVE_CLASS
             )}
           >
             {step}
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default StepperVertical;
+export default StepperVertical

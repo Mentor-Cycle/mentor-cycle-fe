@@ -1,7 +1,7 @@
-import "../pages";
+import '../pages'
 
-describe("Test", () => {
-  it("should run test", () => {
-    expect(true).toBe(true);
-  });
-});
+describe('Test', () => {
+  it('should run test', () => {
+    expect(true).toBe(true)
+  })
+})

@@ -1,46 +1,46 @@
-import { FormEvent, useRef } from "react";
-import Image from "next/image";
-import logoCircle from "../public/circle.png";
-import logo from "../public/logo.png";
-import Input from "@components/Input";
-import Checkbox from "@components/Checkbox";
-import { Button } from "@components/Button";
-import { FcGoogle } from "react-icons/fc";
-import { GrLinkedinOption } from "react-icons/gr";
-import { useMutation } from "@apollo/client";
-import { SIGN_IN_USER } from "services/apollo/mutations";
-import Link from "next/link";
+import { FormEvent, useRef } from 'react'
+import Image from 'next/image'
+import logoCircle from '../public/circle.png'
+import logo from '../public/logo.png'
+import Input from '@components/Input'
+import Checkbox from '@components/Checkbox'
+import { Button } from '@components/Button'
+import { FcGoogle } from 'react-icons/fc'
+import { GrLinkedinOption } from 'react-icons/gr'
+import { useMutation } from '@apollo/client'
+import { SIGN_IN_USER } from 'services/apollo/mutations'
+import Link from 'next/link'
 
 const SignIn = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null)
 
   const handleStrategyLogin = async (route: string) => {
-    window.location.href = `http://localhost:3030${route}`;
-  };
+    window.location.href = `http://localhost:3030${route}`
+  }
 
-  const [signInUser] = useMutation(SIGN_IN_USER);
+  const [signInUser] = useMutation(SIGN_IN_USER)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formElement = e.target as HTMLFormElement;
-    const formData = new FormData(formElement);
+    const formElement = e.target as HTMLFormElement
+    const formData = new FormData(formElement)
     const { email, password, rememberMe } = Object.fromEntries(
       formData.entries()
-    );
-    const isValid = formRef.current?.checkValidity();
+    )
+    const isValid = formRef.current?.checkValidity()
 
     if (isValid) {
       try {
         await signInUser({
           variables: { email, password, rememberMe },
-        });
-        formRef.current?.reset();
+        })
+        formRef.current?.reset()
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
-  };
+  }
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
@@ -110,7 +110,7 @@ const SignIn = () => {
           </form>
           <div className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[700px]">
             <Button
-              onClick={() => handleStrategyLogin("/auth/google")}
+              onClick={() => handleStrategyLogin('/auth/google')}
               size="small"
               variant="secondary"
               className="mb-4"
@@ -119,7 +119,7 @@ const SignIn = () => {
               Entrar com Google
             </Button>
             <Button
-              onClick={() => handleStrategyLogin("/auth/linkedin")}
+              onClick={() => handleStrategyLogin('/auth/linkedin')}
               size="small"
               variant="secondary"
             >
@@ -127,7 +127,7 @@ const SignIn = () => {
               Entrar com Linkedin
             </Button>
             <p className="text-primary-05 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
-              Não tem uma conta?{" "}
+              Não tem uma conta?{' '}
               <Link
                 href="/signup"
                 className="text-primary-03 hover:text-primary-02"
@@ -139,6 +139,6 @@ const SignIn = () => {
         </div>
       </div>
     </main>
-  );
-};
-export default SignIn;
+  )
+}
+export default SignIn

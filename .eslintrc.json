@@ -3,7 +3,8 @@
     "next",
     "next/core-web-vitals",
     "prettier",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:prettier/recommended"
   ],
   "env": {
     "jest": true

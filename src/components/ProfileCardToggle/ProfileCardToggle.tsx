@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import { useState } from "react";
-import { MdPermIdentity, MdMenu } from "react-icons/md";
-import { ProfileProps } from "./ProfileCardToggle.types";
+import clsx from 'clsx'
+import { useState } from 'react'
+import { MdPermIdentity, MdMenu } from 'react-icons/md'
+import { ProfileProps } from './ProfileCardToggle.types'
 
 export const ProfileCard = ({
   active,
@@ -14,8 +14,8 @@ export const ProfileCard = ({
     <section
       onClick={onClick}
       className={clsx(
-        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-linear",
-        active ? "border-transparent outline outline-primary-03 outline-4" : ""
+        'p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-linear',
+        active ? 'border-transparent outline outline-primary-03 outline-4' : ''
       )}
     >
       {Icon}
@@ -24,11 +24,11 @@ export const ProfileCard = ({
         <p className="text-sm text-gray-05">{description}</p>
       </div>
     </section>
-  );
-};
+  )
+}
 
 export const ProfileCardToggle = () => {
-  const [isMentor, setIsMentor] = useState<boolean>(false);
+  const [isMentor, setIsMentor] = useState<boolean>(false)
   return (
     <main className="flex justify-center gap-4">
       <ProfileCard
@@ -43,7 +43,7 @@ carreira profissional"
           <MdPermIdentity
             size={64}
             className={`${
-              !isMentor ? "text-primary-03" : "text-gray-02"
+              !isMentor ? 'text-primary-03' : 'text-gray-02'
             } transition duration-500 ease-in-out`}
           />
         }
@@ -60,10 +60,10 @@ carreira profissional"
         Icon={
           <MdMenu
             size={64}
-            className={isMentor ? "text-primary-03" : "text-gray-02"}
+            className={isMentor ? 'text-primary-03' : 'text-gray-02'}
           />
         }
       />
     </main>
-  );
-};
+  )
+}

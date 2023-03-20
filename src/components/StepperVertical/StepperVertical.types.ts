@@ -1,4 +1,4 @@
 export interface StepperVerticalProps {
-  steps?: string[];
-  currentStep?: number;
+  steps?: string[]
+  currentStep?: number
 }

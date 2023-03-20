@@ -1,4 +1,4 @@
-import Chip, { ChipOption } from "@components/Chip";
+import Chip, { ChipOption } from '@components/Chip'
 
 function TheoTest() {
   return (
@@ -7,7 +7,7 @@ function TheoTest() {
       <Chip type={ChipOption.FRONTEND} />
       <Chip type={ChipOption.FULLSTACK} />
     </main>
-  );
+  )
 }
 
-export default TheoTest;
+export default TheoTest

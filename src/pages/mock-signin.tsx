@@ -1,26 +1,26 @@
-import Image from "next/image";
-import GoogleIcon from "../public/GoogleIcon.svg";
-import LinkedinIcon from "../public/LinkedinIcon.svg";
+import Image from 'next/image'
+import GoogleIcon from '../public/GoogleIcon.svg'
+import LinkedinIcon from '../public/LinkedinIcon.svg'
 
 function MyApp() {
   const handleStrategyLogin = async (route: string) => {
-    window.location.href = `http://localhost:3030${route}`;
-  };
+    window.location.href = `http://localhost:3030${route}`
+  }
 
   const strategies = [
     {
       icon: GoogleIcon,
-      label: "Faça Login com o Google",
-      route: "/auth/google",
-      alt: "Google Icon",
+      label: 'Faça Login com o Google',
+      route: '/auth/google',
+      alt: 'Google Icon',
     },
     {
       icon: LinkedinIcon,
-      label: "Faça Login com o Linkedin",
-      route: "/auth/linkedin",
-      alt: "Linkedin Icon",
+      label: 'Faça Login com o Linkedin',
+      route: '/auth/linkedin',
+      alt: 'Linkedin Icon',
     },
-  ];
+  ]
 
   return (
     <main className="w-screen h-screen flex flex-col gap-5 justify-center items-center bg-secondary-04">
@@ -44,7 +44,7 @@ function MyApp() {
         </button>
       ))}
     </main>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

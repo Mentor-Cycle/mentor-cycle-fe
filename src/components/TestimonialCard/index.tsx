@@ -1,2 +1,2 @@
-export { default } from "./TestimonialCard";
-export * from "./TestimonialCard.types";
+export { default } from './TestimonialCard'
+export * from './TestimonialCard.types'

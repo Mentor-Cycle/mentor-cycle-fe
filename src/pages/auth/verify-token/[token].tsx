@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
 function TokenVerifyPage() {
-  const { token } = useRouter().query;
+  const { token } = useRouter().query
   // word wrap wrap tailwind
 
   return (
@@ -10,7 +10,7 @@ function TokenVerifyPage() {
         Token: {token}
       </h1>
     </main>
-  );
+  )
 }
 
-export default TokenVerifyPage;
+export default TokenVerifyPage

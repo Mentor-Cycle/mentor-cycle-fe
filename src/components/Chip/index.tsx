@@ -1,2 +1,2 @@
-export { default } from "./Chip";
-export { ChipOption } from "./Chip.types";
+export { default } from './Chip'
+export { ChipOption } from './Chip.types'

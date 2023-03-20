@@ -1,8 +1,8 @@
-import clsx from "clsx";
-import Image from "next/image";
-import Chip from "@components/Chip";
-import { CardProps } from "./CardProfile.types";
-import { Button } from "@components/Button";
+import clsx from 'clsx'
+import Image from 'next/image'
+import Chip from '@components/Chip'
+import { CardProps } from './CardProfile.types'
+import { Button } from '@components/Button'
 
 const CardProfile = ({
   chips,
@@ -12,13 +12,13 @@ const CardProfile = ({
   location,
   name,
 }: CardProps) => {
-  const MAX_WIDTH = "max-w-[365px]";
+  const MAX_WIDTH = 'max-w-[365px]'
 
   return (
     <div
       className={clsx(
         MAX_WIDTH,
-        "px-11 py-6  border border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
+        'px-11 py-6  border border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all'
       )}
     >
       <div>
@@ -53,6 +53,6 @@ const CardProfile = ({
         </Button>
       </div>
     </div>
-  );
-};
-export default CardProfile;
+  )
+}
+export default CardProfile

@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { MdPermIdentity, MdMenu } from "react-icons/md";
+import { useState } from 'react'
+import { MdPermIdentity, MdMenu } from 'react-icons/md'
 
-import { ProfileCard } from "./ProfileCardToggle";
-import { ProfileProps } from "./ProfileCardToggle.types";
-import { Meta, Story } from "@storybook/react";
+import { ProfileCard } from './ProfileCardToggle'
+import { ProfileProps } from './ProfileCardToggle.types'
+import { Meta, Story } from '@storybook/react'
 
 export default {
-  title: "Cards/ProfileCardToggle",
+  title: 'Cards/ProfileCardToggle',
   component: ProfileCard,
-} as Meta;
+} as Meta
 
-const Template: Story<ProfileProps> = (args) => <ProfileCard {...args} />;
+const Template: Story<ProfileProps> = (args) => <ProfileCard {...args} />
 
 export const Interactive = () => {
-  const [isMentor, setIsMentor] = useState<boolean>(false);
+  const [isMentor, setIsMentor] = useState<boolean>(false)
 
   return (
     <div className="flex justify-center gap-4">
@@ -26,7 +26,7 @@ export const Interactive = () => {
           <MdPermIdentity
             size={64}
             className={`${
-              !isMentor ? "text-primary-03" : "text-gray-02"
+              !isMentor ? 'text-primary-03' : 'text-gray-02'
             } transition duration-500 ease-in-out`}
           />
         }
@@ -40,10 +40,10 @@ export const Interactive = () => {
         Icon={
           <MdMenu
             size={64}
-            className={isMentor ? "text-primary-03" : "text-gray-02"}
+            className={isMentor ? 'text-primary-03' : 'text-gray-02'}
           />
         }
       />
     </div>
-  );
-};
+  )
+}

@@ -1,10 +1,10 @@
-import Image from "next/image";
-import testimonialImg from "../../public/avatarTestimonial.png";
-import TruncatedText from "./TruncatedText";
-import { PropsTestimonialCard } from "./TestimonialCard.types";
+import Image from 'next/image'
+import testimonialImg from '../../public/avatarTestimonial.png'
+import TruncatedText from './TruncatedText'
+import { PropsTestimonialCard } from './TestimonialCard.types'
 
 const TestimonialCard = ({ maxLines, text }: PropsTestimonialCard) => {
-  const MAX_WIDTH = "max-w-[274px]";
+  const MAX_WIDTH = 'max-w-[274px]'
 
   return (
     <div
@@ -21,7 +21,7 @@ const TestimonialCard = ({ maxLines, text }: PropsTestimonialCard) => {
         <TruncatedText maxLines={maxLines} text={text} expanded={false} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TestimonialCard;
+export default TestimonialCard
