@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-
 export type InputSize = "standard" | "small";
 
 export interface InputProps
@@ -7,11 +5,4 @@ export interface InputProps
   name: string;
   size?: InputSize;
   label?: string;
-  required?: boolean;
-  pattern?: string;
-  minLength?: number;
-  maxLength?: number;
-  placeholder?: string;
-  type?: string;
-  disabled?: boolean;
 }
