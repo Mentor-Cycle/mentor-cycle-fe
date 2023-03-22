@@ -1,7 +1,6 @@
-import Header from "@components/Header/Header";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <Header isLogged={false} userName={""} photoUrl="" />;
+  return <h1>Hello World!</h1>;
 };
 export default Home;
