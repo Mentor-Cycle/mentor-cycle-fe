@@ -3,7 +3,7 @@ import { ChipOption } from "./Chip.types";
 import { Meta, Story } from "@storybook/react";
 
 export default {
-  title: "Chip/Chips",
+  title: "Data Display/Chips",
   component: Chip,
   argTypes: {
     type: {

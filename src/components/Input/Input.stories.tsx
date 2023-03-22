@@ -4,7 +4,7 @@ import { InputProps } from "./Input.types";
 import Input from "./Input";
 
 export default {
-  title: "Input/Input",
+  title: "Forms/Input",
   component: Input,
 } as Meta;
 
