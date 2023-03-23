@@ -1,16 +1,5 @@
-import React from "react";
-import { StoryFn, Meta } from "@storybook/react";
-import { HeaderProps } from "./Header.types";
+import { Meta } from "@storybook/react";
 import Header from "./Header";
 
-export default {
-  title: "Headers/Header",
-  component: Header,
-} as Meta;
-
-const Template: StoryFn<HeaderProps> = (args) => <Header {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  isLogged: true,
-};
+export default { component: Header } as Meta;
+export const Default = { args: { isLogged: true } };
