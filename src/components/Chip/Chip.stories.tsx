@@ -1,6 +1,6 @@
+import { Meta, Story } from "@storybook/react";
 import Chip from "./Chip";
 import { ChipOption } from "./Chip.types";
-import { Meta, Story } from "@storybook/react";
 
 export default {
   title: "Chip/Chips",
@@ -14,6 +14,8 @@ export default {
           ChipOption.FRONTEND,
           ChipOption.BACKEND,
           ChipOption.FULLSTACK,
+          ChipOption.MENTORADO,
+          ChipOption.MENTORANDO,
         ],
       },
     },
