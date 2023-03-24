@@ -1,37 +1,41 @@
 import Input from "@components/Input";
+import SelectCities from "@components/LocationSelector/SelectCities";
+import SelectCountry from "@components/LocationSelector/SelectCountry";
+import SelectState from "@components/LocationSelector/SelectState";
+import { useState } from "react";
 import { FormDataTypes } from "./FormSteps.types";
 
 const PersonalInformation = ({ formData }: FormDataTypes) => {
-  const { state, country, birthday, skills, city } = formData;
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedState, setSelectedState] = useState<string | null>(null);
+
+  const handleSelectedState = (selectedState: string) => {
+    setSelectedState(selectedState);
+  };
+  const handleSelectedCountry = (selectedCountry: string) => {
+    setSelectedCountry(selectedCountry);
+  };
+  const { birthDate, skills } = formData;
 
   return (
     <>
-      <div className="flex gap-4">
-        <Input
-          label="Estado"
-          name="state"
-          placeholder="Estado - XX"
-          defaultValue={state}
-        />
-        <Input
-          label="Cidade"
-          name="city"
-          placeholder="Cidade do Brasil"
-          defaultValue={city}
+      <div className="sm:flex gap-4">
+        <SelectCountry handleSelectedCountry={handleSelectedCountry} />
+        <SelectState
+          handleSelectedState={handleSelectedState}
+          selectedCountry={selectedCountry}
         />
       </div>
-      <div className="flex gap-4">
-        <Input
-          label="País"
-          name="country"
-          placeholder="Brasil"
-          defaultValue={country}
+      <div className="sm:flex gap-4">
+        <SelectCities
+          selectedState={selectedState}
+          selectedCountry={selectedCountry}
         />
         <Input
           label="Aniversário"
-          name="birthday"
+          name="birthDate"
+          type="date"
           placeholder="XX/XX/XXXX"
-          defaultValue={birthday}
         />
       </div>
       <Input

@@ -1,13 +1,13 @@
 export interface FormDataProps {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  repeatPassword: string;
   password: string;
   state: string;
   city: string;
-  birthday: string;
+  birthDate: Date;
   country: string;
-  skills: string;
+  skills: string[];
   linkedin: string;
   github: string;
   description: string;

@@ -19,3 +19,10 @@ export interface IconProps {
   size?: number;
   className?: string;
 }
+
+export interface ButtonWithIcon
+  extends React.ForwardRefExoticComponent<
+    ButtonProps & React.RefAttributes<HTMLButtonElement>
+  > {
+  Icon: React.FC<IconProps>;
+}

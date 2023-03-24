@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { FormDataTypes } from "./FormSteps.types";
 
 const Profile = ({ formData }: FormDataTypes) => {
-  const { name, email, repeatPassword, password } = formData;
+  const { firstName, email, password } = formData;
 
   const passwordRef = useRef<HTMLInputElement>(null);
   const repeatPasswordRef = useRef<HTMLInputElement>(null);
@@ -29,9 +29,9 @@ const Profile = ({ formData }: FormDataTypes) => {
     <>
       <Input
         label="Nome"
-        name="name"
+        name="firstName"
         placeholder="usuario1"
-        defaultValue={name}
+        defaultValue={firstName}
         required
       />
       <Input
@@ -42,7 +42,7 @@ const Profile = ({ formData }: FormDataTypes) => {
         defaultValue={email}
         required
       />
-      <div className="flex gap-4">
+      <div className="sm:flex gap-4">
         <Input
           label="Senha"
           name="password"
@@ -53,19 +53,19 @@ const Profile = ({ formData }: FormDataTypes) => {
           onChange={validatePasswords}
           onBlur={validatePasswords}
           ref={passwordRef}
-          pattern={"^.{7,}$"}
+          // pattern={"^.{7,}$"}
         />
         <Input
           label="Confirmar senha"
-          name="repeatPassword"
+          name=""
           placeholder="**********************"
           type="password"
-          defaultValue={repeatPassword}
+          // defaultValue={}
           required
           onChange={validatePasswords}
           onBlur={validatePasswords}
           ref={repeatPasswordRef}
-          pattern={"^.{7,}$"}
+          // pattern={"^.{7,}$"}
         />
       </div>
     </>

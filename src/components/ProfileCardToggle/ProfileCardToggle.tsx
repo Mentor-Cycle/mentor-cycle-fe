@@ -17,7 +17,7 @@ export const ProfileCard = ({
     <section
       onClick={onClick}
       className={clsx(
-        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg w-80 cursor-pointer transition duration-500 ease-linear",
+        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg max-w-xs cursor-pointer transition duration-500 ease-linear",
         active ? "border-transparent outline outline-primary-03 outline-4" : ""
       )}
     >
@@ -35,7 +35,7 @@ export const ProfileCardToggle = ({
   isMentor,
 }: ProfileCardToggleProps) => {
   return (
-    <main className="flex justify-center gap-4">
+    <main className="flex flex-col p-2 sm:flex-row justify-center items-center m-auto gap-8 sm:gap-4">
       <ProfileCard
         onClick={() => handleIsMentor(false)}
         active={!isMentor}

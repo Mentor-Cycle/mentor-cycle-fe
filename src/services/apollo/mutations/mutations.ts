@@ -10,3 +10,11 @@ export const SIGN_IN_USER = gql`
     }
   }
 `;
+
+export const CREATE_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    signUp(userInput: $input) {
+      token
+    }
+  }
+`;

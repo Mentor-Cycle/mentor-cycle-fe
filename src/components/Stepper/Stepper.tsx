@@ -5,6 +5,7 @@ import { StepperProps } from "./Stepper.types";
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
   currentStep = 1,
+  className,
 }) => {
   const totalSteps = steps.length;
 
@@ -33,7 +34,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const renderStepItem = (step: number, index: number) => {
     return (
-      <div key={index} className={stepItem}>
+      <div key={index} className={clsx(stepItem, className)}>
         <div className={getStepClasses(index)}>{index + 1}</div>
         {index < totalSteps - 1 && (
           <div

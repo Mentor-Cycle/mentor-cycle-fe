@@ -35,6 +35,7 @@ const SignIn = () => {
         await signInUser({
           variables: { email, password, rememberMe },
         });
+        alert("usuario logado com sucesso!");
         formRef.current?.reset();
       } catch (error) {
         console.log(error);
