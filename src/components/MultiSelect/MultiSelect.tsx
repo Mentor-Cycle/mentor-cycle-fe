@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Select, { StylesConfig } from "react-select";
+import Select from "react-select";
 import { MultiSelectOptions } from "./MultiSelect.types";
 
 const options = [
@@ -11,48 +11,6 @@ const options = [
   { value: "frontend", label: "FrontEnd" },
   { value: "backend", label: "Backend" },
 ];
-
-const stylesOptions: StylesConfig = {
-  control: (styles) => ({
-    ...styles,
-    backgroundColor: "#FEFEFE",
-    padding: "4px 16px ",
-  }),
-  multiValue: (styles) => ({
-    ...styles,
-    backgroundColor: "#CECECE",
-    padding: "4px 16px",
-    borderRadius: "16px",
-  }),
-  input: (styles) => ({
-    ...styles,
-    margin: "0",
-  }),
-  menu: (styles) => ({ ...styles, padding: "32px" }),
-  multiValueLabel: (styles) => ({
-    ...styles,
-  }),
-  multiValueRemove: (styles) => ({
-    ...styles,
-    borderRadius: "100%",
-    transitionDuration: "0.3s",
-    ":hover": {
-      backgroundColor: "#FEFEFE",
-    },
-  }),
-
-  option: (styles, { isFocused }) => {
-    return {
-      ...styles,
-      fontFamily: ["Poppins", "sans-serif"],
-      backgroundColor: isFocused ? "#F36B6B" : undefined,
-      color: isFocused ? "#FEFEFE" : undefined,
-      transitionDuration: "0.7ms",
-      cursor: "pointer",
-      borderRadius: "12px",
-    };
-  },
-};
 
 const MultiSelect = () => {
   /*O estado está armazenando um array de strings para caso de problema ao enviar o onchange para o estado global
@@ -70,9 +28,22 @@ const MultiSelect = () => {
       name="skills"
       onChange={(newValue) => handleAddNewSkill(newValue as MultiSelectOptions)}
       options={options}
-      className="w-[672px]"
+      className="w-[672px] "
       classNamePrefix="p-10"
-      styles={stylesOptions}
+      unstyled
+      placeholder="Seleciona sua especialização"
+      classNames={{
+        option: (state) =>
+          `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 font-sans dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
+        control: (state) =>
+          `bg-neutral-01 rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03`,
+        menu: (state) =>
+          `p-8 bg-neutral-01 mt-2 rounded-md dark:bg-secondary-01`,
+        multiValue: (state) =>
+          `py-1 px-4 bg-gray-01 text-secondary-03 rounded-full ml-1 mt-1 dark:bg-secondary-01 dark:text-neutral-01`,
+        multiValueRemove: (state) =>
+          `rounded-full hover:text-secondary-01 dark:hover:text-primary-02 ml-1 `,
+      }}
     />
   );
 };

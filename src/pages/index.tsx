@@ -1,6 +1,7 @@
+import MultiSelect from "@components/MultiSelect";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <h1>hello world</h1>;
+  return <MultiSelect />;
 };
 export default Home;
