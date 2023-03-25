@@ -61,6 +61,8 @@ const FormSteps: React.FC<FormStepsProps> = ({
       } else {
         setStepForm((prevStep) => prevStep + 1);
       }
+    } else {
+      alert("Digite os campos obrigatórios");
     }
   };
 

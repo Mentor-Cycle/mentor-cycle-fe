@@ -15,7 +15,7 @@ const PersonalInformation = ({ formData }: FormDataTypes) => {
   const handleSelectedCountry = (selectedCountry: string) => {
     setSelectedCountry(selectedCountry);
   };
-  const { birthDate, skills } = formData;
+  const { skills } = formData;
 
   return (
     <>
@@ -36,9 +36,11 @@ const PersonalInformation = ({ formData }: FormDataTypes) => {
           name="birthDate"
           type="date"
           placeholder="XX/XX/XXXX"
+          required
         />
       </div>
       <Input
+        required
         label="Especialização"
         name="skills"
         placeholder="design"

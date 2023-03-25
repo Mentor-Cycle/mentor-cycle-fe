@@ -44,9 +44,15 @@ const InputComponent: FC<InputComponentProps> = ({
       htmlFor={name}
     >
       {label}
+      {props.required && (
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
+      )}
       <input
         ref={forwardedRef}
         name={name}
+        disabled={disabled}
         {...props}
         className={clsx(
           sizesInput[size],

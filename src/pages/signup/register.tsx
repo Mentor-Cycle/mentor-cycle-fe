@@ -2,7 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import StepperVertical from "@components/StepperVertical";
-import FormSteps from "@components/registerForm";
+import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper";
 import { useRouter } from "next/router";
 

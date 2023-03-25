@@ -31,8 +31,12 @@ const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
         className="text-base text-secondary-04 font-bold"
       >
         País
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
       </Label>
       <Select.Root
+        required
         onValueChange={(value) => handleSelectedCountry(value)}
         name="country"
       >
