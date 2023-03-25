@@ -60,7 +60,6 @@ const InputComponent: FC<InputComponentProps> = ({
           "input-default"
         )}
         onBlur={handleBlur}
-        disabled={disabled}
       />
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>
