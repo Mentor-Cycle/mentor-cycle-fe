@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { FormDataProps } from "@components/registerForm/FormSteps.types";
+import { FormDataProps } from "@components/FormSteps";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { CREATE_USER } from "../mutations";

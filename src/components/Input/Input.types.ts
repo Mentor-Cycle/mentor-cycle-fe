@@ -14,6 +14,7 @@ export interface InputProps
   placeholder?: string;
   type?: string;
   disabled?: boolean;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export interface InputComponentProps extends InputProps {
