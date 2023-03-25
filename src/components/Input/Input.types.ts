@@ -1,4 +1,4 @@
-import { ChangeEvent, Ref } from "react";
+import { Ref } from "react";
 
 export type InputSize = "standard" | "small";
 

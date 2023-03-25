@@ -15,7 +15,7 @@ const useForm = (initialData: FormDataProps) => {
 
   const submitForm = async () => {
     try {
-      const { data } = await createUser({
+      await createUser({
         variables: {
           input: formData,
         },

@@ -18,18 +18,21 @@ const SelectState = ({
 
   const isDisabled = Boolean(selectedCountry === "Brasil");
 
-  const listStates = states?.map(({ nome, sigla }) => (
-    <SelectItem key={nome} value={sigla}>
-      {nome}
-    </SelectItem>
-  ));
+  const listStates =
+    selectedCountry === "Brasil"
+      ? states?.map(({ nome, sigla }) => (
+          <SelectItem key={nome} value={sigla}>
+            {nome}
+          </SelectItem>
+        ))
+      : null;
 
   const renderStates = (): ReactNode => {
     return !states ? (
       <SelectItem value="loading">Carregando...</SelectItem>
-    ) : selectedCountry === "Brasil" ? (
+    ) : (
       listStates
-    ) : null;
+    );
   };
   return (
     <div className="flex flex-col w-full">
