@@ -1,5 +1,4 @@
 import { Ref } from "react";
-
 export type InputSize = "standard" | "small";
 
 export interface InputProps
