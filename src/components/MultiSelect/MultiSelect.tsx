@@ -34,7 +34,7 @@ const MultiSelect = () => {
       placeholder="Seleciona sua especialização"
       classNames={{
         option: (state) =>
-          `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 font-sans dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
+          `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
         control: (state) =>
           `bg-neutral-01 rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03`,
         menu: (state) =>

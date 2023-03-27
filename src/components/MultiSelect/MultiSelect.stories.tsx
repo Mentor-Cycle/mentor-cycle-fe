@@ -1,10 +1,12 @@
-import { Meta, StoryFn } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import MultiSelect from "./MultiSelect";
 
-export default {
-  title: "MultiSelect/MultiSelect",
+const meta = {
+  title: "Forms/MultiSelect",
   component: MultiSelect,
-} as Meta;
+} satisfies Meta<typeof MultiSelect>;
 
-const Template: StoryFn<typeof MultiSelect> = () => <MultiSelect />;
-export const Default = Template.bind({});
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
