@@ -1,17 +1,15 @@
-import "tailwindcss/tailwind.css";
+import type { Preview } from "@storybook/react";
 
-export const parameters = {
-  backgrounds: {
-    default: "light",
-  },
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
   },
 };
-export const globalTypes = {
-  darkMode: true,
-};
+
+export default preview;

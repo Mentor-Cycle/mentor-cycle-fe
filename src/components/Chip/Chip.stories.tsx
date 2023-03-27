@@ -1,29 +1,26 @@
 import Chip from "./Chip";
 import { ChipOption } from "./Chip.types";
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-export default {
+/**
+ * O componente `Chip` é usado para exibir opções ou categorias em um formato compacto.
+ */
+const meta = {
   title: "Data Display/Chips",
   component: Chip,
   argTypes: {
     type: {
-      defaultValue: ChipOption.FRONTEND,
-      control: {
-        type: "select",
-        options: [
-          ChipOption.FRONTEND,
-          ChipOption.BACKEND,
-          ChipOption.FULLSTACK,
-        ],
-      },
+      control: "radio",
+      options: Object.values(ChipOption),
     },
   },
-} as Meta;
+} satisfies Meta<typeof Chip>;
 
-interface ChipStoryArgs {
-  type: ChipOption;
-}
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story<ChipStoryArgs> = ({ type }) => {
-  return <Chip type={type}></Chip>;
+export const Default: Story = {
+  args: {
+    type: ChipOption.BACKEND,
+  },
 };

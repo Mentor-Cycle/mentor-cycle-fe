@@ -1,17 +1,18 @@
-import { StoryFn, Meta } from "@storybook/react";
+import { StoryObj, Meta } from "@storybook/react";
 import CheckBox from "./Checkbox";
-import { CheckBoxTypes } from "./Checkbox.types";
 
-export default {
+const meta = {
   title: "Forms/Checkbox",
   component: CheckBox,
-} as Meta;
+} satisfies Meta<typeof CheckBox>;
 
-const Template: StoryFn<CheckBoxTypes> = (args) => <CheckBox {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = Template.bind({});
-Default.args = {
-  label: "Checkbox",
-  id: "checkbox",
-  name: "checkbox",
+export const Default: Story = {
+  args: {
+    label: "Checkbox",
+    id: "checkbox",
+    name: "checkbox",
+  },
 };
