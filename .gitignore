@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+react-email-starter/node_modules/
+react-email-starter/.react-email
 /.pnp
 .pnp.js
 package-lock.json
