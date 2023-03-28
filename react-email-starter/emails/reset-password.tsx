@@ -13,9 +13,6 @@ import {
   Section,
   Column,
 } from "@react-email/components";
-
-const baseUrl = process.env.URL ? `https://${process.env.URL}` : "";
-
 export const ResetPassword = () => (
   <Html>
     <Head />
@@ -31,31 +28,16 @@ export const ResetPassword = () => (
             current: "currentColor",
             primary: {
               "05": "#580505",
-              "04": "#790404",
               "03": "#BA0000",
-              "02": "#E43D3D",
-              "01": "#F36B6B",
             },
             secondary: {
-              "05": "#0B0C0D",
-              "04": "#0C0E0F",
-              "03": "#171818",
               "02": "#212324",
-              "01": "#343434",
             },
             gray: {
-              "05": "#3E3E3E",
-              "04": "#535353",
-              "03": "#7C7C7C",
-              "02": "#989898",
               "01": "#CECECE",
             },
             neutral: {
-              "05": "#E4E4E4",
-              "04": "#F3EEEE",
               "03": "#F3F3F3",
-              "02": "#F8F8F8",
-              "01": "#FEFEFE",
             },
           },
         },
@@ -66,7 +48,7 @@ export const ResetPassword = () => (
           <Heading className="text-primary-03 inline-flex">
             Ola!!
             <Img
-              src={`${baseUrl}/static/smile.svg`}
+              src={`/static/smile.svg`}
               width="32"
               height="32"
               alt="smile picture"
@@ -100,7 +82,7 @@ export const ResetPassword = () => (
             <Column className="text-center">
               <div className="w-[32px] h-[32px] px-12 py-6 rounded-sm">
                 <Img
-                  src={`${baseUrl}/static/logo.png`}
+                  src={`/static/logo.png`}
                   width="40"
                   height="40"
                   alt="smile picture"
@@ -113,17 +95,17 @@ export const ResetPassword = () => (
               <Text className="my-0">E-mail: contato@idip.com.br</Text>
               <div className="flex justify-start items-center gap-2 p-2 h-6 w-6">
                 <Img
-                  src={`${baseUrl}/static/linkedin.svg`}
+                  src={`/static/linkedin.svg`}
                   alt="LinkedIn icon"
                   className="w-6 h-6 object-fill"
                 />
                 <Img
-                  src={`${baseUrl}/static/youtube.svg`}
+                  src={`/static/youtube.svg`}
                   alt="YouTube icon"
                   className="w-6 h-6 object-contain"
                 />
                 <Img
-                  src={`${baseUrl}/static/instagram.svg`}
+                  src={`/static/instagram.svg`}
                   alt="Instagram icon"
                   className="w-6 h-6 object-cover"
                 />
