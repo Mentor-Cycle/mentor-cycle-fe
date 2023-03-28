@@ -1,5 +1,5 @@
-import { Button } from "@react-email/button";
 import {
+  Button,
   Body,
   Container,
   Head,
@@ -13,7 +13,6 @@ import {
   Section,
   Column,
 } from "@react-email/components";
-import * as React from "react";
 
 const baseUrl = process.env.URL ? `https://${process.env.URL}` : "";
 
@@ -58,35 +57,12 @@ export const ResetPassword = () => (
               "02": "#F8F8F8",
               "01": "#FEFEFE",
             },
-            success: {
-              "01": "#237C00",
-              "02": "#3EB80E",
-              "03": "#E4F9DA",
-            },
-            danger: {
-              "01": "#EA172E",
-              "02": "#EE4B4B",
-              "03": "#FCD2D2",
-            },
-            info: {
-              "01": "#1F62A5",
-              "02": "#61AEE7",
-              "03": "#C7DEEF",
-            },
-            waiting: {
-              "01": "#F8BA1B",
-              "02": "#FFD234",
-            },
-            link: {
-              "01": "#3201BE",
-              "02": "#2420F9",
-            },
           },
         },
       }}
     >
-      <Body className="bg-neutral-03 font-sans">
-        <Container className="border border-link-02 bg-secondary-02 p-12 pb-4 rounded-lg rounded-b-none">
+      <Body className="bg-neutral-03 font-sans text-gray-01">
+        <Container className="bg-secondary-02 p-12 pb-4 rounded-lg rounded-b-none">
           <Heading className="text-primary-03 inline-flex">
             Ola!!
             <Img
@@ -100,7 +76,7 @@ export const ResetPassword = () => (
             Solicitação de alteração de senha!
           </Text>
           <Hr />
-          <Text className="text-gray-01 text-center">
+          <Text className=" text-center">
             Olá [Nome do usuário], recebemos um pedido para troca da sua senha,
             clique no botão a baixo para realizar a alteração:
           </Text>
@@ -109,22 +85,20 @@ export const ResetPassword = () => (
               Alterar senha
             </Button>
           </div>
-          <Text className="text-gray-01 mt-16">
+          <Text className=" mt-16">
             Caso não queira realizar essa ação desconsidere esse e-mail ou se
             não foi você que solicitou, recomendamos que realize a troca da
             senha.
           </Text>
-          <Text className="text-right text-gray-01 font-bold">
-            Equipe Mentor Cycle
-          </Text>
-          <Text className="text-right text-gray-01">
+          <Text className="text-right  font-bold">Equipe Mentor Cycle</Text>
+          <Text className="text-right ">
             Obrigado por fazer parte dessa iniciativa
           </Text>
         </Container>
         <Container className="bg-primary-05 rounded-b-lg">
           <Section className="p-2">
             <Column className="text-center">
-              <div className=" w-[32px] h-[32px] px-12 py-6 rounded-sm">
+              <div className="w-[32px] h-[32px] px-12 py-6 rounded-sm">
                 <Img
                   src={`${baseUrl}/static/logo.png`}
                   width="40"
