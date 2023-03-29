@@ -11,7 +11,9 @@
     "test:ci": "jest --ci --bail",
     "commit": "git-cz",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "email-dev": "email dev",
+    "email-export": "email export"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
@@ -38,7 +40,7 @@
     "@react-email/section": "0.0.9",
     "@react-email/tailwind": "0.0.7",
     "@react-email/text": "0.0.5",
-    "react-email": "1.7.15"
+    "react-email": "1.7.15",
     "react-select": "5.7.2"
   },
   "devDependencies": {
