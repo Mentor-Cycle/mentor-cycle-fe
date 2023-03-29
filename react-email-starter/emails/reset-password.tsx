@@ -1,18 +1,17 @@
-import {
-  Button,
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Img,
-  Preview,
-  Text,
-  Tailwind,
-  Hr,
-  Section,
-  Column,
-} from "@react-email/components";
+import * as React from "react";
+import { Html } from "@react-email/html";
+import { Head } from "@react-email/head";
+import { Preview } from "@react-email/preview";
+import { Tailwind } from "@react-email/tailwind";
+import { Container } from "@react-email/container";
+import { Text } from "@react-email/text";
+import { Section } from "@react-email/section";
+import { Heading } from "@react-email/heading";
+import { Hr } from "@react-email/hr";
+import { Img } from "@react-email/img";
+import { Button } from "@react-email/button";
+import { Column } from "@react-email/column";
+
 export const ResetPassword = () => (
   <Html>
     <Head />
@@ -43,7 +42,7 @@ export const ResetPassword = () => (
         },
       }}
     >
-      <Body className="bg-neutral-03 font-sans text-gray-01">
+      <Container className="bg-neutral-03 font-sans text-gray-01">
         <Container className="bg-secondary-02 p-12 pb-4 rounded-lg rounded-b-none">
           <Heading className="text-primary-03 inline-flex">
             Ola!!
@@ -113,7 +112,7 @@ export const ResetPassword = () => (
             </Column>
           </Section>
         </Container>
-      </Body>
+      </Container>
     </Tailwind>
   </Html>
 );
