@@ -81,6 +81,9 @@ module.exports = {
       margin: {
         22: "5.5rem",
       },
+      backgroundImage: {
+        user: "./src/public/user.jpg",
+      },
     },
     variants: {
       extend: {
