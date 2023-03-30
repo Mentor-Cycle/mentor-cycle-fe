@@ -1,11 +1,11 @@
-import Chip, { ChipOption } from "@components/Chip";
+import Chip from "@components/Chip";
 
 function TheoTest() {
   return (
     <main className="w-screen h-screen flex gap-5 justify-center items-center">
-      <Chip type={ChipOption.BACKEND} />
-      <Chip type={ChipOption.FRONTEND} />
-      <Chip type={ChipOption.FULLSTACK} />
+      <Chip variant="primary">FrontEnd</Chip>
+      <Chip variant="primary">Backend</Chip>
+      <Chip variant="primary">FullStack</Chip>
     </main>
   );
 }

@@ -1,8 +1,8 @@
-import { ChipOption } from "@components/Chip";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import CardProfile from "./CardProfile";
+import { CardProps } from "./CardProfile.types";
 
-const meta = {
+export default {
   title: "Data Display/CardProfile",
   component: CardProfile,
   argTypes: {
@@ -13,20 +13,21 @@ const meta = {
     chips: { control: "array" },
     image: { control: "text" },
   },
-} satisfies Meta<typeof CardProfile>;
+} as Meta;
 
-export default meta;
+const Template: StoryFn<CardProps> = (args) => <CardProfile {...args} />;
 
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {
-  args: {
-    name: "John Doe",
-    jobTitle: "Software Engineer",
-    location: "New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
-    chips: [ChipOption.FRONTEND, ChipOption.BACKEND, ChipOption.FULLSTACK],
-    image: "https://via.placeholder.com/80",
-  },
+export const Default = Template.bind({});
+Default.args = {
+  name: "John Doe",
+  jobTitle: "Software Engineer",
+  location: "New York, NY",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
+  chips: [
+    { variant: "primary", children: "Backend" },
+    { variant: "primary", children: "FrontEnd" },
+    { variant: "primary", children: "FullStack" },
+  ],
+  image: "https://via.placeholder.com/80",
 };
