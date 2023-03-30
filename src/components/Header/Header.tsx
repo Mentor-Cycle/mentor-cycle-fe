@@ -12,7 +12,7 @@ const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
 export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
   return (
     <header className="flex justify-items-start w-full h-20 bg-neutral-01 border-gray-02 border-b">
-      <div className="w-1/5 h-full">
+      <figure className="w-1/5 h-full">
         <Link href="/home">
           <Image
             src={logo}
@@ -22,7 +22,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
             className="py-3 ml-10 lg:ml-20 xl:ml-40"
           />
         </Link>
-      </div>
+      </figure>
       {isLogged && (
         <ul className="w-4/5 h-full flex flex-row justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
           <li className={linkStyle}>
@@ -54,7 +54,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
               className={clsx(itemsMenuStyle, "items-center")}
               href="/login"
             >
-              <div className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
+              <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
                   src={photoUrl || userImage}
                   width={100}
@@ -62,10 +62,10 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
                   alt="userPhoto"
                   className="object-cover"
                 />
-              </div>
-              <span className="hidden min-[850px]:inline-flex text-base font-bold">
+              </figure>
+              <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
                 {userName}
-              </span>
+              </h1>
             </Link>
           </li>
         </ul>
