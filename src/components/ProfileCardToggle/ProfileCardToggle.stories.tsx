@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
-
 import { ProfileCard } from "./ProfileCardToggle";
-import { ProfileProps } from "./ProfileCardToggle.types";
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
-export default {
+const meta = {
   title: "Data Display/ProfileCardToggle",
   component: ProfileCard,
-} as Meta;
+} satisfies Meta<typeof ProfileCard>;
 
-const Template: Story<ProfileProps> = (args) => <ProfileCard {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Interactive = () => {
   const [isMentor, setIsMentor] = useState<boolean>(false);
