@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import "../../styles/globals.css";
 
 export default {
-  title: "Button/Button",
+  title: "Forms/Button",
   component: Button,
   argTypes: {
     children: { control: "text" },
