@@ -3,7 +3,7 @@ import TestimonialCard from "./TestimonialCard";
 import { PropsTestimonialCard } from "./TestimonialCard.types";
 
 export default {
-  title: "Cards/TestimonialCard",
+  title: "Data Display/TestimonialCard",
   component: TestimonialCard,
 };
 
