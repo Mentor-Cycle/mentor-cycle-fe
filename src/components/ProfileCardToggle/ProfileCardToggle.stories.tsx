@@ -6,7 +6,7 @@ import { ProfileProps } from "./ProfileCardToggle.types";
 import { Meta, Story } from "@storybook/react";
 
 export default {
-  title: "Cards/ProfileCardToggle",
+  title: "Data Display/ProfileCardToggle",
   component: ProfileCard,
 } as Meta;
 

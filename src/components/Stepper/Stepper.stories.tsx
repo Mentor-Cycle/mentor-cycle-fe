@@ -4,7 +4,7 @@ import { StepperProps } from "./Stepper.types";
 import Stepper from "./Stepper";
 
 export default {
-  title: "Steppers/Stepper",
+  title: "Navigation/Stepper",
   component: Stepper,
 } as Meta;
 

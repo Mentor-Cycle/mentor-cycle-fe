@@ -1,14 +1,14 @@
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
-import { InputProps } from "./Input.types";
-import Input from "./Input";
+import { TextareaProps } from "./Textarea.types";
+import Textarea from "./Textarea";
 
 export default {
-  title: "Forms/Input",
-  component: Input,
+  title: "Forms/Textarea",
+  component: Textarea,
 } as Meta;
 
-const Template: StoryFn<InputProps> = (args) => <Input {...args} />;
+const Template: StoryFn<TextareaProps> = (args) => <Textarea {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -18,14 +18,14 @@ Default.args = {
 
 export const Required = Template.bind({});
 Required.args = {
-  label: "Input Obrigatório",
+  label: "Textarea Obrigatório",
   required: true,
   placeholder: "Digite seu email",
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  label: "Input desabilitado",
+  label: "Textarea desabilitado",
   disabled: true,
   placeholder: "Digite seu nome",
 };
