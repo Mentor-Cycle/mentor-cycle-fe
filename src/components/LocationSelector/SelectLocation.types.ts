@@ -6,6 +6,7 @@ export type SelectItemProps = Select.SelectItemProps & {
 
 export interface Country {
   nome: string;
+  id: { M49: number };
 }
 
 export type SelectProps = {

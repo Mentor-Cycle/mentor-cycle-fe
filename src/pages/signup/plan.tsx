@@ -1,14 +1,26 @@
 import { Button } from "@components/Button";
 import ProfileCardToggle from "@components/ProfileCardToggle";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Plan = () => {
   const [isMentor, setIsMentor] = useState(false);
-
+  const router = useRouter();
   const handleIsMentor = (isMentor: boolean) => {
     setIsMentor(isMentor);
   };
+
+  const handleNext = () => {
+    const signup_info = {
+      isMentor,
+    };
+    sessionStorage.setItem("signup_info", JSON.stringify(signup_info));
+    router.replace({
+      pathname: "/signup/register",
+    });
+  };
+
   return (
     <main className="bg-neutral-03 min-h-screen flex flex-col items-center">
       <section className="max-w-2xl mt-20">
@@ -27,18 +39,10 @@ const Plan = () => {
           />
         </div>
         <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
-          <Link href={"/signin"} passHref legacyBehavior>
-            <Button variant="secondary" className="order-last sm:order-first">
-              Voltar
-            </Button>
-          </Link>
-          <Link
-            href={`/signup/register?isMentor=${isMentor}`}
-            passHref
-            legacyBehavior
-          >
-            <Button>Próximo</Button>
-          </Link>
+          <Button variant="secondary" className="order-last sm:order-first">
+            <Link href="/signin">Voltar</Link>
+          </Button>
+          <Button onClick={handleNext}>Próximo</Button>
         </div>
       </section>
     </main>

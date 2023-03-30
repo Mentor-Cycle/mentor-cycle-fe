@@ -1,28 +1,32 @@
 import * as Select from "@radix-ui/react-select";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import { Country, CountryProps } from "./SelectLocation.types";
-import { useData } from "services/fetch";
+import { useFetch } from "@hooks/useFetch";
 import { SelectItem } from "./SelectItem";
 import { Label } from "@radix-ui/react-label";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { setConfig } from "next/config";
 
 const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
-  const countries: Country[] | null = useData(
-    "https://servicodados.ibge.gov.br/api/v1/localidades/paises?orderBy=nome"
-  );
+  const [countries, setCountries] = useState<Country[]>();
+  const { getCountries, getCities, getStates } = useFetch();
+
+  useEffect(() => {
+    getCountries({ orderBy: "nome" }).then((res) => {
+      setCountries(res);
+    });
+  }, [getCountries]);
 
   const renderCountries = (): ReactNode => {
-    if (!countries) {
-      return <SelectItem value="loading">Carregando...</SelectItem>;
-    } else {
-      return countries.map(({ nome }: Country) => {
-        return (
-          <SelectItem key={nome} value={nome}>
-            {nome}
-          </SelectItem>
-        );
-      });
-    }
+    return countries ? (
+      countries.map(({ nome: name, id: { M49: _id } }: Country) => (
+        <SelectItem key={_id} value={name}>
+          {name}
+        </SelectItem>
+      ))
+    ) : (
+      <SelectItem value="loading">Carregando...</SelectItem>
+    );
   };
   return (
     <div className="flex flex-col w-full">
@@ -37,7 +41,7 @@ const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
       </Label>
       <Select.Root
         required
-        onValueChange={(value) => handleSelectedCountry(value)}
+        onValueChange={handleSelectedCountry}
         name="country"
       >
         <Select.Trigger
