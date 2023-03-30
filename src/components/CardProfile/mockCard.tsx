@@ -1,6 +1,5 @@
-import { CardProps } from "./CardProfile.types";
 import cardImage from "../../public/imgCard.png";
-import { ChipOption } from "@components/Chip";
+import { CardProps } from "./CardProfile.types";
 
 export const cardMock: CardProps[] = [
   {
@@ -10,6 +9,9 @@ export const cardMock: CardProps[] = [
     description:
       "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum id quis ad qu minim sss ss... ",
     image: cardImage,
-    chips: [ChipOption.FRONTEND, ChipOption.BACKEND],
+    chips: [
+      { variant: "primary", children: "Backend" },
+      { variant: "primary", children: "FrontEnd" },
+    ],
   },
 ];

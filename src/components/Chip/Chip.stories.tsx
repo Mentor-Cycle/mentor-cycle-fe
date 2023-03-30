@@ -1,29 +1,43 @@
+import { Meta, StoryObj } from "@storybook/react";
 import Chip from "./Chip";
-import { ChipOption } from "./Chip.types";
-import { Meta, Story } from "@storybook/react";
 
-export default {
-  title: "Data Display/Chips",
+/**
+ * Primary UI component for user interaction
+ */
+
+const meta = {
+  title: "Chip/Chips",
   component: Chip,
   argTypes: {
-    type: {
-      defaultValue: ChipOption.FRONTEND,
-      control: {
-        type: "select",
-        options: [
-          ChipOption.FRONTEND,
-          ChipOption.BACKEND,
-          ChipOption.FULLSTACK,
-        ],
-      },
+    children: { control: "text" },
+    variant: {
+      defaultValue: "primary",
+      control: { type: "radio" },
+      options: ["primary", "secondary", "tertiary"],
     },
   },
-} as Meta;
+} satisfies Meta<typeof Chip>;
 
-interface ChipStoryArgs {
-  type: ChipOption;
-}
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story<ChipStoryArgs> = ({ type }) => {
-  return <Chip type={type}></Chip>;
+export const Primary: Story = {
+  args: {
+    variant: "primary",
+    children: "Primary",
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    variant: "secondary",
+    children: "Secondary",
+  },
+};
+
+export const Tertiary: Story = {
+  args: {
+    variant: "tertiary",
+    children: "Tertiary",
+  },
 };

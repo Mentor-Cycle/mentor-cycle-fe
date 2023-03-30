@@ -1,8 +1,8 @@
+import { Button } from "@components/Button";
+import Chip from "@components/Chip";
 import clsx from "clsx";
 import Image from "next/image";
-import Chip from "@components/Chip";
 import { CardProps } from "./CardProfile.types";
-import { Button } from "@components/Button";
 
 const CardProfile = ({
   chips,
@@ -41,7 +41,9 @@ const CardProfile = ({
       </div>
       <div className="flex gap-2 mt-2">
         {chips.map((chip, index) => (
-          <Chip key={`${name}-chip-${index}`} type={chip} />
+          <Chip key={`${name}-chip-${index}`} variant={chip.variant}>
+            {chip.children}
+          </Chip>
         ))}
       </div>
       <div className="mt-8">
