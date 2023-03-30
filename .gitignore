@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/.react-email
+
 /.pnp
 .pnp.js
 package-lock.json
@@ -11,6 +13,7 @@ package-lock.json
 
 # next.js
 /.next/
+
 /out/
 
 # production

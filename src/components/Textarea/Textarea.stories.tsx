@@ -1,31 +1,35 @@
-import React from "react";
-import { Meta, StoryFn } from "@storybook/react";
-import { TextareaProps } from "./Textarea.types";
+import { Meta, StoryObj } from "@storybook/react";
 import Textarea from "./Textarea";
 
-export default {
+const meta = {
   title: "Forms/Textarea",
   component: Textarea,
-} as Meta;
+} satisfies Meta<typeof Textarea>;
 
-const Template: StoryFn<TextareaProps> = (args) => <Textarea {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = Template.bind({});
-Default.args = {
-  label: "Usuário",
-  placeholder: "Digite seu usuário",
+export const Default: Story = {
+  args: {
+    name: "textarea",
+    label: "Usuário",
+    placeholder: "Digite seu usuário",
+  },
+};
+export const Required: Story = {
+  args: {
+    name: "textarea",
+    label: "Textarea Obrigatório",
+    required: true,
+    placeholder: "Digite seu email",
+  },
 };
 
-export const Required = Template.bind({});
-Required.args = {
-  label: "Textarea Obrigatório",
-  required: true,
-  placeholder: "Digite seu email",
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: "Textarea desabilitado",
-  disabled: true,
-  placeholder: "Digite seu nome",
+export const Disabled: Story = {
+  args: {
+    name: "textarea",
+    label: "Textarea desabilitado",
+    disabled: true,
+    placeholder: "Digite seu nome",
+  },
 };
