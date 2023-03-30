@@ -25,7 +25,7 @@ export const useFetch = () => {
     }
 
     const res = await fetch(
-      `${IBGE_PLACES_API_URL}/paises` + queryParams.toString(),
+      `${IBGE_PLACES_API_URL}/paises?` + queryParams.toString(),
       GET_PROPS
     );
     return res.json() as unknown as Country[];

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as Select from "@radix-ui/react-select";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import { Country, CountryProps } from "./SelectLocation.types";
@@ -5,7 +6,6 @@ import { useFetch } from "@hooks/useFetch";
 import { SelectItem } from "./SelectItem";
 import { Label } from "@radix-ui/react-label";
 import { ReactNode, useEffect, useState } from "react";
-import { setConfig } from "next/config";
 
 const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
   const [countries, setCountries] = useState<Country[]>();
@@ -13,9 +13,9 @@ const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
 
   useEffect(() => {
     getCountries({ orderBy: "nome" }).then((res) => {
-      setCountries(res);
+      return setCountries(res);
     });
-  }, [getCountries]);
+  }, []);
 
   const renderCountries = (): ReactNode => {
     return countries ? (
