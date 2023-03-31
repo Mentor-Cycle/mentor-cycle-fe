@@ -1,19 +1,17 @@
-import React from "react";
-import { StoryFn, Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import StepperVertical from "./StepperVertical";
-import { StepperVerticalProps } from "./StepperVertical.types";
 
-export default {
+const meta = {
   title: "Navigation/StepperVertical",
   component: StepperVertical,
-} as Meta;
+} satisfies Meta<typeof StepperVertical>;
 
-const Template: StoryFn<StepperVerticalProps> = (args) => (
-  <StepperVertical {...args} />
-);
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = Template.bind({});
-Default.args = {
-  steps: ["Perfil", "Dados pessoais", "Descrição de trabalho"],
-  currentStep: 1,
+export const Default: Story = {
+  args: {
+    steps: ["Perfil", "Dados pessoais", "Descrição de trabalho"],
+    currentStep: 1,
+  },
 };

@@ -1,79 +1,59 @@
-import { StoryFn, Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
-import { ButtonProps } from "./Button.types";
 import { FcGoogle } from "react-icons/fc";
 
 import "../../styles/globals.css";
-
-export default {
+/**
+ * Primary UI component for user interaction
+ */
+const meta = {
   title: "Forms/Button",
   component: Button,
   argTypes: {
     children: { control: "text" },
     variant: {
-      control: {
-        type: "inline-radio",
-        options: ["primary", "secondary"],
-      },
+      options: ["primary", "secondary"],
+      control: { type: "radio" },
     },
     size: {
-      control: {
-        type: "inline-radio",
-        options: ["regular", "small"],
-      },
+      options: ["regular", "small"],
+      control: { type: "radio" },
     },
+    disabled: { active: { control: "boolean" } },
   },
-} as Meta;
+} satisfies Meta<typeof Button>;
 
-const Template: StoryFn<ButtonProps> = (args) => <Button {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Primary = Template.bind({});
-Primary.args = {
-  children: "Primary Button",
-  variant: "primary",
-  size: "regular",
+export const Primary: Story = {
+  args: {
+    children: "Primary Button",
+  },
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  children: "Secondary Button",
-  variant: "secondary",
-  size: "small",
+export const Secondary: Story = {
+  args: {
+    children: "Secondary Button",
+    variant: "secondary",
+    size: "regular",
+  },
 };
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  children: "Disabled Button",
-  variant: "primary",
-  size: "regular",
-  disabled: true,
+export const Disabled: Story = {
+  args: {
+    children: "Disabled Button",
+    variant: "primary",
+    disabled: true,
+  },
 };
-
-export const WithIcon = Template.bind({});
-WithIcon.args = {
-  children: (
-    <>
-      <Button.Icon icon={FcGoogle} className="text-primary-03" />
-      Add Item
-    </>
+export const WithIcon: Story = {
+  args: {
+    children: "With Icon",
+  },
+  render: (args) => (
+    <Button {...args}>
+      <Button.Icon icon={FcGoogle} />
+      {args.children}
+    </Button>
   ),
-  variant: "primary",
-  size: "regular",
 };
-
-const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 4v16m8-8H4"
-    />
-  </svg>
-);

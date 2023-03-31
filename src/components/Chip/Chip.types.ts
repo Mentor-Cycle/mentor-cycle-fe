@@ -1,5 +1,6 @@
-export enum ChipOption {
-  FRONTEND = "Front-End",
-  BACKEND = "Back-End",
-  FULLSTACK = "Full-Stack",
-}
+import { ReactNode } from "react";
+
+export type ChipProps = {
+  variant: "primary" | "secondary" | "tertiary";
+  children: ReactNode;
+};

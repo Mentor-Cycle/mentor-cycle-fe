@@ -1,31 +1,43 @@
-import React from "react";
-import { Meta, StoryFn } from "@storybook/react";
+import { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { InputProps } from "./Input.types";
 import Input from "./Input";
 
-export default {
+const meta = {
   title: "Forms/Input",
   component: Input,
-} as Meta;
+  argTypes: {
+    size: {
+      options: ["standard", "small"],
+      control: { type: "radio" },
+    },
+  },
+} satisfies Meta<typeof Input>;
 
-const Template: StoryFn<InputProps> = (args) => <Input {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = Template.bind({});
-Default.args = {
-  label: "Usuário",
-  placeholder: "Digite seu usuário",
+export const Default: Story = {
+  args: {
+    name: "input",
+    label: "Usuário",
+    placeholder: "Digite seu usuário",
+  },
 };
 
-export const Required = Template.bind({});
-Required.args = {
-  label: "Input Obrigatório",
-  required: true,
-  placeholder: "Digite seu email",
+export const Required: Story = {
+  args: {
+    name: "input",
+    label: "Input Obrigatório",
+    required: true,
+    placeholder: "Digite seu email",
+  },
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: "Input desabilitado",
-  disabled: true,
-  placeholder: "Digite seu nome",
+export const Disabled: Story = {
+  args: {
+    name: "input",
+    label: "Input desabilitado",
+    disabled: true,
+    placeholder: "Digite seu nome",
+  },
 };

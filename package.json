@@ -12,7 +12,9 @@
     "cypress": "cypress open",
     "commit": "git-cz",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "email-dev": "email dev",
+    "email-export": "email export"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
@@ -27,6 +29,20 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
+    "@react-email/button": "0.0.7",
+    "@react-email/column": "0.0.7",
+    "@react-email/components": "^0.0.4",
+    "@react-email/container": "0.0.8",
+    "@react-email/head": "0.0.5",
+    "@react-email/heading": "0.0.8",
+    "@react-email/hr": "0.0.5",
+    "@react-email/html": "0.0.4",
+    "@react-email/img": "0.0.5",
+    "@react-email/preview": "0.0.5",
+    "@react-email/section": "0.0.9",
+    "@react-email/tailwind": "0.0.7",
+    "@react-email/text": "0.0.5",
+    "react-email": "1.7.15",
     "react-select": "5.7.2"
   },
   "devDependencies": {
@@ -43,6 +59,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/node": "18.13.0",
+    "@types/node-fetch": "^2.6.2",
     "@types/react": "18.0.27",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",

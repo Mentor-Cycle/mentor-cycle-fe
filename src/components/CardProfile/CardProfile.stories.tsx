@@ -1,5 +1,4 @@
-import { ChipOption } from "@components/Chip";
-import { StoryFn, Meta } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import CardProfile from "./CardProfile";
 import { CardProps } from "./CardProfile.types";
 
@@ -25,6 +24,10 @@ Default.args = {
   location: "New York, NY",
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
-  chips: [ChipOption.FRONTEND, ChipOption.BACKEND, ChipOption.FULLSTACK],
+  chips: [
+    { variant: "primary", children: "Backend" },
+    { variant: "primary", children: "FrontEnd" },
+    { variant: "primary", children: "FullStack" },
+  ],
   image: "https://via.placeholder.com/80",
 };
