@@ -32,7 +32,7 @@ const FormSteps: React.FC<FormStepsProps> = ({
     country: "",
     city: "",
     birthDate: new Date("01/01/1990"),
-    skills: ["front", "back", "design"],
+    skills: [],
     linkedin: "",
     github: "",
     description: "",
@@ -45,7 +45,9 @@ const FormSteps: React.FC<FormStepsProps> = ({
 
   const handleGoBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setStepForm((prevStep) => prevStep - 1);
+    if (stepForm > 1) {
+      setStepForm((prevStep) => prevStep - 1);
+    }
   };
 
   const handleNextOrFinish = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,8 +59,9 @@ const FormSteps: React.FC<FormStepsProps> = ({
       const updateFormData = { ...formData, ...formValues, isMentor };
       getFormData(updateFormData);
       if (stepForm === 3) {
+        console.log(updateFormData);
         submitForm();
-      } else {
+      } else if (stepForm < 3) {
         setStepForm((prevStep) => prevStep + 1);
       }
     } else {
@@ -72,9 +75,19 @@ const FormSteps: React.FC<FormStepsProps> = ({
   ) => {
     return <Component formData={formData} />;
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
 
   return (
-    <form className="flex flex-col space-y-2" ref={formRef}>
+    <form
+      className="flex flex-col space-y-2"
+      ref={formRef}
+      onSubmit={(e) => e.preventDefault()}
+      onKeyDown={handleKeyDown}
+    >
       <div className="mb-10">
         {currentStep && renderCurrentComponent(currentStep.component, formData)}
       </div>

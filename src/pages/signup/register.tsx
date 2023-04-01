@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import StepperVertical from "@components/StepperVertical";
@@ -8,9 +8,15 @@ import { useRouter } from "next/router";
 
 const Register = () => {
   const [stepForm, setStepForm] = useState<number>(1);
+  const [isMentor, setIsMentor] = useState<boolean>(false);
   const router = useRouter();
-  const { isMentor } = router.query;
-
+  useEffect(() => {
+    const signupInfo = sessionStorage.getItem("signup_info");
+    if (signupInfo) {
+      const { isMentor } = JSON.parse(signupInfo);
+      setIsMentor(isMentor);
+    }
+  }, []);
   return (
     <>
       <header className="bg-neutral-01 w-full h-[80px] flex justify-between items-center px-36">

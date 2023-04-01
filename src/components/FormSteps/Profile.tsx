@@ -11,33 +11,29 @@ const Profile = ({ formData }: FormDataTypes) => {
   const [passwordError, setPasswordError] = useState("");
 
   const passwordRequirements = createStringRequirements({
-    minLength: 8,
-    includeNumber: true,
+    minLength: 6,
+    includeNumber: false,
     includeLowercase: true,
-    includeUppercase: true,
-    includeSpecial: true,
+    includeUppercase: false,
+    includeSpecial: false,
   });
 
   const handlePasswordChange = ({
     target,
   }: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(target.value);
-    if (repeatPassword !== "" && repeatPassword !== target.value) {
-      setPasswordError("As senhas não correspondem.");
-    } else {
-      setPasswordError("");
-    }
+    setPasswordError(
+      password !== target.value ? "As senhas não correspondem." : ""
+    );
   };
 
   const handleRepeatPasswordChange = ({
     target,
   }: React.ChangeEvent<HTMLInputElement>) => {
     setRepeatPassword(target.value);
-    if (password !== target.value) {
-      setPasswordError("As senhas não correspondem.");
-    } else {
-      setPasswordError("");
-    }
+    setPasswordError(
+      password !== target.value ? "As senhas não correspondem." : ""
+    );
   };
 
   return (

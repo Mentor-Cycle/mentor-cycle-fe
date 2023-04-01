@@ -1,48 +1,57 @@
+import { useCallback, useMemo } from "react";
 import { IBGE_PLACES_API_URL } from "./../config/constants";
-import { useEffect, useState } from "react";
-import { Country } from "@components/LocationSelector/SelectLocation.types";
+import {
+  City,
+  GetCitiesParams,
+  GetCountriesParams,
+  IUseFetch,
+  State,
+} from "./useFetch.types";
 
-export const useFetch = () => {
-  type CountryParams = {
-    orderBy?: "nome" | "sigla" | "area" | "populacao";
-  };
+export const useFetch = (): IUseFetch => {
+  const GET_PROPS = useMemo(
+    () => ({
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }),
+    []
+  );
 
-  type CityParams = {
-    state: string;
-  };
-
-  const GET_PROPS = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  const getCountries = useCallback(
+    async (params?: GetCountriesParams) => {
+      const url = new URL(`${IBGE_PLACES_API_URL}/paises`);
+      if (params?.orderBy) {
+        url.searchParams.append("orderBy", params.orderBy);
+      }
+      const res = await fetch(url.toString(), GET_PROPS);
+      const countries = await res.json();
+      return countries.map(({ id: { M49 }, nome }: any) => ({
+        id: M49,
+        nome,
+      }));
     },
-  };
+    [GET_PROPS]
+  );
 
-  const getCountries = async (params?: CountryParams): Promise<Country[]> => {
-    const queryParams = new URLSearchParams();
-    if (params?.orderBy) {
-      queryParams.append("orderBy", params.orderBy);
-    }
-
-    const res = await fetch(
-      `${IBGE_PLACES_API_URL}/paises?` + queryParams.toString(),
-      GET_PROPS
-    );
-    return res.json() as unknown as Country[];
-  };
-
-  const getCities = async (params: CityParams) => {
-    const res = await fetch(
-      `${IBGE_PLACES_API_URL}/estados/${params.state}/municipios`,
-      GET_PROPS
-    );
-    return res.json();
-  };
-
-  const getStates = async () => {
+  const getStates = useCallback(async (): Promise<State[]> => {
     const res = await fetch(`${IBGE_PLACES_API_URL}/estados`, GET_PROPS);
-    return res.json();
-  };
+    const states: State[] = await res.json();
+    return states.map(({ sigla, nome }) => ({ sigla, nome }));
+  }, [GET_PROPS]);
+
+  const getCities = useCallback(
+    async (params: GetCitiesParams): Promise<City[]> => {
+      const res = await fetch(
+        `${IBGE_PLACES_API_URL}/estados/${params.state}/municipios`,
+        GET_PROPS
+      );
+      const cities: City[] = await res.json();
+      return cities.map(({ id, nome }) => ({ id, nome }));
+    },
+    [GET_PROPS]
+  );
 
   return {
     getCountries,

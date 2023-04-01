@@ -1,39 +1,55 @@
-import * as Select from "@radix-ui/react-select";
-
-export type SelectItemProps = Select.SelectItemProps & {
-  value: string | undefined;
-};
-
-export interface Country {
-  nome: string;
-  id: { M49: number };
-}
-
-export type SelectProps = {
+export interface CountryProps {
+  name: string;
   label: string;
-  placeholder: string;
-  items: Country[];
-  onValueChange: (value: string) => void;
-};
-
-export type CountryProps = {
-  handleSelectedCountry: (value: string) => void;
-};
+  handleSelectedCountry: (value?: string) => void;
+}
 
 export interface StateProps {
-  sigla: string;
+  name: string;
+  label: string;
+  selectedCountry?: string;
+  handleSelectedState: (value?: string) => void;
+}
+
+export interface CityProps {
+  name: string;
+  label: string;
+  selectedCountry?: string;
+  selectedState?: string;
+}
+
+export interface PersonalInformationProps {
+  formData: FormDataTypes;
+}
+
+export interface FormDataTypes {
+  skills: string[];
+}
+
+import { ActionMeta } from "react-select";
+
+export interface SelectStatesProps {
+  name: string;
+  label: string;
+  selectedCountry?: string;
+  handleSelectedState: (selectedState?: string) => void;
+}
+
+export interface StateOption {
+  label: string;
+  value: string;
+}
+
+export type StateSelectOption = ActionMeta<StateOption>;
+
+export interface CityOption {
+  id: number;
   nome: string;
 }
 
-export interface StatePropsConect {
-  handleSelectedCountry?: (value: string) => void;
-  handleSelectedState: (value: string) => void;
-  selectedCountry: string | null;
-}
-
-export interface CitiesProps {
-  selectedState: string | null;
-  selectedCountry: string | null;
-  id?: number;
-  nome?: string;
+export interface SelectCitiesProps {
+  selectedState?: string | undefined;
+  selectedCountry?: string | undefined;
+  name: string;
+  label: string;
 }

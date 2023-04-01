@@ -21,9 +21,9 @@ const useForm = (initialData: FormDataProps) => {
         },
       });
       alert("Cadastro realizado com sucesso!");
-      router.push("/signin");
+      router.push("/");
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 

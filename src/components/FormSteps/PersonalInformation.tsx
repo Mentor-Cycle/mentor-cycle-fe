@@ -1,18 +1,20 @@
 import Input from "@components/Input";
 import SelectCities from "@components/LocationSelector/SelectCities";
-import SelectCountry from "@components/LocationSelector/SelectCountry";
-import SelectState from "@components/LocationSelector/SelectState";
 import { useState } from "react";
 import { FormDataTypes } from "./FormSteps.types";
+import MultiSelect from "@components/MultiSelect";
+import SelectCountry from "@components/LocationSelector/SelectCountry";
+import SelectStates from "@components/LocationSelector/SelectStates";
 
 const PersonalInformation = ({ formData }: FormDataTypes) => {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | undefined>();
+  const [selectedState, setSelectedState] = useState<string | undefined>();
 
-  const handleSelectedState = (selectedState: string) => {
+  const handleSelectedState = (selectedState?: string) => {
     setSelectedState(selectedState);
   };
-  const handleSelectedCountry = (selectedCountry: string) => {
+
+  const handleSelectedCountry = (selectedCountry?: string) => {
     setSelectedCountry(selectedCountry);
   };
   const { skills } = formData;
@@ -20,16 +22,24 @@ const PersonalInformation = ({ formData }: FormDataTypes) => {
   return (
     <>
       <div className="sm:flex gap-4">
-        <SelectCountry handleSelectedCountry={handleSelectedCountry} />
-        <SelectState
+        <SelectCountry
+          label="Pais"
+          name="country"
+          handleSelectedCountry={handleSelectedCountry}
+        />
+        <SelectStates
           handleSelectedState={handleSelectedState}
           selectedCountry={selectedCountry}
+          name="state"
+          label="Estado"
         />
       </div>
-      <div className="sm:flex gap-4">
+      <div className="sm:flex gap-4 justify-center items-center">
         <SelectCities
           selectedState={selectedState}
           selectedCountry={selectedCountry}
+          label="Cidade"
+          name="city"
         />
         <Input
           label="Aniversário"
@@ -39,13 +49,7 @@ const PersonalInformation = ({ formData }: FormDataTypes) => {
           required
         />
       </div>
-      <Input
-        required
-        label="Especialização"
-        name="skills"
-        placeholder="design"
-        defaultValue={skills}
-      />
+      <MultiSelect label="Especialização" name="skills" />
     </>
   );
 };

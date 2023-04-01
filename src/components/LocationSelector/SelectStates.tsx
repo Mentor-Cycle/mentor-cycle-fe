@@ -1,50 +1,55 @@
 import { useFetch } from "@hooks/useFetch";
 import { useState, useEffect } from "react";
 import Select from "react-select";
-import { CityOption, SelectCitiesProps } from "./SelectLocation.types";
+import { SelectStatesProps, StateOption } from "./SelectLocation.types";
+import { State } from "@hooks/useFetch.types";
 
-const SelectCities = ({
-  selectedState,
-  selectedCountry,
+const SelectStates = ({
   name,
   label,
-}: SelectCitiesProps) => {
-  const [cities, setCities] = useState<CityOption[] | null>(null);
-  const { getCities } = useFetch();
+  selectedCountry,
+  handleSelectedState,
+}: SelectStatesProps) => {
+  const [states, setStates] = useState<Array<StateOption>>([]);
+  const { getStates } = useFetch();
 
   useEffect(() => {
-    if (selectedState) {
-      getCities({ state: selectedState }).then((res) => {
-        setCities(res);
-      });
-    }
-  }, [selectedState, getCities]);
+    getStates().then((res: State[]) => {
+      const stateOptions: StateOption[] = res.map(({ nome, sigla }) => ({
+        label: nome,
+        value: sigla,
+      }));
+      setStates(stateOptions);
+    });
+  }, [getStates]);
 
-  const isDisabled = !selectedState || selectedCountry !== "Brasil";
-  const isLoading = Boolean(!cities && selectedState);
+  const isDisabled = selectedCountry !== "Brasil";
 
-  const renderCities = () => {
-    if (!selectedState) {
-      return [];
-    }
-    if (selectedCountry === "Brasil") {
-      return cities?.map(({ nome }) => ({ label: nome, value: nome })) ?? [];
-    }
-    return [];
+  const renderStates = (): { options: Array<StateOption> } => {
+    const listStates = states.map(({ value, label }) => ({ label, value }));
+    return { options: listStates };
   };
+
+  const handleChange = (selectedOption: StateOption | null) => {
+    if (selectedOption) {
+      handleSelectedState(selectedOption.value);
+    }
+  };
+
   return (
-    <label className="text-secondary-01 font-semibold w-full">
+    <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
       {label}
       <Select
         name={name}
-        isDisabled={isDisabled}
-        isLoading={isLoading}
-        options={renderCities()}
+        isLoading={!states.length}
+        onChange={handleChange}
+        options={renderStates().options}
         isMulti={false}
         className="font-normal"
         classNamePrefix="p-10"
         unstyled
-        placeholder="Selecione a cidade"
+        placeholder="Selecione o estado"
+        isDisabled={isDisabled}
         classNames={{
           option: (state) =>
             `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
@@ -54,7 +59,6 @@ const SelectCities = ({
             }`,
           menu: (state) =>
             `p-8 bg-neutral-01 mt-2 rounded-md dark:bg-secondary-01`,
-          menuPortal: (state) => `bg-link-02`,
           multiValue: (state) =>
             `py-1 px-4 bg-gray-01 text-secondary-03 rounded-full ml-1 mt-1 dark:bg-secondary-01 dark:text-neutral-01`,
           multiValueRemove: (state) =>
@@ -65,4 +69,4 @@ const SelectCities = ({
   );
 };
 
-export default SelectCities;
+export default SelectStates;

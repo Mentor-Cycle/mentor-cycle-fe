@@ -1,80 +1,55 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import * as Select from "@radix-ui/react-select";
-import { HiChevronDown, HiChevronUp } from "react-icons/hi";
-import { Country, CountryProps } from "./SelectLocation.types";
 import { useFetch } from "@hooks/useFetch";
-import { SelectItem } from "./SelectItem";
-import { Label } from "@radix-ui/react-label";
-import { ReactNode, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Select from "react-select";
+import { CountryProps } from "./SelectLocation.types";
 
-const SelectCountry = ({ handleSelectedCountry }: CountryProps) => {
-  const [countries, setCountries] = useState<Country[]>();
-  const { getCountries, getCities, getStates } = useFetch();
+const SelectCountry = ({
+  name,
+  label,
+  handleSelectedCountry,
+}: CountryProps) => {
+  const [countries, setCountries] = useState<
+    Array<{ label: string; value: string }>
+  >([]);
+  const { getCountries } = useFetch();
 
   useEffect(() => {
-    getCountries({ orderBy: "nome" }).then((res) => {
-      return setCountries(res);
+    getCountries().then((fetchedCountries) => {
+      const listCountries = fetchedCountries.map(({ nome }) => ({
+        label: nome,
+        value: nome,
+      }));
+      setCountries(listCountries);
     });
-  }, []);
+  }, [getCountries]);
 
-  const renderCountries = (): ReactNode => {
-    return countries ? (
-      countries.map(({ nome: name, id: { M49: _id } }: Country) => (
-        <SelectItem key={_id} value={name}>
-          {name}
-        </SelectItem>
-      ))
-    ) : (
-      <SelectItem value="loading">Carregando...</SelectItem>
-    );
-  };
   return (
-    <div className="flex flex-col w-full">
-      <Label
-        htmlFor="country"
-        className="text-base text-secondary-04 font-bold"
-      >
-        País
-        <span title="Obrigatório" className="text-danger-01 mx-1">
-          *
-        </span>
-      </Label>
-      <Select.Root
-        required
-        onValueChange={handleSelectedCountry}
-        name="country"
-      >
-        <Select.Trigger
-          id="country"
-          name="country"
-          className="flex w-full px-6 py-4 my-2 border border-gray-03 items-center justify-between rounded-lg leading-none  bg-neutral-03 text-gray-04 hover:bg-neutral-01 focus:shadow-[0_0_0_2px] focus:shadow-gray-03 data-[placeholder]:text-gray-03 outline-none data-[placeholder]:text-base h-full"
-          aria-label="country"
-        >
-          <Select.Value placeholder="País" />
-          <Select.Icon className="text-violet11">
-            <HiChevronDown />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Content className="overflow-hidden bg-neutral-01 rounded-md shadow-2xl z-9999">
-            <Select.ScrollUpButton className="flex items-center justify-center h-[25px] bg-neutral-03 text-gray-03 cursor-default">
-              <HiChevronUp />
-            </Select.ScrollUpButton>
-            <Select.Viewport className="p-[5px]">
-              <Select.Group>
-                <Select.Label className="px-[25px] text-sm leading-[25px] text-secondary-02">
-                  Selecione um País
-                </Select.Label>
-                {renderCountries()}
-              </Select.Group>
-            </Select.Viewport>
-            <Select.ScrollDownButton className="flex items-center justify-center h-[25px] bg-white text-violet11 cursor-default">
-              <HiChevronDown />
-            </Select.ScrollDownButton>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
-    </div>
+    <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
+      {label}
+      <Select
+        name={name}
+        isLoading={!countries}
+        onChange={(value) => handleSelectedCountry(value?.label)}
+        options={countries}
+        isMulti={false}
+        className="font-normal"
+        classNamePrefix="p-10"
+        unstyled
+        placeholder="Selecione o país"
+        classNames={{
+          option: (state) =>
+            `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
+          control: (state) =>
+            `bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03`,
+          menu: (state) =>
+            `p-8 bg-neutral-01 mt-2 rounded-md dark:bg-secondary-01`,
+          multiValue: (state) =>
+            `py-1 px-4 bg-gray-01 text-secondary-03 rounded-full ml-1 mt-1 dark:bg-secondary-01 dark:text-neutral-01`,
+          multiValueRemove: (state) =>
+            `rounded-full hover:text-secondary-01 dark:hover:text-primary-02 ml-1 `,
+        }}
+      />
+    </label>
   );
 };
 
