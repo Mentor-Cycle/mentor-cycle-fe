@@ -2,15 +2,15 @@ import { FormEvent, useRef } from "react";
 import Image from "next/image";
 import logoCircle from "../public/circle.png";
 import logo from "../public/logo.png";
+import { useMutation } from "@apollo/client";
+import { NextPage } from "next";
+import Link from "next/link";
+import { GrLinkedinOption } from "react-icons/gr";
+import { FcGoogle } from "react-icons/fc";
+import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
 import { Button } from "@components/Button";
-import { FcGoogle } from "react-icons/fc";
-import { GrLinkedinOption } from "react-icons/gr";
-import { useMutation } from "@apollo/client";
-import { SIGN_IN_USER } from "services/apollo/mutations";
-import Link from "next/link";
-import { NextPage } from "next";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
