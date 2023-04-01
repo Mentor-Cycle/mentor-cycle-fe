@@ -25,7 +25,7 @@ const FormSteps: React.FC<FormStepsProps> = ({
 }) => {
   const { formData, getFormData, submitForm } = useForm({
     firstName: "",
-    lastName: "teste",
+    lastName: "",
     email: "",
     password: "",
     state: "",

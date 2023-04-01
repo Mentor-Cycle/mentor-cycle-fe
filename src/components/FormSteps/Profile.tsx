@@ -5,7 +5,7 @@ import { createStringRequirements } from "utils/regex";
 import { FormDataTypes } from "./FormSteps.types";
 
 const Profile = ({ formData }: FormDataTypes) => {
-  const { firstName, email } = formData;
+  const { firstName, lastName, email } = formData;
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -38,13 +38,22 @@ const Profile = ({ formData }: FormDataTypes) => {
 
   return (
     <>
-      <Input
-        label="Nome"
-        name="firstName"
-        placeholder="usuario1"
-        defaultValue={firstName}
-        required
-      />
+      <div className="sm:flex gap-4">
+        <Input
+          label="Nome"
+          name="firstName"
+          placeholder="Guy"
+          defaultValue={firstName}
+          required
+        />
+        <Input
+          label="Sobremone"
+          name="lastName"
+          placeholder="Hawkins"
+          defaultValue={lastName}
+          required
+        />
+      </div>
       <Input
         label="Email"
         name="email"
