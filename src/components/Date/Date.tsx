@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { DateProps, DateSize } from "./Date.types";
 import * as Label from "@radix-ui/react-label";
 
-const Date: FC<DateProps> = ({
+const DateInput: FC<DateProps> = ({
   size = "standard",
   label,
   name,
@@ -59,4 +59,4 @@ const Date: FC<DateProps> = ({
   );
 };
 
-export default Date;
+export default DateInput;

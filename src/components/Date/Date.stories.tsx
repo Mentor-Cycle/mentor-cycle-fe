@@ -1,17 +1,17 @@
 import { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { DateProps } from "./Date.types";
-import Date from "./Date";
+import DateInput from "./Date";
 
 const meta = {
   title: "Forms/Date",
-  component: Date,
+  component: DateInput,
   argTypes: {
     size: {
       options: ["standard", "small"],
       control: { type: "radio" },
     },
   },
-} satisfies Meta<typeof Date>;
+} satisfies Meta<typeof DateInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
