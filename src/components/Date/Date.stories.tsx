@@ -1,5 +1,4 @@
-import { Meta, StoryFn, StoryObj } from "@storybook/react";
-import { DateProps } from "./Date.types";
+import { Meta, StoryObj } from "@storybook/react";
 import DateInput from "./Date";
 
 const meta = {
