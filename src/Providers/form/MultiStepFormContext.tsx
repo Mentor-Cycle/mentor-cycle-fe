@@ -17,7 +17,7 @@ interface IFormData {
   lastName: string;
   email: string;
   password: string;
-  repeatPassword: string;
+  repeatPassword?: string;
   state: string;
   country: string;
   city: string;

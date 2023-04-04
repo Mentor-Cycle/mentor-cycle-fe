@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import React from "react";
 import { StepperProps } from "./Stepper.types";
+import { useMultiStepFormContext } from "@hooks/useForm";
 
-const Stepper: React.FC<StepperProps> = ({
-  steps = [1, 2, 3],
-  currentStep = 1,
-  className,
-}) => {
+const Stepper: React.FC<StepperProps> = ({ steps = [1, 2, 3], className }) => {
+  const { currentStep } = useMultiStepFormContext();
   const totalSteps = steps.length;
 
   const containerClasses = clsx(
