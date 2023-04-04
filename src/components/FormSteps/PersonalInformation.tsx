@@ -5,26 +5,30 @@ import SelectCountry from "@components/LocationSelector/SelectCountry";
 import SelectStates from "@components/LocationSelector/SelectStates";
 import { useMultiStepFormContext } from "@hooks/useForm";
 import { ActionType } from "Providers/form";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { parse, isValid, isPast } from "date-fns";
 
 const PersonalInformation = () => {
   const { dispatch, formData } = useMultiStepFormContext();
+  const [date, setDate] = useState<string>(formData.birthDate || "");
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const input = event.target;
+    const isValidDate = validateDate(value);
 
-    const date = parse(value, "dd/MM/yyyy", new Date());
-    const isValidDate = isValid(date);
-    const isDateInThePast = isPast(date);
-
-    if (input.checkValidity() && isValidDate && isDateInThePast) {
+    if (event.target.checkValidity() && isValidDate) {
       dispatch({
         type: ActionType.UPDATE_FORM_DATA,
-        payload: { [name]: date },
+        payload: { [name]: value },
       });
     }
+  };
+
+  const validateDate = (date: string) => {
+    const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+    const isValidDate = isValid(parsedDate);
+    const isDateInThePast = isPast(parsedDate);
+    return isValidDate && isDateInThePast;
   };
 
   return (
@@ -39,8 +43,9 @@ const PersonalInformation = () => {
           label="Aniversário"
           name="birthDate"
           type="text"
-          // defaultValue={formData.birthDate}
-          onChange={handleInputChange}
+          value={date}
+          onBlur={handleBlur}
+          onChange={(e) => setDate((e.target as HTMLInputElement).value)}
           placeholder="DD/MM/AAAA"
           maxLength={10}
           pattern="\d{2}/\d{2}/\d{4}"

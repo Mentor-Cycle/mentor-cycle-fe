@@ -5,6 +5,7 @@ export enum ActionType {
   NEXT_STEP = "NEXT_STEP",
   PREV_STEP = "PREV_STEP",
   UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
+  UPDATE_GLOBAL = "UPDATE_GLOBAL",
 }
 
 interface IAction {
@@ -21,7 +22,7 @@ interface IFormData {
   state: string;
   country: string;
   city: string;
-  birthDate: Date | null;
+  birthDate: string | null;
   skills: string[];
   linkedin: string;
   github: string;
@@ -33,6 +34,8 @@ export interface IMultiStepFormContext {
   dispatch: (action: IAction) => void;
   currentStep: number;
   formData: IFormData;
+  states: any[];
+  cities: any[];
 }
 
 interface MultiStepFormProviderProps {
@@ -57,6 +60,8 @@ const initialState = {
     description: "",
     isMentor: false,
   },
+  cities: [],
+  states: [],
 };
 
 const actionHandlers: Record<
@@ -79,6 +84,10 @@ const actionHandlers: Record<
     ...state,
     formData: { ...state.formData, ...action.payload },
   }),
+  [ActionType.UPDATE_GLOBAL]: (state, action) => ({
+    ...state,
+    ...action.payload,
+  }),
 };
 
 const reducer = (state: typeof initialState, action: IAction) => {
@@ -94,8 +103,6 @@ export const MultiStepFormProvider = ({
   children,
 }: MultiStepFormProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  console.log(state);
 
   return (
     <MultiStepFormContext.Provider value={{ ...state, dispatch }}>

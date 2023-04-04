@@ -1,4 +1,4 @@
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import { useState, useEffect } from "react";
 import { useFetch } from "@hooks/useFetch";
 import { ActionType } from "Providers/form";
@@ -17,9 +17,14 @@ const SelectStates = ({ name, label }: SelectStatesProps) => {
         label: nome,
         value: sigla,
       }));
+
       setStates(stateOptions);
+      dispatch({
+        type: ActionType.UPDATE_GLOBAL,
+        payload: { states: stateOptions },
+      });
     });
-  }, [getStates]);
+  }, [dispatch, getStates]);
 
   const isDisabled = formData.country !== "Brasil";
 
@@ -28,18 +33,25 @@ const SelectStates = ({ name, label }: SelectStatesProps) => {
     return { options: listStates };
   };
 
-  const handleInputChange = (newValue: any) => {
-    const { value } = newValue;
-    dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
+  const handleInputChange = (newValue: SingleValue<StateOption>) => {
+    const state = (newValue as StateOption).label;
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: { [name]: state },
+    });
   };
+
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
       {label}
       <Select
         name={name}
         isLoading={!states.length}
-        defaultInputValue={formData.state}
-        onChange={(newValue) => handleInputChange(newValue)}
+        defaultValue={{
+          value: formData.state,
+          label: formData.state,
+        }}
+        onChange={handleInputChange}
         options={renderStates().options}
         isMulti={false}
         onKeyDown={(e) => {

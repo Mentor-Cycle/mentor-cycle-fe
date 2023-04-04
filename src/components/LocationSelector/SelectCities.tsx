@@ -7,17 +7,18 @@ import { CityOption, SelectCitiesProps } from "./SelectLocation.types";
 
 const SelectCities = ({ name, label }: SelectCitiesProps) => {
   const [cities, setCities] = useState<CityOption[] | null>(null);
-  const { dispatch, formData } = useMultiStepFormContext();
+  const { dispatch, formData, states } = useMultiStepFormContext();
   const { state, country } = formData;
   const { getCities } = useFetch();
 
   useEffect(() => {
     if (state) {
-      getCities({ state: state }).then((res) => {
+      const stateValue = states.find((s) => s.label === state)?.value;
+      getCities({ state: stateValue }).then((res) => {
         setCities(res);
       });
     }
-  }, [state, getCities]);
+  }, [state, getCities, states]);
 
   const isDisabled = !state || country !== "Brasil";
   const isLoading = Boolean(!cities && state);
@@ -36,7 +37,6 @@ const SelectCities = ({ name, label }: SelectCitiesProps) => {
     const { value } = newValue;
     dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
   };
-
   return (
     <label className="text-secondary-01 font-semibold w-full">
       {label}
@@ -50,7 +50,7 @@ const SelectCities = ({ name, label }: SelectCitiesProps) => {
             e.preventDefault();
           }
         }}
-        onChange={(newValue) => handleInputChange(newValue)}
+        onChange={handleInputChange}
         options={renderCities()}
         isMulti={false}
         className="font-normal"
