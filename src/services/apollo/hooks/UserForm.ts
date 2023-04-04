@@ -10,6 +10,7 @@ const UserForm = () => {
 
   const submitForm = async () => {
     try {
+      delete formData.repeatPassword;
       await createUser({
         variables: {
           input: formData,
