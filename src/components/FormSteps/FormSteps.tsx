@@ -1,16 +1,13 @@
 import { Button } from "@components/Button";
-import { useRef } from "react";
-import {
-  FormDataProps,
-  FormDataTypes,
-  FormNavigationProps,
-  FormStepsProps,
-} from "./FormSteps.types";
+import { ActionType } from "../../Providers/form/MultiStepFormContext";
+import { FormNavigationProps, FormStepsProps } from "./FormSteps.types";
 import PersonalInformation from "./PersonalInformation";
 import Profile from "./Profile";
 import ContactInformation from "./ContactInformation";
 import clsx from "clsx";
-import useForm from "services/apollo/hooks/useForm";
+import { useMultiStepFormContext } from "@hooks/useForm";
+import { useRef, useState, useEffect } from "react";
+import UserForm from "services/apollo/hooks/UserForm";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -18,98 +15,70 @@ const FORM_STEPS = [
   { id: 3, component: ContactInformation },
 ];
 
-const FormSteps: React.FC<FormStepsProps> = ({
-  stepForm,
-  setStepForm,
-  isMentor,
-}) => {
-  const { formData, getFormData, submitForm } = useForm({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    state: "",
-    country: "",
-    city: "",
-    birthDate: new Date("01/01/1990"),
-    skills: [],
-    linkedin: "",
-    github: "",
-    description: "",
-    isMentor: false,
-  });
-
+const FormSteps: React.FC<FormStepsProps> = ({ isMentor }) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const { currentStep, dispatch, formData } = useMultiStepFormContext();
+  const { submitForm } = UserForm();
+  const [isValid, setIsValid] = useState<boolean | undefined>(false);
 
-  const currentStep = FORM_STEPS.find((step) => step.id === stepForm);
+  useEffect(() => {
+    setIsValid(formRef.current?.checkValidity());
+  }, [formData, currentStep]);
 
   const handleGoBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (stepForm > 1) {
-      setStepForm((prevStep) => prevStep - 1);
+    if (currentStep > 1) {
+      dispatch({ type: ActionType.PREV_STEP });
     }
   };
-
-  const handleNextOrFinish = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const isValid = formRef.current?.checkValidity();
     if (isValid) {
-      const formElement = new FormData(formRef.current as HTMLFormElement);
-      const formValues = Object.fromEntries(formElement.entries());
-      const updateFormData = { ...formData, ...formValues, isMentor };
-      getFormData(updateFormData);
-      if (stepForm === 3) {
-        console.log(updateFormData);
-        submitForm();
-      } else if (stepForm < 3) {
-        setStepForm((prevStep) => prevStep + 1);
-      }
-    } else {
-      alert("Digite os campos obrigatórios");
+      dispatch({ type: ActionType.NEXT_STEP });
     }
   };
 
-  const renderCurrentComponent = (
-    Component: React.FC<FormDataTypes>,
-    formData: FormDataProps
-  ) => {
-    return <Component formData={formData} />;
-  };
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isValid) {
+      submitForm();
     }
   };
-
   return (
     <form
       className="flex flex-col space-y-2"
       ref={formRef}
-      onSubmit={(e) => e.preventDefault()}
-      onKeyDown={handleKeyDown}
+      onSubmit={handleSubmit}
     >
-      <div className="mb-10">
-        {currentStep && renderCurrentComponent(currentStep.component, formData)}
+      <div className="mb-10 space-y-2">
+        {FORM_STEPS.map((step) => {
+          if (step.id === currentStep) {
+            const Component = step.component;
+            return <Component key={step.id} />;
+          }
+        })}
       </div>
       <FormNavigation
-        stepForm={stepForm}
         handleGoBack={handleGoBack}
-        handleNextOrFinish={handleNextOrFinish}
+        nextStep={nextStep}
+        isValid={isValid}
       />
     </form>
   );
 };
 
 const FormNavigation = ({
-  stepForm,
   handleGoBack,
-  handleNextOrFinish,
+  nextStep,
+  isValid,
 }: FormNavigationProps) => {
+  const { currentStep } = useMultiStepFormContext();
+
   return (
     <div className="flex flex-col sm:flex sm:flex-row justify-center items-center gap-4 mb-10 sm:justify-end">
       <Button
         className={clsx(
-          stepForm === 1 ? "hidden" : "",
+          currentStep === 1 ? "hidden" : "",
           "order-last sm:order-first max-w-[328px]"
         )}
         variant="secondary"
@@ -117,12 +86,23 @@ const FormNavigation = ({
       >
         Voltar
       </Button>
-      <Button
-        className={clsx("max-w-[328px]", "order-first sm:order-last")}
-        onClick={handleNextOrFinish}
-      >
-        {stepForm === 3 ? "Finalizar" : "Próximo"}
-      </Button>
+      {currentStep === 3 ? (
+        <Button
+          className={clsx("max-w-[328px]", "order-first sm:order-last")}
+          type="submit"
+          disabled={!isValid}
+        >
+          Finalizar
+        </Button>
+      ) : (
+        <Button
+          className={clsx("max-w-[328px]", "order-first sm:order-last")}
+          onClick={nextStep}
+          disabled={!isValid}
+        >
+          Próximo
+        </Button>
+      )}
     </div>
   );
 };

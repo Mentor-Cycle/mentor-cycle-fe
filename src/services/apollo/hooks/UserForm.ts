@@ -1,17 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { FormDataProps } from "@components/FormSteps";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { CREATE_USER } from "../mutations";
+import { useMultiStepFormContext } from "@hooks/useForm";
 
-const useForm = (initialData: FormDataProps) => {
-  const [formData, setFormData] = useState<FormDataProps>(initialData);
+const UserForm = () => {
+  const { formData } = useMultiStepFormContext();
   const [createUser] = useMutation(CREATE_USER);
   const router = useRouter();
-
-  const getFormData = (newData: Partial<FormDataProps>) => {
-    setFormData({ ...formData, ...newData });
-  };
 
   const submitForm = async () => {
     try {
@@ -27,7 +22,7 @@ const useForm = (initialData: FormDataProps) => {
     }
   };
 
-  return { formData, getFormData, submitForm };
+  return { formData, submitForm };
 };
 
-export default useForm;
+export default UserForm;

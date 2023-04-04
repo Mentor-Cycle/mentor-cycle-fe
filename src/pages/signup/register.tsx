@@ -5,6 +5,8 @@ import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper";
 import { useRouter } from "next/router";
+import { MultiStepFormProvider } from "Providers/form";
+import Header from "@components/Header/Header";
 
 const Register = () => {
   const [stepForm, setStepForm] = useState<number>(1);
@@ -19,15 +21,8 @@ const Register = () => {
   }, []);
   return (
     <>
-      <header className="bg-neutral-01 w-full h-[80px] flex justify-between items-center px-36">
-        <Image
-          alt="logo mentor cycle"
-          src={logo}
-          style={{ width: "53px", height: "48px", objectFit: "contain" }}
-        />
-        <p>Precisa de ajuda?</p>
-      </header>
-      <main className="bg-neutral-03 min-h-screen flex flex-col">
+      <Header isLogged userName="tonon" />
+      <main className="bg-neutral-03 min-h-[130vh] flex flex-col">
         <section className="bg-neutral-01 border-opacity-30 border-t border-b border-gray-02 w-full py-[52px] sm:justify-between 2xl:justify-around sm:px-8 lg:px-20 2xl:px-36 hidden sm:flex">
           <Stepper
             steps={[1, 2, 3]}
@@ -55,11 +50,9 @@ const Register = () => {
             />
           </aside>
           <section className="max-w-2xl w-full m-auto lg:m-0 mb-24 px-4">
-            <FormSteps
-              stepForm={stepForm}
-              setStepForm={setStepForm}
-              isMentor={Boolean(isMentor)}
-            />
+            <MultiStepFormProvider>
+              <FormSteps isMentor={Boolean(isMentor)} />
+            </MultiStepFormProvider>
           </section>
         </section>
       </main>

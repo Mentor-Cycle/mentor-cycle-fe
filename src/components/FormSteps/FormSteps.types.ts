@@ -20,15 +20,13 @@ export interface FormStep {
 }
 
 export interface FormStepsProps {
-  stepForm: number;
-  setStepForm: React.Dispatch<React.SetStateAction<number>>;
   isMentor: boolean;
 }
 
 export interface FormNavigationProps {
-  stepForm: number;
   handleGoBack: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleNextOrFinish: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  nextStep: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isValid: boolean | undefined;
 }
 
 export interface FormDataTypes {
