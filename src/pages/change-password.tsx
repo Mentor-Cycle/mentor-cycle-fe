@@ -12,7 +12,7 @@ const ChangePassword = () => {
   const [resetUserPassword] = useMutation(CHANGE_NEW_PASSWORD);
 
   const router = useRouter();
-  const { pin, email } = router.query;
+  const { pin_code, email } = router.query;
 
   const handleChangeNewPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,17 +26,19 @@ const ChangePassword = () => {
 
     const isValidty = formRef.current?.checkValidity();
 
-    if (isValidty && newPassword === newPasswordConfirm) {
+    if (!isValidty || newPassword != newPasswordConfirm) {
+      alert("senhas não coincidem");
+      return;
+    } else {
       try {
         await resetUserPassword({
-          variables: { newPassword, pin, email },
+          variables: { newPassword, pin: pin_code, email },
         });
         alert("sucesso");
+        formRef.current?.reset();
       } catch (er) {
         console.log(er);
       }
-    } else {
-      alert("Senhas diferentes");
     }
   };
 
