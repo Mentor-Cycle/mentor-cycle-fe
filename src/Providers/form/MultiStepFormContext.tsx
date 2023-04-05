@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useMemo } from "react";
 
 export enum ActionType {
   SET_STEP = "SET_STEP",
@@ -103,9 +103,11 @@ export const MultiStepFormProvider = ({
   children,
 }: MultiStepFormProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const value = useMemo(() => ({ ...state, dispatch }), [state]);
 
+  console.log(value);
   return (
-    <MultiStepFormContext.Provider value={{ ...state, dispatch }}>
+    <MultiStepFormContext.Provider value={value}>
       {children}
     </MultiStepFormContext.Provider>
   );

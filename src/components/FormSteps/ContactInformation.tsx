@@ -37,7 +37,7 @@ const ContactInformation = () => {
       <Textarea
         label="Usuário"
         name="description"
-        value={formData.description}
+        value={description}
         onChange={handleTextAreaChange}
         placeholder="Faça uma breve descrição sobre você"
       />

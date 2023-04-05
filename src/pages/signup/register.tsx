@@ -1,24 +1,13 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import logo from "../../public/logo.png";
 import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper";
 import { useRouter } from "next/router";
-import { MultiStepFormProvider } from "Providers/form";
+import { ActionType, MultiStepFormProvider } from "Providers/form";
 import Header from "@components/Header/Header";
 import { useMultiStepFormContext } from "@hooks/useForm";
 
 const Register = () => {
-  const [isMentor, setIsMentor] = useState<boolean>(false);
-  const router = useRouter();
-  useEffect(() => {
-    const signupInfo = sessionStorage.getItem("signup_info");
-    if (signupInfo) {
-      const { isMentor } = JSON.parse(signupInfo);
-      setIsMentor(isMentor);
-    }
-  }, []);
   return (
     <>
       <MultiStepFormProvider>
@@ -45,7 +34,7 @@ const Register = () => {
               <StepperVertical className="hidden lg:block" />
             </aside>
             <section className="max-w-2xl w-full m-auto lg:m-0 mb-24 px-4">
-              <FormSteps isMentor={Boolean(isMentor)} />
+              <FormSteps />
             </section>
           </section>
         </main>

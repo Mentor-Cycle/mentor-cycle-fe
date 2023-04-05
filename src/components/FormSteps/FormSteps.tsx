@@ -1,13 +1,13 @@
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@components/Button";
 import { ActionType } from "../../Providers/form/MultiStepFormContext";
-import { FormNavigationProps, FormStepsProps } from "./FormSteps.types";
-import PersonalInformation from "./PersonalInformation";
+import { FormNavigationProps } from "./FormSteps.types";
+import { useMultiStepFormContext } from "@hooks/useForm";
 import Profile from "./Profile";
 import ContactInformation from "./ContactInformation";
-import clsx from "clsx";
-import { useMultiStepFormContext } from "@hooks/useForm";
-import { useRef, useState, useEffect } from "react";
+import PersonalInformation from "./PersonalInformation";
 import UserForm from "services/apollo/hooks/UserForm";
+import clsx from "clsx";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -15,11 +15,22 @@ const FORM_STEPS = [
   { id: 3, component: ContactInformation },
 ];
 
-const FormSteps: React.FC<FormStepsProps> = ({ isMentor }) => {
+const FormSteps = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const { currentStep, dispatch, formData } = useMultiStepFormContext();
   const { submitForm } = UserForm();
   const [isValid, setIsValid] = useState<boolean | undefined>(false);
+
+  useEffect(() => {
+    const signupInfo = sessionStorage.getItem("signup_info");
+    if (signupInfo) {
+      const { isMentor } = JSON.parse(signupInfo);
+      dispatch({
+        type: ActionType.UPDATE_GLOBAL,
+        payload: { formData: { ...formData, isMentor } },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setIsValid(formRef.current?.checkValidity());

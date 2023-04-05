@@ -19,10 +19,6 @@ export interface FormStep {
   component: JSX.Element;
 }
 
-export interface FormStepsProps {
-  isMentor: boolean;
-}
-
 export interface FormNavigationProps {
   handleGoBack: (e: React.MouseEvent<HTMLButtonElement>) => void;
   nextStep: (e: React.MouseEvent<HTMLButtonElement>) => void;

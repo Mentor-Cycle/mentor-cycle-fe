@@ -6,8 +6,6 @@ import { createStringRequirements } from "utils/regex";
 
 const Profile = () => {
   const { formData, dispatch } = useContext(MultiStepFormContext);
-  const [passwordValue, setPasswordValue] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [birthDateValid, setBirthDateValid] = useState(false);
 
   const { firstName, lastName, email, password, repeatPassword } = formData;
@@ -94,11 +92,6 @@ const Profile = () => {
             pattern={formData.password}
             required
           />
-          {passwordError && (
-            <p className="text-danger-01 text-xs italic mt-4">
-              {passwordError}
-            </p>
-          )}
         </div>
       </div>
     </>

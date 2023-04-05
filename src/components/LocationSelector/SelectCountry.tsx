@@ -1,11 +1,9 @@
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
 import { useFetch } from "@hooks/useFetch";
 import { useState, useEffect, ChangeEvent } from "react";
 import { CountryProps } from "./SelectLocation.types";
 import { ActionType } from "Providers/form";
 import { useMultiStepFormContext } from "@hooks/useForm";
-import { EventType } from "@testing-library/react";
-import { Options } from "@react-email/components";
 
 const SelectCountry = ({ name, label }: CountryProps) => {
   const [countries, setCountries] = useState<
