@@ -1,13 +1,15 @@
-import { useRef, useState, useEffect } from "react";
-import { Button } from "@components/Button";
-import { ActionType } from "../../Providers/form/MultiStepFormContext";
-import { FormNavigationProps } from "./FormSteps.types";
-import { useMultiStepFormContext } from "@hooks/useForm";
+import PersonalInformation from "./PersonalInformation";
 import Profile from "./Profile";
 import ContactInformation from "./ContactInformation";
-import PersonalInformation from "./PersonalInformation";
-import UserForm from "services/apollo/hooks/UserForm";
-import clsx from "clsx";
+import { useRef, useState, useEffect } from "react";
+import useForm from "@hooks/useForm";
+import { FormNavigation } from "./FormNavigation";
+import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
+import { ActionType } from "Providers/form";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "services/apollo/mutations";
+import { useRouter } from "next/router";
+import { format, parse } from "date-fns";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -15,46 +17,51 @@ const FORM_STEPS = [
   { id: 3, component: ContactInformation },
 ];
 
-const FormSteps = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const { currentStep, dispatch, formData } = useMultiStepFormContext();
-  const { submitForm } = UserForm();
+const FormSteps: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean | undefined>(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const { formData } = useForm();
+  const { dispatch } = useMultiStepFormContext();
+  const [createUser] = useMutation(CREATE_USER);
+  const router = useRouter();
 
   useEffect(() => {
     const signupInfo = sessionStorage.getItem("signup_info");
     if (signupInfo) {
       const { isMentor } = JSON.parse(signupInfo);
       dispatch({
-        type: ActionType.UPDATE_GLOBAL,
-        payload: { formData: { ...formData, isMentor } },
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: { isMentor },
       });
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setIsValid(formRef.current?.checkValidity());
-  }, [formData, currentStep]);
+  }, [formData]);
 
-  const handleGoBack = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (currentStep > 1) {
-      dispatch({ type: ActionType.PREV_STEP });
-    }
-  };
-  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
-      dispatch({ type: ActionType.NEXT_STEP });
+      delete formData.currentStep;
+      delete formData.repeatPassword;
+
+      const date = parse(formData.birthDate || "", "dd/MM/yyyy", new Date());
+      const isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+      const response = await createUser({
+        variables: {
+          input: {
+            ...formData,
+            birthDate: isoDate,
+          },
+        },
+      });
+      if (response.data.signUpUser) {
+        router.push("/login");
+      }
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isValid) {
-      submitForm();
-    }
-  };
   return (
     <form
       className="flex flex-col space-y-2"
@@ -63,58 +70,14 @@ const FormSteps = () => {
     >
       <div className="mb-10 space-y-2">
         {FORM_STEPS.map((step) => {
-          if (step.id === currentStep) {
+          if (step.id === formData.currentStep) {
             const Component = step.component;
             return <Component key={step.id} />;
           }
         })}
       </div>
-      <FormNavigation
-        handleGoBack={handleGoBack}
-        nextStep={nextStep}
-        isValid={isValid}
-      />
+      <FormNavigation isValid={isValid} />
     </form>
-  );
-};
-
-const FormNavigation = ({
-  handleGoBack,
-  nextStep,
-  isValid,
-}: FormNavigationProps) => {
-  const { currentStep } = useMultiStepFormContext();
-
-  return (
-    <div className="flex flex-col sm:flex sm:flex-row justify-center items-center gap-4 mb-10 sm:justify-end">
-      <Button
-        className={clsx(
-          currentStep === 1 ? "hidden" : "",
-          "order-last sm:order-first max-w-[328px]"
-        )}
-        variant="secondary"
-        onClick={handleGoBack}
-      >
-        Voltar
-      </Button>
-      {currentStep === 3 ? (
-        <Button
-          className={clsx("max-w-[328px]", "order-first sm:order-last")}
-          type="submit"
-          disabled={!isValid}
-        >
-          Finalizar
-        </Button>
-      ) : (
-        <Button
-          className={clsx("max-w-[328px]", "order-first sm:order-last")}
-          onClick={nextStep}
-          disabled={!isValid}
-        >
-          Próximo
-        </Button>
-      )}
-    </div>
   );
 };
 

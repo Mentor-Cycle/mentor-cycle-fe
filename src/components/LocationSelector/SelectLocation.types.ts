@@ -1,15 +1,5 @@
-export interface CountryProps {
-  name: string;
-  label: string;
-}
-
-export interface StateProps {
-  name: string;
-  label: string;
-}
-
-export interface CityProps {
-  name: string;
+export interface SelectProps {
+  value: string;
   label: string;
 }
 

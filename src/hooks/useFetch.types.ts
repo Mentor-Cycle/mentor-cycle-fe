@@ -23,6 +23,6 @@ export interface GetCitiesParams {
 
 export interface IUseFetch {
   getCountries: (params?: GetCountriesParams) => Promise<Country[]>;
-  getCities: (params: GetCitiesParams) => Promise<City[]>;
+  getCities: (state: string) => Promise<City[]>;
   getStates: () => Promise<State[]>;
 }

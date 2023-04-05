@@ -3,13 +3,11 @@ import clsx from "clsx";
 import { ChangeEvent, useContext, useState } from "react";
 import { ActionType, MultiStepFormContext } from "Providers/form";
 import { createStringRequirements } from "utils/regex";
+import useForm from "@hooks/useForm";
 
 const Profile = () => {
-  const { formData, dispatch } = useContext(MultiStepFormContext);
-  const [birthDateValid, setBirthDateValid] = useState(false);
-
+  const { updateForm, formData } = useForm();
   const { firstName, lastName, email, password, repeatPassword } = formData;
-
   const passwordRequirements = createStringRequirements({
     minLength: 6,
     includeNumber: true,
@@ -18,18 +16,6 @@ const Profile = () => {
     includeSpecial: false,
   });
 
-  const handleBirthDateValidChange = (valid: boolean) => {
-    setBirthDateValid(valid);
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    if (name === "birthDate" && !birthDateValid) {
-      return;
-    }
-    dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
-  };
-
   return (
     <>
       <div className="sm:flex gap-4">
@@ -37,7 +23,7 @@ const Profile = () => {
           label="Nome"
           name="firstName"
           placeholder="Guy"
-          onBlur={handleInputChange}
+          onBlur={updateForm}
           defaultValue={firstName}
           required
         />
@@ -45,7 +31,7 @@ const Profile = () => {
           label="Sobrenome"
           name="lastName"
           placeholder="Hawkins"
-          onBlur={handleInputChange}
+          onBlur={updateForm}
           defaultValue={lastName}
           required
         />
@@ -55,7 +41,7 @@ const Profile = () => {
         name="email"
         type="email"
         placeholder="user1@gmail.com"
-        onBlur={handleInputChange}
+        onBlur={updateForm}
         defaultValue={email}
         required
       />
@@ -67,8 +53,7 @@ const Profile = () => {
             name="password"
             placeholder="**********************"
             type="password"
-            onBlur={handleInputChange}
-            onValidChange={handleBirthDateValidChange}
+            onBlur={updateForm}
             defaultValue={password}
             pattern={passwordRequirements.toString().slice(1, -1)}
             required
@@ -87,7 +72,7 @@ const Profile = () => {
             name="repeatPassword"
             placeholder="**********************"
             type="password"
-            onBlur={handleInputChange}
+            onBlur={updateForm}
             defaultValue={repeatPassword}
             pattern={formData.password}
             required

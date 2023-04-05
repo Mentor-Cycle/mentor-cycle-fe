@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { useMultiStepFormContext } from "@hooks/useForm";
+import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
 import { ActionType } from "Providers/form";
 
 const options = [

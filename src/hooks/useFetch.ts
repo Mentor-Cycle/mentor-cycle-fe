@@ -42,9 +42,9 @@ export const useFetch = (): IUseFetch => {
   }, [GET_PROPS]);
 
   const getCities = useCallback(
-    async (params: GetCitiesParams): Promise<City[]> => {
+    async (state: string): Promise<City[]> => {
       const res = await fetch(
-        `${IBGE_PLACES_API_URL}/estados/${params.state}/municipios`,
+        `${IBGE_PLACES_API_URL}/estados/${state}/municipios`,
         GET_PROPS
       );
       const cities: City[] = await res.json();

@@ -1,32 +1,22 @@
 import Select from "react-select";
-import { useFetch } from "@hooks/useFetch";
-import { useState, useEffect } from "react";
-import { CountryProps } from "./SelectLocation.types";
-import { ActionType } from "Providers/form";
-import { useMultiStepFormContext } from "@hooks/useForm";
+import { Dispatch, SetStateAction } from "react";
+import { SelectProps } from "./SelectLocation.types";
 
-const SelectCountry = ({ name, label }: CountryProps) => {
-  const [countries, setCountries] = useState<
-    Array<{ label: string; value: string }>
-  >([]);
-  const { dispatch, formData } = useMultiStepFormContext();
-  const { getCountries } = useFetch();
-
-  useEffect(() => {
-    getCountries().then((fetchedCountries) => {
-      const listCountries = fetchedCountries.map(({ nome }) => ({
-        label: nome,
-        value: nome,
-      }));
-      setCountries(listCountries);
-    });
-  }, [getCountries]);
-
-  const handleInputChange = (newValue: any) => {
-    const { value } = newValue;
-    dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
-  };
-
+const SelectLocation = ({
+  options,
+  onSelect,
+  placeholder,
+  defaultValue,
+  label,
+  name,
+}: {
+  options: [];
+  onSelect: any;
+  placeholder: string;
+  defaultValue: SelectProps;
+  label: string;
+  name: string;
+}) => {
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
       {label}
@@ -36,21 +26,20 @@ const SelectCountry = ({ name, label }: CountryProps) => {
       <Select
         required
         name={name}
-        defaultInputValue={formData.country}
-        defaultValue={{ label: "Brasil", value: "br" }}
-        options={countries}
-        isLoading={!countries}
+        defaultValue={defaultValue}
+        options={options}
+        isLoading={!options}
         isMulti={false}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
           }
         }}
-        onChange={(newValue) => handleInputChange(newValue)}
+        onChange={onSelect}
         className="font-normal"
         classNamePrefix="p-10"
         unstyled
-        placeholder="Selecione o país"
+        placeholder={placeholder}
         classNames={{
           option: () =>
             `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
@@ -67,4 +56,4 @@ const SelectCountry = ({ name, label }: CountryProps) => {
   );
 };
 
-export default SelectCountry;
+export default SelectLocation;

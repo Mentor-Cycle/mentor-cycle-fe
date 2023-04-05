@@ -1,36 +1,26 @@
 import Input from "@components/Input";
 import React, { ChangeEvent } from "react";
 import Textarea from "@components/Textarea";
-import { useMultiStepFormContext } from "@hooks/useForm";
-import { ActionType } from "Providers/form";
+import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
+import useForm from "@hooks/useForm";
 
 const ContactInformation = () => {
-  const { formData, dispatch } = useMultiStepFormContext();
+  const { updateForm, formData } = useForm();
   const { linkedin, github, description } = formData;
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
-  };
-
-  const handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    dispatch({ type: ActionType.UPDATE_FORM_DATA, payload: { [name]: value } });
-  };
 
   return (
     <>
       <Input
         label="Linkedin"
         name="linkedin"
-        onBlur={handleInputChange}
+        onBlur={updateForm}
         placeholder="linkedin.com/in/usuario1"
         defaultValue={linkedin}
       />
       <Input
         label="Portfólio / Github"
         name="github"
-        onBlur={handleInputChange}
+        onBlur={updateForm}
         placeholder="portfóliousuário.com.br"
         defaultValue={github}
       />
@@ -38,7 +28,8 @@ const ContactInformation = () => {
         label="Usuário"
         name="description"
         value={description}
-        onChange={handleTextAreaChange}
+        onChange={updateForm}
+        defaultValue={description}
         placeholder="Faça uma breve descrição sobre você"
       />
     </>

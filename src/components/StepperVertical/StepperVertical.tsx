@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import { StepperVerticalProps } from "./StepperVertical.types";
-import { useMultiStepFormContext } from "@hooks/useForm";
+import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
+import useForm from "@hooks/useForm";
 
 const StepperVertical: React.FC<StepperVerticalProps> = ({
   steps = ["Perfil", "Dados pessoais", "Descrição de trabalho"],
   className,
 }) => {
-  const { currentStep } = useMultiStepFormContext();
+  const { formData } = useForm();
+  const { currentStep } = formData;
   const ACTIVE_CLASS = `
     border-l-4 border-primary-03 
     text-secondary-03 text-2xl font-semibold

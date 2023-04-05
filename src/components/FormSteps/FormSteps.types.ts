@@ -20,8 +20,6 @@ export interface FormStep {
 }
 
 export interface FormNavigationProps {
-  handleGoBack: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  nextStep: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isValid: boolean | undefined;
 }
 

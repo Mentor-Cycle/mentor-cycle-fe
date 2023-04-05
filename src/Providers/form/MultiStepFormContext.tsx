@@ -1,9 +1,6 @@
 import { createContext, useReducer, useMemo } from "react";
 
 export enum ActionType {
-  SET_STEP = "SET_STEP",
-  NEXT_STEP = "NEXT_STEP",
-  PREV_STEP = "PREV_STEP",
   UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
   UPDATE_GLOBAL = "UPDATE_GLOBAL",
 }
@@ -13,7 +10,7 @@ interface IAction {
   payload?: any;
 }
 
-interface IFormData {
+export interface IFormData {
   firstName: string;
   lastName: string;
   email: string;
@@ -28,6 +25,7 @@ interface IFormData {
   github: string;
   description: string;
   isMentor: boolean;
+  currentStep?: number;
 }
 
 export interface IMultiStepFormContext {
@@ -59,6 +57,7 @@ const initialState = {
     github: "",
     description: "",
     isMentor: false,
+    currentStep: 1,
   },
   cities: [],
   states: [],
@@ -68,18 +67,6 @@ const actionHandlers: Record<
   string,
   (state: typeof initialState, action: IAction) => typeof initialState
 > = {
-  [ActionType.SET_STEP]: (state, action) => ({
-    ...state,
-    currentStep: action.payload,
-  }),
-  [ActionType.NEXT_STEP]: (state) => ({
-    ...state,
-    currentStep: state.currentStep + 1,
-  }),
-  [ActionType.PREV_STEP]: (state) => ({
-    ...state,
-    currentStep: state.currentStep - 1,
-  }),
   [ActionType.UPDATE_FORM_DATA]: (state, action) => ({
     ...state,
     formData: { ...state.formData, ...action.payload },
@@ -103,11 +90,8 @@ export const MultiStepFormProvider = ({
   children,
 }: MultiStepFormProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const value = useMemo(() => ({ ...state, dispatch }), [state]);
-
-  console.log(value);
   return (
-    <MultiStepFormContext.Provider value={value}>
+    <MultiStepFormContext.Provider value={{ ...state, dispatch }}>
       {children}
     </MultiStepFormContext.Provider>
   );
