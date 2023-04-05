@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper";
