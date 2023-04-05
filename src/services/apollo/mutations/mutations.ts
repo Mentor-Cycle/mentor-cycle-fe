@@ -28,3 +28,5 @@ export const CHANGE_NEW_PASSWORD = gql`
     resetUserPassword(
       userInput: { pin: $pin, email: $email, newPassword: $newPassword }
     )
+  }
+`;
