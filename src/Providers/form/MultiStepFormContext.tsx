@@ -74,7 +74,6 @@ const actionHandlers: Record<
     currentStep: action.payload,
   }),
 };
-45;
 
 const reducer = (state: typeof initialState, action: IAction) => {
   const handler = actionHandlers[action.type] || ((state) => state);

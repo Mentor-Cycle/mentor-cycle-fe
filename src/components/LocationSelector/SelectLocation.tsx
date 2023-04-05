@@ -18,7 +18,7 @@ const SelectLocation = ({
   name: string;
   value?: any;
   requiredField?: boolean;
-  isDisabled?: boolean | undefined;
+  isDisabled?: boolean;
 }) => {
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold w-full">

@@ -16,7 +16,6 @@ const PersonalInformation = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
   const [cities, setCities] = useState<City[]>([]);
-  console.log(formData);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -43,19 +42,6 @@ const PersonalInformation = () => {
   }, [formData.country, formData.state, getCountries, getStates, getCities]);
 
   const handleLocationChange = (
-    name: string,
-    newValue: SingleValue<{ label: string; value: string }>
-  ) => {
-    dispatch({
-      type: ActionType.UPDATE_FORM_DATA,
-      payload: {
-        ...formData,
-        [name]: newValue?.label,
-      },
-    });
-  };
-
-  const handleStateChange = (
     name: string,
     newValue: SingleValue<{ label: string; value: string }>
   ) => {
@@ -112,7 +98,7 @@ const PersonalInformation = () => {
               label: string;
               value: string;
             }>
-          ) => handleStateChange("state", newValue)}
+          ) => handleLocationChange("state", newValue)}
           label="Estado"
           name="state"
           isDisabled={formData.country !== "Brasil"}

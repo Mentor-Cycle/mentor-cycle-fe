@@ -1,5 +1,5 @@
-import { ButtonProps, ButtonWithIcon, IconProps } from "./Button.types";
 import clsx from "clsx";
+import { ButtonProps, ButtonWithIcon, IconProps } from "./Button.types";
 import React, { ReactElement } from "react";
 
 // eslint-disable-next-line react/display-name

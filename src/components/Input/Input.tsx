@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import * as Label from "@radix-ui/react-label";
-import { isPast, parse } from "date-fns";
 
 // eslint-disable-next-line react/display-name
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (

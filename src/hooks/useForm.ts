@@ -5,12 +5,10 @@ const useForm = () => {
   const { formData, dispatch, currentStep } = useContext(MultiStepFormContext);
 
   const updateForm = (
-    event:
-      | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | FormEvent<HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (event.target) {
-      const { name, value } = event.target as any;
+      const { name, value } = event.target;
       dispatch({
         type: ActionType.UPDATE_FORM_DATA,
         payload: {
