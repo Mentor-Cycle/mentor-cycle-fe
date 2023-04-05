@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { useFetch } from "@hooks/useFetch";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { CountryProps } from "./SelectLocation.types";
 import { ActionType } from "Providers/form";
 import { useMultiStepFormContext } from "@hooks/useForm";

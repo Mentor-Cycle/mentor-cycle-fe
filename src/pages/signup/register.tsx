@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper";
-import { useRouter } from "next/router";
-import { ActionType, MultiStepFormProvider } from "Providers/form";
+import { MultiStepFormProvider } from "Providers/form";
 import Header from "@components/Header/Header";
-import { useMultiStepFormContext } from "@hooks/useForm";
 
 const Register = () => {
   return (

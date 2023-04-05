@@ -23,15 +23,18 @@ export function patternFormatter(
   pattern: string,
   args: IncludeRequirement
 ): string {
-  return args === false
-    ? ""
-    : args === true
-    ? `(${pattern})`
-    : `(${pattern}{${(() => {
-        const min = args.min && args.min > 0 ? args.min : 1;
-        const max = args.max && args.max > min ? args.max : "";
-        return `${min},${max}`;
-      })()}})`;
+  if (args === false) {
+    return "";
+  }
+
+  if (args === true) {
+    return `(${pattern})`;
+  }
+
+  const min = args.min && args.min > 0 ? args.min : 1;
+  const max = args.max && args.max > min ? args.max : "";
+
+  return `(${pattern}{${min},${max}})`;
 }
 
 type IncludeRequirement =
