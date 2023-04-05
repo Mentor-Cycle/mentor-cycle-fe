@@ -1,5 +1,5 @@
 export type HeaderProps = {
   isLogged: boolean;
-  userName: string;
+  userName?: string;
   photoUrl?: string;
 };
