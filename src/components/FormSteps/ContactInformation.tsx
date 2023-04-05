@@ -4,7 +4,7 @@ import Textarea from "@components/Textarea";
 import useForm from "@hooks/useForm";
 
 const ContactInformation = () => {
-  const { updateForm, formData } = useForm();
+  const { updateForm, formData, updateFormTextarea } = useForm();
   const { linkedin, github, description } = formData;
 
   return (
@@ -27,7 +27,7 @@ const ContactInformation = () => {
         label="Usuário"
         name="description"
         value={description}
-        onChange={updateForm}
+        onChange={updateFormTextarea}
         defaultValue={description}
         placeholder="Faça uma breve descrição sobre você"
       />

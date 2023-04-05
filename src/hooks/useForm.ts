@@ -7,7 +7,7 @@ const useForm = () => {
   const updateForm = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (event.target) {
+    if (event) {
       const { name, value } = event.target;
       dispatch({
         type: ActionType.UPDATE_FORM_DATA,
@@ -19,6 +19,18 @@ const useForm = () => {
     }
   };
 
+  const updateFormTextarea = (event: FormEvent<HTMLTextAreaElement>) => {
+    const target = event.target as HTMLTextAreaElement;
+    const { name, value } = target;
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        [name]: value,
+      },
+    });
+  };
+
   const updateCurrentStep = (step: number) => {
     dispatch({
       type: ActionType.UPDATE_CURRENT_STEP,
@@ -26,7 +38,14 @@ const useForm = () => {
     });
   };
 
-  return { formData, updateForm, currentStep, updateCurrentStep, dispatch };
+  return {
+    formData,
+    updateForm,
+    currentStep,
+    updateCurrentStep,
+    dispatch,
+    updateFormTextarea,
+  };
 };
 
 export default useForm;
