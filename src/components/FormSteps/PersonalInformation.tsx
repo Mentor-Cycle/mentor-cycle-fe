@@ -1,84 +1,86 @@
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { parse, isValid, isPast } from "date-fns";
+import { SingleValue } from "react-select";
 import Input from "@components/Input";
 import MultiSelect from "@components/MultiSelect";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { ChangeEvent, useEffect, useState } from "react";
-import { parse, isValid, isPast } from "date-fns";
-import useForme from "@hooks/useForm";
-import { SingleValue } from "react-select";
 import { ActionType } from "Providers/form";
-import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
+import useForm from "@hooks/useForm";
 import { useFetch } from "@hooks/useFetch";
+import { Country, State, City } from "@hooks/useFetch.types";
 
 const PersonalInformation = () => {
-  const { formData, updateForm } = useForme();
-  const { getCountries, getStates, getCities } = useFetch();
-  const { dispatch } = useMultiStepFormContext();
+  const { formData, dispatch } = useForm();
   const [date, setDate] = useState<string>(formData.birthDate || "");
-  const [countries, setCountries] = useState<any>([]);
-  const [states, setStates] = useState<any>([]);
-  const [cities, setCities] = useState<any>([]);
+  const { getCountries, getStates, getCities } = useFetch();
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  console.log(formData);
 
   useEffect(() => {
-    getCountries().then((fetchedCountries) => {
-      const listCountries = fetchedCountries.map(({ nome }) => ({
-        label: nome,
-        value: nome,
-      }));
-      setCountries(listCountries);
-    });
-  }, [getCountries]);
+    const fetchCountries = async () => {
+      const fetchedCountries = await getCountries();
+      setCountries(fetchedCountries);
+    };
 
-  useEffect(() => {
-    getStates().then((fetchedStates) => {
-      const listStates = fetchedStates.map(({ nome, sigla }) => ({
-        label: nome,
-        value: nome,
-        sigla,
-      }));
-      setStates(listStates);
-    });
-  }, [getStates]);
-
-  useEffect(() => {
-    if (formData.state) {
-      const stateValue = states.find(
-        (state: any) => state.value === formData.state
-      );
-      if (stateValue) {
-        getCities(stateValue.sigla).then((fetchedCities) => {
-          const listCities = fetchedCities.map(({ nome }) => ({
-            label: nome,
-            value: nome,
-          }));
-          setCities(listCities);
-        });
+    const fetchStates = async () => {
+      if (formData.country === "Brasil") {
+        const fetchedStates = await getStates();
+        setStates(fetchedStates);
       }
-    }
-  }, [formData.state, getCities, states]);
+    };
+
+    const fetchCities = async () => {
+      if (formData.country === "Brasil" && formData.state) {
+        const fetchedCities = await getCities(formData.state);
+        setCities(fetchedCities);
+      }
+    };
+    fetchCountries();
+    fetchStates();
+    fetchCities();
+  }, [formData.country, formData.state, getCountries, getStates, getCities]);
+
+  const handleLocationChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        [name]: newValue?.label,
+      },
+    });
+  };
+
+  const handleStateChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        [name]: newValue?.label,
+      },
+    });
+  };
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const isValidDate = validateDate(value);
 
     if (isValidDate) {
-      updateForm(event);
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: {
+          ...formData,
+          birthDate: value,
+        },
+      });
     }
-  };
-
-  const onLocationSelected = (
-    name: string,
-    newValue: SingleValue<{
-      label: string;
-      value: string;
-    }>
-  ) => {
-    dispatch({
-      type: ActionType.UPDATE_FORM_DATA,
-      payload: {
-        ...formData,
-        [name]: newValue?.value,
-      },
-    });
   };
 
   const validateDate = (date: string) => {
@@ -87,7 +89,6 @@ const PersonalInformation = () => {
     const isDateInThePast = isPast(parsedDate);
     return isValidDate && isDateInThePast;
   };
-
   return (
     <>
       <div className="sm:flex gap-4">
@@ -97,12 +98,13 @@ const PersonalInformation = () => {
               label: string;
               value: string;
             }>
-          ) => onLocationSelected("country", newValue)}
+          ) => handleLocationChange("country", newValue)}
           label="Pais"
+          requiredField={true}
           name="country"
           options={countries}
           placeholder="Selecione um Pais"
-          defaultValue={{ label: "Brasil", value: "BR" }}
+          value={{ label: formData.country, value: formData.country }}
         />
         <SelectLocation
           onSelect={(
@@ -110,12 +112,17 @@ const PersonalInformation = () => {
               label: string;
               value: string;
             }>
-          ) => onLocationSelected("state", newValue)}
+          ) => handleStateChange("state", newValue)}
           label="Estado"
           name="state"
+          isDisabled={formData.country !== "Brasil"}
           options={states}
           placeholder="Selecione um estado"
-          defaultValue={{ label: formData.state, value: formData.state }}
+          value={
+            formData.country === "Brasil"
+              ? { label: formData.state, value: formData.state }
+              : undefined
+          }
         />
       </div>
       <div className="sm:flex gap-4 justify-center items-start">
@@ -125,12 +132,17 @@ const PersonalInformation = () => {
               label: string;
               value: string;
             }>
-          ) => onLocationSelected("city", newValue)}
-          label="Estado"
+          ) => handleLocationChange("city", newValue)}
+          label="Cidade"
           name="city"
           options={cities}
+          isDisabled={formData.country !== "Brasil"}
           placeholder="Selecione uma cidade"
-          defaultValue={{ label: formData.city, value: formData.city }}
+          value={
+            formData.country === "Brasil"
+              ? { label: formData.city, value: formData.city }
+              : undefined
+          }
         />
         <Input
           label="Aniversário"
@@ -142,7 +154,6 @@ const PersonalInformation = () => {
           placeholder="DD/MM/AAAA"
           maxLength={10}
           pattern="\d{2}/\d{2}/\d{4}"
-          required
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();

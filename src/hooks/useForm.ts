@@ -1,9 +1,8 @@
-import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
-import { ActionType } from "Providers/form";
-import { ChangeEvent, FormEvent } from "react";
+import { ActionType, MultiStepFormContext } from "Providers/form";
+import { ChangeEvent, FormEvent, useContext } from "react";
 
 const useForm = () => {
-  const { formData, dispatch } = useMultiStepFormContext();
+  const { formData, dispatch, currentStep } = useContext(MultiStepFormContext);
 
   const updateForm = (
     event:
@@ -22,7 +21,14 @@ const useForm = () => {
     }
   };
 
-  return { formData, updateForm };
+  const updateCurrentStep = (step: number) => {
+    dispatch({
+      type: ActionType.UPDATE_CURRENT_STEP,
+      payload: step,
+    });
+  };
+
+  return { formData, updateForm, currentStep, updateCurrentStep, dispatch };
 };
 
 export default useForm;

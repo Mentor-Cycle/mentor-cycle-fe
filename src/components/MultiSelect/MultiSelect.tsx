@@ -1,6 +1,6 @@
 import Select from "react-select";
+import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
 import { ActionType } from "Providers/form";
 
 const options = [
@@ -13,7 +13,7 @@ const options = [
 ];
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
-  const { dispatch, formData } = useMultiStepFormContext();
+  const { dispatch, formData } = useForm();
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions) {
     const uniqueSkill = selectOptions.map((option) => option.value);

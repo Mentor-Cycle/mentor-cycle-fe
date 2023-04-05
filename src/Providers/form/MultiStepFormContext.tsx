@@ -2,7 +2,7 @@ import { createContext, useMemo, useReducer } from "react";
 
 export enum ActionType {
   UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
-  UPDATE_GLOBAL = "UPDATE_GLOBAL",
+  UPDATE_CURRENT_STEP = "UPDATE_CURRENT_STEP",
 }
 
 interface IAction {
@@ -25,7 +25,6 @@ export interface IFormData {
   github: string;
   description: string;
   isMentor: boolean;
-  currentStep?: number;
 }
 
 export interface IMultiStepFormContext {
@@ -49,7 +48,7 @@ const initialState = {
     password: "",
     repeatPassword: "",
     state: "",
-    country: "Brasil",
+    country: "",
     city: "",
     birthDate: null,
     skills: [],
@@ -57,7 +56,6 @@ const initialState = {
     github: "",
     description: "",
     isMentor: false,
-    currentStep: 1,
   },
   cities: [],
   states: [],
@@ -71,11 +69,12 @@ const actionHandlers: Record<
     ...state,
     formData: { ...state.formData, ...action.payload },
   }),
-  [ActionType.UPDATE_GLOBAL]: (state, action) => ({
+  [ActionType.UPDATE_CURRENT_STEP]: (state, action) => ({
     ...state,
-    ...action.payload,
+    currentStep: action.payload,
   }),
 };
+45;
 
 const reducer = (state: typeof initialState, action: IAction) => {
   const handler = actionHandlers[action.type] || ((state) => state);

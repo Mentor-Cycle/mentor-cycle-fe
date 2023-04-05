@@ -1,31 +1,38 @@
 import Select from "react-select";
-import { SelectProps } from "./SelectLocation.types";
+import { City, Country, State } from "@hooks/useFetch.types";
 
 const SelectLocation = ({
   options,
   onSelect,
   placeholder,
-  defaultValue,
   label,
   name,
+  value,
+  isDisabled,
+  requiredField,
 }: {
-  options: [];
+  options: State[] | City[] | Country[];
   onSelect: any;
   placeholder: string;
-  defaultValue: SelectProps;
   label: string;
   name: string;
+  value?: any;
+  requiredField?: boolean;
+  isDisabled?: boolean | undefined;
 }) => {
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
       {label}
-      <span title="Obrigatório" className="text-danger-01 mx-1">
-        *
-      </span>
+      {requiredField && (
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
+      )}
       <Select
         required
         name={name}
-        defaultValue={defaultValue}
+        value={value}
+        isDisabled={isDisabled}
         options={options}
         isLoading={!options}
         isMulti={false}

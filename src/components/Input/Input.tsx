@@ -33,26 +33,17 @@ const InputComponent: FC<InputComponentProps> = ({
     if (onBlur) {
       onBlur(event);
     }
-
     const input = event.target;
     let newInvalid = !input.checkValidity();
-
-    if (name === "birthDate") {
-      const date = parse(input.value, "dd/MM/yyyy", new Date());
-      const isDateInThePast = isPast(date);
-      newInvalid = newInvalid || !isDateInThePast;
-      setErrorMessage(
-        !isDateInThePast
-          ? "A data deve ser no passado."
-          : input.validationMessage
-      );
-    } else {
-      setErrorMessage(input.validationMessage);
-    }
 
     setInvalid(newInvalid);
     if (onValidChange) {
       onValidChange(!newInvalid);
+    }
+    if (newInvalid) {
+      setErrorMessage(input.validationMessage);
+    } else {
+      setErrorMessage("");
     }
   };
 

@@ -21,6 +21,7 @@ export interface FormStep {
 
 export interface FormNavigationProps {
   isValid: boolean | undefined;
+  handleSubmit: any;
 }
 
 export interface FormDataTypes {

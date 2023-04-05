@@ -1,6 +1,6 @@
 export interface Country {
-  id: number;
-  nome: string;
+  value: number;
+  label: string;
 }
 
 export interface State {
@@ -9,8 +9,8 @@ export interface State {
 }
 
 export interface City {
-  id: number;
-  nome: string;
+  value: number;
+  label: string;
 }
 
 export interface GetCountriesParams {

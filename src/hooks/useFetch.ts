@@ -22,8 +22,8 @@ export const useFetch = (): IUseFetch => {
       const res = await fetch(url.toString(), GET_PROPS);
       const countries = await res.json();
       return countries.map(({ id: { M49 }, nome }: any) => ({
-        id: M49,
-        nome,
+        value: nome,
+        label: nome,
       }));
     },
     [GET_PROPS]
@@ -31,8 +31,11 @@ export const useFetch = (): IUseFetch => {
 
   const getStates = useCallback(async (): Promise<State[]> => {
     const res = await fetch(`${IBGE_PLACES_API_URL}/estados`, GET_PROPS);
-    const states: State[] = await res.json();
-    return states.map(({ sigla, nome }) => ({ sigla, nome }));
+    const states = await res.json();
+    return states.map(({ sigla, nome }: any) => ({
+      value: nome,
+      label: sigla,
+    }));
   }, [GET_PROPS]);
 
   const getCities = useCallback(
@@ -42,7 +45,7 @@ export const useFetch = (): IUseFetch => {
         GET_PROPS
       );
       const cities: City[] = await res.json();
-      return cities.map(({ id, nome }) => ({ id, nome }));
+      return cities.map(({ id, nome }: any) => ({ value: id, label: nome }));
     },
     [GET_PROPS]
   );
