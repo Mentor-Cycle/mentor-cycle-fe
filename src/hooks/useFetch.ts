@@ -1,12 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { IBGE_PLACES_API_URL } from "./../config/constants";
-import {
-  City,
-  GetCitiesParams,
-  GetCountriesParams,
-  IUseFetch,
-  State,
-} from "./useFetch.types";
+import { City, GetCountriesParams, IUseFetch, State } from "./useFetch.types";
 
 export const useFetch = (): IUseFetch => {
   const GET_PROPS = useMemo(

@@ -1,5 +1,4 @@
 import Select from "react-select";
-import { Dispatch, SetStateAction } from "react";
 import { SelectProps } from "./SelectLocation.types";
 
 const SelectLocation = ({

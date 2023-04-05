@@ -1,4 +1,4 @@
-import { createContext, useReducer, useMemo } from "react";
+import { createContext, useMemo, useReducer } from "react";
 
 export enum ActionType {
   UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
@@ -90,8 +90,11 @@ export const MultiStepFormProvider = ({
   children,
 }: MultiStepFormProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const value = useMemo(() => ({ ...state, dispatch }), [state]);
+
   return (
-    <MultiStepFormContext.Provider value={{ ...state, dispatch }}>
+    <MultiStepFormContext.Provider value={value}>
       {children}
     </MultiStepFormContext.Provider>
   );

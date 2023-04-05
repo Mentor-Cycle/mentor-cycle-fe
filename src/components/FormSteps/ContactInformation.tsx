@@ -1,7 +1,6 @@
 import Input from "@components/Input";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import Textarea from "@components/Textarea";
-import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
 import useForm from "@hooks/useForm";
 
 const ContactInformation = () => {

@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { StepperVerticalProps } from "./StepperVertical.types";
-import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
 import useForm from "@hooks/useForm";
 
 const StepperVertical: React.FC<StepperVerticalProps> = ({

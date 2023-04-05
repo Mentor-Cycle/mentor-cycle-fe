@@ -1,5 +1,5 @@
 import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
-import { ActionType, IFormData } from "Providers/form";
+import { ActionType } from "Providers/form";
 import { ChangeEvent, FormEvent } from "react";
 
 const useForm = () => {

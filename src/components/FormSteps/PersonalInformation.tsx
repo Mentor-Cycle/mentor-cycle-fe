@@ -4,7 +4,6 @@ import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { parse, isValid, isPast } from "date-fns";
 import useForme from "@hooks/useForm";
-import { SelectProps } from "@radix-ui/react-select";
 import { SingleValue } from "react-select";
 import { ActionType } from "Providers/form";
 import { useMultiStepFormContext } from "@hooks/useMultiStepForm";
