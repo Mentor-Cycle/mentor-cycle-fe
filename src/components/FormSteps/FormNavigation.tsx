@@ -24,7 +24,7 @@ export const FormNavigation = ({ isValid }: FormNavigationProps) => {
           "order-last sm:order-first max-w-[328px]"
         )}
         variant="secondary"
-        onClick={() => updateCurrentStep(currentStep - 1)}
+        onClick={() => updateCurrentStep((currentStep || 2) - 1)}
       >
         Voltar
       </Button>
@@ -39,7 +39,7 @@ export const FormNavigation = ({ isValid }: FormNavigationProps) => {
       ) : (
         <Button
           className={clsx("max-w-[328px]", "order-first sm:order-last")}
-          onClick={() => updateCurrentStep(currentStep + 1)}
+          onClick={() => updateCurrentStep((currentStep || 2) + 1)}
           disabled={!isValid}
         >
           Próximo
