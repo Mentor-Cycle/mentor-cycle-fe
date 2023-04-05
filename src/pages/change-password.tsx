@@ -12,7 +12,7 @@ const ChangePassword = () => {
   const [resetUserPassword] = useMutation(CHANGE_NEW_PASSWORD);
 
   const router = useRouter();
-  const { pin_code, email } = router.query;
+  const { pin, email } = router.query;
 
   const handleChangeNewPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +32,11 @@ const ChangePassword = () => {
     } else {
       try {
         await resetUserPassword({
-          variables: { newPassword, pin: pin_code, email },
+          variables: {
+            newPassword,
+            pin,
+            email,
+          },
         });
         alert("sucesso");
         formRef.current?.reset();
@@ -49,7 +53,7 @@ const ChangePassword = () => {
         <h1 className="text-primary-05 text-5xl max-md:text-center">
           Alteração de senha
         </h1>
-        <h2 className="text-sm text-gray-04">
+        <h2 className="text-sm text-gray-04 mt-1">
           Aqui você vai alterar a sua senha
         </h2>
         <form
