@@ -11,10 +11,18 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   disabled?: boolean;
   className?: string;
+  Icon?: IconType;
 }
 
 export interface IconProps {
   icon: IconType;
   size?: number;
   className?: string;
+}
+
+export interface ButtonWithIcon
+  extends React.ForwardRefExoticComponent<
+    ButtonProps & React.RefAttributes<HTMLButtonElement>
+  > {
+  Icon: React.FC<IconProps>;
 }

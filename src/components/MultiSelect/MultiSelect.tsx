@@ -23,7 +23,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
     setSkills(uniqueSkill);
   }
   return (
-    <label className="text-secondary-01 font-semibold">
+    <label htmlFor={name} className="text-secondary-01 font-semibold">
       {label}
       <Select
         isMulti
@@ -32,7 +32,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
           handleAddNewSkill(newValue as MultiSelectOptions)
         }
         options={options}
-        className="w-[672px] font-normal "
+        className="font-normal"
         classNamePrefix="p-10"
         unstyled
         placeholder="Seleciona sua especialização"
@@ -40,7 +40,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
           option: (state) =>
             `py-2 px-4 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
           control: (state) =>
-            `bg-neutral-01 rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03`,
+            `bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03`,
           menu: (state) =>
             `p-8 bg-neutral-01 mt-2 rounded-md dark:bg-secondary-01`,
           multiValue: (state) =>

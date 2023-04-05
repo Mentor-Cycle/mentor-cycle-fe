@@ -1,13 +1,20 @@
 import React, { FC, useState, ChangeEvent } from "react";
 import clsx from "clsx";
-import { InputProps, InputSize } from "./Input.types";
+import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import * as Label from "@radix-ui/react-label";
 
-const Input: FC<InputProps> = ({
+// eslint-disable-next-line react/display-name
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+  <InputComponent {...props} forwardedRef={ref} />
+));
+
+const InputComponent: FC<InputComponentProps> = ({
   size = "standard",
   label,
   name,
   disabled,
+  className,
+  forwardedRef,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
@@ -37,8 +44,15 @@ const Input: FC<InputProps> = ({
       htmlFor={name}
     >
       {label}
+      {props.required && (
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
+      )}
       <input
+        ref={forwardedRef}
         name={name}
+        disabled={disabled}
         {...props}
         className={clsx(
           sizesInput[size],
@@ -46,7 +60,6 @@ const Input: FC<InputProps> = ({
           "input-default"
         )}
         onBlur={handleBlur}
-        disabled={disabled}
       />
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>

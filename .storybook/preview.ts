@@ -2,7 +2,7 @@ import "tailwindcss/tailwind.css";
 
 export const parameters = {
   backgrounds: {
-    default: "light",
+    default: "ligth",
   },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {

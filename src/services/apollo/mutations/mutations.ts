@@ -11,6 +11,14 @@ export const SIGN_IN_USER = gql`
   }
 `;
 
+export const CREATE_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    signUp(userInput: $input) {
+      token
+    }
+  }
+`;
+
 export const CHANGE_NEW_PASSWORD = gql`
   mutation ResetUserPassword(
     $pin: String!
@@ -20,5 +28,3 @@ export const CHANGE_NEW_PASSWORD = gql`
     resetUserPassword(
       userInput: { pin: $pin, email: $email, newPassword: $newPassword }
     )
-  }
-`;

@@ -5,6 +5,7 @@ import { StepperProps } from "./Stepper.types";
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
   currentStep = 1,
+  className,
 }) => {
   const totalSteps = steps.length;
 
@@ -19,7 +20,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const incompletedStepClasses = "bg-gray-03";
 
-  const stepItem = `relative flex flex-col items-center w-full sm:w-auto sm:flex-1`;
+  const stepItem = `relative flex flex-col items-start w-full sm:w-auto sm:flex-1`;
 
   const stepSeparator = `content-[''] absolute w-full h-[3px] -left-[20%] transform translate-x-1/2 top-1/2`;
 
@@ -33,7 +34,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const renderStepItem = (step: number, index: number) => {
     return (
-      <div key={index} className={stepItem}>
+      <div key={index} className={clsx(stepItem, className)}>
         <div className={getStepClasses(index)}>{index + 1}</div>
         {index < totalSteps - 1 && (
           <div
