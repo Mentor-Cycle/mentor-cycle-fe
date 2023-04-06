@@ -19,16 +19,9 @@ export interface FormStep {
   component: JSX.Element;
 }
 
-export interface FormStepsProps {
-  stepForm: number;
-  setStepForm: React.Dispatch<React.SetStateAction<number>>;
-  isMentor: boolean;
-}
-
 export interface FormNavigationProps {
-  stepForm: number;
-  handleGoBack: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleNextOrFinish: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isValid: boolean | undefined;
+  handleSubmit: any;
 }
 
 export interface FormDataTypes {

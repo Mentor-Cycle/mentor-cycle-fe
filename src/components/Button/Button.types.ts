@@ -11,6 +11,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   disabled?: boolean;
   className?: string;
+  isLoading?: boolean;
   Icon?: IconType;
 }
 

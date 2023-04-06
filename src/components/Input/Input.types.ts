@@ -14,6 +14,7 @@ export interface InputProps
   type?: string;
   disabled?: boolean;
   ref?: React.Ref<HTMLInputElement>;
+  onValidChange?: (valid: boolean) => void;
 }
 
 export interface InputComponentProps extends InputProps {

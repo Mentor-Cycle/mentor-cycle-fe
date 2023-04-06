@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import React from "react";
 import { StepperProps } from "./Stepper.types";
+import useForm from "@hooks/useForm";
 
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
-  currentStep = 1,
   className,
+  currentStep = 1,
 }) => {
   const totalSteps = steps.length;
 
@@ -26,6 +27,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const getStepClasses = (index: number): string => {
     const isCompleted = currentStep > index;
+
     return clsx(stepClasses, {
       [completedStepClasses]: isCompleted,
       [incompletedStepClasses]: !isCompleted,

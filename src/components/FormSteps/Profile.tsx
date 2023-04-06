@@ -1,40 +1,18 @@
 import Input from "@components/Input";
 import clsx from "clsx";
-import { useState } from "react";
 import { createStringRequirements } from "utils/regex";
-import { FormDataTypes } from "./FormSteps.types";
+import useForm from "@hooks/useForm";
 
-const Profile = ({ formData }: FormDataTypes) => {
-  const { firstName, lastName, email } = formData;
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
+const Profile = () => {
+  const { updateForm, formData } = useForm();
+  const { firstName, lastName, email, password, repeatPassword } = formData;
   const passwordRequirements = createStringRequirements({
     minLength: 6,
-    includeNumber: false,
-    includeLowercase: true,
+    includeNumber: true,
+    includeLowercase: false,
     includeUppercase: false,
     includeSpecial: false,
   });
-
-  const handlePasswordChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(target.value);
-    setPasswordError(
-      password !== target.value ? "As senhas não correspondem." : ""
-    );
-  };
-
-  const handleRepeatPasswordChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setRepeatPassword(target.value);
-    setPasswordError(
-      password !== target.value ? "As senhas não correspondem." : ""
-    );
-  };
 
   return (
     <>
@@ -43,13 +21,15 @@ const Profile = ({ formData }: FormDataTypes) => {
           label="Nome"
           name="firstName"
           placeholder="Guy"
+          onBlur={updateForm}
           defaultValue={firstName}
           required
         />
         <Input
-          label="Sobremone"
+          label="Sobrenome"
           name="lastName"
           placeholder="Hawkins"
+          onBlur={updateForm}
           defaultValue={lastName}
           required
         />
@@ -59,49 +39,42 @@ const Profile = ({ formData }: FormDataTypes) => {
         name="email"
         type="email"
         placeholder="user1@gmail.com"
+        onBlur={updateForm}
         defaultValue={email}
         required
       />
       <div className="sm:flex gap-4">
         <div className="w-full">
           <Input
-            title="Senha: 8 caracteres incluindo maiúsculas, minúsculas, números e símbolos."
+            title="Senha: min 6 caracteres incluindo"
             label="Senha"
             name="password"
             placeholder="**********************"
             type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            onBlur={updateForm}
+            defaultValue={password}
             pattern={passwordRequirements.toString().slice(1, -1)}
             required
           />
           <p
             className={clsx(
-              `${
-                !password ? "block opacity-90" : "invisible opacity-0"
-              } text-xs text-secondary-01 italic  transition-all duration-700`
+              `block text-xs text-secondary-01 italic  transition-all duration-700`
             )}
           >
-            Senha: 8 caracteres incluindo maiúsculas, minúsculas, números e
-            símbolos.
+            Senha: mínimo 6 caracteres números e letras.
           </p>
         </div>
         <div className="w-full">
           <Input
             label="Confirmar senha"
-            name=""
+            name="repeatPassword"
             placeholder="**********************"
             type="password"
-            value={repeatPassword}
-            onChange={handleRepeatPasswordChange}
-            pattern={passwordRequirements.toString().slice(1, -1)}
+            onBlur={updateForm}
+            defaultValue={repeatPassword}
+            pattern={formData.password}
             required
           />
-          {passwordError && (
-            <p className="text-danger-01 text-xs italic mt-4">
-              {passwordError}
-            </p>
-          )}
         </div>
       </div>
     </>

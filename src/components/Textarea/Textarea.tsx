@@ -23,7 +23,7 @@ const Textarea = ({ label, name, disabled, ...props }: TextareaProps) => {
         disabled={disabled}
         {...props}
         className={clsx(
-          "w-full h-48 resize-none",
+          "w-full h-48 resize-none text-secondary-05",
           invalid && "input-invalid",
           "input-default"
         )}

@@ -1,52 +1,150 @@
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { parse, isValid, isPast } from "date-fns";
+import { SingleValue } from "react-select";
 import Input from "@components/Input";
-import SelectCities from "@components/LocationSelector/SelectCities";
-import { useState } from "react";
-import { FormDataTypes } from "./FormSteps.types";
 import MultiSelect from "@components/MultiSelect";
-import SelectCountry from "@components/LocationSelector/SelectCountry";
-import SelectStates from "@components/LocationSelector/SelectStates";
+import SelectLocation from "@components/LocationSelector/SelectLocation";
+import { ActionType } from "Providers/form";
+import useForm from "@hooks/useForm";
+import { useFetch } from "@hooks/useFetch";
+import { Country, State, City } from "@hooks/useFetch.types";
 
-const PersonalInformation = ({ formData }: FormDataTypes) => {
-  const [selectedCountry, setSelectedCountry] = useState<string | undefined>();
-  const [selectedState, setSelectedState] = useState<string | undefined>();
+const PersonalInformation = () => {
+  const { formData, dispatch } = useForm();
+  const [date, setDate] = useState<string>(formData.birthDate || "");
+  const { getCountries, getStates, getCities } = useFetch();
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
 
-  const handleSelectedState = (selectedState?: string) => {
-    setSelectedState(selectedState);
+  useEffect(() => {
+    const fetchCountries = async () => {
+      const fetchedCountries = await getCountries();
+      setCountries(fetchedCountries);
+    };
+
+    const fetchStates = async () => {
+      if (formData.country === "Brasil") {
+        const fetchedStates = await getStates();
+        setStates(fetchedStates);
+      }
+    };
+
+    const fetchCities = async () => {
+      if (formData.country === "Brasil" && formData.state) {
+        const fetchedCities = await getCities(formData.state);
+        setCities(fetchedCities);
+      }
+    };
+    fetchCountries();
+    fetchStates();
+    fetchCities();
+  }, [formData.country, formData.state, getCountries, getStates, getCities]);
+
+  const handleLocationChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        [name]: newValue?.label,
+      },
+    });
   };
 
-  const handleSelectedCountry = (selectedCountry?: string) => {
-    setSelectedCountry(selectedCountry);
-  };
-  const { skills } = formData;
+  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const isValidDate = validateDate(value);
 
+    if (isValidDate) {
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: {
+          ...formData,
+          birthDate: value,
+        },
+      });
+    }
+  };
+
+  const validateDate = (date: string) => {
+    const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+    const isValidDate = isValid(parsedDate);
+    const isDateInThePast = isPast(parsedDate);
+    return isValidDate && isDateInThePast;
+  };
   return (
     <>
       <div className="sm:flex gap-4">
-        <SelectCountry
+        <SelectLocation
+          onSelect={(
+            newValue: SingleValue<{
+              label: string;
+              value: string;
+            }>
+          ) => handleLocationChange("country", newValue)}
           label="Pais"
+          requiredField={true}
           name="country"
-          handleSelectedCountry={handleSelectedCountry}
+          options={countries}
+          placeholder="Selecione um Pais"
+          value={{ label: formData.country, value: formData.country }}
         />
-        <SelectStates
-          handleSelectedState={handleSelectedState}
-          selectedCountry={selectedCountry}
-          name="state"
+        <SelectLocation
+          onSelect={(
+            newValue: SingleValue<{
+              label: string;
+              value: string;
+            }>
+          ) => handleLocationChange("state", newValue)}
           label="Estado"
+          name="state"
+          isDisabled={formData.country !== "Brasil"}
+          options={states}
+          placeholder="Selecione um estado"
+          value={
+            formData.country === "Brasil"
+              ? { label: formData.state, value: formData.state }
+              : undefined
+          }
         />
       </div>
-      <div className="sm:flex gap-4 justify-center items-center">
-        <SelectCities
-          selectedState={selectedState}
-          selectedCountry={selectedCountry}
+      <div className="sm:flex gap-4 justify-center items-start">
+        <SelectLocation
+          onSelect={(
+            newValue: SingleValue<{
+              label: string;
+              value: string;
+            }>
+          ) => handleLocationChange("city", newValue)}
           label="Cidade"
           name="city"
+          options={cities}
+          isDisabled={formData.country !== "Brasil"}
+          placeholder="Selecione uma cidade"
+          value={
+            formData.country === "Brasil"
+              ? { label: formData.city, value: formData.city }
+              : undefined
+          }
         />
         <Input
           label="Aniversário"
           name="birthDate"
-          type="date"
-          placeholder="XX/XX/XXXX"
-          required
+          type="text"
+          value={date}
+          onBlur={handleBlur}
+          onChange={(e) => setDate((e.target as HTMLInputElement).value)}
+          placeholder="DD/MM/AAAA"
+          maxLength={10}
+          pattern="\d{2}/\d{2}/\d{4}"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
         />
       </div>
       <MultiSelect label="Especialização" name="skills" />

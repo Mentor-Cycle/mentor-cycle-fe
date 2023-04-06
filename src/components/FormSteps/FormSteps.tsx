@@ -1,16 +1,15 @@
-import { Button } from "@components/Button";
-import { useRef } from "react";
-import {
-  FormDataProps,
-  FormDataTypes,
-  FormNavigationProps,
-  FormStepsProps,
-} from "./FormSteps.types";
 import PersonalInformation from "./PersonalInformation";
 import Profile from "./Profile";
-import ContactInformation from "./ContactInformation";
+import useForm from "@hooks/useForm";
 import clsx from "clsx";
-import useForm from "services/apollo/hooks/useForm";
+import ContactInformation from "./ContactInformation";
+import { useRef, useState, useEffect } from "react";
+import { ActionType } from "Providers/form";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "services/apollo/mutations";
+import { useRouter } from "next/router";
+import { format, parse } from "date-fns";
+import { Button } from "@components/Button/Button";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -18,66 +17,54 @@ const FORM_STEPS = [
   { id: 3, component: ContactInformation },
 ];
 
-const FormSteps: React.FC<FormStepsProps> = ({
-  stepForm,
-  setStepForm,
-  isMentor,
-}) => {
-  const { formData, getFormData, submitForm } = useForm({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    state: "",
-    country: "",
-    city: "",
-    birthDate: new Date("01/01/1990"),
-    skills: [],
-    linkedin: "",
-    github: "",
-    description: "",
-    isMentor: false,
-  });
-
+const FormSteps: React.FC = () => {
+  const [isValid, setIsValid] = useState<boolean | undefined>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const { formData, currentStep } = useForm();
+  const { dispatch, updateCurrentStep } = useForm();
+  const [createUser] = useMutation(CREATE_USER);
+  const router = useRouter();
 
-  const currentStep = FORM_STEPS.find((step) => step.id === stepForm);
-
-  const handleGoBack = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (stepForm > 1) {
-      setStepForm((prevStep) => prevStep - 1);
+  useEffect(() => {
+    const signupInfo = sessionStorage.getItem("signup_info");
+    if (signupInfo) {
+      const { isMentor } = JSON.parse(signupInfo);
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: { isMentor },
+      });
     }
-  };
+  }, [dispatch]);
 
-  const handleNextOrFinish = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const isValid = formRef.current?.checkValidity();
+  useEffect(() => {
+    setIsValid(formRef.current?.checkValidity());
+  }, [formData, currentStep]);
+
+  const handleSubmit = async () => {
     if (isValid) {
-      const formElement = new FormData(formRef.current as HTMLFormElement);
-      const formValues = Object.fromEntries(formElement.entries());
-      const updateFormData = { ...formData, ...formValues, isMentor };
-      getFormData(updateFormData);
-      if (stepForm === 3) {
-        console.log(updateFormData);
-        submitForm();
-      } else if (stepForm < 3) {
-        setStepForm((prevStep) => prevStep + 1);
+      setIsSubmitting(true);
+      delete formData.repeatPassword;
+      const date = parse(formData.birthDate || "", "dd/MM/yyyy", new Date());
+      const isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+      try {
+        const response = await createUser({
+          variables: {
+            input: {
+              ...formData,
+              birthDate: isoDate,
+            },
+          },
+        });
+        if (response.data.signUpUser) {
+          alert("Cadastro finalizado com sucesso!");
+          router.push("/");
+        }
+      } catch (error) {
+        alert("Ocorreu um erro: " + error);
+      } finally {
+        setIsSubmitting(false);
       }
-    } else {
-      alert("Digite os campos obrigatórios");
-    }
-  };
-
-  const renderCurrentComponent = (
-    Component: React.FC<FormDataTypes>,
-    formData: FormDataProps
-  ) => {
-    return <Component formData={formData} />;
-  };
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
     }
   };
 
@@ -86,44 +73,42 @@ const FormSteps: React.FC<FormStepsProps> = ({
       className="flex flex-col space-y-2"
       ref={formRef}
       onSubmit={(e) => e.preventDefault()}
-      onKeyDown={handleKeyDown}
     >
-      <div className="mb-10">
-        {currentStep && renderCurrentComponent(currentStep.component, formData)}
+      <div className="mb-10 space-y-2">
+        {FORM_STEPS.map(({ id, component }) => {
+          if (id === currentStep) {
+            const Component = component;
+            return <Component key={id} />;
+          }
+        })}
       </div>
-      <FormNavigation
-        stepForm={stepForm}
-        handleGoBack={handleGoBack}
-        handleNextOrFinish={handleNextOrFinish}
-      />
+      <div className="flex flex-col sm:flex sm:flex-row justify-center items-center gap-4 mb-10 sm:justify-end">
+        <Button
+          className={clsx(
+            currentStep === 1 ? "hidden" : "",
+            "order-last sm:order-first max-w-[328px]"
+          )}
+          variant="secondary"
+          onClick={() => updateCurrentStep((currentStep || 2) - 1)}
+        >
+          Voltar
+        </Button>
+        <Button
+          className={clsx("max-w-[328px]", "order-first sm:order-last")}
+          isLoading={isSubmitting}
+          onClick={() => {
+            if (currentStep === 3) {
+              handleSubmit();
+            } else {
+              updateCurrentStep((currentStep || 2) + 1);
+            }
+          }}
+          disabled={!isValid || isSubmitting}
+        >
+          {currentStep === 3 ? "Finalizar" : "Próximo"}
+        </Button>
+      </div>
     </form>
-  );
-};
-
-const FormNavigation = ({
-  stepForm,
-  handleGoBack,
-  handleNextOrFinish,
-}: FormNavigationProps) => {
-  return (
-    <div className="flex flex-col sm:flex sm:flex-row justify-center items-center gap-4 mb-10 sm:justify-end">
-      <Button
-        className={clsx(
-          stepForm === 1 ? "hidden" : "",
-          "order-last sm:order-first max-w-[328px]"
-        )}
-        variant="secondary"
-        onClick={handleGoBack}
-      >
-        Voltar
-      </Button>
-      <Button
-        className={clsx("max-w-[328px]", "order-first sm:order-last")}
-        onClick={handleNextOrFinish}
-      >
-        {stepForm === 3 ? "Finalizar" : "Próximo"}
-      </Button>
-    </div>
   );
 };
 

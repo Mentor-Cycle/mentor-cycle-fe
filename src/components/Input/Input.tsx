@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import * as Label from "@radix-ui/react-label";
@@ -15,14 +15,35 @@ const InputComponent: FC<InputComponentProps> = ({
   disabled,
   className,
   forwardedRef,
+  onBlur,
+  onValidChange,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInvalid(!event.target.checkValidity() || !event.target.value);
-    setErrorMessage(event.target.validationMessage || "");
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
+  const handleBlur = (event: any) => {
+    if (onBlur) {
+      onBlur(event);
+    }
+    const input = event.target;
+    let newInvalid = !input.checkValidity();
+
+    setInvalid(newInvalid);
+    if (onValidChange) {
+      onValidChange(!newInvalid);
+    }
+    if (newInvalid) {
+      setErrorMessage(input.validationMessage);
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const sizesInput: { [key in InputSize]: string } = {
@@ -51,10 +72,12 @@ const InputComponent: FC<InputComponentProps> = ({
       )}
       <input
         ref={forwardedRef}
+        onKeyDown={handleKeyDown}
         name={name}
         disabled={disabled}
         {...props}
         className={clsx(
+          "text-secondary-05",
           sizesInput[size],
           invalid && "input-invalid",
           "input-default"
