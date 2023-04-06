@@ -3,8 +3,18 @@ import React from "react";
 import { StepperProps } from "./Stepper.types";
 import useForm from "@hooks/useForm";
 
-const Stepper: React.FC<StepperProps> = ({ steps = [1, 2, 3], className }) => {
+export const StepperWithContext: React.FC<Omit<StepperProps, "currentStep">> = (
+  props
+) => {
   const { currentStep } = useForm();
+  return <Stepper {...props} currentStep={currentStep} />;
+};
+
+const Stepper: React.FC<StepperProps> = ({
+  steps = [1, 2, 3],
+  className,
+  currentStep = 1,
+}) => {
   const totalSteps = steps.length;
 
   const containerClasses = clsx(
