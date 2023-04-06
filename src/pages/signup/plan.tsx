@@ -40,7 +40,7 @@ const Plan = () => {
         </div>
         <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
           <Button variant="secondary" className="order-last sm:order-first">
-            <Link href="/signin">Voltar</Link>
+            <Link href="/">Voltar</Link>
           </Button>
           <Button onClick={handleNext}>Próximo</Button>
         </div>
