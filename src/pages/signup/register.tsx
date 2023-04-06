@@ -1,13 +1,10 @@
 import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
-import Stepper from "@components/Stepper";
 import { MultiStepFormProvider } from "Providers/form";
 import Header from "@components/Header/Header";
-import useForm from "@hooks/useForm";
 import { StepperWithContext } from "@components/Stepper/Stepper";
 
 const Register = () => {
-  const { currentStep } = useForm();
   return (
     <MultiStepFormProvider>
       <Header isLogged userName="tonon" />
