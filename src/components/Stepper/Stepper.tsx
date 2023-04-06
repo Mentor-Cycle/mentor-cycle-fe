@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import React from "react";
 import { StepperProps } from "./Stepper.types";
+import useForm from "@hooks/useForm";
 
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
+  className,
   currentStep = 1,
 }) => {
   const totalSteps = steps.length;
@@ -19,12 +21,13 @@ const Stepper: React.FC<StepperProps> = ({
 
   const incompletedStepClasses = "bg-gray-03";
 
-  const stepItem = `relative flex flex-col items-center w-full sm:w-auto sm:flex-1`;
+  const stepItem = `relative flex flex-col items-start w-full sm:w-auto sm:flex-1`;
 
   const stepSeparator = `content-[''] absolute w-full h-[3px] -left-[20%] transform translate-x-1/2 top-1/2`;
 
   const getStepClasses = (index: number): string => {
     const isCompleted = currentStep > index;
+
     return clsx(stepClasses, {
       [completedStepClasses]: isCompleted,
       [incompletedStepClasses]: !isCompleted,
@@ -33,7 +36,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const renderStepItem = (step: number, index: number) => {
     return (
-      <div key={index} className={stepItem}>
+      <div key={index} className={clsx(stepItem, className)}>
         <div className={getStepClasses(index)}>{index + 1}</div>
         {index < totalSteps - 1 && (
           <div

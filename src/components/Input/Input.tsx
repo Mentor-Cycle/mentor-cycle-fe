@@ -1,21 +1,49 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState } from "react";
 import clsx from "clsx";
-import { InputProps, InputSize } from "./Input.types";
+import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import * as Label from "@radix-ui/react-label";
 
-const Input: FC<InputProps> = ({
+// eslint-disable-next-line react/display-name
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+  <InputComponent {...props} forwardedRef={ref} />
+));
+
+const InputComponent: FC<InputComponentProps> = ({
   size = "standard",
   label,
   name,
   disabled,
+  className,
+  forwardedRef,
+  onBlur,
+  onValidChange,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInvalid(!event.target.checkValidity() || !event.target.value);
-    setErrorMessage(event.target.validationMessage || "");
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
+  const handleBlur = (event: any) => {
+    if (onBlur) {
+      onBlur(event);
+    }
+    const input = event.target;
+    let newInvalid = !input.checkValidity();
+
+    setInvalid(newInvalid);
+    if (onValidChange) {
+      onValidChange(!newInvalid);
+    }
+    if (newInvalid) {
+      setErrorMessage(input.validationMessage);
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const sizesInput: { [key in InputSize]: string } = {
@@ -37,16 +65,24 @@ const Input: FC<InputProps> = ({
       htmlFor={name}
     >
       {label}
+      {props.required && (
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
+      )}
       <input
+        ref={forwardedRef}
+        onKeyDown={handleKeyDown}
         name={name}
+        disabled={disabled}
         {...props}
         className={clsx(
+          "text-secondary-05",
           sizesInput[size],
           invalid && "input-invalid",
           "input-default"
         )}
         onBlur={handleBlur}
-        disabled={disabled}
       />
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>

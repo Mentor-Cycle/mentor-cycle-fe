@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import { StepperVerticalProps } from "./StepperVertical.types";
+import useForm from "@hooks/useForm";
 
 const StepperVertical: React.FC<StepperVerticalProps> = ({
   steps = ["Perfil", "Dados pessoais", "Descrição de trabalho"],
-  currentStep = 1,
+  className,
+  currentStep,
 }) => {
   const ACTIVE_CLASS = `
     border-l-4 border-primary-03 
@@ -20,7 +22,7 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
   const isActive = (index: number) => currentStep === index + 1;
 
   return (
-    <div className="w-full">
+    <div className={clsx("w-full", className)}>
       {steps.map((step, index) => {
         return (
           <div
