@@ -19,6 +19,10 @@ const useForm = () => {
     }
   };
 
+  const getCurrentStep = () => {
+    return currentStep;
+  };
+
   const updateFormTextarea = (event: FormEvent<HTMLTextAreaElement>) => {
     const target = event.target as HTMLTextAreaElement;
     const { name, value } = target;
@@ -45,6 +49,7 @@ const useForm = () => {
     updateCurrentStep,
     dispatch,
     updateFormTextarea,
+    getCurrentStep,
   };
 };
 
