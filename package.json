@@ -44,7 +44,8 @@
     "react-dom": "18.2.0",
     "react-email": "1.7.15",
     "react-icons": "^4.7.1",
-    "react-select": "5.7.2"
+    "react-select": "5.7.2",
+    "react-toastify": "^9.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -59,6 +60,7 @@
     "@storybook/testing-library": "^0.0.14-next.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.5.0",
     "@types/node": "18.13.0",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "18.0.27",

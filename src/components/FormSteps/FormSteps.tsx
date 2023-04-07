@@ -10,6 +10,7 @@ import { CREATE_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
 import { format, parse } from "date-fns";
 import { Button } from "@components/Button/Button";
+import { toast } from "react-toastify";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -48,20 +49,27 @@ const FormSteps: React.FC = () => {
       const date = parse(formData.birthDate || "", "dd/MM/yyyy", new Date());
       const isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
       try {
-        const response = await createUser({
-          variables: {
-            input: {
-              ...formData,
-              birthDate: isoDate,
+        const response = await toast.promise(
+          createUser({
+            variables: {
+              input: {
+                ...formData,
+                birthDate: isoDate,
+              },
             },
-          },
-        });
+          }),
+          {
+            pending: "Aguarde um momento...",
+            success: `Usuário ${
+              formData.firstName ? formData.firstName : "MentorCycle"
+            } cadastrado com sucesso!`,
+          }
+        );
         if (response.data.signUpUser) {
-          alert("Cadastro finalizado com sucesso!");
           router.push("/");
         }
       } catch (error) {
-        alert("Ocorreu um erro: " + error);
+        toast.error(`${error}`);
       } finally {
         setIsSubmitting(false);
       }
