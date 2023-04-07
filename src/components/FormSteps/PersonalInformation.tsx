@@ -4,8 +4,8 @@ import { SingleValue } from "react-select";
 import Input from "@components/Input";
 import MultiSelect from "@components/MultiSelect";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { ActionType } from "Providers/form";
 import useForm from "@hooks/useForm";
+import { ActionType } from "Providers/form";
 import { useFetch } from "@hooks/useFetch";
 import { Country, State, City } from "@hooks/useFetch.types";
 
@@ -139,6 +139,7 @@ const PersonalInformation = () => {
           onChange={(e) => setDate((e.target as HTMLInputElement).value)}
           placeholder="DD/MM/AAAA"
           maxLength={10}
+          required
           pattern="\d{2}/\d{2}/\d{4}"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
