@@ -28,3 +28,9 @@ export const CHANGE_NEW_PASSWORD = gql`
     )
   }
 `;
+
+export const SEND_RESET_PASSWORD = gql`
+  mutation sendResetPassword($email: String!) {
+    sendResetPassword(email: $email)
+  }
+`;
