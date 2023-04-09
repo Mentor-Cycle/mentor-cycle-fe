@@ -106,4 +106,4 @@ const Spinner = ({
 };
 
 Button.Icon = ButtonIcon;
-export { Button };
+export default Button;

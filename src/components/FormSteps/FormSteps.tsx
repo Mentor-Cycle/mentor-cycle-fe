@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
 import { format, parse } from "date-fns";
-import { Button } from "@components/Button/Button";
+import Button from "@components/Button";
 import { toast } from "react-toastify";
 
 const FORM_STEPS = [

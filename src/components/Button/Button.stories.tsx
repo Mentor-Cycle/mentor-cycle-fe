@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./Button";
+import Button from "./Button";
 import { FcGoogle } from "react-icons/fc";
 
 import "../../styles/globals.css";

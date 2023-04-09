@@ -1,4 +1,4 @@
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 import ProfileCardToggle from "@components/ProfileCardToggle";
 import Link from "next/link";
 import { useRouter } from "next/router";

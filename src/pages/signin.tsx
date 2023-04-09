@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
