@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React from "react";
 import { StepperProps } from "./Stepper.types";
-import useForm from "@hooks/useForm";
 
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
@@ -34,7 +33,7 @@ const Stepper: React.FC<StepperProps> = ({
     });
   };
 
-  const renderStepItem = (step: number, index: number) => {
+  const renderStepItem = (index: number) => {
     return (
       <div key={index} className={clsx(stepItem, className)}>
         <div className={getStepClasses(index)}>{index + 1}</div>

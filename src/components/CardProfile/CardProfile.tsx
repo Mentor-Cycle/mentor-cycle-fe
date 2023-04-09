@@ -1,4 +1,4 @@
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 import Chip from "@components/Chip";
 import clsx from "clsx";
 import Image from "next/image";

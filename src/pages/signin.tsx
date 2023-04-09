@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -99,12 +99,20 @@ const SignIn: NextPage = () => {
                 label="Senha"
                 required
               />
-              <Checkbox
-                id="savedPassword"
-                label="Lembrar minha senha"
-                className="mt-2 mb-4 md:mb-12"
-                name="rememberMe"
-              />
+              <div className="flex flex-row justify-between mb-4 md:mb-12">
+                <Checkbox
+                  id="savedPassword"
+                  label="Lembrar minha senha"
+                  className="mt-2"
+                  name="rememberMe"
+                />
+                <Link
+                  href="/request-change-password"
+                  className="mt-2.5 text-sm text-gray-05 hover:underline"
+                >
+                  Esqueceu sua senha?
+                </Link>
+              </div>
             </div>
             <Button size="small" className="mb-4 md:mb-12">
               Entrar

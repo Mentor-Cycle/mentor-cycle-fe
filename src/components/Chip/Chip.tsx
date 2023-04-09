@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ChipProps } from "./Chip.types";
 
-function Chip({ variant, children }: ChipProps) {
+const Chip = ({ variant, children }: ChipProps) => {
   const variantClasses = {
     primary: `text-secondary-03 bg-gray-01 dark:bg-secondary-01 dark:text-neutral-01  `,
     secondary: `text-secondary-05 bg-primary-01 `,
@@ -17,6 +17,6 @@ function Chip({ variant, children }: ChipProps) {
       {children}
     </span>
   );
-}
+};
 
 export default Chip;
