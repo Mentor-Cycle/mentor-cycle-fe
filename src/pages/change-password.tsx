@@ -2,10 +2,12 @@ import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Header from "@components/Header/Header";
 import Input from "@components/Input/Input";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useRef, useState } from "react";
 import { TbArrowLeft } from "react-icons/tb";
+import { toast } from "react-toastify";
 import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
 
 const ChangePassword = () => {
@@ -29,7 +31,7 @@ const ChangePassword = () => {
     const isValidty = formRef.current?.checkValidity();
 
     if (!isValidty || newPassword != newPasswordConfirm) {
-      alert("senhas não coincidem");
+      toast.error("Senhas não coincidem");
       return;
     } else {
       try {
@@ -40,7 +42,7 @@ const ChangePassword = () => {
             email,
           },
         });
-        alert("sucesso");
+        toast.success("Sua senha foi alterada");
         formRef.current?.reset();
         setsucessChangePassword(true);
         setTimeout(() => {
@@ -48,6 +50,8 @@ const ChangePassword = () => {
         }, 5000);
       } catch (er) {
         console.log(er);
+        toast.error("Não foi possível alterar senha");
+        formRef.current?.reset();
       }
     }
   };
