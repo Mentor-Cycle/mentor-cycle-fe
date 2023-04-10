@@ -23,7 +23,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
     });
   }
 
-  const defaultValue = formData.skills.map((skill) => ({
+  const defaultValue = formData?.skills.map((skill) => ({
     label: skill,
     value: skill,
   }));

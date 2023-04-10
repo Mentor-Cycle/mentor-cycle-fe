@@ -1,5 +1,4 @@
-import { Meta, StoryFn, StoryObj } from "@storybook/react";
-import { InputProps } from "./Input.types";
+import { Meta, StoryObj } from "@storybook/react";
 import Input from "./Input";
 
 const meta = {
@@ -21,23 +20,5 @@ export const Default: Story = {
     name: "input",
     label: "Usuário",
     placeholder: "Digite seu usuário",
-  },
-};
-
-export const Required: Story = {
-  args: {
-    name: "input",
-    label: "Input Obrigatório",
-    required: true,
-    placeholder: "Digite seu email",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    name: "input",
-    label: "Input desabilitado",
-    disabled: true,
-    placeholder: "Digite seu nome",
   },
 };

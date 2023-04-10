@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -103,7 +103,7 @@ const SignIn: NextPage = () => {
                 <Checkbox
                   id="savedPassword"
                   label="Lembrar minha senha"
-                  className="mt-2 mb-4 md:mb-12"
+                  className="mt-2"
                   name="rememberMe"
                 />
                 <Link

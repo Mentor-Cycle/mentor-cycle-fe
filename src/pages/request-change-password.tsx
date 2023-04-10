@@ -2,7 +2,7 @@ import logoCircle from "../public/circle.png";
 import Image from "next/image";
 import logo from "../public/logo.png";
 import Input from "@components/Input";
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 import { useMutation } from "@apollo/client";
 import { SEND_RESET_PASSWORD } from "services/apollo/mutations";
 import { FormEvent, useState } from "react";

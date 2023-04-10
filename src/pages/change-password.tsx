@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 import Header from "@components/Header/Header";
 import Input from "@components/Input/Input";
 import Link from "next/link";
