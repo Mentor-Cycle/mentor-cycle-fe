@@ -13,7 +13,7 @@ import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
 const ChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [resetUserPassword, { loading }] = useMutation(CHANGE_NEW_PASSWORD);
-  const [sucessChangePassword, setsucessChangePassword] = useState(false);
+  const [sucessChangePassword, setsucessChangePassword] = useState(true);
 
   const router = useRouter();
   const { pin, email } = router.query;
@@ -70,14 +70,14 @@ const ChangePassword = () => {
               <h1 className="text-success-01 text-5xl text-center">
                 Sua senha foi alterada com sucesso!!!
               </h1>
-
               <span className="text-gray-04 ">
                 Você será direcionado a área de login
               </span>
             </div>
-            <div className="flex flex-col items-center py-16">
-              <span>[Nome do usuário]</span>
-              <span>Sua senha foi alterada com sucesso</span>
+            <div className=" py-16">
+              <span className="text-center">
+                Sua senha foi alterada com sucesso
+              </span>
             </div>
           </main>
         </div>
