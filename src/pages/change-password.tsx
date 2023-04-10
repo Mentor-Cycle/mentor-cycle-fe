@@ -12,7 +12,7 @@ import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
 
 const ChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [resetUserPassword] = useMutation(CHANGE_NEW_PASSWORD);
+  const [resetUserPassword, { loading }] = useMutation(CHANGE_NEW_PASSWORD);
   const [sucessChangePassword, setsucessChangePassword] = useState(false);
 
   const router = useRouter();
@@ -50,7 +50,7 @@ const ChangePassword = () => {
         }, 5000);
       } catch (er) {
         console.log(er);
-        toast.error("Não foi possível alterar senha");
+        toast.error("Não foi possivel alterar sua senha");
         formRef.current?.reset();
       }
     }
@@ -109,12 +109,12 @@ const ChangePassword = () => {
               required
             />
             <div className="flex gap-4 mt-9 w-full ">
-              <Link href={{ pathname: "/signin" }} className="w-full">
+              <Link href={{ pathname: "/" }} className="w-full">
                 <Button variant="secondary" className="">
                   Cancelar
                 </Button>
               </Link>
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" isLoading={loading}>
                 Confirmar
               </Button>
             </div>
