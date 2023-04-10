@@ -13,7 +13,7 @@ import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
 const ChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [resetUserPassword, { loading }] = useMutation(CHANGE_NEW_PASSWORD);
-  const [sucessChangePassword, setsucessChangePassword] = useState(true);
+  const [sucessChangePassword, setsucessChangePassword] = useState(false);
 
   const router = useRouter();
   const { pin, email } = router.query;
