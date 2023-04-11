@@ -55,4 +55,18 @@ describe("button", () => {
     expect(click).toHaveBeenCalled();
     expect(icon).toBeInTheDocument();
   });
+
+  it("button loading", () => {
+    const { getByTestId } = render(
+      <Button type="submit" variant="secondary" isLoading>
+        Enviar
+      </Button>
+    );
+
+    const button = getByTestId("button");
+    const spinner = getByTestId("spinner");
+
+    expect(button).toBeTruthy();
+    expect(spinner).toBeInTheDocument();
+  });
 });
