@@ -2,14 +2,18 @@ import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Header from "@components/Header/Header";
 import Input from "@components/Input/Input";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
+import { TbArrowLeft } from "react-icons/tb";
+import { toast } from "react-toastify";
 import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
 
 const ChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [resetUserPassword] = useMutation(CHANGE_NEW_PASSWORD);
+  const [resetUserPassword, { loading }] = useMutation(CHANGE_NEW_PASSWORD);
+  const [sucessChangePassword, setsucessChangePassword] = useState(false);
 
   const router = useRouter();
   const { pin, email } = router.query;
@@ -27,7 +31,7 @@ const ChangePassword = () => {
     const isValidty = formRef.current?.checkValidity();
 
     if (!isValidty || newPassword != newPasswordConfirm) {
-      alert("senhas não coincidem");
+      toast.error("Senhas não coincidem");
       return;
     } else {
       try {
@@ -38,55 +42,85 @@ const ChangePassword = () => {
             email,
           },
         });
-        alert("sucesso");
+        toast.success("Sua senha foi alterada");
         formRef.current?.reset();
+        setsucessChangePassword(true);
+        setTimeout(() => {
+          router.push("/");
+        }, 5000);
       } catch (er) {
         console.log(er);
+        toast.error("Não foi possivel alterar sua senha");
+        formRef.current?.reset();
       }
     }
   };
-
   return (
     <div className="flex flex-col gap-[81px] items-center">
       <Header isLogged={false} />
-      <div className="w-[672px] flex flex-col items-center justify-center h-full max-md:px-5  max-md:w-4/5">
-        <h1 className="text-primary-05 text-5xl max-md:text-center">
-          Alteração de senha
-        </h1>
-        <h2 className="text-sm text-gray-04 mt-1">
-          Aqui você vai alterar a sua senha
-        </h2>
-        <form
-          className="flex flex-col gap-3 w-full mt-8"
-          onSubmit={handleChangeNewPassword}
-          ref={formRef}
-        >
-          <Input
-            type="password"
-            name="newPassword"
-            label="Nova senha"
-            placeholder="************"
-            required
-          />
-          <Input
-            type="password"
-            name="newPasswordConfirm"
-            label="Confirmar nova senha"
-            placeholder="************"
-            required
-          />
-          <div className="flex gap-4 mt-9 w-full ">
-            <Link href={{ pathname: "/signin" }} className="w-full">
-              <Button variant="secondary" className="">
-                Cancelar
+      {sucessChangePassword ? (
+        <div className=" w-full px-40">
+          <Link href={{ pathname: "/" }}>
+            <span className="flex items-center self-start gap-2">
+              <TbArrowLeft /> Voltar a área de login
+            </span>
+          </Link>
+          <main className="flex flex-col items-center mt-28 px-28  ">
+            <div className="flex flex-col gap-6 items-center border-b border-b-gray-01 pb-16 ">
+              <h1 className="text-success-01 text-5xl text-center">
+                Sua senha foi alterada com sucesso!!!
+              </h1>
+              <span className="text-gray-04 ">
+                Você será direcionado a área de login
+              </span>
+            </div>
+            <div className=" py-16">
+              <span className="text-center">
+                Sua senha foi alterada com sucesso
+              </span>
+            </div>
+          </main>
+        </div>
+      ) : (
+        <div className="w-[672px] flex flex-col items-center justify-center h-full max-md:px-5  max-md:w-4/5">
+          <h1 className="text-primary-05 text-5xl max-md:text-center">
+            Alteração de senha
+          </h1>
+          <h2 className="text-sm text-gray-04 mt-1">
+            Aqui você vai alterar a sua senha
+          </h2>
+          <form
+            className="flex flex-col gap-3 w-full mt-8"
+            onSubmit={handleChangeNewPassword}
+            ref={formRef}
+          >
+            <Input
+              type="password"
+              name="newPassword"
+              label="Nova senha"
+              placeholder="************"
+              required
+            />
+            <Input
+              type="password"
+              name="newPasswordConfirm"
+              label="Confirmar nova senha"
+              placeholder="************"
+              required
+            />
+            <div className="flex gap-4 mt-9 w-full ">
+              <Link href={{ pathname: "/" }} className="w-full">
+                <Button variant="secondary" className="">
+                  Cancelar
+                </Button>
+              </Link>
+              <Button type="submit" variant="primary" isLoading={loading}>
+                Confirmar
               </Button>
-            </Link>
-            <Button type="submit" variant="primary">
-              Confirmar
-            </Button>
-          </div>
-        </form>
-      </div>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
