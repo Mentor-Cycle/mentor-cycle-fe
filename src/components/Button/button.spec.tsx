@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@testing-library/react";
 
 import { FaApple } from "react-icons/fa";
-import { Button } from "./Button";
+import Button from "./Button";
 
 describe("button", () => {
   it("button primary enabled", () => {
