@@ -60,7 +60,7 @@ yarn install
 ```
 Isso fará com que o gerenciador de pacotes do node, baixe todas as dependências necessárias para rodar, finalizado a instalação rode o comando:<br>
 ```bash
-yarn run dev
+yarn dev
 ```
 
 5. Agora com tudo instalado e rodando, basta você criar a sua branch, executar a sua tarefa e após finalizado lembrar-se de adicionar ao stage com os seguintes comandos:
