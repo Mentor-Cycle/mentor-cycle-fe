@@ -6,5 +6,5 @@ export type NavBarProps = {
     action: keyof MenuClickActions;
   }[];
   menuClickActions: MenuClickActions;
-  className: string;
+  className?: string;
 };
