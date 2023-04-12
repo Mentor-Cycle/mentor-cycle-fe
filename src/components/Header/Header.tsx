@@ -3,14 +3,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserContext } from "providers/user/AppContext";
 import { useContext } from "react";
-import { MdEmail, MdMenu, MdNotifications } from "react-icons/md";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdEmail, MdNotifications } from "react-icons/md";
 
+import NavBar from "@components/NavBar";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { BsFillHouseDoorFill } from "react-icons/bs";
 const linkStyle = "flex items-center justify-center";
-const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
+const itemsMenuStyle =
+  "flex gap-2 items-center justify-center hover:text-gray-04";
 
 export default function Header() {
   const { user } = useContext(UserContext);
   const { isLogged, firstName, photoUrl } = user;
+  const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
+
+  const router = useRouter();
+
+  const itemsMenu: Array<{
+    text: string;
+    action: keyof typeof menuClickActions;
+  }> = [
+    { text: "Editar Perfil", action: "editprofile" },
+    { text: "Configurações", action: "settings" },
+    { text: "Dark Mode", action: "theme" },
+    { text: "Trocar de perfil", action: "changeprofile" },
+    { text: "Sair", action: "logout" },
+  ];
+  const menuClickActions = {
+    editprofile: () => router.push("/edit-perfil"),
+    settings: () => console.log("configuracoes"),
+    theme: () => console.log("darkmode"),
+    changeprofile: () => console.log("trocar de perfil"),
+    logout: () => console.log("sair"),
+  };
 
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto">
@@ -26,10 +53,10 @@ export default function Header() {
         </Link>
       </figure>
       {isLogged && (
-        <ul className="w-4/5 h-full flex flex-row justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
+        <ul className="w-4/5 h-full flex justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
           <li className={linkStyle}>
             <Link className={itemsMenuStyle} href="/home">
-              <MdMenu size={24} />
+              <BsFillHouseDoorFill size={24} />
               <span className="hidden min-[695px]:inline-flex text-base">
                 Home
               </span>
@@ -52,10 +79,13 @@ export default function Header() {
             </Link>
           </li>
           <li className={clsx(linkStyle, "mr-10 lg:mr-16 xl:mr-36")}>
-            <Link
-              className={clsx(itemsMenuStyle, "items-center")}
-              href="/login"
-            >
+            <div className={clsx(itemsMenuStyle, "items-center")}>
+              {toggleMenuProfile && (
+                <NavBar
+                  itemsMenu={itemsMenu}
+                  menuClickActions={menuClickActions}
+                />
+              )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
                   src={photoUrl || "/imgCard.png"}
@@ -65,10 +95,19 @@ export default function Header() {
                   className="object-cover"
                 />
               </figure>
-              <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
-                {firstName}
-              </h1>
-            </Link>
+
+              <div className="flex gap-20 items-center ">
+                <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
+                  {firstName}
+                </h1>
+                <button
+                  onClick={() => setToggleMenuProfile(!toggleMenuProfile)}
+                >
+                  {toggleMenuProfile ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                </button>
+              </div>
+              <button>TESTE</button>
+            </div>
           </li>
         </ul>
       )}
