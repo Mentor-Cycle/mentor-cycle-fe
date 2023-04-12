@@ -9,7 +9,7 @@ const Toggle = ({ isToggle, setIsToggle }: ToggleProps) => {
     >
       <div
         className={clsx(
-          "absolute h-5 w-5 rounded-full bg-primary-01 top-[1.5px] left-[2px] transition-all duration-200 dark:bg-primary-02 ",
+          "absolute h-5 w-5 rounded-full bg-primary-01 top-[1px] left-[2px] transition-all duration-200 dark:bg-primary-02 ",
           {
             "translate-x-[112%] ": isToggle,
           }
