@@ -9,6 +9,12 @@ import "../../styles/globals.css";
 const meta = {
   title: "Forms/Button",
   component: Button,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/Tyq7mFQg4xwrP29dXoSUgX/Principal---Mentor-Cycle?node-id=1921-5556&t=5VEDZyGbU0zaaeNw-0",
+    },
+  },
   argTypes: {
     children: { control: "text" },
     variant: {
@@ -29,31 +35,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     children: "Primary Button",
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    children: "Secondary Button",
-    variant: "secondary",
+    variant: "primary",
     size: "regular",
   },
-};
-export const Disabled: Story = {
-  args: {
-    children: "Disabled Button",
-    variant: "primary",
-    disabled: true,
-  },
-};
-export const WithIcon: Story = {
-  args: {
-    children: "With Icon",
-  },
-  render: (args) => (
-    <Button {...args}>
-      <Button.Icon icon={FcGoogle} />
-      {args.children}
-    </Button>
-  ),
 };

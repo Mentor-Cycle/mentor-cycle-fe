@@ -4,6 +4,13 @@ import Textarea from "./Textarea";
 const meta = {
   title: "Forms/Textarea",
   component: Textarea,
+  parameters: {
+    layout: "padded",
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/KnsardnDQ2lDKUYo58G8Pf/Mentor-Cycle?node-id=1921-5594&t=GMEw33yWzk1MdUGZ-0",
+    },
+  },
 } satisfies Meta<typeof Textarea>;
 
 export default meta;
@@ -14,22 +21,5 @@ export const Default: Story = {
     name: "textarea",
     label: "Usuário",
     placeholder: "Digite seu usuário",
-  },
-};
-export const Required: Story = {
-  args: {
-    name: "textarea",
-    label: "Textarea Obrigatório",
-    required: true,
-    placeholder: "Digite seu email",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    name: "textarea",
-    label: "Textarea desabilitado",
-    disabled: true,
-    placeholder: "Digite seu nome",
   },
 };

@@ -1,6 +1,4 @@
-import logoCircle from "../public/circle.png";
 import Image from "next/image";
-import logo from "../public/logo.png";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import { useMutation } from "@apollo/client";
@@ -35,7 +33,7 @@ function ChangePassword() {
       <div className="bg-gradient-to-r from-primary-04 to-primary-02">
         <Image
           alt="Mentor Cycle Logo"
-          src={logo}
+          src={"/logo.png"}
           width={96}
           height={88}
           className="relative mx-auto mt-22 md:ml-14 md:mb-64 lg:ml-24 xl:ml-40"
@@ -52,7 +50,7 @@ function ChangePassword() {
         <div className="absolute hidden md:block md:bottom-20 sm:pl-80 sm:left-6 lg:pl-96 lg:left-[60px] xl:left-40">
           <Image
             alt="logo mentor cycle -circle"
-            src={logoCircle}
+            src={"/circle.png"}
             width={100}
             height={100}
           />

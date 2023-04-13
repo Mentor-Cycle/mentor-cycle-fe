@@ -6,6 +6,12 @@ import { Meta, StoryObj } from "@storybook/react";
 const meta = {
   title: "Data Display/ProfileCardToggle",
   component: ProfileCard,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/KnsardnDQ2lDKUYo58G8Pf/Mentor-Cycle?node-id=1921-5715&t=GMEw33yWzk1MdUGZ-0",
+    },
+  },
 } satisfies Meta<typeof ProfileCard>;
 
 export default meta;

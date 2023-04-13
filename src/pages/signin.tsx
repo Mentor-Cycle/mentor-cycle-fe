@@ -1,7 +1,5 @@
 import { FormEvent, useRef } from "react";
 import Image from "next/image";
-import logoCircle from "../public/circle.png";
-import logo from "../public/logo.png";
 import { useMutation } from "@apollo/client";
 import { NextPage } from "next";
 import Link from "next/link";
@@ -11,6 +9,7 @@ import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Checkbox from "@components/Checkbox";
 import Button from "@components/Button";
+import MentoringLinkCard from "@components/MentoringLinkCard/MentoringLinkCard";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -48,7 +47,7 @@ const SignIn: NextPage = () => {
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"
-          src={logo}
+          src={"/logo.png"}
           width={96}
           height={88}
           className="mx-auto md:mx-0 md:mt-22"
@@ -65,7 +64,7 @@ const SignIn: NextPage = () => {
         <div className="absolute hidden md:block md:bottom-3 md:-right-11">
           <Image
             alt="logo mentor cycle -circle"
-            src={logoCircle}
+            src={"/circle.png"}
             width={100}
             height={100}
           />

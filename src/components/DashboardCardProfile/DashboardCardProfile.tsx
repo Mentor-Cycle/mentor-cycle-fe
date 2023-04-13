@@ -1,5 +1,4 @@
 import Image from "next/image";
-import imgCard from "../../public/imgCard.png";
 import { Props } from "./DashboardCardProfile.types";
 import Chip from "../Chip";
 
@@ -13,7 +12,7 @@ const DashboardCardProfile = ({
     <div className="p-4 flex justify-center items-center gap-4">
       <div className="rounded-lg overflow-hidden w-24 h-24">
         <Image
-          src={avatar ? avatar : imgCard}
+          src={avatar ? avatar : "/imgCard.png"}
           alt="avatar profile"
           width={98}
           height={98}
