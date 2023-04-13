@@ -1,13 +1,23 @@
-import { StoryObj } from "@storybook/react";
 import Modal from "./Modal";
-export default {
+import { Meta, StoryObj } from "@storybook/react";
+
+const meta = {
   title: "Data Display/Modal",
   component: Modal,
-};
-export const Default: StoryObj<typeof Modal> = {
+} satisfies Meta<typeof Modal>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
   args: {
-    modalTitle: "TITULO MODAL",
-    modalDescription: "DESCRIÇÃO MODAL",
-    modalOpen: <button>Abrir</button>,
+    children: (
+      <div>
+        <h1>Title</h1>
+        <p>Content</p>
+      </div>
+    ),
+    open: false,
+    onOpenChange: () => {},
   },
 };
