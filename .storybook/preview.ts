@@ -1,9 +1,8 @@
-import "tailwindcss/tailwind.css";
+import "../src/styles/globals.css";
 
 export const parameters = {
-  backgrounds: {
-    default: "ligth",
-  },
+  layout: "centered",
+  backgrounds: { disabled: true },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {

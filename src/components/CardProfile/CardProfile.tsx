@@ -18,7 +18,7 @@ const CardProfile = ({
     <div
       className={clsx(
         MAX_WIDTH,
-        "px-11 py-6  border border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
+        "px-6 py-6  border border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
       )}
     >
       <div>

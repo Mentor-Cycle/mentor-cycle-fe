@@ -1,6 +1,5 @@
 import * as Select from "@radix-ui/react-select";
 import Image from "next/image";
-import imgCard from "../../public/imgCard.png";
 import Chip from "../../components/Chip";
 import clsx from "clsx";
 import { useState } from "react";
@@ -37,7 +36,7 @@ const MentoringLinkCard = ({
       <div className="flex flex-col sm:flex sm:flex-row gap-4 ">
         <div className="rounded-lg overflow-hidden w-24 h-24">
           <Image
-            src={avatar || imgCard}
+            src={avatar || "/imgCard.png"}
             alt="avatar profile"
             width={98}
             height={98}
