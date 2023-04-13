@@ -6,8 +6,10 @@ import { SEND_RESET_PASSWORD } from "services/apollo/mutations";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Modal from "@components/Modal";
 
 function ChangePassword() {
+  const [open, setOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [sendResetPasswordEmail, { loading }] =
     useMutation(SEND_RESET_PASSWORD);
@@ -27,6 +29,7 @@ function ChangePassword() {
     if (errors) {
       toast.error("Erro ao enviar email");
     }
+    setOpen(true);
   };
   return (
     <main className="grid grid-cols-1 md:grid-cols-[395px,1fr] lg:grid-cols-[495px,1fr] xl:grid-cols-[595px,1fr] min-h-screen">
@@ -90,6 +93,24 @@ function ChangePassword() {
           </form>
         </div>
       </div>
+      <Modal
+        onOpenChange={setOpen}
+        open={open}
+        closeModalComponent={
+          <button className="py-3 px-16 border-primary-03 border text-primary-03 font-bold rounded-lg mt-20 ml-48 hover:text-neutral-01 hover:bg-primary-03">
+            Finalizar
+          </button>
+        }
+      >
+        <div>
+          <h1 className="text-3xl font-bold text-gray-05">
+            Solicitação enviada!!
+          </h1>
+          <p className="text-base font-semibold text-gray-05 mt-6">
+            Um e-mail foi enviado para a troca de senha
+          </p>
+        </div>
+      </Modal>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { ButtonProps, ButtonWithIcon, IconProps } from "./Button.types";
 import React, { ReactElement } from "react";
+import { ButtonProps, ButtonWithIcon, IconProps } from "./Button.types";
 
 // eslint-disable-next-line react/display-name
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -55,6 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         disabled={disabled}
         {...props}
+        data-testid="button"
       >
         {isLoading ? <Spinner size={24} /> : children}
       </button>
@@ -67,7 +68,7 @@ const ButtonIcon: React.FC<IconProps> = ({
   size = 24,
   className,
 }) => {
-  return <Icon size={size} className={className} />;
+  return <Icon size={size} className={className} data-testid="icon" />;
 };
 
 interface SpinnerProps {
@@ -85,6 +86,7 @@ const Spinner = ({
       viewBox="0 0 38 38"
       xmlns="http://www.w3.org/2000/svg"
       stroke={color}
+      data-testid="spinner"
     >
       <g fill="none" fillRule="evenodd">
         <g transform="translate(1 1)" strokeWidth="2">
