@@ -1,3 +1,4 @@
+import Chip from "@components/Chip/Chip";
 import { Meta, StoryObj } from "@storybook/react";
 import MentoringWeekCard from "./MentoringWeekCard";
 
@@ -28,7 +29,19 @@ export const Default: Story = {
     day: "Segunda-feira",
     description:
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.",
-    hour: "19h30",
-    status: "A confirmar",
+    chips: [
+      <Chip variant="primary" key="1">
+        primary
+      </Chip>,
+      <Chip variant="secondary" key="2">
+        secondary
+      </Chip>,
+      <Chip variant="tertiary" key="3">
+        tertiary
+      </Chip>,
+      <Chip variant="quartenary" key="4">
+        quartenary
+      </Chip>,
+    ],
   },
 };

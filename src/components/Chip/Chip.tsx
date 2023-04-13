@@ -6,6 +6,7 @@ const Chip = ({ variant, children }: ChipProps) => {
     primary: `text-secondary-03 bg-gray-01 dark:bg-secondary-01 dark:text-neutral-01  `,
     secondary: `text-secondary-05 bg-primary-01 `,
     tertiary: `text-neutral-01 bg-primary-05 `,
+    quartenary: `text-neutral-01 bg-secondary-02`,
   };
   return (
     <span

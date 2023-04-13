@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export type Props = {
   day:
     | "Domingo"
@@ -8,6 +10,5 @@ export type Props = {
     | "Sexta-feira"
     | "Sábado";
   description: string;
-  status: "A confirmar" | "Confirmada";
-  hour: string;
+  chips: ReactElement[];
 };
