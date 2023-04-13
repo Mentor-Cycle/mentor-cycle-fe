@@ -41,3 +41,10 @@ export const Tertiary: Story = {
     children: "Tertiary",
   },
 };
+
+export const Quartenary: Story = {
+  args: {
+    variant: "quartenary",
+    children: "Quartenary",
+  },
+};
