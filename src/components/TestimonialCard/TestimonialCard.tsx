@@ -1,5 +1,4 @@
 import Image from "next/image";
-import testimonialImg from "../../public/avatarTestimonial.png";
 import TruncatedText from "./TruncatedText";
 import { PropsTestimonialCard } from "./TestimonialCard.types";
 
@@ -12,7 +11,7 @@ const TestimonialCard = ({ maxLines, text }: PropsTestimonialCard) => {
     >
       <div>
         <Image
-          src={testimonialImg}
+          src={"/imgCard.png"}
           alt="testimonial avatar"
           width={64}
           height={64}
