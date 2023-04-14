@@ -11,7 +11,7 @@ const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
 
 export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
   return (
-    <header className="flex justify-items-start w-full h-20 bg-neutral-01 border-gray-02 border-b">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b max-w-6xl m-auto">
       <figure className="w-1/5 h-full">
         <Link href="/home">
           <Image
