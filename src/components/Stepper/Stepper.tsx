@@ -5,15 +5,21 @@ import { StepperProps } from "./Stepper.types";
 const Stepper: React.FC<StepperProps> = ({
   steps = [1, 2, 3],
   className,
+  size = "regular",
   currentStep = 1,
 }) => {
   const totalSteps = steps.length;
+
+  const sizeClasses = {
+    regular: `w-24 h-8`,
+    small: `w-16 h-5 text-xs`,
+  };
 
   const containerClasses = clsx(
     "flex justify-between items-center mb-4 w-full max-w-2xl"
   );
   const stepClasses = clsx(
-    "w-24 h-8 flex items-center justify-center relative rounded-lg text-neutral-01 transition-colors duration-500 z-10"
+    " flex items-center justify-center relative rounded-lg text-neutral-01 transition-colors duration-500 z-10"
   );
   const completedStepClasses =
     "bg-primary-03 transition-colors duration-500 bg-primary-03";
@@ -27,32 +33,40 @@ const Stepper: React.FC<StepperProps> = ({
   const getStepClasses = (index: number): string => {
     const isCompleted = currentStep > index;
 
-    return clsx(stepClasses, {
+    return clsx(stepClasses, sizeClasses[size], {
       [completedStepClasses]: isCompleted,
       [incompletedStepClasses]: !isCompleted,
     });
   };
 
-  const renderStepItem = (index: number) => {
+  const renderStepItem = ({
+    _,
+    stepIndex,
+  }: {
+    _: number;
+    stepIndex: number;
+  }) => {
     return (
-      <div key={index} className={clsx(stepItem, className)}>
-        <div className={getStepClasses(index)}>{index + 1}</div>
-        {index < totalSteps - 1 && (
+      <div key={stepIndex} className={clsx(stepItem, className)}>
+        <div className={getStepClasses(stepIndex)}>{stepIndex + 1}</div>
+        {stepIndex < totalSteps - 1 && (
           <div
             className={clsx(stepSeparator, {
-              "bg-primary-03": currentStep > index + 1,
-              "bg-gray-03": currentStep <= index + 1,
+              "bg-primary-03": currentStep > stepIndex + 1,
+              "bg-gray-03": currentStep <= stepIndex + 1,
             })}
           />
         )}
       </div>
     );
   };
+
   return (
     <>
-      <div className={containerClasses}>{steps.map(renderStepItem)}</div>
+      <div className={containerClasses}>
+        {steps.map((_, stepIndex) => renderStepItem({ _, stepIndex }))}
+      </div>
     </>
   );
 };
-
 export default Stepper;

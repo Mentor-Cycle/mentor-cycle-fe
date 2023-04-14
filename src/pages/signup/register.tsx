@@ -23,6 +23,7 @@ const MainSection = () => {
           steps={[1, 2, 3]}
           currentStep={currentStep}
           className="hidden sm:block"
+          size="regular"
         />
         <div className="max-w-xs">
           <h3 className="font-bold text-xl">Status do seu registro</h3>
