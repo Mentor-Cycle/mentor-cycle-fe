@@ -5,7 +5,10 @@ import useForm from "@hooks/useForm";
 
 const Profile = () => {
   const { updateForm, formData } = useForm();
-  const { firstName, lastName, email, password, repeatPassword } = formData;
+  const { firstName, lastName, email } = JSON.parse(
+    sessionStorage.getItem("signup_info") || "{}"
+  );
+  const { password, repeatPassword } = formData;
   const passwordRequirements = createStringRequirements({
     minLength: 6,
     includeNumber: true,

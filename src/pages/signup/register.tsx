@@ -6,9 +6,13 @@ import Stepper from "@components/Stepper/Stepper";
 import useForm from "@hooks/useForm";
 
 const Register = () => {
+  const { firstName, lastName, email, photoUrl } = JSON.parse(
+    sessionStorage.getItem("signup_info") || "{}"
+  );
+  const userName = firstName ? firstName + " " + lastName : "Novo usuário";
   return (
     <MultiStepFormProvider>
-      <Header isLogged userName="tonon" />
+      <Header isLogged userName={userName} photoUrl={photoUrl} />
       <MainSection />
     </MultiStepFormProvider>
   );

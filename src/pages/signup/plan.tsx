@@ -7,6 +7,8 @@ import React, { useState } from "react";
 const Plan = () => {
   const [isMentor, setIsMentor] = useState(false);
   const router = useRouter();
+  const { firstName, lastName, email, photoUrl } = router.query;
+
   const handleIsMentor = (isMentor: boolean) => {
     setIsMentor(isMentor);
   };
@@ -14,6 +16,10 @@ const Plan = () => {
   const handleNext = () => {
     const signup_info = {
       isMentor,
+      firstName,
+      lastName,
+      email,
+      photoUrl,
     };
     sessionStorage.setItem("signup_info", JSON.stringify(signup_info));
     router.replace({
