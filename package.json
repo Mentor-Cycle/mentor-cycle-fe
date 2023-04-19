@@ -14,7 +14,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "email-dev": "email dev",
-    "email-export": "email export"
+    "email-export": "email export",
+    "chromatic": "npx chromatic --project-token=f437c284070c"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
@@ -56,13 +57,14 @@
     "@babel/core": "^7.20.12",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
-    "@storybook/addon-essentials": "^7.0.0-rc.8",
-    "@storybook/addon-interactions": "^7.0.0-rc.8",
-    "@storybook/addon-links": "^7.0.0-rc.8",
-    "@storybook/blocks": "^7.0.0-rc.8",
-    "@storybook/nextjs": "^7.0.0-rc.8",
-    "@storybook/react": "^7.0.0-rc.8",
-    "@storybook/testing-library": "^0.0.14-next.1",
+    "@storybook/addon-essentials": "^7.0.4",
+    "@storybook/addon-interactions": "^7.0.4",
+    "@storybook/addon-links": "^7.0.4",
+    "@storybook/addon-mdx-gfm": "7.0.4",
+    "@storybook/blocks": "^7.0.4",
+    "@storybook/nextjs": "^7.0.4",
+    "@storybook/react": "^7.0.4",
+    "@storybook/testing-library": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.5.0",
@@ -74,20 +76,22 @@
     "@types/react-input-mask": "^3.0.2",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",
+    "chromatic": "^6.17.3",
     "commitizen": "^4.3.0",
     "cypress": "^12.9.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-storybook": "^0.6.10",
+    "eslint-plugin-storybook": "^0.6.11",
     "husky": "^8.0.3",
     "jest": "^29.4.2",
     "jest-environment-jsdom": "^29.4.2",
     "lint-staged": "^13.1.1",
     "postcss": "^8.4.21",
     "prettier": "^2.8.3",
-    "storybook": "^7.0.0-rc.8",
+    "storybook": "^7.0.4",
+    "storybook-addon-designs": "^7.0.0-beta.2",
     "tailwindcss": "^3.2.4",
     "typescript": "4.9.5"
   },
@@ -99,5 +103,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "version": "",
+  "readme": "ERROR: No README data found!",
+  "_id": "next-template@"
 }

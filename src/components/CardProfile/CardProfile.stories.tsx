@@ -1,33 +1,32 @@
-import { Meta, StoryFn } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import CardProfile from "./CardProfile";
-import { CardProps } from "./CardProfile.types";
 
-export default {
+const meta = {
   title: "Data Display/CardProfile",
   component: CardProfile,
-  argTypes: {
-    name: { control: "text" },
-    jobTitle: { control: "text" },
-    location: { control: "text" },
-    description: { control: "text" },
-    chips: { control: "array" },
-    image: { control: "text" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/KnsardnDQ2lDKUYo58G8Pf/Mentor-Cycle?node-id=1921-5642&t=GMEw33yWzk1MdUGZ-0",
+    },
   },
-} as Meta;
+} satisfies Meta<typeof CardProfile>;
 
-const Template: StoryFn<CardProps> = (args) => <CardProfile {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = Template.bind({});
-Default.args = {
-  name: "John Doe",
-  jobTitle: "Software Engineer",
-  location: "New York, NY",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
-  chips: [
-    { variant: "primary", children: "Backend" },
-    { variant: "primary", children: "FrontEnd" },
-    { variant: "primary", children: "FullStack" },
-  ],
-  image: "https://via.placeholder.com/80",
+export const Primary: Story = {
+  args: {
+    name: "João Silva",
+    jobTitle: "Software Engineer",
+    location: "New York, NY",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
+    chips: [
+      { variant: "primary", children: "Backend" },
+      { variant: "primary", children: "FrontEnd" },
+      { variant: "primary", children: "FullStack" },
+    ],
+    image: "https://via.placeholder.com/80",
+  },
 };

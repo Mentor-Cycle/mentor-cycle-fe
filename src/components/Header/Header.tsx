@@ -1,9 +1,7 @@
 import Image from "next/image";
 import { MdMenu, MdEmail, MdNotifications } from "react-icons/md";
-import logo from "../../public/logoSvg.svg";
 import Link from "next/link";
 import clsx from "clsx";
-import userImage from "../../public/user.jpg";
 import { HeaderProps } from "./Header.types";
 
 const linkStyle = "flex items-center justify-center";
@@ -15,7 +13,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
       <figure className="w-1/5 h-full">
         <Link href="/home">
           <Image
-            src={logo}
+            src={"/logoSvg.svg"}
             width={64}
             height={56}
             alt="MentorCycle logo"
@@ -56,7 +54,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
             >
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
-                  src={photoUrl || userImage}
+                  src={photoUrl || "/imgCard.png"}
                   width={100}
                   height={100}
                   alt="userPhoto"
