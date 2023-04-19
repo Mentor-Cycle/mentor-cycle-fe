@@ -8,6 +8,7 @@ export interface InputProps
   label?: string;
   required?: boolean;
   pattern?: string;
+  search?: boolean;
   minLength?: number;
   maxLength?: number;
   placeholder?: string;

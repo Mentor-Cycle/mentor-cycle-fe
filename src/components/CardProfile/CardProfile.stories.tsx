@@ -17,6 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
+    id: "123",
     name: "João Silva",
     jobTitle: "Software Engineer",
     location: "New York, NY",

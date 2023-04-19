@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
 import Header from "@components/Header";
-import InputSearch from "@components/Input/InputSearch";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
@@ -12,6 +11,7 @@ import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FiArrowUpCircle } from "react-icons/fi";
+import Input from "@components/Input/Input";
 
 const PAGE_SIZE = 9;
 
@@ -143,10 +143,11 @@ const Mentors: NextPage = () => {
         </div>
         <div className="flex flex-col lg:flex lg:flex-row justify-between items-center mt-10">
           <div className="w-full max-w-xl 2xl:max-w-2xl">
-            <InputSearch
+            <Input
               name="findMentors"
               placeholder="Ronald Richards"
               onChange={handleSearchChange}
+              search={true}
             />
           </div>
           <div className="flex flex-col sm:flex sm:flex-row justify-end gap-4 sm:gap-8">
