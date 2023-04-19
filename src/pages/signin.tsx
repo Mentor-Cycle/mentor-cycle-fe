@@ -35,7 +35,7 @@ const SignIn: NextPage = () => {
     if (isValid) {
       try {
         await signInUser({
-          variables: { email, password, rememberMe },
+          variables: { email, password, rememberMe: rememberMe === "on" },
         });
         toast.success("Login realizado com sucesso, bem vindo!");
         formRef.current?.reset();
