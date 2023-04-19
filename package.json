@@ -47,8 +47,10 @@
     "react-dom": "18.2.0",
     "react-email": "1.7.15",
     "react-icons": "^4.7.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-select": "5.7.2",
-    "react-toastify": "^9.1.2"
+    "react-toastify": "^9.1.2",
+    "use-debounce": "^9.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -64,9 +66,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.5.0",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/node": "18.13.0",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "18.0.27",
+    "@types/react-infinite-scroller": "^1.2.3",
     "@types/react-input-mask": "^3.0.2",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",

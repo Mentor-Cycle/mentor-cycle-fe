@@ -3,8 +3,10 @@ import Chip from "@components/Chip";
 import clsx from "clsx";
 import Image from "next/image";
 import { CardProps } from "./CardProfile.types";
+import { useRouter } from "next/router";
 
 const CardProfile = ({
+  id,
   chips,
   description,
   image,
@@ -13,12 +15,18 @@ const CardProfile = ({
   name,
 }: CardProps) => {
   const MAX_WIDTH = "max-w-[365px]";
+  const MIN_WIDTH = "min-w-[300px]";
+  const router = useRouter();
 
+  const handleViewProfileClick = () => {
+    router.push(`/mentors/${id}`);
+  };
   return (
     <div
       className={clsx(
         MAX_WIDTH,
-        "px-11 py-6  border border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
+        MIN_WIDTH,
+        "px-11 py-6 border w-full border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
       )}
     >
       <div>
@@ -39,18 +47,21 @@ const CardProfile = ({
           {location}
         </span>
       </div>
-      <div className="flex gap-2 mt-2">
-        {chips.map((chip, index) => (
-          <Chip key={`${name}-chip-${index}`} variant={chip.variant}>
-            {chip.children}
-          </Chip>
-        ))}
+      <div className="flex gap-2 mt-2 rounded-lg overflow-hidden">
+        {chips?.map((chip, index) => {
+          return <Chip key={`${index}-chip-${index}`}>{chip}</Chip>;
+        })}
       </div>
+
       <div className="mt-8">
         <p className="text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...">
           {description}
         </p>
-        <Button size="small" className="dark:bg-primary-03">
+        <Button
+          size="small"
+          onClick={handleViewProfileClick}
+          className="dark:bg-primary-03"
+        >
           Ver Perfil
         </Button>
       </div>
