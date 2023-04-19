@@ -39,7 +39,6 @@ const SignIn: NextPage = () => {
         await signInUser({
           variables: { email, password, rememberMe: rememberMe === "on" },
         });
-        toast.success("Login realizado com sucesso, bem vindo!");
         formRef.current?.reset();
         router.push("/mentors");
       } catch (error) {
