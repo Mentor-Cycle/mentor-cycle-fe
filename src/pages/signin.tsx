@@ -10,15 +10,17 @@ import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import Input from "@components/Input";
 import Button from "@components/Button";
+import { useRouter } from "next/router";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
 
-  const [signInUser] = useMutation(SIGN_IN_USER);
+  const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,8 +41,9 @@ const SignIn: NextPage = () => {
         });
         toast.success("Login realizado com sucesso, bem vindo!");
         formRef.current?.reset();
+        router.push("/mentors");
       } catch (error) {
-        console.log(error);
+        toast.error("Erro ao realizar login, tente novamente!");
       }
     }
   };
@@ -115,7 +118,7 @@ const SignIn: NextPage = () => {
                 </Link>
               </div>
             </div>
-            <Button size="small" className="mb-4 md:mb-12">
+            <Button isLoading={loading} size="small" className="mb-4 md:mb-12">
               Entrar
             </Button>
           </form>
