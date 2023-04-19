@@ -25,9 +25,11 @@ const SignIn: NextPage = () => {
 
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { email, password, rememberMe } = Object.fromEntries(
-      formData.entries()
-    );
+    const {
+      email,
+      password,
+      rememberMe = false,
+    } = Object.fromEntries(formData.entries());
     const isValid = formRef.current?.checkValidity();
 
     if (isValid) {

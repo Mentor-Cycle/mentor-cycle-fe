@@ -12,8 +12,9 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   placeholder,
   setSelectedSkills,
 }) => {
+  console.log(GET_SKILLS);
   const { data, loading, error } = useQuery(GET_SKILLS);
-
+  console.log(data, loading, error);
   const options = [
     { value: null, label: "Todas" },
     ...(data?.findAllSkills.map(({ name }: { name: string }) => ({
