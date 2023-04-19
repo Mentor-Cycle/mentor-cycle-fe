@@ -25,15 +25,17 @@ const SignIn: NextPage = () => {
 
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { email, password, rememberMe } = Object.fromEntries(
-      formData.entries()
-    );
+    const {
+      email,
+      password,
+      rememberMe = false,
+    } = Object.fromEntries(formData.entries());
     const isValid = formRef.current?.checkValidity();
 
     if (isValid) {
       try {
         await signInUser({
-          variables: { email, password, rememberMe },
+          variables: { email, password, rememberMe: rememberMe === "on" },
         });
         toast.success("Login realizado com sucesso, bem vindo!");
         formRef.current?.reset();
