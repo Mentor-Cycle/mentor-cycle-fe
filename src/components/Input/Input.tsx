@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
+import { AiOutlineSearch } from "react-icons/ai";
 import * as Label from "@radix-ui/react-label";
 
 // eslint-disable-next-line react/display-name
@@ -15,6 +16,7 @@ const InputComponent: FC<InputComponentProps> = ({
   disabled,
   className,
   forwardedRef,
+  search,
   onBlur,
   onValidChange,
   ...props
@@ -70,20 +72,28 @@ const InputComponent: FC<InputComponentProps> = ({
           *
         </span>
       )}
-      <input
-        ref={forwardedRef}
-        onKeyDown={handleKeyDown}
-        name={name}
-        disabled={disabled}
-        {...props}
-        className={clsx(
-          "text-secondary-05",
-          sizesInput[size],
-          invalid && "input-invalid",
-          "input-default"
+      <div className="flex items-center relative">
+        <input
+          ref={forwardedRef}
+          onKeyDown={handleKeyDown}
+          name={name}
+          disabled={disabled}
+          {...props}
+          className={clsx(
+            "text-secondary-05",
+            sizesInput[size],
+            search && "pl-[72px]",
+            invalid && "input-invalid",
+            "input-default"
+          )}
+          onBlur={handleBlur}
+        />
+        {search && (
+          <div className="absolute left-0 top-0 bottom-0 px-6 flex items-center pointer-events-none">
+            <AiOutlineSearch size="28px" className="text-secondary-05" />
+          </div>
         )}
-        onBlur={handleBlur}
-      />
+      </div>
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>
           {errorMessage}

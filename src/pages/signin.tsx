@@ -11,13 +11,14 @@ import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import { REQUEST_USER } from "services/apollo/querys";
-
 import { AppContext } from "Providers/user/AppContext";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
@@ -25,7 +26,7 @@ const SignIn: NextPage = () => {
 
   const router = useRouter();
 
-  const [signInUser] = useMutation(SIGN_IN_USER);
+  const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
   const [userLoggedData, { data }] = useLazyQuery(REQUEST_USER);
 
   const { setUserLoggedData, setIsLogged } = useContext(AppContext);
@@ -33,6 +34,7 @@ const SignIn: NextPage = () => {
   useEffect(() => {
     setUserLoggedData(data);
   }, [data]);
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,6 +44,7 @@ const SignIn: NextPage = () => {
     const { email, password, rememberMe } = Object.fromEntries(
       formData.entries()
     );
+
 
     const isValid = formRef.current?.checkValidity();
 
@@ -58,9 +61,8 @@ const SignIn: NextPage = () => {
         userLoggedData();
         formRef.current?.reset();
         setIsLogged(true);
-        router.push("/change-password");
       } catch (error) {
-        console.log(error);
+        toast.error("Erro ao realizar login, tente novamente!");
       }
     }
   };
@@ -136,7 +138,7 @@ const SignIn: NextPage = () => {
                 </Link>
               </div>
             </div>
-            <Button size="small" className="mb-4 md:mb-12">
+            <Button isLoading={loading} size="small" className="mb-4 md:mb-12">
               Entrar
             </Button>
           </form>
