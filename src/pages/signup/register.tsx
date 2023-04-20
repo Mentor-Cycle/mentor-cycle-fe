@@ -1,14 +1,14 @@
-import StepperVertical from "@components/StepperVertical";
 import FormSteps from "@components/FormSteps";
-import { MultiStepFormProvider } from "Providers/form";
 import Header from "@components/Header/Header";
 import Stepper from "@components/Stepper/Stepper";
+import StepperVertical from "@components/StepperVertical";
 import useForm from "@hooks/useForm";
+import { MultiStepFormProvider } from "Providers/form";
 
 const Register = () => {
   return (
     <MultiStepFormProvider>
-      <Header isLogged userName="tonon" />
+      <Header />
       <MainSection />
     </MultiStepFormProvider>
   );

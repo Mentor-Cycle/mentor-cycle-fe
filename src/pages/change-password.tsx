@@ -57,7 +57,7 @@ const ChangePassword = () => {
   };
   return (
     <div className="flex flex-col gap-[81px] items-center">
-      <Header isLogged={false} />
+      <Header />
       {sucessChangePassword ? (
         <div className=" w-full px-40">
           <Link href={{ pathname: "/" }}>

@@ -1,15 +1,20 @@
-import { FormEvent, useRef } from "react";
-import Image from "next/image";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
+import Input from "@components/Input";
 import { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { FormEvent, useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import Input from "@components/Input";
-import Button from "@components/Button";
+import { REQUEST_USER } from "services/apollo/querys";
+
+import { AppContext } from "Providers/user/AppContext";
+import { useRouter } from "next/router";
+import { useContext } from "react";
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -18,7 +23,16 @@ const SignIn: NextPage = () => {
     window.location.href = `http://localhost:3030${route}`;
   };
 
+  const router = useRouter();
+
   const [signInUser] = useMutation(SIGN_IN_USER);
+  const [userLoggedData, { data }] = useLazyQuery(REQUEST_USER);
+
+  const { setUserLoggedData, setIsLogged } = useContext(AppContext);
+
+  useEffect(() => {
+    setUserLoggedData(data);
+  }, [data]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,20 +42,29 @@ const SignIn: NextPage = () => {
     const { email, password, rememberMe } = Object.fromEntries(
       formData.entries()
     );
+
     const isValid = formRef.current?.checkValidity();
 
     if (isValid) {
       try {
         await signInUser({
-          variables: { email, password, rememberMe },
+          variables: {
+            email,
+            password,
+            rememberMe: rememberMe === "on" ? true : false,
+          },
         });
         toast.success("Login realizado com sucesso, bem vindo!");
+        userLoggedData();
         formRef.current?.reset();
+        setIsLogged(true);
+        router.push("/change-password");
       } catch (error) {
         console.log(error);
       }
     }
   };
+
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
