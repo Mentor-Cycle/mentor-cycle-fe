@@ -12,7 +12,7 @@ export default function Header() {
   const { userLoggedData, isLogged } = useContext(AppContext);
 
   return (
-    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b max-w-6xl m-auto">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto">
       <figure className="w-1/5 h-full">
         <Link href="/home">
           <Image

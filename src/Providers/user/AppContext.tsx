@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useMemo,
+  useState,
+} from "react";
 
 interface IAppContext {
   setUserLoggedData: Dispatch<SetStateAction<UserLoggedData | undefined>>;
@@ -40,11 +46,10 @@ export const AppContextProvider = ({ children }: AppContextProvider) => {
   const [userLoggedData, setUserLoggedData] = useState<UserLoggedData>();
   const [isLogged, setIsLogged] = useState(false);
 
-  return (
-    <AppContext.Provider
-      value={{ setUserLoggedData, userLoggedData, isLogged, setIsLogged }}
-    >
-      {children}
-    </AppContext.Provider>
+  const value = useMemo(
+    () => ({ setUserLoggedData, userLoggedData, isLogged, setIsLogged }),
+    [isLogged, userLoggedData]
   );
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
