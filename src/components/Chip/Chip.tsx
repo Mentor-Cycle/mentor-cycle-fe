@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ChipProps } from "./Chip.types";
 
-const Chip = ({ variant, children }: ChipProps) => {
+const Chip = ({ variant = "quartenary", children }: ChipProps) => {
   const variantClasses = {
     primary: `text-secondary-03 bg-gray-01 dark:bg-secondary-01 dark:text-neutral-01  `,
     secondary: `text-secondary-05 bg-primary-01 `,
@@ -11,7 +11,7 @@ const Chip = ({ variant, children }: ChipProps) => {
   return (
     <span
       className={clsx(
-        "px-4 py-1 rounded-2xl text-xxs",
+        "px-4 py-1 rounded-2xl flex justify-center text-xxs max-w-[100px] min-w-[85px] truncate ...",
         variantClasses[variant]
       )}
     >
