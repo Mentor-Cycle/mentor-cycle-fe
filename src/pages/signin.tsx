@@ -2,29 +2,23 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
 import Input from "@components/Input";
+import { AppContext } from "Providers/user/AppContext";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useContext, useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import { REQUEST_USER } from "services/apollo/querys";
-import { AppContext } from "Providers/user/AppContext";
-import { useRouter } from "next/router";
-import { useContext } from "react";
-
 
 const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const router = useRouter();
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
-
-  const router = useRouter();
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
   const [userLoggedData, { data }] = useLazyQuery(REQUEST_USER);
@@ -35,7 +29,6 @@ const SignIn: NextPage = () => {
     setUserLoggedData(data);
   }, [data]);
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -44,7 +37,6 @@ const SignIn: NextPage = () => {
     const { email, password, rememberMe } = Object.fromEntries(
       formData.entries()
     );
-
 
     const isValid = formRef.current?.checkValidity();
 
