@@ -52,6 +52,7 @@ const SignIn: NextPage = () => {
         toast.success("Login realizado com sucesso, bem vindo!");
         userLoggedData();
         formRef.current?.reset();
+
         setIsLogged(true);
       } catch (error) {
         toast.error("Erro ao realizar login, tente novamente!");

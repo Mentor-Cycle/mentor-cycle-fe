@@ -1,17 +1,17 @@
 import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
 import Header from "@components/Header";
+import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
 import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { FiArrowUpCircle } from "react-icons/fi";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { GET_MENTORS } from "services/apollo/querys";
 import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { FiArrowUpCircle } from "react-icons/fi";
-import Input from "@components/Input/Input";
 
 const PAGE_SIZE = 9;
 
@@ -125,7 +125,7 @@ const Mentors: NextPage = () => {
 
   return (
     <>
-      <Header isLogged={true} userName="Tonon" />
+      <Header />
       <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
