@@ -1,8 +1,7 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
 import Input from "@components/Input";
-import { AppContext } from "Providers/user/AppContext";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,9 +10,10 @@ import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import { REQUEST_USER } from "services/apollo/querys";
+import { useRouter } from "next/router";
 
 const SignIn: NextPage = () => {
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleStrategyLogin = async (route: string) => {
@@ -21,13 +21,6 @@ const SignIn: NextPage = () => {
   };
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
-  const [userLoggedData, { data }] = useLazyQuery(REQUEST_USER);
-
-  const { setUserLoggedData, setIsLogged } = useContext(AppContext);
-
-  useEffect(() => {
-    setUserLoggedData(data);
-  }, [data]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,14 +39,11 @@ const SignIn: NextPage = () => {
           variables: {
             email,
             password,
-            rememberMe: rememberMe === "on" ? true : false,
+            rememberMe: rememberMe === "on",
           },
         });
-        toast.success("Login realizado com sucesso, bem vindo!");
-        userLoggedData();
         formRef.current?.reset();
-
-        setIsLogged(true);
+        router.replace("/mentors");
       } catch (error) {
         toast.error("Erro ao realizar login, tente novamente!");
       }

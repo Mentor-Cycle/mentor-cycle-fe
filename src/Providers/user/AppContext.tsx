@@ -1,55 +1,21 @@
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useMemo,
-  useState,
-} from "react";
+import React from "react";
 
-interface IAppContext {
-  setUserLoggedData: Dispatch<SetStateAction<UserLoggedData | undefined>>;
-  userLoggedData: UserLoggedData | undefined;
+export type User = {
+  firstName: string;
+  photoUrl: string;
+  email: string;
+  isMentor: boolean;
+  id: string;
   isLogged: boolean;
-  setIsLogged: Dispatch<SetStateAction<boolean>>;
-}
-
-interface AppContextProvider {
-  children: React.ReactNode;
-}
-
-interface UserLoggedData {
-  me: {
-    firstName: string;
-    photoUrl: string;
-    email: string;
-    isMentor: boolean;
-    password: string;
-  };
-}
-
-export const AppContext = createContext({
-  setUserLoggedData: () => {},
-  userLoggedData: {
-    me: {
-      firstName: "",
-      photoUrl: "",
-      email: "",
-      isMentor: false,
-      password: "",
-    },
-  },
-  isLogged: false,
-  setIsLogged: () => false,
-} as IAppContext);
-
-export const AppContextProvider = ({ children }: AppContextProvider) => {
-  const [userLoggedData, setUserLoggedData] = useState<UserLoggedData>();
-  const [isLogged, setIsLogged] = useState(false);
-
-  const value = useMemo(
-    () => ({ setUserLoggedData, userLoggedData, isLogged, setIsLogged }),
-    [isLogged, userLoggedData]
-  );
-
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
+
+export const initialValue: User = {
+  firstName: "",
+  photoUrl: "",
+  email: "",
+  isMentor: false,
+  id: "",
+  isLogged: false,
+};
+
+export const UserContext = React.createContext<any>({});

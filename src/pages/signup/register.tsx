@@ -8,7 +8,6 @@ import { MultiStepFormProvider } from "Providers/form";
 const Register = () => {
   return (
     <MultiStepFormProvider>
-      <Header />
       <MainSection />
     </MultiStepFormProvider>
   );

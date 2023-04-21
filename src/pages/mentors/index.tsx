@@ -125,7 +125,6 @@ const Mentors: NextPage = () => {
 
   return (
     <>
-      <Header />
       <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
