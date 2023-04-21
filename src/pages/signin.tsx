@@ -5,7 +5,7 @@ import Input from "@components/Input";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useContext, useEffect, useRef } from "react";
+import { FormEvent, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";

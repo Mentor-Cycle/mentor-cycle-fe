@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
