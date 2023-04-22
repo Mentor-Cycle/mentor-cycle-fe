@@ -4,7 +4,7 @@ import useForm from "@hooks/useForm";
 import clsx from "clsx";
 import ContactInformation from "./ContactInformation";
 import { useRef, useState, useEffect } from "react";
-import { ActionType } from "Providers/form";
+import { ActionType } from "providers/form";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";

@@ -5,7 +5,7 @@ import Input from "@components/Input";
 import MultiSelect from "@components/MultiSelect";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import useForm from "@hooks/useForm";
-import { ActionType } from "Providers/form";
+import { ActionType } from "providers/form";
 import { useFetch } from "@hooks/useFetch";
 import { Country, State, City } from "@hooks/useFetch.types";
 

@@ -18,6 +18,12 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const LOGOUT_USER = gql`
+  mutation LogoutUser {
+    signOutUser
+  }
+`;
+
 export const CHANGE_NEW_PASSWORD = gql`
   mutation ResetUserPassword(
     $pin: String!

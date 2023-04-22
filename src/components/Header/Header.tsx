@@ -1,34 +1,16 @@
-import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { UserContext } from "Providers/user/AppContext";
-import { useContext, useEffect } from "react";
+import { UserContext } from "providers/user/AppContext";
+import { useContext } from "react";
 import { MdEmail, MdMenu, MdNotifications } from "react-icons/md";
-import { GET_ME } from "services/apollo/querys";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
 
 export default function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { isLogged, firstName, photoUrl } = user;
-  const { data } = useQuery(GET_ME, {
-    skip: isLogged,
-  });
-
-  useEffect(() => {
-    if (data) {
-      setUser({
-        firstName: data.me.firstName,
-        photoUrl: data.me.photoUrl,
-        email: data.me.email,
-        isMentor: data.me.isMentor,
-        id: data.me.id,
-        isLogged: true,
-      });
-    }
-  }, [data, setUser]);
 
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto">

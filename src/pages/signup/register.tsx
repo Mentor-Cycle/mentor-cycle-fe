@@ -3,7 +3,7 @@ import Header from "@components/Header/Header";
 import Stepper from "@components/Stepper/Stepper";
 import StepperVertical from "@components/StepperVertical";
 import useForm from "@hooks/useForm";
-import { MultiStepFormProvider } from "Providers/form";
+import { MultiStepFormProvider } from "providers/form";
 
 const Register = () => {
   return (

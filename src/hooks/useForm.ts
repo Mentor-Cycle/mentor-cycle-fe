@@ -1,4 +1,4 @@
-import { ActionType, MultiStepFormContext } from "Providers/form";
+import { ActionType, MultiStepFormContext } from "providers/form";
 import { ChangeEvent, FormEvent, useContext } from "react";
 
 const useForm = () => {
