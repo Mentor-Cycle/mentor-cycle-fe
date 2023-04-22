@@ -1,9 +1,12 @@
+import { ReactNode } from "react";
+
 export type Props = {
   avatar?: string;
   name: string;
+  id?: string;
   job: string;
-  date: Date;
-  hour: Date;
+  date: ReactNode;
+  hour: ReactNode;
   status: "Não realizada" | "Realizada" | "A confirmar";
 };
 

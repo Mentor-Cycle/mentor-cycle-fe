@@ -84,6 +84,7 @@ module.exports = {
       },
       backgroundImage: {
         user: "./src/public/user.jpg",
+        "header-dashboard": "url('/bg-dashboard.png')",
       },
       colors: {
         ...mauve,

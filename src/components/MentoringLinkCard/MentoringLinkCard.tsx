@@ -2,12 +2,13 @@ import * as Select from "@radix-ui/react-select";
 import Image from "next/image";
 import Chip from "../../components/Chip";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
+import Modal from "@components/Modal/Modal";
 
 const MentoringLinkCard = ({
   avatar,
@@ -17,6 +18,13 @@ const MentoringLinkCard = ({
   date,
   hour,
 }: Props) => {
+  const statusToPortugueseMap: Record<string, string> = {
+    PENDING: "A confirmar",
+    DONE: "Realizada",
+    CANCELLED: "Cancelada",
+    CONFIRMED: "Confirmada",
+  };
+
   const handleStatusCard = (status: string) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
@@ -24,15 +32,12 @@ const MentoringLinkCard = ({
       "A confirmar": "tertiary",
     };
 
-    const variant = statusToVariantMap[status];
-    return <Chip variant={variant}>{status}</Chip>;
+    const variant = statusToVariantMap[statusToPortugueseMap[status]];
+    return <Chip variant={variant}>{statusToPortugueseMap[status]}</Chip>;
   };
 
-  const formattedDate = format(date, "dd 'de' MMMM yyyy", { locale: ptBR });
-  const formattedHour = format(hour, "HH'h'mm");
-
   return (
-    <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-6xl w-full border border-gray-03 rounded-lg">
+    <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-full border border-gray-03 rounded-lg">
       <div className="flex flex-col sm:flex sm:flex-row gap-4 ">
         <div className="rounded-lg overflow-hidden w-24 h-24">
           <Image
@@ -58,10 +63,8 @@ const MentoringLinkCard = ({
         <Button size="small">Acessar chamada</Button>
         <div className="flex items-center justify-center ">
           <div className="flex flex-col justify-end items-end mr-3">
-            <span className="mt-4 dark:text-neutral-03">{formattedDate}</span>
-            <span className="text-gray-03 dark:text-neutral-05">
-              {formattedHour}
-            </span>
+            <span className="mt-4 dark:text-neutral-03">{date}</span>
+            <span className="text-gray-03 dark:text-neutral-05">{hour}</span>
           </div>
           <div className="relative cursor-pointer transition-all duration-300">
             <SelectComponent />
@@ -74,38 +77,73 @@ const MentoringLinkCard = ({
 
 const SelectComponent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
+
+  const handleCloseModal = () => {
+    setIsModalOpen(!isModalOpen);
+    setIsOpen(!isOpen);
+  };
+
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    if (newValue == "Cancelar") {
+      setIsModalOpen(true);
+      setValue("");
+    }
+  };
+
   return (
-    <Select.Root
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      value={value}
-      onValueChange={setValue}
-    >
-      <Select.Trigger className="flex items-center justify-center cursor-pointer">
-        {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
-      </Select.Trigger>
-      <Select.Content
-        position="popper"
-        alignOffset={30}
-        side="left"
-        className={clsx("bg-neutral-01 border border-gra p-4 rounded-lg mt-2")}
+    <>
+      <Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        closeModalComponent={<button onClick={handleCloseModal}></button>}
       >
-        <Select.Item
-          data-testid="remarcar-option"
-          value="Remarcar"
-          className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+        <p className="text-2xl font-bold px-20">
+          Deseja realmente cancelar sua mentoria?
+        </p>
+        <div className="flex mt-16 px-20 gap-4">
+          <Button size="small" variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button size="small">Confirmar</Button>
+        </div>
+      </Modal>
+      <Select.Root
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        value={value}
+        onValueChange={handleValueChange}
+      >
+        <Select.Trigger className="flex items-center justify-center cursor-pointer">
+          {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
+        </Select.Trigger>
+        <Select.Content
+          position="popper"
+          alignOffset={30}
+          side="left"
+          className={clsx(
+            "bg-neutral-01 border border-gra p-4 rounded-lg mt-2"
+          )}
         >
-          Remarcar
-        </Select.Item>
-        <Select.Item
-          value="Cancelar"
-          className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
-        >
-          Cancelar
-        </Select.Item>
-      </Select.Content>
-    </Select.Root>
+          <Select.Item
+            data-testid="remarcar-option"
+            value="Remarcar"
+            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+          >
+            Remarcar
+          </Select.Item>
+          <Select.Item
+            value="Cancelar"
+            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+          >
+            Cancelar
+          </Select.Item>
+        </Select.Content>
+      </Select.Root>
+    </>
   );
 };
+
 export default MentoringLinkCard;
