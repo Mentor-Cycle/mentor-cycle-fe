@@ -4,12 +4,30 @@ import { MultiStepFormProvider } from "Providers/form";
 import Header from "@components/Header/Header";
 import Stepper from "@components/Stepper/Stepper";
 import useForm from "@hooks/useForm";
+import { useEffect, useState } from "react";
+
+interface UserNameInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  photoUrl: string;
+}
 
 const Register = () => {
-  const { firstName, lastName, email, photoUrl } = JSON.parse(
-    sessionStorage.getItem("signup_info") || "{}"
-  );
-  const userName = firstName ? firstName + " " + lastName : "Novo usuário";
+  const [userNameInfo, setUserNameInfo] = useState<UserNameInfo>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    photoUrl: "",
+  });
+
+  useEffect(() => {
+    const signupInfo = JSON.parse(
+      sessionStorage.getItem("signup_info") || "{}"
+    );
+    setUserNameInfo(signupInfo);
+  }, []);
+  
   return (
     <MultiStepFormProvider>
       <Header isLogged userName={userName} photoUrl={photoUrl} />
