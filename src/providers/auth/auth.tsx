@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { initialValue, UserContext } from "providers/user/AppContext";
 import { GET_ME } from "services/apollo/querys";
