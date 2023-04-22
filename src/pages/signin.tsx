@@ -62,6 +62,7 @@ const SignIn: NextPage = () => {
         };
         setUser(userData);
         setStoredUser(userData);
+        localStorage.removeItem("form-data");
         router.replace("/mentors");
       } catch (error) {
         console.log(error);
