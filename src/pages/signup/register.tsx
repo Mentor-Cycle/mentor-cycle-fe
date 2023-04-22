@@ -14,7 +14,7 @@ interface UserNameInfo {
 }
 
 const Register = () => {
-  const [userNameInfo, setUserNameInfo] = useState<UserNameInfo>({
+  const [userName, setUserName] = useState<UserNameInfo>({
     firstName: "",
     lastName: "",
     email: "",
