@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import imgPerfil from "../../../public/imgCard.png";
 import CardNotification from "./CardNotification";
 
 /**
@@ -23,7 +22,7 @@ export const Primary: Story = {
   args: {
     description:
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.",
-    imgUrl: imgPerfil.src,
+    imgUrl: "/imgCard.png",
     name: "Ronald Richards",
   },
 };
