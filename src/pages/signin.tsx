@@ -1,16 +1,20 @@
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
 import Input from "@components/Input";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useContext, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
+import { GET_ME } from "services/apollo/querys";
+import { UserContext } from "providers/user/AppContext";
+import useLocalStorage from "@hooks/useLocalStorage";
+import client from "services/apollo/apollo-client";
 
 const SignIn: NextPage = () => {
   const router = useRouter();
@@ -19,8 +23,10 @@ const SignIn: NextPage = () => {
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
+  const [storedUser, setStoredUser] = useLocalStorage("user", null);
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
+  const { setUser } = useContext(UserContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,8 +49,22 @@ const SignIn: NextPage = () => {
           },
         });
         formRef.current?.reset();
+        const { data } = await client.query({
+          query: GET_ME,
+        });
+        const userData = {
+          firstName: data.me.firstName,
+          photoUrl: data.me.photoUrl,
+          email: data.me.email,
+          isMentor: data.me.isMentor,
+          id: data.me.id,
+          isLogged: true,
+        };
         router.replace("/mentors");
+        setUser(userData);
+        setStoredUser(userData);
       } catch (error) {
+        console.log(error);
         toast.error("Erro ao realizar login, tente novamente!");
       }
     }
