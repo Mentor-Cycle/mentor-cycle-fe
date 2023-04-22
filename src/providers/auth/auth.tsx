@@ -9,7 +9,7 @@ type AuthProps = {
   children: React.ReactNode;
 };
 
-const AuthProvider = ({ children }: AuthProps) => {
+export const AuthProvider = ({ children }: AuthProps) => {
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -42,5 +42,3 @@ const AuthProvider = ({ children }: AuthProps) => {
 
   return <>{children}</>;
 };
-
-export default AuthProvider;

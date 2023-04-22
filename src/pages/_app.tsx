@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import client from "services/apollo/apollo-client";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
-import AuthProvider from "providers/auth/auth";
+import { AuthProvider } from "providers/auth";
 import { ROUTES_WITHOUT_HEADER } from "config/constants";
 
 function MyApp({ Component, pageProps }: AppProps) {
