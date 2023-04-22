@@ -6,5 +6,6 @@ export const PUBLIC_ROUTES = [
   "/signup/plan",
   "/signup/register",
   "/request-change-password",
+  "/mentors",
 ];
 export const ROUTES_WITHOUT_HEADER = ["/signin", "/request-change-password"];
