@@ -2,12 +2,11 @@ import Input from "@components/Input";
 import clsx from "clsx";
 import { createStringRequirements } from "utils/regex";
 import useForm from "@hooks/useForm";
+import { useEffect } from "react";
 
 const Profile = () => {
   const { updateForm, formData } = useForm();
-  const { firstName, lastName, email } = JSON.parse(
-    sessionStorage.getItem("signup_info") || "{}"
-  );
+  
   const { password, repeatPassword } = formData;
   const passwordRequirements = createStringRequirements({
     minLength: 6,
@@ -16,6 +15,10 @@ const Profile = () => {
     includeUppercase: false,
     includeSpecial: false,
   });
+
+  useEffect(() => {
+    const { firstName, lastName, email } = JSON.parse(sessionStorage.getItem("signup_info") || "{}");
+}, [])
 
   return (
     <>
