@@ -30,9 +30,6 @@ export const GET_MENTORS = gql`
       country
       state
       description
-      availability {
-        period
-      }
     }
   }
 `;
@@ -54,6 +51,17 @@ export const GET_SKILLS = gql`
   query FindSkills {
     findAllSkills {
       name
+    }
+  }
+`;
+export const GET_ME = gql`
+  query {
+    me {
+      firstName
+      isMentor
+      photoUrl
+      email
+      isMentor
     }
   }
 `;

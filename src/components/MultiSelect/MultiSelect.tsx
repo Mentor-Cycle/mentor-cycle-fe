@@ -1,7 +1,7 @@
 import Select from "react-select";
 import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { ActionType } from "Providers/form";
+import { ActionType } from "providers/form";
 import { useQuery } from "@apollo/client";
 import { GET_SKILLS } from "services/apollo/querys";
 

@@ -1,17 +1,21 @@
-import Image from "next/image";
-import { MdMenu, MdEmail, MdNotifications } from "react-icons/md";
-import Link from "next/link";
 import clsx from "clsx";
-import { HeaderProps } from "./Header.types";
+import Image from "next/image";
+import Link from "next/link";
+import { UserContext } from "providers/user/AppContext";
+import { useContext } from "react";
+import { MdEmail, MdMenu, MdNotifications } from "react-icons/md";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
 
-export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
+export default function Header() {
+  const { user } = useContext(UserContext);
+  const { isLogged, firstName, photoUrl } = user;
+
   return (
-    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b max-w-6xl m-auto">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto">
       <figure className="w-1/5 h-full">
-        <Link href="/home">
+        <Link href="/">
           <Image
             src={"/logoSvg.svg"}
             width={64}
@@ -62,7 +66,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
                 />
               </figure>
               <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
-                {userName}
+                {firstName}
               </h1>
             </Link>
           </li>

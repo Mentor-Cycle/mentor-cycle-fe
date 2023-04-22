@@ -4,7 +4,7 @@ export const SIGN_IN_USER = gql`
   mutation LoginUser(
     $email: String!
     $password: String!
-    $rememberMe: Boolean
+    $rememberMe: Boolean!
   ) {
     signInUser(
       userInput: { email: $email, password: $password, rememberMe: $rememberMe }
@@ -15,6 +15,12 @@ export const SIGN_IN_USER = gql`
 export const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
     signUpUser(userInput: $input)
+  }
+`;
+
+export const LOGOUT_USER = gql`
+  mutation LogoutUser {
+    signOutUser
   }
 `;
 
