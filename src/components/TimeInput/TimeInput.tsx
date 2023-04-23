@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import InputMask from "react-input-mask";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 type Props = {
@@ -26,16 +25,6 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
 
   const padZero = (num: number) => {
     return num.toString().padStart(2, "0");
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    const [newHours, newMinutes] = newValue.split(":");
-    if (newHours && newMinutes) {
-      setInputHours(parseInt(newHours));
-      setInputMinutes(parseInt(newMinutes));
-      onChange(newValue);
-    }
   };
 
   return (
