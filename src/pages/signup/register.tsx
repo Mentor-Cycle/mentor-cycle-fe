@@ -14,7 +14,7 @@ interface UserNameInfo {
 }
 
 const Register = () => {
-  const [userName, setUserName] = useState<UserNameInfo>({
+  const [userNameInfo, setUserNameInfo] = useState<UserNameInfo>({
     firstName: "",
     lastName: "",
     email: "",
@@ -27,10 +27,18 @@ const Register = () => {
     );
     setUserNameInfo(signupInfo);
   }, []);
-  
+
   return (
     <MultiStepFormProvider>
-      <Header isLogged userName={userName} photoUrl={photoUrl} />
+      <Header
+        isLogged
+        userName={
+          userNameInfo
+            ? userNameInfo.firstName + " " + userNameInfo.lastName
+            : "Novo usuário"
+        }
+        photoUrl={userNameInfo.photoUrl}
+      />
       <MainSection />
     </MultiStepFormProvider>
   );
