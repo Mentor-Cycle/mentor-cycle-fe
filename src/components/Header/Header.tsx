@@ -16,6 +16,7 @@ import NavBar from "@components/NavBar/NavBar";
 import Toggle from "@components/Toggle/Toggle";
 
 import { useMutation } from "@apollo/client";
+import useLocalStorage from "@hooks/useLocalStorage";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
@@ -25,7 +26,11 @@ const itemsMenuStyle =
   "flex gap-2 items-center justify-center hover:text-gray-04";
 
 export default function Header() {
+  const [storedUser] = useLocalStorage("user", null);
   const { user, setUser } = useContext(UserContext);
+  if (!user.isLogged && !user.firstName && storedUser) {
+    setUser(storedUser);
+  }
   const router = useRouter();
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
