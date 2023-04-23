@@ -16,6 +16,14 @@ const meta = {
         name: "Horários Disponíveis",
       },
     },
+    isDateSelecioned: {
+      description:
+        "Controlador para validar se alguma data foi selecionada para renderizar os horários disponíveis",
+      control: {
+        type: "boolean",
+        defaultValue: true,
+      },
+    },
   },
   parameters: {
     design: {
@@ -44,5 +52,6 @@ export const Default: Story = {
       "20:00",
       "20:30",
     ],
+    isDateSelecioned: true,
   },
 };
