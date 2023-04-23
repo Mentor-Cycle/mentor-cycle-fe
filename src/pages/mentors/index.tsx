@@ -209,7 +209,8 @@ const Mentors: NextPage = () => {
           </div>
         )}
       </main>
-      <MentorModalAvailability active={true} />
+      {/* uncomment and share props*/}
+      {/* <MentorModalAvailability open={open} setOpen={setOpen} /> */}
     </>
   );
 };
