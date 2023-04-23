@@ -1,9 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import FormSteps from "@components/FormSteps";
 import Header from "@components/Header/Header";
 import Stepper from "@components/Stepper/Stepper";
 import StepperVertical from "@components/StepperVertical";
 import useForm from "@hooks/useForm";
-import { MultiStepFormProvider } from "providers/form";
+import {
+  ActionType,
+  MultiStepFormContext,
+  MultiStepFormProvider,
+} from "providers/form";
+import { useContext, useEffect } from "react";
+import useLocalStorage from "@hooks/useLocalStorage";
 
 const Register = () => {
   return (
@@ -14,7 +21,20 @@ const Register = () => {
 };
 
 const MainSection = () => {
+  const [formStorage] = useLocalStorage("form-data", null);
+  const { formData, dispatch } = useContext(MultiStepFormContext);
   const { currentStep } = useForm();
+  useEffect(() => {
+    if (formStorage) {
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: {
+          ...formData,
+          ...formStorage,
+        },
+      });
+    }
+  }, []);
   return (
     <main className="bg-neutral-03 min-h-[130vh] flex flex-col">
       <section className="bg-neutral-01 border-opacity-30 border-t border-b border-gray-02 w-full py-[52px] sm:justify-between 2xl:justify-around sm:px-8 lg:px-20 2xl:px-36 hidden sm:flex">

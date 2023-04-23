@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         }
       } catch (e) {
         setUser(initialValue);
+        localStorage.clear();
         router.replace("/signin");
       }
     }
