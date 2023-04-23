@@ -6,13 +6,21 @@ export type AvailabilitySlot = {
   endHour: string;
 };
 
-export const saveAvailability = (
+export const saveAvailabilityInMemory = (
   selectedDay: string,
   selectedStart: string,
   selectedEnd: string,
   availability: AvailabilitySlot[],
   setAvailability: (availability: AvailabilitySlot[]) => void
 ) => {
+  if (selectedStart === selectedEnd) return;
+
+  const isStartHourAfterEndHour =
+    parse(selectedStart, "HH:mm", new Date()).getTime() >=
+    parse(selectedEnd, "HH:mm", new Date()).getTime();
+
+  if (isStartHourAfterEndHour) return;
+
   const newSlot = {
     weekDay: selectedDay,
     startHour: selectedStart,

@@ -32,7 +32,7 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => updateTime(-30)}
-          className="text-2xl text-secondary-03"
+          className="text-2xl text-secondary-03 outline-none"
         >
           <MdChevronLeft />
         </button>
@@ -41,7 +41,7 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
         </p>
         <button
           onClick={() => updateTime(30)}
-          className="text-2xl text-secondary-03"
+          className="text-2xl text-secondary-03 outline-none"
         >
           <MdChevronRight />
         </button>
