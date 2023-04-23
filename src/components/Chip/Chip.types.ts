@@ -9,6 +9,6 @@ export type ChipProps = {
     | "primary_dark"
     | "secondary_dark";
   children: any;
-  className: string;
+  className?: string;
   onClick?: () => void;
 };
