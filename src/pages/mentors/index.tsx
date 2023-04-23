@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
-import Header from "@components/Header";
 import Input from "@components/Input/Input";
-import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
+// import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
