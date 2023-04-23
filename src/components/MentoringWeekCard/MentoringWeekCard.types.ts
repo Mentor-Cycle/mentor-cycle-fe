@@ -11,4 +11,5 @@ export type Props = {
     | "Sábado";
   description: string;
   chips: ReactElement[];
+  className: string;
 };

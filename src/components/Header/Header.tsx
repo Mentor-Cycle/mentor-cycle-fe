@@ -1,17 +1,25 @@
-import Image from "next/image";
-import { MdMenu, MdEmail, MdNotifications } from "react-icons/md";
-import Link from "next/link";
+import useLocalStorage from "@hooks/useLocalStorage";
 import clsx from "clsx";
-import { HeaderProps } from "./Header.types";
+import Image from "next/image";
+import Link from "next/link";
+import { UserContext } from "providers/user/AppContext";
+import { useContext, useEffect } from "react";
+import { MdEmail, MdMenu, MdNotifications } from "react-icons/md";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
 
-export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
+export default function Header() {
+  const [storedUser] = useLocalStorage("user", null);
+  const { user, setUser } = useContext(UserContext);
+  if (!user.isLogged && !user.firstName && storedUser) {
+    setUser(storedUser);
+  }
+  const { isLogged, firstName, photoUrl } = user;
   return (
-    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b max-w-6xl m-auto">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto">
       <figure className="w-1/5 h-full">
-        <Link href="/home">
+        <Link href="/">
           <Image
             src={"/logoSvg.svg"}
             width={64}
@@ -24,7 +32,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
       {isLogged && (
         <ul className="w-4/5 h-full flex flex-row justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
           <li className={linkStyle}>
-            <Link className={itemsMenuStyle} href="/home">
+            <Link className={itemsMenuStyle} href="/">
               <MdMenu size={24} />
               <span className="hidden min-[695px]:inline-flex text-base">
                 Home
@@ -54,7 +62,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
             >
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
-                  src={photoUrl || "/imgCard.png"}
+                  src={"/imgCard.png"}
                   width={100}
                   height={100}
                   alt="userPhoto"
@@ -62,7 +70,7 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
                 />
               </figure>
               <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
-                {userName}
+                {firstName}
               </h1>
             </Link>
           </li>

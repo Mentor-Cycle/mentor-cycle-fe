@@ -30,9 +30,6 @@ export const GET_MENTORS = gql`
       country
       state
       description
-      availability {
-        period
-      }
     }
   }
 `;
@@ -73,19 +70,30 @@ export const GET_SKILLS = gql`
     }
   }
 `;
-
+export const GET_ME = gql`
+  query {
+    me {
+      id
+      firstName
+      isMentor
+      photoUrl
+      email
+      jobTitle
+      isMentor
+      skills
+    }
+  }
+`;
 export const GET_EVENTS = gql`
-  query getEvents($learnerId: String) {
-    findEvents(learnerId: $learnerId) {
+  query FindEvents($mentorId: String, $learnerId: String) {
+    findEvents(mentorId: $mentorId, learnerId: $learnerId) {
       id
       mentorId
-      status
       learners {
         user {
           id
           email
           firstName
-          jobTitle
         }
         assignedBy
         assignedAt
