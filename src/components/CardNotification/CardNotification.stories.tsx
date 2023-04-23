@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import imgPerfil from "../../public/imgCard.png";
+import imgPerfil from "../../../public/imgCard.png";
 import CardNotification from "./CardNotification";
 
 /**
