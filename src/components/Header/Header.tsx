@@ -17,7 +17,6 @@ import NavBar from "@components/NavBar/NavBar";
 import Toggle from "@components/Toggle/Toggle";
 
 import { useMutation } from "@apollo/client";
-import useLocalStorage from "@hooks/useLocalStorage";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
