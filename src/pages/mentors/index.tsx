@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
 import Header from "@components/Header";
 import Input from "@components/Input/Input";
+import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
@@ -208,6 +209,7 @@ const Mentors: NextPage = () => {
           </div>
         )}
       </main>
+      <MentorModalAvailability active={true} />
     </>
   );
 };

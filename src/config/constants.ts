@@ -9,3 +9,12 @@ export const PUBLIC_ROUTES = [
   "/mentors",
 ];
 export const ROUTES_WITHOUT_HEADER = ["/signin", "/request-change-password"];
+export const DAYS_OF_THE_WEEK = [
+  "Domingo",
+  "Segunda",
+  "Terça",
+  "Quarta",
+  "Quinta",
+  "Sexta",
+  "Sábado",
+];
