@@ -152,7 +152,7 @@ const ModalSettings = ({
             setCurrentStep={setCurretStep}
             steps={["Perfil", "Sistema", "Segurança"]}
             currentStep={currentStep}
-            className="text-start w-64 "
+            className="text-start w-60 bg-primary-03"
             clickable
           />
           {currentStep === 1 && (
