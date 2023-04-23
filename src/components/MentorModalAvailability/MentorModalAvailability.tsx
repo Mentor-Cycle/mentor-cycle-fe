@@ -2,13 +2,13 @@ import Button from "@components/Button";
 import Chip from "@components/Chip/Chip";
 import Modal from "@components/Modal";
 import TimeInput from "@components/TimeInput/TimeInput";
-import { DAYS_OF_THE_WEEK } from "config/constants";
+import { DAYS_OF_THE_WEEK_SHORT } from "config/constants";
 import { useState } from "react";
 import { AvailabilitySlot, saveAvailability } from "./helpers/saveAvailability";
 import { MdClose } from "react-icons/md";
 
 export const MentorModalAvailability = (props: { active: boolean }) => {
-  const [selectedDay, setSelectedDay] = useState(DAYS_OF_THE_WEEK[0]);
+  const [selectedDay, setSelectedDay] = useState(DAYS_OF_THE_WEEK_SHORT[0]);
   const [selectedStart, setSelectedStart] = useState("12:00");
   const [selectedEnd, setSelectedEnd] = useState("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
@@ -22,6 +22,8 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
       setAvailability
     );
   };
+
+  const handlePersistAvailability = () => {};
 
   const removeAvailability = (slot: AvailabilitySlot) => {
     const newAvailability = availability.filter(
@@ -38,7 +40,7 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
         </h1>
         <p>Defina seus horários e datas disponíveis</p>
         <section className="flex gap-6 mt-12 flex-wrap">
-          {DAYS_OF_THE_WEEK.map((day) => (
+          {DAYS_OF_THE_WEEK_SHORT.map((day) => (
             <Chip
               className="capitalize font-normal cursor-pointer"
               key={day}
@@ -74,7 +76,6 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
               <article className="min-w-[120px]">
                 {slot.startHour} até {slot.endHour}
               </article>
-              {/* close button */}
               <MdClose
                 className="cursor-pointer"
                 onClick={() => removeAvailability(slot)}

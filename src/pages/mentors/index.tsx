@@ -6,7 +6,7 @@ import { MentorModalAvailability } from "@components/MentorModalAvailability/Men
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
