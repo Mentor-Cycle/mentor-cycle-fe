@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from "react";
-import { useRouter } from "next/router";
-import { initialValue, UserContext } from "providers/user/AppContext";
-import { GET_ME } from "services/apollo/querys";
-import client from "services/apollo/apollo-client";
 import { PUBLIC_ROUTES } from "config/constants";
+import { useRouter } from "next/router";
+import { UserContext, initialValue } from "providers/user/AppContext";
+import React, { useContext, useEffect } from "react";
+import client from "services/apollo/apollo-client";
+import { GET_ME } from "services/apollo/querys";
 
 type AuthProps = {
   children: React.ReactNode;
@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         if (data) {
           setUser({
             firstName: data.me.firstName,
+            lastName: data.me.lastName,
             photoUrl: data.me.photoUrl,
             email: data.me.email,
             isMentor: data.me.isMentor,

@@ -58,10 +58,12 @@ export const GET_ME = gql`
   query {
     me {
       firstName
+      lastName
       isMentor
       photoUrl
       email
       isMentor
+      id
     }
   }
 `;

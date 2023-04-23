@@ -38,3 +38,24 @@ a {
     @apply font-normal my-2 text-danger-01 text-sm;
   }
 }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #f36b6b;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fefefe;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #f36b6b;
+  border-radius: 14px;
+  border: none;
+}
