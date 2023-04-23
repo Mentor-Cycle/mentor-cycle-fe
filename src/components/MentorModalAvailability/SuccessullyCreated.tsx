@@ -1,8 +1,7 @@
 import Button from "@components/Button";
 import Modal from "@components/Modal/Modal";
-import { useState } from "react";
 
-export const SucessfullyCreated = ({
+export const SuccessfullyCreated = ({
   open,
   onClose,
 }: {

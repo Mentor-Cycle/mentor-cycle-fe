@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/client";
 import { PERSIST_AVAILABILITY } from "services/apollo/mutations";
 import { useUser } from "@hooks/useUser";
 import { toast } from "react-toastify";
-import { SucessfullyCreated } from "./SuccessullyCreated";
+import { SuccessfullyCreated } from "./SuccessullyCreated";
 
 export const MentorModalAvailability = ({
   open,
@@ -140,7 +140,7 @@ export const MentorModalAvailability = ({
           </section>
         </section>
       </Modal>
-      <SucessfullyCreated
+      <SuccessfullyCreated
         open={successModal}
         onClose={() => setSuccessModal(false)}
       />
