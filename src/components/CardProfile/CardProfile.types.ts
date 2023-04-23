@@ -1,6 +1,8 @@
 import { ChipProps } from "@components/Chip/Chip.types";
 import { StaticImageData } from "next/image";
 
+type SizeCard = "Medium" | "Large";
+
 export interface CardProps {
   id: string;
   name: string;
@@ -9,4 +11,5 @@ export interface CardProps {
   description: string;
   image: string | StaticImageData;
   chips: ChipProps[];
+  variant?: SizeCard;
 }
