@@ -1,9 +1,10 @@
 import { ActionType, MultiStepFormContext } from "providers/form";
 import { ChangeEvent, FormEvent, useContext } from "react";
+import useLocalStorage from "./useLocalStorage";
 
 const useForm = () => {
   const { formData, dispatch, currentStep } = useContext(MultiStepFormContext);
-
+  const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
   const updateForm = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -15,6 +16,10 @@ const useForm = () => {
           ...formData,
           [name]: value,
         },
+      });
+      setFormStorage({
+        ...formStorage,
+        [name]: value,
       });
     }
   };

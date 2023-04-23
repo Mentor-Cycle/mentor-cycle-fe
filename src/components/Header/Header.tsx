@@ -1,3 +1,4 @@
+import useLocalStorage from "@hooks/useLocalStorage";
 import clsx from "clsx";
 
 import Image from "next/image";
@@ -19,6 +20,7 @@ import { useMutation } from "@apollo/client";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
+
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -65,6 +67,7 @@ export default function Header() {
       router.replace("/");
     },
   };
+
 
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
