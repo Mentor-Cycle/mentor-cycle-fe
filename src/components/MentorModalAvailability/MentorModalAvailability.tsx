@@ -32,7 +32,7 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
 
   return (
     <Modal open={props.active}>
-      <section className="w-full px-6">
+      <section className="w-full px-6 text-left z-20">
         <h1 className="inline text-secondary-03 font-semibold text-2xl">
           Horário de mentoria
         </h1>
@@ -54,11 +54,11 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
           <TimeInput value={selectedStart} onChange={setSelectedStart} />
           <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
         </section>
-        <section className="flex justify-end mt-20">
+        <section className="w-72 mt-20 ml-auto">
           <Button
             onClick={handleSaveAvailability}
             size="small"
-            className="w-72 font-bold"
+            className="font-bold"
             variant="secondary"
           >
             Agendar horários
@@ -71,7 +71,7 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
               <article className="min-w-[80px]">
                 <p>{slot.weekDay}</p>
               </article>
-              <article>
+              <article className="min-w-[120px]">
                 {slot.startHour} até {slot.endHour}
               </article>
               {/* close button */}
@@ -82,10 +82,10 @@ export const MentorModalAvailability = (props: { active: boolean }) => {
             </section>
           ))}
         </section>
-        <section className="flex justify-end mt-20">
+        <section className="w-72 mt-20 ml-auto">
           <Button
             size="small"
-            className="w-72 font-bold border-none"
+            className="font-bold border-none"
             variant="primary"
           >
             Marcar mentoria
