@@ -147,22 +147,22 @@ const ModalSettings = ({
           </main>
         </div>
       ) : (
-        <div className="flex w-full">
+        <div className="flex    w-full">
           <StepperVertical
             setCurrentStep={setCurretStep}
             steps={["Perfil", "Sistema", "Segurança"]}
             currentStep={currentStep}
-            className="text-start  w-80"
+            className="text-start w-64 "
             clickable
           />
           {currentStep === 1 && (
-            <div className="flex gap-10 w-4/5 justify-center">
+            <div className="flex gap-10 w-full justify-center  ">
               <div className="flex flex-col gap-2">
                 <Image src="/imgCard.png" alt="" width={136} height={136} />
                 <button className="text-primary-03">Trocar foto</button>
               </div>
               <form
-                className="flex flex-col gap-24 text-start w-full"
+                className="flex flex-col gap-24 text-start w-full "
                 onSubmit={handleUpdateUserData}
               >
                 <div className="flex flex-col gap-5">
