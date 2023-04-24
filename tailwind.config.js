@@ -1,4 +1,5 @@
 const { violet, blackA, mauve, green } = require("@radix-ui/colors");
+const defaultTheme = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
@@ -65,6 +66,14 @@ module.exports = {
     extend: {
       screens: {
         "3xl": "1850px",
+      },
+      container: {
+        center: true,
+        padding: "2rem",
+        screens: {
+          ...defaultTheme.container.screens,
+          "2xl": "1280px",
+        },
       },
       fontSize: {
         xxs: "0.625rem",

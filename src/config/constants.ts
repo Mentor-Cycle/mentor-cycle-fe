@@ -7,5 +7,17 @@ export const PUBLIC_ROUTES = [
   "/signup/register",
   "/request-change-password",
   "/mentors",
+  "/mentors/[id]",
 ];
 export const ROUTES_WITHOUT_HEADER = ["/signin", "/request-change-password"];
+export const DAYS_OF_THE_WEEK = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+];
+
+export type DAY_OF_WEEK = (typeof DAYS_OF_THE_WEEK)[number];

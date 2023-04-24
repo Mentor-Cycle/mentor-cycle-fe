@@ -44,6 +44,17 @@ export const GET_MENTOR_BY_ID = gql`
       country
       state
       description
+      photoUrl
+      jobTitle
+      jobCompany
+      biography
+      email
+      website
+      yearsOfExperience
+      availability {
+        weekDay
+        startHour
+      }
     }
   }
 `;
@@ -58,10 +69,12 @@ export const GET_ME = gql`
   query {
     me {
       firstName
+      lastName
       isMentor
       photoUrl
       email
       isMentor
+      id
     }
   }
 `;
