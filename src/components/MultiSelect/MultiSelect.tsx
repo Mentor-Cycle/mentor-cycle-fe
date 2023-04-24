@@ -1,19 +1,13 @@
 import Select from "react-select";
 import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { ActionType } from "Providers/form";
-
-const options = [
-  { value: "ui Design", label: "UI Design" },
-  { value: "ux Design", label: "UX Design" },
-  { value: "product Design", label: "Product Design" },
-  { value: "graphic Design", label: "Graphic Design" },
-  { value: "frontend", label: "FrontEnd" },
-  { value: "backend", label: "Backend" },
-];
+import { ActionType } from "providers/form";
+import { useQuery } from "@apollo/client";
+import { GET_SKILLS } from "services/apollo/querys";
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();
+  const { loading, data } = useQuery(GET_SKILLS);
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions) {
     const uniqueSkill = selectOptions.map((option) => option.value);
@@ -28,6 +22,11 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
     value: skill,
   }));
 
+  const options = data?.findAllSkills?.map(({ name }: { name: string }) => ({
+    value: name,
+    label: name,
+  }));
+
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold">
       {label}
@@ -35,6 +34,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         *
       </span>
       <Select
+        isLoading={loading}
         required
         isMulti
         name={name}

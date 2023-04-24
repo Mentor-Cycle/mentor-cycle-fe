@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
-import Header from "@components/Header/Header";
 import Input from "@components/Input/Input";
 
 import Link from "next/link";
@@ -8,11 +7,11 @@ import { useRouter } from "next/router";
 import { FormEvent, useRef, useState } from "react";
 import { TbArrowLeft } from "react-icons/tb";
 import { toast } from "react-toastify";
-import { CHANGE_NEW_PASSWORD } from "services/apollo/mutations";
+import { RESET_NEW_PASSWORD } from "services/apollo/mutations";
 
 const ChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [resetUserPassword, { loading }] = useMutation(CHANGE_NEW_PASSWORD);
+  const [resetUserPassword, { loading }] = useMutation(RESET_NEW_PASSWORD);
   const [sucessChangePassword, setsucessChangePassword] = useState(false);
 
   const router = useRouter();
@@ -56,8 +55,7 @@ const ChangePassword = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-[81px] items-center">
-      <Header isLogged={false} />
+    <div className="flex flex-col gap-[81px] items-center mt-20">
       {sucessChangePassword ? (
         <div className=" w-full px-40">
           <Link href={{ pathname: "/" }}>

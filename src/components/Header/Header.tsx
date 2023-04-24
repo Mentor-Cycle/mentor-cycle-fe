@@ -1,17 +1,80 @@
-import Image from "next/image";
-import { MdMenu, MdEmail, MdNotifications } from "react-icons/md";
-import Link from "next/link";
+import useLocalStorage from "@hooks/useLocalStorage";
 import clsx from "clsx";
-import { HeaderProps } from "./Header.types";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { UserContext, initialValue } from "providers/user/AppContext";
+import { useContext, useState } from "react";
+
+import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdNotifications } from "react-icons/md";
+
+import Modal from "@components/Modal/Modal";
+import NavBar from "@components/NavBar/NavBar";
+import Toggle from "@components/Toggle/Toggle";
+
+import { useMutation } from "@apollo/client";
+import { LOGOUT_USER } from "services/apollo/mutations";
+import ModalNotifications from "./ModalNotifications";
+import ModalSettings from "./ModalSettings";
 
 const linkStyle = "flex items-center justify-center";
-const itemsMenuStyle = "flex space-x-1.5 lg:space-x-2 xl:space-x-3";
+const itemsMenuStyle =
+  "flex gap-2 items-center justify-center hover:text-gray-04";
 
-export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
+export default function Header() {
+  const [storedUser] = useLocalStorage("user", null);
+  const { user, setUser } = useContext(UserContext);
+  if (!user.isLogged && !user.firstName && storedUser) {
+    setUser(storedUser);
+  }
+  const router = useRouter();
+  const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
+  const [showModal, setShowModal] = useState<string>();
+  const [darkMode, setDarkMode] = useState(false);
+  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+  const [signOutUser] = useMutation(LOGOUT_USER);
+
+  const itemsMenu: Array<{
+    text: React.ReactNode;
+    action: keyof typeof menuClickActions;
+  }> = [
+    { text: "Editar Perfil", action: "editprofile" },
+    { text: "Configurações", action: "settings" },
+    {
+      text: (
+        <>
+          Dark Mode
+          <Toggle isToggle={darkMode} setIsToggle={setDarkMode} />
+        </>
+      ),
+      action: "theme",
+    },
+    { text: "Trocar de perfil", action: "changeprofile" },
+    { text: "Sair", action: "logout" },
+  ];
+  const menuClickActions = {
+    editprofile: () => router.push("/edit-perfil"),
+    settings: () => {
+      setShowModal("settings");
+      setToggleMenuProfile(false);
+    },
+    theme: () => setDarkMode(!darkMode),
+    changeprofile: () => console.log("trocar de perfil"),
+    logout: async () => {
+      await signOutUser();
+      setUser(initialValue);
+      router.replace("/");
+    },
+  };
+
   return (
-    <header className="flex justify-items-start w-full h-20 bg-neutral-01 border-gray-02 border-b">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
       <figure className="w-1/5 h-full">
-        <Link href="/home">
+        <Link href="/">
           <Image
             src={"/logoSvg.svg"}
             width={64}
@@ -22,36 +85,46 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
         </Link>
       </figure>
       {isLogged && (
-        <ul className="w-4/5 h-full flex flex-row justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
+        <ul className="w-4/5 h-full flex justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
           <li className={linkStyle}>
             <Link className={itemsMenuStyle} href="/home">
-              <MdMenu size={24} />
-              <span className="hidden min-[695px]:inline-flex text-base">
+              <BsFillHouseDoorFill size={24} />
+              <span className="hidden min-[770px]:inline-flex text-base">
                 Home
               </span>
             </Link>
           </li>
+
           <li className={linkStyle}>
-            <Link className={itemsMenuStyle} href="">
-              <MdEmail size={24} />
-              <span className="hidden min-[695px]:inline-flex text-base">
-                Mensagens
+            <button
+              className={itemsMenuStyle}
+              onClick={() => {
+                setShowModal("notifications");
+                setToggleMenuProfile(false);
+              }}
+            >
+              <MdNotifications size={24} />
+              <span className="hidden min-[770px]:inline-flex text-base">
+                Notificações
               </span>
-            </Link>
+            </button>
           </li>
           <li className={linkStyle}>
             <Link className={itemsMenuStyle} href="">
-              <MdNotifications size={24} />
-              <span className="hidden min-[695px]:inline-flex text-base">
-                Notificações
+              <BsFillPeopleFill size={24} />
+              <span className="hidden min-[770px]:inline-flex text-base">
+                Mentores
               </span>
             </Link>
           </li>
           <li className={clsx(linkStyle, "mr-10 lg:mr-16 xl:mr-36")}>
-            <Link
-              className={clsx(itemsMenuStyle, "items-center")}
-              href="/login"
-            >
+            <div className={clsx(itemsMenuStyle, "items-center")}>
+              {toggleMenuProfile && (
+                <NavBar
+                  itemsMenu={itemsMenu}
+                  menuClickActions={menuClickActions}
+                />
+              )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
                   src={photoUrl || "/imgCard.png"}
@@ -61,12 +134,49 @@ export default function Header({ isLogged, userName, photoUrl }: HeaderProps) {
                   className="object-cover"
                 />
               </figure>
-              <h1 className="hidden min-[850px]:inline-flex text-base font-bold">
-                {userName}
-              </h1>
-            </Link>
+
+              <div className="flex gap-20 items-center ">
+                <div className="flex flex-col">
+                  <h1 className="hidden min-[850px]:inline-flex text-base ">
+                    {firstName}
+                  </h1>
+                  <span
+                    className={clsx(
+                      "hidden min-[850px]:inline-flex text-xs text-primary-04 ",
+                      {
+                        isMentor: "text-primary-03",
+                      }
+                    )}
+                  >
+                    {isMentor ? "Mentor" : "Mentorado"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setToggleMenuProfile(!toggleMenuProfile)}
+                >
+                  {toggleMenuProfile ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
+      )}
+      {showModal === "notifications" && (
+        <Modal open={true} onOpenChange={() => setShowModal("")}>
+          {<ModalNotifications />}
+        </Modal>
+      )}
+      {showModal === "settings" && (
+        <Modal open={true} onOpenChange={() => setShowModal("")}>
+          {
+            <ModalSettings
+              firstName={firstName}
+              email={email}
+              id={id}
+              lastName={lastName}
+            />
+          }
+        </Modal>
       )}
     </header>
   );

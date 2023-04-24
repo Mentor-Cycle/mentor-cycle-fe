@@ -1,24 +1,32 @@
-import { FormEvent, useRef } from "react";
-import Image from "next/image";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
+import Input from "@components/Input";
 import { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { FormEvent, useContext, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import Input from "@components/Input";
-import Button from "@components/Button";
+import { useRouter } from "next/router";
+import { GET_ME } from "services/apollo/querys";
+import { UserContext } from "providers/user/AppContext";
+import useLocalStorage from "@hooks/useLocalStorage";
+import client from "services/apollo/apollo-client";
 
 const SignIn: NextPage = () => {
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
+  const [storedUser, setStoredUser] = useLocalStorage("user", null);
 
-  const [signInUser] = useMutation(SIGN_IN_USER);
+  const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
+  const { setUser } = useContext(UserContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,20 +36,41 @@ const SignIn: NextPage = () => {
     const { email, password, rememberMe } = Object.fromEntries(
       formData.entries()
     );
+
     const isValid = formRef.current?.checkValidity();
 
     if (isValid) {
       try {
         await signInUser({
-          variables: { email, password, rememberMe },
+          variables: {
+            email,
+            password,
+            rememberMe: rememberMe === "on",
+          },
         });
-        toast.success("Login realizado com sucesso, bem vindo!");
         formRef.current?.reset();
+        const { data } = await client.query({
+          query: GET_ME,
+        });
+        const userData = {
+          firstName: data.me.firstName,
+          photoUrl: data.me.photoUrl,
+          email: data.me.email,
+          isMentor: data.me.isMentor,
+          id: data.me.id,
+          isLogged: true,
+        };
+        setUser(userData);
+        setStoredUser(userData);
+        localStorage.removeItem("form-data");
+        router.replace("/mentors");
       } catch (error) {
         console.log(error);
+        toast.error("Erro ao realizar login, tente novamente!");
       }
     }
   };
+
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
@@ -113,7 +142,7 @@ const SignIn: NextPage = () => {
                 </Link>
               </div>
             </div>
-            <Button size="small" className="mb-4 md:mb-12">
+            <Button isLoading={loading} size="small" className="mb-4 md:mb-12">
               Entrar
             </Button>
           </form>

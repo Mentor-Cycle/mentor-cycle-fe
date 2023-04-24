@@ -5,7 +5,7 @@ import Input from "@components/Input";
 import MultiSelect from "@components/MultiSelect";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import useForm from "@hooks/useForm";
-import { ActionType } from "Providers/form";
+import { ActionType } from "providers/form";
 import { useFetch } from "@hooks/useFetch";
 import { Country, State, City } from "@hooks/useFetch.types";
 
@@ -57,7 +57,6 @@ const PersonalInformation = () => {
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const isValidDate = validateDate(value);
-
     if (isValidDate) {
       dispatch({
         type: ActionType.UPDATE_FORM_DATA,
@@ -135,6 +134,7 @@ const PersonalInformation = () => {
           name="birthDate"
           type="text"
           value={date}
+          mask="99/99/9999"
           onBlur={handleBlur}
           onChange={(e) => setDate((e.target as HTMLInputElement).value)}
           placeholder="DD/MM/AAAA"

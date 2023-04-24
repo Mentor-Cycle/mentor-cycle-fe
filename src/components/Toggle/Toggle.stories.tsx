@@ -9,7 +9,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const isToggle: Story = {
+export const IsToggle: Story = {
   args: {
     isToggle: true,
   },

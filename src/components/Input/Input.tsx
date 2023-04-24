@@ -1,7 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC, Ref, useState } from "react";
 import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
+import { AiOutlineSearch } from "react-icons/ai";
 import * as Label from "@radix-ui/react-label";
+import InputMask from "react-input-mask";
 
 // eslint-disable-next-line react/display-name
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
@@ -15,6 +17,8 @@ const InputComponent: FC<InputComponentProps> = ({
   disabled,
   className,
   forwardedRef,
+  search,
+  mask,
   onBlur,
   onValidChange,
   ...props
@@ -33,7 +37,9 @@ const InputComponent: FC<InputComponentProps> = ({
       onBlur(event);
     }
     const input = event.target;
-    let newInvalid = !input.checkValidity();
+    let newInvalid = input.hasOwnProperty("checkValidity")
+      ? !input.checkValidity()
+      : false;
 
     setInvalid(newInvalid);
     if (onValidChange) {
@@ -70,20 +76,50 @@ const InputComponent: FC<InputComponentProps> = ({
           *
         </span>
       )}
-      <input
-        ref={forwardedRef}
-        onKeyDown={handleKeyDown}
-        name={name}
-        disabled={disabled}
-        {...props}
-        className={clsx(
-          "text-secondary-05",
-          sizesInput[size],
-          invalid && "input-invalid",
-          "input-default"
+      <div className="flex items-center relative">
+        {mask ? (
+          <InputMask
+            ref={forwardedRef as any}
+            onKeyDown={handleKeyDown}
+            name={name}
+            disabled={disabled}
+            pattern={props?.pattern}
+            defaultValue={props?.value}
+            className={clsx(
+              "text-secondary-05",
+              sizesInput[size],
+              search && "pl-[72px]",
+              invalid && "input-invalid",
+              "input-default"
+            )}
+            onBlur={handleBlur}
+            mask={mask}
+            alwaysShowMask={false}
+          />
+        ) : (
+          <input
+            ref={forwardedRef}
+            onKeyDown={handleKeyDown}
+            name={name}
+            disabled={disabled}
+            {...props}
+            className={clsx(
+              "text-secondary-05",
+              sizesInput[size],
+              search && "pl-[72px]",
+              invalid && "input-invalid",
+              "input-default"
+            )}
+            onBlur={handleBlur}
+          />
         )}
-        onBlur={handleBlur}
-      />
+
+        {search && (
+          <div className="absolute left-0 top-0 bottom-0 px-6 flex items-center pointer-events-none">
+            <AiOutlineSearch size="28px" className="text-secondary-05" />
+          </div>
+        )}
+      </div>
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>
           {errorMessage}
