@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
-import Header from "@components/Header";
 import Input from "@components/Input/Input";
+// import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -128,7 +128,7 @@ const Mentors: NextPage = () => {
       <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed z-30 bottom-4 right-4 p-2 sm:p-4 rounded-full bg-primary-01 text-white hover:bg-primary-02 focus:outline-none"
+          className="fixed z-10 bottom-4 right-4 p-2 sm:p-4 rounded-full bg-primary-01 text-white hover:bg-primary-02 focus:outline-none"
         >
           <FiArrowUpCircle size={30} />
         </button>
@@ -208,6 +208,8 @@ const Mentors: NextPage = () => {
           </div>
         )}
       </main>
+      {/* uncomment and share props*/}
+      {/* <MentorModalAvailability open={open} setOpen={setOpen} /> */}
     </>
   );
 };

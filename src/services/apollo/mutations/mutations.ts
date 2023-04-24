@@ -83,3 +83,11 @@ export const DELETE_ACCOUNT = gql`
     deactivateAccount(id: $id)
   }
 `;
+
+export const PERSIST_AVAILABILITY = gql`
+  mutation persistAvailability($availability: CreateAvailabilityInput!) {
+    createAvailability(createAvailabilityInput: $availability) {
+      id
+    }
+  }
+`;
