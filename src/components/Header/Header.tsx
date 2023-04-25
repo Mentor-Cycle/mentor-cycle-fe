@@ -65,9 +65,9 @@ export default function Header() {
     theme: () => setDarkMode(!darkMode),
     changeprofile: () => console.log("trocar de perfil"),
     logout: async () => {
-      await signOutUser();
-      localStorage.removeItem("user");
       setUser(initialValue);
+      localStorage.removeItem("user");
+      await signOutUser();
       router.replace("/");
     },
   };

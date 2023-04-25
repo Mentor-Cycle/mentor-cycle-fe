@@ -1,3 +1,4 @@
+import { useUser } from "@hooks/useUser";
 import { PUBLIC_ROUTES } from "config/constants";
 import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
@@ -10,14 +11,19 @@ type AuthProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProps) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     async function getUserMe() {
+      if (router.pathname === "/signin" && user.isLogged) {
+        router.replace("/mentors");
+      }
+
       const isPublicRoute =
         PUBLIC_ROUTES.includes(router.pathname) ||
         router.query.public === "true";
+
       if (user.isLogged || isPublicRoute) return;
 
       try {
@@ -37,7 +43,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         }
       } catch (e) {
         setUser(initialValue);
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.replace("/signin");
       }
     }

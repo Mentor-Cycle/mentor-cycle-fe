@@ -4,12 +4,12 @@ import useLocalStorage from "./useLocalStorage";
 
 export const useUser = () => {
   const [localUser, setLocalUser] = useLocalStorage("user", null);
-  const { user, setUser } = useContext(UserContext);
+  const { user: contextUser, setUser } = useContext(UserContext);
 
   const updateUserData = (newUserData: User) => {
-    setUser({ ...user, ...newUserData });
-    setLocalUser({ ...user, ...newUserData });
+    setUser({ ...contextUser, ...newUserData });
+    setLocalUser({ ...localUser, ...newUserData });
   };
 
-  return { user, setUser, updateUserData };
+  return { user: { ...contextUser, ...localUser }, setUser, updateUserData };
 };
