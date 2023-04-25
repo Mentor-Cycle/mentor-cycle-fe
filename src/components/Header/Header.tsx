@@ -20,6 +20,7 @@ import { useMutation } from "@apollo/client";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
+import { useUser } from "@hooks/useUser";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -27,6 +28,7 @@ const itemsMenuStyle =
 
 export default function Header() {
   const [storedUser] = useLocalStorage("user", null);
+  const { updateUserData } = useUser();
   const { user, setUser } = useContext(UserContext);
   if (!user.isLogged && !user.firstName && storedUser) {
     setUser(storedUser);
@@ -56,6 +58,13 @@ export default function Header() {
     { text: "Trocar de perfil", action: "changeprofile" },
     { text: "Sair", action: "logout" },
   ];
+
+  const logOutUser = () => async () => {
+    await signOutUser();
+    await updateUserData(initialValue);
+    window.location.href = "/";
+  };
+
   const menuClickActions = {
     editprofile: () => router.push("/edit-perfil"),
     settings: () => {
@@ -64,12 +73,7 @@ export default function Header() {
     },
     theme: () => setDarkMode(!darkMode),
     changeprofile: () => console.log("trocar de perfil"),
-    logout: async () => {
-      setUser(initialValue);
-      localStorage.removeItem("user");
-      await signOutUser();
-      router.replace("/");
-    },
+    logout: logOutUser(),
   };
 
   return (

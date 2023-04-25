@@ -11,8 +11,8 @@ type AuthProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProps) => {
-  const { user, setUser } = useUser();
   const router = useRouter();
+  const { user, setUser, updateUserData } = useUser();
 
   useEffect(() => {
     async function getUserMe() {
@@ -20,9 +20,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         router.replace("/mentors");
       }
 
-      const isPublicRoute =
-        PUBLIC_ROUTES.includes(router.pathname) ||
-        router.query.public === "true";
+      const isPublicRoute = PUBLIC_ROUTES.includes(router.pathname);
 
       if (user.isLogged || isPublicRoute) return;
 
@@ -31,7 +29,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
           query: GET_ME,
         });
         if (data) {
-          setUser({
+          updateUserData({
             firstName: data.me.firstName,
             lastName: data.me.lastName,
             photoUrl: data.me.photoUrl,
@@ -48,7 +46,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
       }
     }
     getUserMe();
-  }, [user.isLogged, setUser, router]);
+  }, [user.isLogged, setUser, router, updateUserData]);
 
   return <>{children}</>;
 };
