@@ -6,8 +6,8 @@ export const PUBLIC_ROUTES = [
   "/signup/plan",
   "/signup/register",
   "/request-change-password",
-  "/mentors",
-  "/mentors/[id]",
+  // "/mentors",
+  // "/mentors/[id]",
 ];
 export const ROUTES_WITHOUT_HEADER = ["/signin", "/request-change-password"];
 export const DAYS_OF_THE_WEEK_SHORT = [

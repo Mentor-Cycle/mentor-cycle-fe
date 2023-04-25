@@ -66,6 +66,7 @@ export default function Header() {
     changeprofile: () => console.log("trocar de perfil"),
     logout: async () => {
       await signOutUser();
+      localStorage.removeItem("user");
       setUser(initialValue);
       router.replace("/");
     },

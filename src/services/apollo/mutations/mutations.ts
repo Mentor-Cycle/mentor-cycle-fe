@@ -43,17 +43,9 @@ export const SEND_RESET_PASSWORD = gql`
 `;
 
 export const CHANGE_PASSWORD = gql`
-  mutation changeNewPassword(
-    $userId: String!
-    $oldPassword: String!
-    $newPassword: String!
-  ) {
+  mutation changeNewPassword($userId: String!, $newPassword: String!) {
     changePassword(
-      changePasswordInput: {
-        userId: $userId
-        oldPassword: $oldPassword
-        newPassword: $newPassword
-      }
+      changePasswordInput: { userId: $userId, newPassword: $newPassword }
     )
   }
 `;

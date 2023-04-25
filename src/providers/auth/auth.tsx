@@ -15,7 +15,9 @@ export const AuthProvider = ({ children }: AuthProps) => {
 
   useEffect(() => {
     async function getUserMe() {
-      const isPublicRoute = PUBLIC_ROUTES.includes(router.pathname);
+      const isPublicRoute =
+        PUBLIC_ROUTES.includes(router.pathname) ||
+        router.query.public === "true";
       if (user.isLogged || isPublicRoute) return;
 
       try {

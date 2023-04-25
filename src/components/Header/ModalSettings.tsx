@@ -14,22 +14,13 @@ import {
   DELETE_ACCOUNT,
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
+import { useUser } from "@hooks/useUser";
+import { User } from "providers/user/AppContext";
 
-interface ModalSettingsProps {
-  firstName: string;
-  email: string;
-  id: string;
-  lastName: string;
-}
-
-const ModalSettings = ({
-  firstName,
-  email,
-  id,
-  lastName,
-}: ModalSettingsProps) => {
+const ModalSettings = ({ firstName, email, id, lastName }: User) => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
   const [currentStep, setCurretStep] = useState(1);
+  const { setUser, updateUserData } = useUser();
 
   const router = useRouter();
 
@@ -53,11 +44,10 @@ const ModalSettings = ({
 
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { newPassword, newPasswordConfirm, oldPassword } = Object.fromEntries(
+    const { newPassword, newPasswordConfirm } = Object.fromEntries(
       formData.entries()
     );
     try {
-      console.log(newPassword, newPasswordConfirm);
       if (newPassword != newPasswordConfirm) {
         toast.error("As senhas precisam ser iguais");
         return;
@@ -65,7 +55,6 @@ const ModalSettings = ({
       await changePassword({
         variables: {
           userId: id,
-          oldPassword,
           newPassword,
         },
       });
@@ -89,14 +78,17 @@ const ModalSettings = ({
       email: newEmail,
     } = Object.fromEntries(formData.entries());
     try {
+      const newUser = {
+        firstName: newFirstName.toString() || firstName,
+        lastName: newLastName.toString() || lastName,
+        email: newEmail.toString() || email,
+        id,
+      };
+
       await updateUser({
-        variables: {
-          firstName: newFirstName || firstName,
-          lastName: newLastName || lastName,
-          email: newEmail || email,
-          id,
-        },
+        variables: newUser,
       });
+      updateUserData(newUser);
       setDataSucessChange(true);
       setTimeout(() => {
         router.push("/mentors");
@@ -147,12 +139,12 @@ const ModalSettings = ({
           </main>
         </div>
       ) : (
-        <div className="flex    w-full">
+        <div className="flex w-full min-h-[600px]">
           <StepperVertical
             setCurrentStep={setCurretStep}
             steps={["Perfil", "Sistema", "Segurança"]}
             currentStep={currentStep}
-            className="text-start w-60 "
+            className="text-start w-60"
             clickable
           />
           {currentStep === 1 && (
@@ -169,14 +161,14 @@ const ModalSettings = ({
                   <Input
                     name="firstName"
                     label="Nome"
-                    placeholder={firstName}
+                    defaultValue={firstName}
                   />
                   <Input
                     name="lastName"
                     label="Sobrenome"
-                    placeholder={lastName}
+                    defaultValue={lastName}
                   />
-                  <Input name="email" label="Email" placeholder={email} />
+                  <Input name="email" label="Email" defaultValue={email} />
                 </div>
                 <Button variant="secondary">Salvar alterações</Button>
               </form>
@@ -233,13 +225,6 @@ const ModalSettings = ({
                 <div className="flex flex-col gap-5">
                   <Input
                     type="password"
-                    name="oldPassword"
-                    label="Senha atual"
-                    placeholder="**************"
-                  />
-
-                  <Input
-                    type="password"
                     name="newPassword"
                     label="Senha"
                     placeholder="**************"
@@ -251,7 +236,6 @@ const ModalSettings = ({
                     placeholder="**************"
                   />
                   <div className="flex flex-col gap-6">
-                    <span className="font-semibold">Deletar conta</span>
                     <button
                       type="button"
                       className="text-primary-03 self-start"

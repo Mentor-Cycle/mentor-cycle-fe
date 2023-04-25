@@ -30,7 +30,7 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
             onClick={() => setCurrentStep(index + 1)}
             key={index}
             className={clsx(
-              "p-6",
+              "p-6 cursor-pointer",
               isActive(index) ? ACTIVE_CLASS : INACTIVE_CLASS
             )}
           >
