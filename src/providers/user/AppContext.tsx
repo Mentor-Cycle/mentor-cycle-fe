@@ -2,6 +2,7 @@ import React from "react";
 
 export type User = {
   firstName: string;
+  lastName: string;
   photoUrl: string;
   email: string;
   isMentor: boolean;
@@ -13,6 +14,7 @@ export type User = {
 
 export const initialValue: User = {
   firstName: "",
+  lastName: "",
   photoUrl: "",
   email: "",
   isMentor: false,

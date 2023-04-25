@@ -5,9 +5,11 @@ export type Props = {
   name: string;
   id?: string;
   job: string;
-  date: ReactNode;
-  hour: ReactNode;
-  status: "Não realizada" | "Realizada" | "A confirmar";
+  date: any;
+  hour: any;
+  status: string;
+  meetingLink?: string;
+  eventId: string;
 };
 
 export type StatusToVariantMap = {

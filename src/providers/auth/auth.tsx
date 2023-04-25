@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         if (data) {
           setUser({
             firstName: data.me.firstName,
+            lastName: data.me.lastName,
             photoUrl: data.me.photoUrl,
             email: data.me.email,
             jobTitle: data.me.jobTitle,

@@ -75,6 +75,7 @@ export const GET_ME = gql`
     me {
       id
       firstName
+      lastName
       isMentor
       photoUrl
       email
@@ -84,24 +85,26 @@ export const GET_ME = gql`
     }
   }
 `;
+
 export const GET_EVENTS = gql`
-  query FindEvents($mentorId: String, $learnerId: String) {
-    findEvents(mentorId: $mentorId, learnerId: $learnerId) {
+  query GetEvents($learnerId: String, $mentorId: String) {
+    findEvents(learnerId: $learnerId, mentorId: $mentorId) {
       id
       mentorId
-      learners {
+      meetingLink
+      participants {
         user {
           id
-          email
           firstName
+          lastName
+          jobTitle
+          isMentor
         }
-        assignedBy
-        assignedAt
       }
       startDate
       endDate
-      active
       status
+      active
     }
   }
 `;

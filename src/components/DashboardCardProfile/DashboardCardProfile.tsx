@@ -9,7 +9,7 @@ const DashboardCardProfile = ({
   avatar,
 }: Props) => {
   return (
-    <div className="p-4 flex justify-center items-center gap-4">
+    <div className="p-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4">
       <div className="rounded-lg overflow-hidden w-24 h-24">
         <Image
           src={avatar ? avatar : "/imgCard.png"}
@@ -24,13 +24,14 @@ const DashboardCardProfile = ({
         </h1>
         <p className="text-sm text-gray-01 max-w-[280px] truncate">{job}</p>
         <div className="flex gap-2 mt-4 max-w-[270px] truncate">
-          {skills?.map((skill) => {
-            return (
-              <Chip key={skill} variant="primary">
-                {skill}
-              </Chip>
-            );
-          })}
+          {skills &&
+            skills.map((skill) => {
+              return (
+                <Chip key={skill} variant="primary">
+                  {skill}
+                </Chip>
+              );
+            })}
         </div>
       </div>
     </div>

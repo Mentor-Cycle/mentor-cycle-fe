@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { Props } from "./MentoringWeekCard.types";
 
 const MentoringWeekCard = ({ day, description, chips }: Props) => {
@@ -8,7 +7,7 @@ const MentoringWeekCard = ({ day, description, chips }: Props) => {
         {day}
       </h2>
       <p className="text-sm text-gray-04 mt-2 line-clamp-2">{description}</p>
-      <div className="flex justify-center text-base items-center mt-2 gap-2">
+      <div className="flex flex-wrap justify-start text-base items-center mt-2 gap-2">
         {chips}
       </div>
     </div>

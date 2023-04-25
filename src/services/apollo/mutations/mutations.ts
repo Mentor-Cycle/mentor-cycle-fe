@@ -12,6 +12,17 @@ export const SIGN_IN_USER = gql`
   }
 `;
 
+export const UPDATE_EVENT = gql`
+  mutation UpdateEvent($updateEventInput: UpdateEventInput!) {
+    updateEvent(updateEventInput: $updateEventInput) {
+      id
+      status
+      mentorId
+      endDate
+    }
+  }
+`;
+
 export const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
     signUpUser(userInput: $input)

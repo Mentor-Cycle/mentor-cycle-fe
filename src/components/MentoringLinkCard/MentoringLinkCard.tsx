@@ -2,13 +2,13 @@ import * as Select from "@radix-ui/react-select";
 import Image from "next/image";
 import Chip from "../../components/Chip";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
 import Modal from "@components/Modal/Modal";
+import { useMutation } from "@apollo/client";
+import { UPDATE_EVENT } from "services/apollo/mutations";
 
 const MentoringLinkCard = ({
   avatar,
@@ -17,14 +17,17 @@ const MentoringLinkCard = ({
   status,
   date,
   hour,
+  meetingLink,
+  eventId,
 }: Props) => {
+  const [updatedStatus, setUpdatedStatus] = useState(status);
+
   const statusToPortugueseMap: Record<string, string> = {
     PENDING: "A confirmar",
     DONE: "Realizada",
     CANCELLED: "Cancelada",
     CONFIRMED: "Confirmada",
   };
-
   const handleStatusCard = (status: string) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
@@ -55,19 +58,33 @@ const MentoringLinkCard = ({
             {job}
           </p>
           <div className="flex gap-2 mt-4 max-w-[260px] truncate">
-            {handleStatusCard(status)}
+            {handleStatusCard(updatedStatus)}
           </div>
         </div>
       </div>
       <div className="flex justify-end items-end flex-col md:min-w-[278px] ">
-        <Button size="small">Acessar chamada</Button>
+        <a
+          href={meetingLink}
+          className="w-full"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <Button size="small">Acessar chamada</Button>
+        </a>
         <div className="flex items-center justify-center ">
           <div className="flex flex-col justify-end items-end mr-3">
             <span className="mt-4 dark:text-neutral-03">{date}</span>
             <span className="text-gray-03 dark:text-neutral-05">{hour}</span>
           </div>
           <div className="relative cursor-pointer transition-all duration-300">
-            <SelectComponent />
+            <SelectComponent
+              eventId={eventId}
+              status={updatedStatus}
+              setStatus={setUpdatedStatus}
+              nameUser={name}
+              hour={hour}
+              date={date}
+            />
           </div>
         </div>
       </div>
@@ -75,10 +92,25 @@ const MentoringLinkCard = ({
   );
 };
 
-const SelectComponent = () => {
+const SelectComponent = ({
+  eventId,
+  setStatus,
+  nameUser,
+  date,
+  hour,
+}: {
+  date: React.ReactNode;
+  hour: React.ReactNode;
+  nameUser: string;
+  eventId: string;
+  status: string;
+  setStatus: (status: string) => void;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
+  const [updateEventStatus, { loading }] = useMutation(UPDATE_EVENT);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleCloseModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -93,6 +125,19 @@ const SelectComponent = () => {
     }
   };
 
+  const handleUpdateEventStatus = async (eventId: string) => {
+    setCurrentStep(currentStep + 1);
+    const updateEventInput = {
+      id: eventId,
+      status: "CANCELLED",
+    };
+    try {
+      await updateEventStatus({ variables: { updateEventInput } });
+      setStatus("CANCELLED");
+    } catch (error) {
+      console.error("Error updating event status:", error);
+    }
+  };
   return (
     <>
       <Modal
@@ -100,15 +145,45 @@ const SelectComponent = () => {
         onOpenChange={setIsModalOpen}
         closeModalComponent={<button onClick={handleCloseModal}></button>}
       >
-        <p className="text-2xl font-bold px-20">
-          Deseja realmente cancelar sua mentoria?
-        </p>
-        <div className="flex mt-16 px-20 gap-4">
-          <Button size="small" variant="secondary" onClick={handleCloseModal}>
-            Cancelar
-          </Button>
-          <Button size="small">Confirmar</Button>
-        </div>
+        {currentStep === 1 && (
+          <>
+            <p className="text-2xl font-bold px-20">
+              Deseja realmente cancelar sua mentoria?
+            </p>
+            <div className="flex mt-16 px-20 gap-4">
+              <Button
+                size="small"
+                variant="secondary"
+                onClick={handleCloseModal}
+              >
+                Cancelar
+              </Button>
+              <Button
+                size="small"
+                onClick={() => handleUpdateEventStatus(eventId)}
+              >
+                Confirmar
+              </Button>
+            </div>
+          </>
+        )}
+        {currentStep === 2 && !loading && (
+          <>
+            <p className="text-2xl font-bold px-20 text-success-01 text-center">
+              Sua mentoria foi cancelada com sucesso!
+            </p>
+            <p className="font-bold px-20 text-base mt-4">{nameUser}</p>
+            <p className=" px-14 text-base mt-4 text-gray-03">
+              Seu mentorado será notificado do seu cancelamento da mentoria
+            </p>
+            <p className=" px-20 text-base mt-4">
+              <span className="font-bold">Horário:</span> {hour}
+            </p>
+            <p className=" px-20 text-base mt-4">
+              <span className="font-bold"> Data:</span> {date}
+            </p>
+          </>
+        )}
       </Modal>
       <Select.Root
         open={isOpen}
