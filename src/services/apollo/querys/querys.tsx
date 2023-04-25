@@ -34,6 +34,21 @@ export const GET_MENTORS = gql`
   }
 `;
 
+export const GET_LOGIN_USER_INFO = gql`
+  query FindUserLogin {
+    me {
+      id
+      firstName
+      lastName
+      email
+      skills
+      jobTitle
+      isMentor
+      status
+    }
+  }
+`;
+
 export const GET_MENTOR_BY_ID = gql`
   query FindMentorById($id: String!) {
     findOneMentor(id: $id) {
@@ -58,6 +73,7 @@ export const GET_MENTOR_BY_ID = gql`
     }
   }
 `;
+
 export const GET_SKILLS = gql`
   query FindSkills {
     findAllSkills {
@@ -68,13 +84,38 @@ export const GET_SKILLS = gql`
 export const GET_ME = gql`
   query {
     me {
+      id
       firstName
       lastName
       isMentor
       photoUrl
       email
+      jobTitle
       isMentor
+      skills
+    }
+  }
+`;
+
+export const GET_EVENTS = gql`
+  query GetEvents($learnerId: String, $mentorId: String) {
+    findEvents(learnerId: $learnerId, mentorId: $mentorId) {
       id
+      mentorId
+      meetingLink
+      participants {
+        user {
+          id
+          firstName
+          lastName
+          jobTitle
+          isMentor
+        }
+      }
+      startDate
+      endDate
+      status
+      active
     }
   }
 `;

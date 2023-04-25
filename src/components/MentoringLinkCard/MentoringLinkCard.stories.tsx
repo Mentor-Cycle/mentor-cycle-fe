@@ -1,5 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 import MentoringLinkCard from "./MentoringLinkCard";
+import { formatHour } from "utils/dashboard-helpers";
+import { format } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 const meta = {
   title: "Data Display/MentoringLinkCard",
@@ -35,7 +38,8 @@ export const Default: Story = {
     name: "João Silva",
     job: "Desenvolvedor Full Stack",
     status: "A confirmar",
-    date: new Date("2023-05-15"),
-    hour: new Date("2023-05-15T19:30:00"),
+    date: format(new Date(), "EEEE", { locale: ptBR }),
+    hour: formatHour(new Date()),
+    eventId: "123",
   },
 };

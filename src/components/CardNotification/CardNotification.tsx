@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import clsx from "clsx";
 import Link from "next/link";
 import { CardNotificationProps } from "./CardNotification.types";
@@ -23,7 +22,7 @@ const CardNotification = ({
           }
         )}
       >
-        <Image src={imgUrl} alt="" width={48} height={48} />
+        <Image src={imgUrl || "/imgCard.png"} alt="" width={48} height={48} />
         <div
           className={clsx("flex flex-col ml-4 h-full", {
             " text-gray-04": alreadyViewed,

@@ -7,7 +7,7 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
     "@storybook/blocks",
     "storybook-addon-designs",
-    "@storybook/addon-mdx-gfm",
+    // "@storybook/addon-mdx-gfm",
   ],
   framework: {
     name: "@storybook/nextjs",

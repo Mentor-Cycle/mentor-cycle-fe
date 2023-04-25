@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }: AuthProps) => {
             lastName: data.me.lastName,
             photoUrl: data.me.photoUrl,
             email: data.me.email,
+            jobTitle: data.me.jobTitle,
+            skills: data.me.skills,
             isMentor: data.me.isMentor,
             id: data.me.id,
             isLogged: true,

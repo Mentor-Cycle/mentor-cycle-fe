@@ -1,6 +1,8 @@
 import React from "react";
 
 export type User = {
+  jobTitle?: string;
+  skills?: string[];
   firstName?: string;
   lastName?: string;
   photoUrl?: string;
@@ -18,6 +20,8 @@ export const initialValue: User = {
   isMentor: false,
   id: "",
   isLogged: false,
+  skills: [],
+  jobTitle: "",
 };
 
 export const UserContext = React.createContext<any>({});
