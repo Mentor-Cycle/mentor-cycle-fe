@@ -1,21 +1,29 @@
-import React, { useEffect, useContext } from "react";
-import { useRouter } from "next/router";
-import { initialValue, UserContext } from "providers/user/AppContext";
-import { GET_ME } from "services/apollo/querys";
-import client from "services/apollo/apollo-client";
+import { useUser } from "@hooks/useUser";
 import { PUBLIC_ROUTES } from "config/constants";
+import { useRouter } from "next/router";
+import { UserContext, initialValue } from "providers/user/AppContext";
+import React, { useContext, useEffect } from "react";
+import client from "services/apollo/apollo-client";
+import { GET_ME } from "services/apollo/querys";
 
 type AuthProps = {
   children: React.ReactNode;
 };
 
 export const AuthProvider = ({ children }: AuthProps) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     async function getUserMe() {
-      const isPublicRoute = PUBLIC_ROUTES.includes(router.pathname);
+      if (router.pathname === "/signin" && user.isLogged) {
+        router.replace("/mentors");
+      }
+
+      const isPublicRoute =
+        PUBLIC_ROUTES.includes(router.pathname) ||
+        router.query.public === "true";
+
       if (user.isLogged || isPublicRoute) return;
 
       try {
@@ -37,7 +45,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         }
       } catch (e) {
         setUser(initialValue);
-        localStorage.clear();
+        localStorage.removeItem("user");
         router.replace("/signin");
       }
     }

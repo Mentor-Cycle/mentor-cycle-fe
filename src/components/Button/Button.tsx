@@ -73,4 +73,5 @@ const ButtonIcon: React.FC<IconProps> = ({
 };
 
 Button.Icon = ButtonIcon;
+Button.displayName = "Button";
 export default Button;

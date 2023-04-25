@@ -1,15 +1,17 @@
 import Image from "next/image";
 import { Props } from "./DashboardCardProfile.types";
 import Chip from "../Chip";
+import clsx from "clsx";
 
 const DashboardCardProfile = ({
   skills = ["Full-Stack", "Back-End", "Front-End"],
   name,
   job,
   avatar,
+  className,
 }: Props) => {
   return (
-    <div className="p-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4">
+    <div className={clsx("p-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4", className)}>
       <div className="rounded-lg overflow-hidden w-24 h-24">
         <Image
           src={avatar ? avatar : "/imgCard.png"}

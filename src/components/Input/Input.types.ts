@@ -12,6 +12,7 @@ export interface InputProps
   minLength?: number;
   maxLength?: number;
   placeholder?: string;
+  mask?: string;
   type?: string;
   disabled?: boolean;
   ref?: React.Ref<HTMLInputElement>;

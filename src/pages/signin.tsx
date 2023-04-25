@@ -23,7 +23,7 @@ const SignIn: NextPage = () => {
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
-  const [setStoredUser] = useLocalStorage("user", null);
+  const [storedUser, setStoredUser] = useLocalStorage("user", null);
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
   const { setUser } = useContext(UserContext);
@@ -62,6 +62,7 @@ const SignIn: NextPage = () => {
         };
         setUser(userData);
         setStoredUser(userData);
+        localStorage.removeItem("form-data");
         router.replace("/mentors");
       } catch (error) {
         console.log(error);

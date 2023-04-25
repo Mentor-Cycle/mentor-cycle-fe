@@ -1,15 +1,15 @@
 import React from "react";
 
 export type User = {
-  firstName: string;
-  lastName: string;
-  photoUrl: string;
-  email: string;
-  isMentor: boolean;
-  id: string;
-  isLogged: boolean;
-  jobTitle: string;
-  skills: string[];
+  jobTitle?: string;
+  skills?: string[];
+  firstName?: string;
+  lastName?: string;
+  photoUrl?: string;
+  email?: string;
+  isMentor?: boolean;
+  id?: string;
+  isLogged?: boolean;
 };
 
 export const initialValue: User = {
