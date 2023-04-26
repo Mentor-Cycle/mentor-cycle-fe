@@ -1,10 +1,15 @@
+import { ReactNode } from "react";
+
 export type Props = {
   avatar?: string;
   name: string;
+  id?: string;
   job: string;
-  date: Date;
-  hour: Date;
-  status: "Não realizada" | "Realizada" | "A confirmar";
+  date: any;
+  hour: any;
+  status: string;
+  meetingLink?: string;
+  eventId: string;
 };
 
 export type StatusToVariantMap = {

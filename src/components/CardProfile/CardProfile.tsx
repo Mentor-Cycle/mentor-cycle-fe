@@ -9,6 +9,7 @@ const CardProfile = ({
   id,
   chips,
   description,
+  variant = "Large",
   image,
   jobTitle,
   location,
@@ -18,6 +19,11 @@ const CardProfile = ({
   const MIN_WIDTH = "min-w-[300px]";
   const router = useRouter();
 
+  const variantSize = {
+    Medium: "px-[24px]",
+    Large: "px-11 ",
+  };
+
   const handleViewProfileClick = () => {
     router.push(`/mentors/${id}`);
   };
@@ -26,7 +32,8 @@ const CardProfile = ({
       className={clsx(
         MAX_WIDTH,
         MIN_WIDTH,
-        "px-11 py-6 border w-full border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
+        variantSize[variant],
+        " py-6 border w-full border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
       )}
     >
       <div>

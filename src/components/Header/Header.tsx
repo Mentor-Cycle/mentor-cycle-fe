@@ -93,7 +93,7 @@ export default function Header() {
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
       <figure className="w-1/5 h-full">
-        <Link href="/">
+        <Link href="/dashboard">
           <Image
             src={"/logoSvg.svg"}
             width={64}
@@ -106,14 +106,13 @@ export default function Header() {
       {isLogged && (
         <ul className="w-4/5 h-full flex justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
           <li className={linkStyle}>
-            <Link className={itemsMenuStyle} href="/home">
+            <Link className={itemsMenuStyle} href="/dashboard">
               <BsFillHouseDoorFill size={24} />
               <span className="hidden min-[770px]:inline-flex text-base">
                 Home
               </span>
             </Link>
           </li>
-
           <li className={linkStyle}>
             <button
               className={itemsMenuStyle}
@@ -146,7 +145,7 @@ export default function Header() {
               )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
-                  src={photoUrl || "/imgCard.png"}
+                  src={"/imgCard.png"}
                   width={100}
                   height={100}
                   alt="userPhoto"

@@ -4,10 +4,11 @@ import Chip from "../../components/Chip";
 import clsx from "clsx";
 import { useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
+import Modal from "@components/Modal/Modal";
+import { useMutation } from "@apollo/client";
+import { UPDATE_EVENT } from "services/apollo/mutations";
 
 const MentoringLinkCard = ({
   avatar,
@@ -16,7 +17,17 @@ const MentoringLinkCard = ({
   status,
   date,
   hour,
+  meetingLink,
+  eventId,
 }: Props) => {
+  const [updatedStatus, setUpdatedStatus] = useState(status);
+
+  const statusToPortugueseMap: Record<string, string> = {
+    PENDING: "A confirmar",
+    DONE: "Realizada",
+    CANCELLED: "Cancelada",
+    CONFIRMED: "Confirmada",
+  };
   const handleStatusCard = (status: string) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
@@ -24,15 +35,12 @@ const MentoringLinkCard = ({
       "A confirmar": "tertiary",
     };
 
-    const variant = statusToVariantMap[status];
-    return <Chip variant={variant}>{status}</Chip>;
+    const variant = statusToVariantMap[statusToPortugueseMap[status]];
+    return <Chip variant={variant}>{statusToPortugueseMap[status]}</Chip>;
   };
 
-  const formattedDate = format(date, "dd 'de' MMMM yyyy", { locale: ptBR });
-  const formattedHour = format(hour, "HH'h'mm");
-
   return (
-    <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-6xl w-full border border-gray-03 rounded-lg">
+    <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-full border border-gray-03 rounded-lg">
       <div className="flex flex-col sm:flex sm:flex-row gap-4 ">
         <div className="rounded-lg overflow-hidden w-24 h-24">
           <Image
@@ -50,21 +58,33 @@ const MentoringLinkCard = ({
             {job}
           </p>
           <div className="flex gap-2 mt-4 max-w-[260px] truncate">
-            {handleStatusCard(status)}
+            {handleStatusCard(updatedStatus)}
           </div>
         </div>
       </div>
       <div className="flex justify-end items-end flex-col md:min-w-[278px] ">
-        <Button size="small">Acessar chamada</Button>
+        <a
+          href={meetingLink}
+          className="w-full"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <Button size="small">Acessar chamada</Button>
+        </a>
         <div className="flex items-center justify-center ">
           <div className="flex flex-col justify-end items-end mr-3">
-            <span className="mt-4 dark:text-neutral-03">{formattedDate}</span>
-            <span className="text-gray-03 dark:text-neutral-05">
-              {formattedHour}
-            </span>
+            <span className="mt-4 dark:text-neutral-03">{date}</span>
+            <span className="text-gray-03 dark:text-neutral-05">{hour}</span>
           </div>
           <div className="relative cursor-pointer transition-all duration-300">
-            <SelectComponent />
+            <SelectComponent
+              eventId={eventId}
+              status={updatedStatus}
+              setStatus={setUpdatedStatus}
+              nameUser={name}
+              hour={hour}
+              date={date}
+            />
           </div>
         </div>
       </div>
@@ -72,40 +92,133 @@ const MentoringLinkCard = ({
   );
 };
 
-const SelectComponent = () => {
+const SelectComponent = ({
+  eventId,
+  setStatus,
+  nameUser,
+  date,
+  hour,
+}: {
+  date: React.ReactNode;
+  hour: React.ReactNode;
+  nameUser: string;
+  eventId: string;
+  status: string;
+  setStatus: (status: string) => void;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
+  const [updateEventStatus, { loading }] = useMutation(UPDATE_EVENT);
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(!isModalOpen);
+    setIsOpen(!isOpen);
+  };
+
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    if (newValue == "Cancelar") {
+      setIsModalOpen(true);
+      setValue("");
+    }
+  };
+
+  const handleUpdateEventStatus = async (eventId: string) => {
+    setCurrentStep(currentStep + 1);
+    const updateEventInput = {
+      id: eventId,
+      status: "CANCELLED",
+    };
+    try {
+      await updateEventStatus({ variables: { updateEventInput } });
+      setStatus("CANCELLED");
+    } catch (error) {
+      console.error("Error updating event status:", error);
+    }
+  };
   return (
-    <Select.Root
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      value={value}
-      onValueChange={setValue}
-    >
-      <Select.Trigger className="flex items-center justify-center cursor-pointer">
-        {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
-      </Select.Trigger>
-      <Select.Content
-        position="popper"
-        alignOffset={30}
-        side="left"
-        className={clsx("bg-neutral-01 border border-gra p-4 rounded-lg mt-2")}
+    <>
+      <Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        closeModalComponent={<button onClick={handleCloseModal}></button>}
       >
-        <Select.Item
-          data-testid="remarcar-option"
-          value="Remarcar"
-          className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+        {currentStep === 1 && (
+          <>
+            <p className="text-2xl font-bold px-20">
+              Deseja realmente cancelar sua mentoria?
+            </p>
+            <div className="flex mt-16 px-20 gap-4">
+              <Button
+                size="small"
+                variant="secondary"
+                onClick={handleCloseModal}
+              >
+                Cancelar
+              </Button>
+              <Button
+                size="small"
+                onClick={() => handleUpdateEventStatus(eventId)}
+              >
+                Confirmar
+              </Button>
+            </div>
+          </>
+        )}
+        {currentStep === 2 && !loading && (
+          <>
+            <p className="text-2xl font-bold px-20 text-success-01 text-center">
+              Sua mentoria foi cancelada com sucesso!
+            </p>
+            <p className="font-bold px-20 text-base mt-4">{nameUser}</p>
+            <p className=" px-14 text-base mt-4 text-gray-03">
+              Seu mentorado será notificado do seu cancelamento da mentoria
+            </p>
+            <p className=" px-20 text-base mt-4">
+              <span className="font-bold">Horário:</span> {hour}
+            </p>
+            <p className=" px-20 text-base mt-4">
+              <span className="font-bold"> Data:</span> {date}
+            </p>
+          </>
+        )}
+      </Modal>
+      <Select.Root
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        value={value}
+        onValueChange={handleValueChange}
+      >
+        <Select.Trigger className="flex items-center justify-center cursor-pointer">
+          {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
+        </Select.Trigger>
+        <Select.Content
+          position="popper"
+          alignOffset={30}
+          side="left"
+          className={clsx(
+            "bg-neutral-01 border border-gra p-4 rounded-lg mt-2"
+          )}
         >
-          Remarcar
-        </Select.Item>
-        <Select.Item
-          value="Cancelar"
-          className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
-        >
-          Cancelar
-        </Select.Item>
-      </Select.Content>
-    </Select.Root>
+          <Select.Item
+            data-testid="remarcar-option"
+            value="Remarcar"
+            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+          >
+            Remarcar
+          </Select.Item>
+          <Select.Item
+            value="Cancelar"
+            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+          >
+            Cancelar
+          </Select.Item>
+        </Select.Content>
+      </Select.Root>
+    </>
   );
 };
+
 export default MentoringLinkCard;
