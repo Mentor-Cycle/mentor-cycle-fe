@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import client from "services/apollo/apollo-client";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
-import { AuthProvider } from "providers/auth";
 import { ROUTES_WITHOUT_HEADER } from "config/constants";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -19,11 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <UserContext.Provider value={userContextValue}>
-        <AuthProvider>
-          {!ROUTES_WITHOUT_HEADER.includes(router.pathname) && <Header />}
-          <Component {...pageProps} />
-          <ToastContainer />
-        </AuthProvider>
+        {!ROUTES_WITHOUT_HEADER.includes(router.pathname) && <Header />}
+        <Component {...pageProps} />
+        <ToastContainer />
       </UserContext.Provider>
     </ApolloProvider>
   );
