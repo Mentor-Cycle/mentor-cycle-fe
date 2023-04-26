@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
   useEffect(() => {
     async function getUserMe() {
       if (router.pathname === "/signin" && user.isLogged) {
-        router.replace("/mentors");
+        router.replace("/dashboard");
       }
 
       const isPublicRoute =

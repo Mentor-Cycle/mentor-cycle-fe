@@ -54,6 +54,8 @@ const SignIn: NextPage = () => {
         });
         const userData = {
           firstName: data.me.firstName,
+          lastName: data.me.lastName,
+          jobTitle: data.me.jobTitle,
           photoUrl: data.me.photoUrl,
           email: data.me.email,
           isMentor: data.me.isMentor,
@@ -63,7 +65,7 @@ const SignIn: NextPage = () => {
         setUser(userData);
         setStoredUser(userData);
         localStorage.removeItem("form-data");
-        router.replace("/mentors");
+        router.replace("/dashboard");
       } catch (error) {
         console.log(error);
         toast.error("Erro ao realizar login, tente novamente!");
