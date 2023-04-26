@@ -29,13 +29,14 @@ const MentorProfile: NextPage = () => {
   return (
     <main className="pb-12">
       <div className="py-12 bg-center bg-cover bg-no-repeat bg-[url('/bg-mentor-profile.png')]">
-        <DashboardCardProfile
-          avatar={mentor.photoUrl}
-          job={mentor.jobTitle || ""}
-          name={`${mentor.firstName} ${mentor.lastName}`}
-          skills={mentor?.skills || []}
-          className="container"
-        />
+        <div className="flex justify-center sm:justify-start container">
+          <DashboardCardProfile
+            avatar={"/imgCard.png" || mentor.photoUrl}
+            job={mentor.jobTitle || ""}
+            name={`${mentor.firstName} ${mentor.lastName}`}
+            skills={mentor?.skills || []}
+          />
+        </div>
       </div>
 
       <div className="container flex justify-between flex-wrap pt-8 gap-8">
@@ -66,7 +67,9 @@ const MentorProfile: NextPage = () => {
               <MentoringWeekCard
                 key={availability.weekDay}
                 day={availability.weekDay}
-                description={""}
+                description={
+                  "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
+                }
                 chips={availability.slots.map((slot) => (
                   <Chip key={slot} variant="quartenary">
                     {slot}

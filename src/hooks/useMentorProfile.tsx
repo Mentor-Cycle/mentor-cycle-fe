@@ -1,10 +1,12 @@
 import { useQuery } from "@apollo/client";
 import { DAYS_OF_THE_WEEK } from "config/constants";
+import { format, parse } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 import { useEffect, useState } from "react";
 import { GET_MENTOR_BY_ID } from "services/apollo/querys";
 
 export const useMentorProfile = (id: string) => {
-  const { data, loading, error } = useQuery(GET_MENTOR_BY_ID, {
+  const { data, loading, error, refetch } = useQuery(GET_MENTOR_BY_ID, {
     variables: { id },
   });
 
@@ -14,7 +16,7 @@ export const useMentorProfile = (id: string) => {
     if (data) {
       const { availability: apiAvailability, ...fetchedMentor } =
         data.findOneMentor as { availability: AvailabilityApi[] } & User;
-
+      if (!apiAvailability) return;
       const groupedAvailability: Availability[] = [];
       (apiAvailability as AvailabilityApi[]).forEach(
         ({ weekDay, startHour }) => {
@@ -23,13 +25,16 @@ export const useMentorProfile = (id: string) => {
             (item) => item.weekDay === weekDayName
           );
 
+          const parsedStartHour = parse(startHour, "H:m", new Date());
+          const formattedStartHour = format(parsedStartHour, "HH'h'mm", {
+            locale: ptBR,
+          });
           if (existentAvailability) {
-            return existentAvailability.slots.push(startHour);
+            return existentAvailability.slots.push(formattedStartHour);
           }
-
           groupedAvailability.push({
             weekDay: weekDayName,
-            slots: [startHour],
+            slots: [formattedStartHour],
           });
         }
       );
@@ -41,6 +46,7 @@ export const useMentorProfile = (id: string) => {
     mentor,
     loading,
     error,
+    refetch,
   };
 };
 

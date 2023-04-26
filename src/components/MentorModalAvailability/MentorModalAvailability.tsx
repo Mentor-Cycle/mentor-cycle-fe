@@ -14,15 +14,19 @@ import { PERSIST_AVAILABILITY } from "services/apollo/mutations";
 import { useUser } from "@hooks/useUser";
 import { toast } from "react-toastify";
 import { SuccessfullyCreated } from "./SuccessullyCreated";
+import useLocalStorage from "@hooks/useLocalStorage";
 
 export const MentorModalAvailability = ({
   open,
   setOpen,
+  refetchMentorProfile,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  refetchMentorProfile: any;
 }) => {
-  const { user } = useUser();
+  const [storedUser, setStoredUser] = useLocalStorage("user", null);
+  const { user, setUser } = useUser();
   const [persistAvailability, { loading }] = useMutation(PERSIST_AVAILABILITY);
   const [successModal, setSuccessModal] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<string>(
@@ -64,6 +68,12 @@ export const MentorModalAvailability = ({
 
     setOpen(false);
     setSuccessModal(true);
+    setUser((prev: any) => ({ ...prev, availability: formattedAvailability }));
+    setStoredUser((prev: any) => ({
+      ...prev,
+      availability: formattedAvailability,
+    }));
+    refetchMentorProfile();
   };
 
   const removeAvailability = (slot: AvailabilitySlot) => {
@@ -75,7 +85,7 @@ export const MentorModalAvailability = ({
 
   return (
     <>
-      <Modal open={open}>
+      <Modal open={open} onOpenChange={setOpen}>
         <section className="w-full px-6 text-left z-20">
           <h1 className="inline text-secondary-03 font-semibold text-2xl">
             Horário de mentoria

@@ -84,6 +84,7 @@ export const GET_SKILLS = gql`
 export const GET_ME = gql`
   query {
     me {
+      skills
       id
       firstName
       lastName
@@ -92,7 +93,10 @@ export const GET_ME = gql`
       email
       jobTitle
       isMentor
-      skills
+      availability {
+        startHour
+        weekDay
+      }
     }
   }
 `;

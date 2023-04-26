@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
             isMentor: data.me.isMentor,
             id: data.me.id,
             isLogged: true,
+            availability: data.me.availability,
           });
         }
       } catch (e) {

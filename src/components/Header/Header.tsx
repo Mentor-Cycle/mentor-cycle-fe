@@ -57,7 +57,7 @@ export default function Header() {
     { text: "Sair", action: "logout" },
   ];
   const menuClickActions = {
-    editprofile: () => router.push("/edit-perfil"),
+    editprofile: () => router.push("/profile"),
     settings: () => {
       setShowModal("settings");
       setToggleMenuProfile(false);
