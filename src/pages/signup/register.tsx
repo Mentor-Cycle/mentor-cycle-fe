@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import FormSteps from "@components/FormSteps";
-import Header from "@components/Header/Header";
 import Stepper from "@components/Stepper/Stepper";
 import StepperVertical from "@components/StepperVertical";
 import useForm from "@hooks/useForm";

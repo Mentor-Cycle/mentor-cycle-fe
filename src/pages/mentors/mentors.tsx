@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
-import Header from "@components/Header";
 import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";

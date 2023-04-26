@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useState } from "react";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
 import {
   ProfileCardToggleProps,

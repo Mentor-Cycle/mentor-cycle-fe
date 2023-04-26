@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type Props = {
   avatar?: string;
   name: string;

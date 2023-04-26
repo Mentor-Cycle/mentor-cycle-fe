@@ -1,12 +1,11 @@
-import useLocalStorage from "@hooks/useLocalStorage";
 import clsx from "clsx";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { UserContext, initialValue } from "providers/user/AppContext";
-import { useContext, useEffect, useState } from "react";
+import { initialValue } from "providers/user/AppContext";
+import { useEffect, useState } from "react";
 
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -33,9 +32,9 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
   const [darkMode, setDarkMode] = useState(false);
-  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+  const { isLogged, firstName, lastName, isMentor, email, id } = user;
   const [signOutUser] = useMutation(LOGOUT_USER);
-  const [me, { data, error }] = useLazyQuery(GET_ME);
+  const [me, { data }] = useLazyQuery(GET_ME);
 
   useEffect(() => {
     if (!isLogged) {
