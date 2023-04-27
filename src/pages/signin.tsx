@@ -55,10 +55,12 @@ const SignIn: NextPage = () => {
           lastName: data.me.lastName,
           jobTitle: data.me.jobTitle,
           photoUrl: data.me.photoUrl,
+          skills: data.me.skills,
           email: data.me.email,
           isMentor: data.me.isMentor,
           id: data.me.id,
           isLogged: true,
+          availability: data.me.availability,
         };
         setUser(userData);
         localStorage.removeItem("form-data");

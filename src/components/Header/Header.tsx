@@ -45,7 +45,9 @@ export default function Header() {
         firstName: data.me.firstName,
         lastName: data.me.lastName,
         photoUrl: data.me.photoUrl,
+        skills: data.me.skills,
         email: data.me.email,
+        jobTitle: data.me.jobTitle,
         isMentor: data.me.isMentor,
         id: data.me.id,
         isLogged: true,
@@ -79,7 +81,7 @@ export default function Header() {
   };
 
   const menuClickActions = {
-    editprofile: () => router.push("/edit-perfil"),
+    editprofile: () => router.push("/profile"),
     settings: () => {
       setShowModal("settings");
       setToggleMenuProfile(false);

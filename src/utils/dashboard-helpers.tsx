@@ -1,3 +1,5 @@
+import Chip from "@components/Chip";
+import MentoringWeekCard from "@components/MentoringWeekCard";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
