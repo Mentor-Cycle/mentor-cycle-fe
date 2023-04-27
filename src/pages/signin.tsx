@@ -65,7 +65,7 @@ const SignIn: NextPage = () => {
           availability: data.me.availability,
         };
         setUser(userData);
-        setStoredUser(userData);
+        // setStoredUser(userData);
         localStorage.removeItem("form-data");
         router.replace("/dashboard");
       } catch (error) {
