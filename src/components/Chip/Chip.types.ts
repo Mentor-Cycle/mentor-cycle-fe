@@ -10,7 +10,7 @@ export type ChipVariant =
 
 export type ChipProps = {
   variant?: ChipVariant;
-  children: ReactNode;
+  children: any;
   className?: string;
   onClick?: () => void;
 };

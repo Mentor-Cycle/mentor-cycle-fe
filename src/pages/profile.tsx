@@ -7,14 +7,12 @@ import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { UserContext } from "providers/user/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { GET_EVENTS } from "services/apollo/querys";
-import { formatHour, groupEventsByDay } from "utils/dashboard-helpers";
+import { groupEventsByDay } from "utils/dashboard-helpers";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
@@ -30,6 +28,7 @@ const Profile: NextPage = () => {
       learnerId: user.id,
     },
   });
+
   useEffect(() => {
     if (classes) {
       const eventsByDay = groupEventsByDay(classes.findEvents);
