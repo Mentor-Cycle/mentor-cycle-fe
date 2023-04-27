@@ -4,7 +4,7 @@ import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
-import { renderMentoringWeekCard } from "@components/MentoringWeekCard/RenderMentoringWeekCards";
+import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { format } from "date-fns";

@@ -15,8 +15,7 @@ import {
   formatHour,
   groupEventsByDay,
 } from "utils/dashboard-helpers";
-import { format } from "date-fns";
-import { renderMentoringWeekCard } from "@components/MentoringWeekCard/RenderMentoringWeekCards";
+import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 
 const Dashboard: NextPage = () => {
   const { user } = useContext(UserContext);

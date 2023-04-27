@@ -31,7 +31,6 @@ const ChangePassword = () => {
 
     if (!isValidty || newPassword != newPasswordConfirm) {
       toast.error("Senhas não coincidem");
-      return;
     } else {
       try {
         await resetUserPassword({

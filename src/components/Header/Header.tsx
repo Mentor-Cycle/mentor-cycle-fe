@@ -1,12 +1,11 @@
-import useLocalStorage from "@hooks/useLocalStorage";
 import clsx from "clsx";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { UserContext, initialValue } from "providers/user/AppContext";
-import { useContext, useState } from "react";
+import { initialValue } from "providers/user/AppContext";
+import { useEffect, useState } from "react";
 
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -16,27 +15,43 @@ import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
 import Toggle from "@components/Toggle/Toggle";
 
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
+import { useUser } from "@hooks/useUser";
+import { GET_ME } from "services/apollo/querys";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
   "flex gap-2 items-center justify-center hover:text-gray-04";
 
 export default function Header() {
-  const [storedUser] = useLocalStorage("user", null);
-  const { user, setUser } = useContext(UserContext);
-  if (!user.isLogged && !user.firstName && storedUser) {
-    setUser(storedUser);
-  }
+  const { user, setUser } = useUser();
   const router = useRouter();
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
   const [darkMode, setDarkMode] = useState(false);
-  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+  const { isLogged, firstName, lastName, isMentor, email, id } = user;
   const [signOutUser] = useMutation(LOGOUT_USER);
+  const [me, { data }] = useLazyQuery(GET_ME);
+
+  useEffect(() => {
+    if (!isLogged) {
+      me();
+    }
+    if (data) {
+      setUser({
+        firstName: data.me.firstName,
+        lastName: data.me.lastName,
+        photoUrl: data.me.photoUrl,
+        email: data.me.email,
+        isMentor: data.me.isMentor,
+        id: data.me.id,
+        isLogged: true,
+      });
+    }
+  }, [data, isLogged, me, router, setUser]);
 
   const itemsMenu: Array<{
     text: React.ReactNode;
@@ -56,6 +71,13 @@ export default function Header() {
     { text: "Trocar de perfil", action: "changeprofile" },
     { text: "Sair", action: "logout" },
   ];
+
+  const logOutUser = () => async () => {
+    await signOutUser();
+    await setUser(initialValue);
+    router.replace("/signin");
+  };
+
   const menuClickActions = {
     editprofile: () => router.push("/profile"),
     settings: () => {
@@ -64,12 +86,7 @@ export default function Header() {
     },
     theme: () => setDarkMode(!darkMode),
     changeprofile: () => console.log("trocar de perfil"),
-    logout: async () => {
-      setUser(initialValue);
-      localStorage.removeItem("user");
-      await signOutUser();
-      router.replace("/");
-    },
+    logout: logOutUser(),
   };
 
   return (

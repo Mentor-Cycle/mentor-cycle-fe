@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   images: {
-    domains: ["example.com", "localhost"],
+    domains: ["lh3.googleusercontent.com", "example.com", "localhost"],
+    formats: ["image/avif", "image/webp"],
   },
+  reactStrictMode: true,
   async rewrites() {
     return [
       {

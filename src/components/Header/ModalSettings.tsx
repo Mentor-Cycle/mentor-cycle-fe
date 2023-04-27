@@ -20,7 +20,7 @@ import { User } from "providers/user/AppContext";
 const ModalSettings = ({ firstName, email, id, lastName }: User) => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
   const [currentStep, setCurretStep] = useState(1);
-  const { setUser, updateUserData } = useUser();
+  const { setUser } = useUser();
 
   const router = useRouter();
 
@@ -88,7 +88,7 @@ const ModalSettings = ({ firstName, email, id, lastName }: User) => {
       await updateUser({
         variables: newUser,
       });
-      updateUserData(newUser);
+      setUser(newUser);
       setDataSucessChange(true);
       setTimeout(() => {
         router.push("/mentors");

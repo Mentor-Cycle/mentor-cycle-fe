@@ -18,7 +18,7 @@
     "chromatic": "npx chromatic --project-token=f437c284070c"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.10",
+    "@apollo/client": "^3.7.12",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.0.3",

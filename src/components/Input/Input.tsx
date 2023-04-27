@@ -1,4 +1,4 @@
-import React, { FC, Ref, useState } from "react";
+import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import { AiOutlineSearch } from "react-icons/ai";

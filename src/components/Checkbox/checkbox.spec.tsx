@@ -12,7 +12,7 @@ describe("Checkbox", () => {
   });
 
   it("Checkbox selected", () => {
-    const { getByLabelText, getByTestId } = render(
+    const { getByLabelText } = render(
       <CheckBox name="teste" id="teste" label="teste" aria-checked={true} />
     );
 
