@@ -84,15 +84,19 @@ export const GET_SKILLS = gql`
 export const GET_ME = gql`
   query {
     me {
-      skills
       id
       firstName
       lastName
-      isMentor
       photoUrl
       email
       jobTitle
       isMentor
+      skills
+      biography
+      yearsOfExperience
+      country
+      description
+      state
       availability {
         startHour
         weekDay

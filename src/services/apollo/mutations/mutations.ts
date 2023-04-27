@@ -66,6 +66,12 @@ export const USER_UPDATE_DATA = gql`
     $firstName: String
     $lastName: String
     $email: String
+    $biography: String
+    $jobTitle: String
+    $state: String
+    $country: String
+    $description: String
+    $yearsOfExperience: Float
     $id: String!
   ) {
     updateUser(
@@ -74,6 +80,12 @@ export const USER_UPDATE_DATA = gql`
         lastName: $lastName
         email: $email
         id: $id
+        biography: $biography
+        jobTitle: $jobTitle
+        state: $state
+        country: $country
+        description: $description
+        yearsOfExperience: $yearsOfExperience
       }
     ) {
       id

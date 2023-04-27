@@ -5,14 +5,15 @@ import Input from "@components/Input";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { UserContext } from "providers/user/AppContext";
 import { FormEvent, useContext, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import { useRouter } from "next/router";
 import { GET_ME } from "services/apollo/querys";
-import { UserContext } from "providers/user/AppContext";
+
 import client from "services/apollo/apollo-client";
 
 const SignIn: NextPage = () => {
@@ -59,6 +60,11 @@ const SignIn: NextPage = () => {
           email: data.me.email,
           isMentor: data.me.isMentor,
           id: data.me.id,
+          biography: data.me.biography,
+          description: data.me.description,
+          yearsOfExperience: data.me.yearsOfExperience,
+          country: data.me.country,
+          state: data.me.state,
           isLogged: true,
           availability: data.me.availability,
         };
