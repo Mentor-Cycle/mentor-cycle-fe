@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { ClassNames, DayPicker } from "react-day-picker";
 import { CalendarProps } from "./Calendar.types";
@@ -26,8 +26,6 @@ function Calendar({ availableDays }: CalendarProps) {
     setDaySelect(formatted);
     setSelectedDate(day);
   }
-
-  useEffect(() => {}, [daySelect]);
 
   const classNames: ClassNames = {
     head_cell: "font-medium",

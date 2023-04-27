@@ -13,15 +13,20 @@ export const groupEventsByDay = (events: any[]) => {
   return events.reduce((acc, event) => {
     const date = new Date(event.startDate);
 
-    if (!acc[event.startDate]) {
-      acc[event.startDate] = {
-        date: format(date, "'Dia' dd 'de' MMMM", { locale: ptBR }),
+    const dateKey = format(date, "yyyy-MM-dd");
+
+    if (!acc[dateKey]) {
+      acc[dateKey] = {
+        date: new Date(date).toLocaleString("pt-BR", {
+          weekday: "long",
+          timeZone: "America/Sao_Paulo",
+        }),
         events: [],
       };
     }
-    acc[event.startDate].events.push(event);
+    acc[dateKey].events.push(event);
     // Ordenar os eventos por horário
-    acc[event.startDate].events.sort(
+    acc[dateKey].events.sort(
       (a: any, b: any) =>
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );

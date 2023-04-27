@@ -28,6 +28,7 @@ const Dashboard: NextPage = () => {
   useEffect(() => {
     if (!loading && !error && data) {
       const events = data?.findEvents || [];
+      console.log(groupEventsByDay(events));
       const eventsByDay = groupEventsByDay(events);
       setEventsByDay(eventsByDay);
     }
@@ -127,7 +128,9 @@ const Dashboard: NextPage = () => {
                   : mentorInfo?.jobTitle;
                 return (
                   <MentoringLinkCard
-                    key={event.id}
+                    key={`${event.id}_${Math.random()
+                      .toString(16)
+                      .substr(2, 8)}`}
                     eventId={event.id}
                     date={formatDate(event.startDate)}
                     hour={formatHour(new Date(event.startDate))}

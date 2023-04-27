@@ -14,7 +14,7 @@ const Modal = ({
       <Dialog.Trigger asChild>{openModalComponent}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
-        <Dialog.Content className="z-10 rounded-lg bg-scroll overflow-y-auto bg-neutral-01 fixed top-[50%] left-[50%] max-h-[100vh] w-[90vw] max-w-[582px] md:max-w-max translate-x-[-50%] translate-y-[-50%]  shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] ">
+        <Dialog.Content className="z-10 rounded-lg bg-scroll overflow-y-auto bg-neutral-01 fixed top-[50%] left-[50%] max-h-[90vh] w-[90vw] max-w-[582px] md:max-w-max translate-x-[-50%] translate-y-[-50%]  shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] ">
           <Dialog.Description className="text-center py-6 text-secondary-03 ">
             {children}
           </Dialog.Description>

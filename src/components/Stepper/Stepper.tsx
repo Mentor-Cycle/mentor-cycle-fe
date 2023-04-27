@@ -11,15 +11,15 @@ const Stepper: React.FC<StepperProps> = ({
   const totalSteps = steps.length;
 
   const sizeClasses = {
-    regular: `w-24 h-8`,
-    small: `w-16 h-5 text-xs`,
+    regular: `w-24 h-8 rounded-lg`,
+    small: `w-16 h-5 text-xs m-auto rounded`,
   };
 
   const containerClasses = clsx(
     "flex justify-between items-center mb-4 w-full max-w-2xl"
   );
   const stepClasses = clsx(
-    " flex items-center justify-center relative rounded-lg text-neutral-01 transition-colors duration-500 z-10"
+    " flex items-center justify-center relative  text-neutral-01 transition-colors duration-500 z-10"
   );
   const completedStepClasses =
     "bg-primary-03 transition-colors duration-500 bg-primary-03";
