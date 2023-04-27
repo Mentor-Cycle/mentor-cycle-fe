@@ -11,6 +11,10 @@ export type User = {
   id?: string;
   isLogged?: boolean;
   availability?: [];
+  yearsOfExperience: number;
+  description: string;
+  country: string;
+  state: string;
 };
 
 export const initialValue: User = {
@@ -24,6 +28,10 @@ export const initialValue: User = {
   skills: [],
   jobTitle: "",
   availability: [],
+  yearsOfExperience: 0,
+  description: "",
+  country: "",
+  state: "",
 };
 
 export const UserContext = React.createContext<any>({});

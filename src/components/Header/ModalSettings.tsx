@@ -6,6 +6,7 @@ import Image from "next/image";
 import Select from "react-select";
 
 import { useMutation } from "@apollo/client";
+import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
@@ -14,10 +15,20 @@ import {
   DELETE_ACCOUNT,
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
-import { useUser } from "@hooks/useUser";
-import { User } from "providers/user/AppContext";
 
-const ModalSettings = ({ firstName, email, id, lastName }: User) => {
+interface ModalSettingsProps {
+  firstName: string;
+  email: string;
+  id: string;
+  lastName: string;
+}
+
+const ModalSettings = ({
+  firstName,
+  email,
+  id,
+  lastName,
+}: ModalSettingsProps) => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
   const [currentStep, setCurretStep] = useState(1);
   const { setUser } = useUser();

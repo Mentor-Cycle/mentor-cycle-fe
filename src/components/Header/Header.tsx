@@ -15,12 +15,13 @@ import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
 import Toggle from "@components/Toggle/Toggle";
 
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
+
+import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
+import { GET_ME } from "services/apollo/querys";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
-import { useUser } from "@hooks/useUser";
-import { GET_ME } from "services/apollo/querys";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -32,7 +33,9 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
   const [darkMode, setDarkMode] = useState(false);
-  const { isLogged, firstName, lastName, isMentor, email, id } = user;
+
+  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+
   const [signOutUser] = useMutation(LOGOUT_USER);
   const [me, { data }] = useLazyQuery(GET_ME);
 
@@ -146,7 +149,7 @@ export default function Header() {
               )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
-                  src={"/imgCard.png"}
+                  src={photoUrl || "/imgCard.png"}
                   width={100}
                   height={100}
                   alt="userPhoto"

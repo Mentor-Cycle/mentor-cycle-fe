@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
+import EditProfile from "@components/EditProfile/EditeProfile";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
@@ -16,6 +17,7 @@ import { groupEventsByDay } from "utils/dashboard-helpers";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const router = useRouter();
   const { user } = useContext(UserContext);
   const { mentor, loading, error, refetch } = useMentorProfile(
@@ -155,11 +157,22 @@ const Profile: NextPage = () => {
               {mentor.availability ? "Marcar mentoria" : "Criar agenda"}
             </Button>
           )}
-          <Button className="mt-12" size="regular" variant="secondary">
+          <Button
+            className="mt-12"
+            size="regular"
+            variant="secondary"
+            onClick={() => setOpenEditProfile(!openEditProfile)}
+          >
             Editar Perfil
           </Button>
         </section>
       </div>
+      {
+        <EditProfile
+          openEditProfile={openEditProfile}
+          setOpenEditProfile={setOpenEditProfile}
+        />
+      }
     </main>
   );
 };
