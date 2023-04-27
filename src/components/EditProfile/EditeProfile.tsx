@@ -30,18 +30,6 @@ const EditProfile = ({
     description,
   } = user;
 
-  console.log(
-    firstName,
-    lastName,
-    email,
-    id,
-    biography,
-    yearsOfExperience,
-    jobTitle,
-    country,
-    state,
-    description
-  );
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
