@@ -13,7 +13,7 @@ const EditProfile = ({
   openEditProfile,
   setOpenEditProfile,
 }: EditProfileProps) => {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA);
 
@@ -132,7 +132,7 @@ const EditProfile = ({
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button>Enviar alterações</Button>
+          <Button isLoading={loading}>Enviar alterações</Button>
         </form>
       </div>
     </Modal>

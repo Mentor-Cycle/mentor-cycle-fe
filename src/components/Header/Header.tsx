@@ -149,7 +149,7 @@ export default function Header() {
               )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
-                  src={"/imgCard.png"}
+                  src={photoUrl || "/imgCard.png"}
                   width={100}
                   height={100}
                   alt="userPhoto"
