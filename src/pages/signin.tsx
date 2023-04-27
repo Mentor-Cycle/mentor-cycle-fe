@@ -13,7 +13,6 @@ import { SIGN_IN_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
 import { GET_ME } from "services/apollo/querys";
 import { UserContext } from "providers/user/AppContext";
-import useLocalStorage from "@hooks/useLocalStorage";
 import client from "services/apollo/apollo-client";
 
 const SignIn: NextPage = () => {
@@ -23,7 +22,6 @@ const SignIn: NextPage = () => {
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `http://localhost:3030${route}`;
   };
-  const [setStoredUser] = useLocalStorage("user", null);
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
   const { setUser } = useContext(UserContext);
@@ -65,7 +63,6 @@ const SignIn: NextPage = () => {
           availability: data.me.availability,
         };
         setUser(userData);
-        // setStoredUser(userData);
         localStorage.removeItem("form-data");
         router.replace("/dashboard");
       } catch (error) {
