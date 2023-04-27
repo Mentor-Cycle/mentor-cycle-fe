@@ -50,6 +50,7 @@ export const MentorModalAvailability = ({
     const formattedAvailability = availability.map((slot) => ({
       ...slot,
       weekDay: DAYS_OF_THE_WEEK_SHORT.indexOf(slot.weekDay),
+
       active: true,
     }));
 

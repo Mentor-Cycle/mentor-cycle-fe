@@ -4,6 +4,7 @@ import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
+import { renderMentoringWeekCard } from "@components/MentoringWeekCard/RenderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { format } from "date-fns";
@@ -129,38 +130,7 @@ const Profile: NextPage = () => {
           {!user.isMentor && (
             <div className="flex flex-col gap-4">
               {classes?.findEvents.length > 0 && !loading ? (
-                Object.entries(eventsByDay).map(
-                  ([date, events]: [string, any], index: number) => {
-                    return (
-                      <MentoringWeekCard
-                        key={index}
-                        day={format(new Date(date), "EEEE", { locale: ptBR })}
-                        description={`Você tem ${events.events.length} mentoria(s) marcada(s) para esse dia`}
-                        chips={events.events.map((event: any) => (
-                          <>
-                            <Chip
-                              key={event.id}
-                              variant={
-                                event.status === "PENDING"
-                                  ? "primary"
-                                  : "quartenary"
-                              }
-                            >
-                              {event.status === "PENDING"
-                                ? "A Confirmar"
-                                : event.status === "CANCELLED"
-                                ? "Cancelada"
-                                : "Realizada"}
-                            </Chip>
-                            <Chip key={`hour_${event.id}`} variant="secondary">
-                              {formatHour(new Date(event.startDate))}
-                            </Chip>
-                          </>
-                        ))}
-                      />
-                    );
-                  }
-                )
+                renderMentoringWeekCard(eventsByDay)
               ) : (
                 <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
                   <p className="text-center text-gray-03">

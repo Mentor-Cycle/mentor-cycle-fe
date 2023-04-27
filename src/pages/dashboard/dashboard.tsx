@@ -16,6 +16,7 @@ import {
   groupEventsByDay,
 } from "utils/dashboard-helpers";
 import { format } from "date-fns";
+import { renderMentoringWeekCard } from "@components/MentoringWeekCard/RenderMentoringWeekCards";
 
 const Dashboard: NextPage = () => {
   const { user } = useContext(UserContext);
@@ -163,39 +164,7 @@ const Dashboard: NextPage = () => {
             </h2>
           )}
           <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:justify-items-center lg:grid-cols-3 sm:justify-items-start  gap-4">
-            {Object.entries(eventsByDay).map(
-              ([date, events]: [string, any], index: number) => {
-                return (
-                  <MentoringWeekCard
-                    key={index}
-                    day={format(new Date(date), "EEEE", { locale: ptBR })}
-                    description={`Você tem ${events.events.length} mentoria(s) marcada(s) para o dia de hoje`}
-                    chips={events.events.map((event: any) => (
-                      <>
-                        <Chip
-                          key={event.id}
-                          variant={
-                            event.status === "PENDING"
-                              ? "primary"
-                              : "quartenary"
-                          }
-                        >
-                          {event.status === "PENDING"
-                            ? "A Confirmar"
-                            : event.status === "CANCELLED"
-                            ? "Cancelada"
-                            : "Realizada"}
-                        </Chip>
-
-                        <Chip key={`hour_${event.id}`} variant="secondary">
-                          {formatHour(new Date(event.startDate))}
-                        </Chip>
-                      </>
-                    ))}
-                  />
-                );
-              }
-            )}
+            {renderMentoringWeekCard(eventsByDay)}
           </div>
         </section>
       </main>
