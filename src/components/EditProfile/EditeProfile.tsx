@@ -48,7 +48,7 @@ const EditProfile = ({
       yearsOfExperience: newYearsOfExperience,
     } = Object.fromEntries(formData.entries());
 
-    const newLocale = locale.toString().split(",");
+    const newLocale = locale.toString().trim().split(",");
 
     try {
       await updateUser({
