@@ -21,6 +21,7 @@ const Profile: NextPage = () => {
   const { mentor, loading, error, refetch } = useMentorProfile(
     user.id as string
   );
+
   const [eventsByDay, setEventsByDay] = useState({});
 
   const { data: classes, loading: loadingClasses } = useQuery(GET_EVENTS, {

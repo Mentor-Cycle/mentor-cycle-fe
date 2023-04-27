@@ -1,8 +1,6 @@
 import MentoringWeekCard from "@components/MentoringWeekCard";
 import Chip from "@components/Chip/Chip";
 import { formatHour } from "utils/dashboard-helpers";
-import { format } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
 import { ChipVariant } from "@components/Chip/Chip.types";
 
 interface Event {
@@ -25,10 +23,11 @@ export const renderMentoringWeekCard = (eventsByDay: {
 
   return Object.entries(eventsByDay).map(
     ([date, events]: [string, { events: Event[] }], index: number) => {
+      const day = new Date(date).toLocaleString("pt-BR", { weekday: "long" });
       return (
         <MentoringWeekCard
           key={index}
-          day={format(new Date(date), "EEEE", { locale: ptBR })}
+          day={day}
           description={`Você tem ${events.events.length} mentoria(s) marcada(s) para o dia de hoje`}
           chips={events.events.map((event: Event) => (
             <>

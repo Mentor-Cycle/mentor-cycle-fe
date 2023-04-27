@@ -21,6 +21,7 @@ export const DAYS_OF_THE_WEEK_SHORT = [
 ];
 
 export const DAYS_OF_THE_WEEK = [
+  "Domingo",
   "Segunda-feira",
   "Terça-feira",
   "Quarta-feira",
