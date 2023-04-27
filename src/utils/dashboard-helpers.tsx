@@ -1,5 +1,3 @@
-import Chip from "@components/Chip";
-import MentoringWeekCard from "@components/MentoringWeekCard";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
@@ -14,16 +12,16 @@ export const formatHour = (date: any) => {
 export const groupEventsByDay = (events: any[]) => {
   return events.reduce((acc, event) => {
     const date = new Date(event.startDate);
-    const day = format(date, "yyyy-MM-dd");
-    if (!acc[day]) {
-      acc[day] = {
+
+    if (!acc[event.startDate]) {
+      acc[event.startDate] = {
         date: format(date, "'Dia' dd 'de' MMMM", { locale: ptBR }),
         events: [],
       };
     }
-    acc[day].events.push(event);
+    acc[event.startDate].events.push(event);
     // Ordenar os eventos por horário
-    acc[day].events.sort(
+    acc[event.startDate].events.sort(
       (a: any, b: any) =>
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
