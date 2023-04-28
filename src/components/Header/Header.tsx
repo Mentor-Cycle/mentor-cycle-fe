@@ -19,7 +19,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/querys";
+import { GET_ME } from "services/apollo/queries";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 

@@ -4,16 +4,19 @@ import { ClassNames, DayPicker } from "react-day-picker";
 import { CalendarProps } from "./Calendar.types";
 import { pt } from "date-fns/locale";
 
-function Calendar({ availableDays }: CalendarProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [daySelect, setDaySelect] = useState<string>("");
-
+function Calendar({
+  availableDays,
+  setDaySelected,
+  setSelectedDate,
+  selectedDate,
+}: CalendarProps) {
   function formatDate(date: Date): string {
     return format(date, "dd/MM/yyyy");
   }
 
   function isDayDisabled(day: Date) {
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     if (day < today) {
       return true;
     }
@@ -23,7 +26,7 @@ function Calendar({ availableDays }: CalendarProps) {
 
   function changeDayClick(day: Date) {
     const formatted = formatDate(day);
-    setDaySelect(formatted);
+    setDaySelected(formatted);
     setSelectedDate(day);
   }
 

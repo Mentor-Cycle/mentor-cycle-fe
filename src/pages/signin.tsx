@@ -12,7 +12,7 @@ import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/querys";
+import { GET_ME } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
 
