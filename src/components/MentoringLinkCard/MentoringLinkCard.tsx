@@ -191,7 +191,7 @@ const SelectComponent = ({
         value={value}
         onValueChange={handleValueChange}
       >
-        <Select.Trigger className="flex items-center justify-center cursor-pointer">
+        <Select.Trigger className="flex items-center justify-center cursor-pointer focus:outline-none">
           {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
         </Select.Trigger>
         <Select.Content

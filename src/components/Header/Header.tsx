@@ -32,7 +32,7 @@ export default function Header() {
   const router = useRouter();
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
-  const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false);
 
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
@@ -64,16 +64,16 @@ export default function Header() {
   }> = [
     { text: "Editar Perfil", action: "editprofile" },
     { text: "Configurações", action: "settings" },
-    {
-      text: (
-        <>
-          Dark Mode
-          <Toggle isToggle={darkMode} setIsToggle={setDarkMode} />
-        </>
-      ),
-      action: "theme",
-    },
-    { text: "Trocar de perfil", action: "changeprofile" },
+    // {
+    //   text: (
+    //     <>
+    //       Dark Mode
+    //       <Toggle isToggle={darkMode} setIsToggle={setDarkMode} />
+    //     </>
+    //   ),
+    //   action: "theme",
+    // },
+    // { text: "Trocar de perfil", action: "changeprofile" },
     { text: "Sair", action: "logout" },
   ];
 
@@ -89,8 +89,8 @@ export default function Header() {
       setShowModal("settings");
       setToggleMenuProfile(false);
     },
-    theme: () => setDarkMode(!darkMode),
-    changeprofile: () => console.log("trocar de perfil"),
+    // theme: () => setDarkMode(!darkMode),
+    // changeprofile: () => console.log("trocar de perfil"),
     logout: logOutUser(),
   };
 

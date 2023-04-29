@@ -128,9 +128,7 @@ const Dashboard: NextPage = () => {
                   : mentorInfo?.jobTitle;
                 return (
                   <MentoringLinkCard
-                    key={`${event.id}_${Math.random()
-                      .toString(16)
-                      .substr(2, 8)}`}
+                    key={event.id}
                     eventId={event.id}
                     date={formatDate(event.startDate)}
                     hour={formatHour(new Date(event.startDate))}
