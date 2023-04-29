@@ -86,7 +86,6 @@ export const ScheduleMentorshipModal = ({
         return toast.error("Erro ao criar evento");
       }
       resetStates(false, false);
-      console.log("event created");
     }
 
     if (open) {
