@@ -2,24 +2,20 @@ import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import StepperVertical from "@components/StepperVertical/StepperVertical";
 import Image from "next/image";
-
 import Select from "react-select";
-
 import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
+import clsx from "clsx";
+import Swal from "sweetalert2";
+import { GET_MENTORS } from "services/apollo/queries";
 import {
   CHANGE_PASSWORD,
   DELETE_ACCOUNT,
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
-import { UserContext } from "providers/user/AppContext";
-import clsx from "clsx";
-import Swal from "sweetalert2";
-import client from "services/apollo/apollo-client";
-import { GET_MENTORS } from "services/apollo/queries";
 
 interface ModalSettingsProps {
   firstName: string;
@@ -48,16 +44,11 @@ const ModalSettings = ({
   });
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 
-  const optionsTheme = [
-    { value: "soon", label: "Em breve" },
-    // { value: "dark", label: "dark" },
-    // { value: "light", label: "light" },
-  ];
+  const optionsTheme = [{ value: "soon", label: "Em breve" }];
 
   const optionsPerfil = [
     { value: "mentor", label: "Mentor" },
     { value: "mentorado", label: "Mentorado" },
-    // { value: "ambos", label: "Ambos" },
   ];
 
   const optionsPerfilAfterLogin = user.isMentor
