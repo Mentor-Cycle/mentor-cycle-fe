@@ -10,9 +10,11 @@ const CardNotification = ({
   name,
   description,
   alreadyViewed = false,
+  link,
 }: CardNotificationProps) => {
   return (
-    <Link href="">
+    // change approach after automatically add closing modal
+    <Link onClick={() => (window.location.href = link || "")} href={""}>
       <div
         data-testid="teste"
         className={clsx(

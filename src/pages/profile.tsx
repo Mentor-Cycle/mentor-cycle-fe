@@ -23,8 +23,6 @@ const Profile: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
 
-  console.log(user);
-
   const { mentor, loading, error, refetch } = useMentorProfile(
     user.id as string
   );

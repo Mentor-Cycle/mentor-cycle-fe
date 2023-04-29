@@ -7,10 +7,6 @@ function Horary({ reservedDate, isDateSelecioned }: HoraryProps) {
     setButtonSelecioned(hours);
   };
 
-  useEffect(() => {
-    console.log(buttonSelecioned);
-  }, [buttonSelecioned]);
-
   return (
     <>
       {isDateSelecioned && (

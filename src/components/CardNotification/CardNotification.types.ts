@@ -3,4 +3,5 @@ export type CardNotificationProps = {
   name: string;
   description: string;
   alreadyViewed?: boolean;
+  link?: string;
 };
