@@ -69,7 +69,9 @@ const MentoringLinkCard = ({
           rel="noreferrer"
           target="_blank"
         >
-          <Button size="small">Acessar chamada</Button>
+          <Button disabled={status === "DONE"} size="small">
+            Acessar chamada
+          </Button>
         </a>
         <div className="flex items-center justify-center ">
           <div className="flex flex-col justify-end items-end mr-3">

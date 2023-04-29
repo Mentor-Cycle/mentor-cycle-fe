@@ -63,6 +63,7 @@ const Dashboard: NextPage = () => {
               job={user.jobTitle}
               name={`${user.firstName} ${user.lastName}`}
               skills={user.skills}
+              avatar={user.photoUrl}
             />
           )}
         </div>
@@ -149,7 +150,12 @@ const Dashboard: NextPage = () => {
           )}
           {!hasMentorship && selectedFilter !== "" && (
             <p className="text-danger-01">
-              Não foram encontradas mentorias com o status {selectedFilter}.
+              Não foram encontradas mentorias com o status{" "}
+              {
+                statusOptions.find((item) => item.value === selectedFilter)
+                  ?.label
+              }
+              .
             </p>
           )}
         </div>

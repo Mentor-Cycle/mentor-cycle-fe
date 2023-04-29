@@ -19,7 +19,7 @@ const DashboardCardProfile = ({
     >
       <div className="rounded-lg overflow-hidden w-24 h-24">
         <Image
-          src={avatar ? avatar : "/imgCard.png"}
+          src={avatar || "/imgCard.png"}
           alt="avatar profile"
           width={98}
           height={98}

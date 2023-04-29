@@ -7,7 +7,7 @@ import { ptBR } from "date-fns/locale";
 
 interface Event {
   id: string;
-  status: "PENDING" | "CANCELLED" | "DONE";
+  status: "PENDING" | "CANCELLED" | "DONE" | "CONFIRMED";
   startDate: string;
 }
 
@@ -15,12 +15,13 @@ export const renderMentoringWeekCard = (eventsByDay: {
   [key: string]: { events: Event[] };
 }) => {
   const statusDisplay: Record<
-    "PENDING" | "CANCELLED" | "DONE",
+    "PENDING" | "CANCELLED" | "DONE" | "CONFIRMED",
     { label: string; variant: ChipVariant }
   > = {
     PENDING: { label: "A Confirmar", variant: "primary" },
     CANCELLED: { label: "Cancelada", variant: "quartenary" },
-    DONE: { label: "Realizada", variant: "quartenary" },
+    DONE: { label: "Realizada", variant: "secondary" },
+    CONFIRMED: { label: "Agendada", variant: "primary" },
   };
 
   return Object.entries(eventsByDay).map(
@@ -31,7 +32,9 @@ export const renderMentoringWeekCard = (eventsByDay: {
         <MentoringWeekCard
           key={index}
           day={dayWeek}
-          description={`Você tem ${events.events.length} mentoria(s) marcada(s) para o dia de hoje`}
+          description={`Você tem ${
+            events.events.length
+          } mentoria(s) marcada(s) para o dia ${format(data, "dd/MM/yyyy")}`}
           chips={events.events.map((event: Event) => (
             <>
               <Chip

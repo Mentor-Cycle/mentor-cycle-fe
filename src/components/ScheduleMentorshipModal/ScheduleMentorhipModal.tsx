@@ -85,7 +85,8 @@ export const ScheduleMentorshipModal = ({
       if (eventError) {
         return toast.error("Erro ao criar evento");
       }
-      resetStates(false);
+      resetStates(false, false);
+      console.log("event created");
     }
 
     if (open) {
@@ -123,14 +124,16 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = (close: boolean = true) => {
+  const resetStates = (close: boolean = true, resetStep = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
     setDaySelected("");
     setDaysAndTimes({});
     setRangeTime([]);
-    setCurrentStep(1);
+    if (resetStep) {
+      setCurrentStep(1);
+    }
     if (close) {
       setOpen(false);
     }
