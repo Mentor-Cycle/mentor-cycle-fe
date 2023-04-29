@@ -16,12 +16,15 @@ import {
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
 import { UserContext } from "providers/user/AppContext";
+import clsx from "clsx";
+import Swal from "sweetalert2";
 
 interface ModalSettingsProps {
   firstName: string;
   email: string;
   id: string;
   lastName: string;
+  setIsModalOpen: any;
 }
 
 const ModalSettings = ({
@@ -29,6 +32,7 @@ const ModalSettings = ({
   email,
   id,
   lastName,
+  setIsModalOpen,
 }: ModalSettingsProps) => {
   const { user } = useContext(UserContext);
   const [dataSucessChange, setDataSucessChange] = useState(false);
@@ -39,7 +43,7 @@ const ModalSettings = ({
   const router = useRouter();
 
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
-  const [updateUser] = useMutation(USER_UPDATE_DATA);
+  const [updateUser, { error }] = useMutation(USER_UPDATE_DATA);
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 
   const optionsTheme = [
@@ -133,13 +137,58 @@ const ModalSettings = ({
     }
   }
 
-  const handleSelectedProfile = () => {
-    alert("hello");
+  const handleSelectedProfile = (profile: any) => {
+    setIsModalOpen(false);
+    Swal.fire({
+      title: "Tem certeza que deseja mudar de perfil?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, mudar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await switchProfile(profile);
+        Swal.fire("Mudança de perfil confirmada!", "", "success").then(
+          (result) => {
+            setIsModalOpen(result.isConfirmed);
+          }
+        );
+      } else {
+        setIsModalOpen(true);
+      }
+    });
   };
 
+  async function switchProfile(profile: any) {
+    const userId = user.id;
+    try {
+      const userInput = {
+        id: user.id,
+        isMentor: profile === "mentor",
+      };
+
+      const { data } = await updateUser({
+        variables: {
+          userInput,
+        },
+      });
+
+      console.log(data);
+
+      if (data && data.success) {
+        setUser(userInput);
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className="flex flex-col lg:min-w-[1136px] min-h-[80vh] lg:px-28 lg:py-16">
-      <h1 className=" self-start text-secondary-02 text-2xl font-bold lg:mb-16">
+    <div className="flex flex-col sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] sm:px-28 sm:py-16">
+      <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
         Configurações
       </h1>
       {dataSucessChange ? (
@@ -162,7 +211,7 @@ const ModalSettings = ({
           </main>
         </div>
       ) : (
-        <div className="flex">
+        <div className="flex flex-col lg:flex lg:flex-row">
           <StepperVertical
             setCurrentStep={setCurretStep}
             steps={["Perfil", "Sistema", "Segurança"]}
@@ -171,18 +220,22 @@ const ModalSettings = ({
             clickable
           />
           {currentStep === 1 && (
-            <div className="flex justify-center sm:min-w-[504px]">
-              <div className="flex flex-col lg:mr-10">
+            <div
+              className={clsx(
+                "flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700"
+              )}
+            >
+              <div className="flex flex-col m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
                 <Image src="/imgCard.png" alt="" width={136} height={136} />
                 <button className="text-primary-03 focus:outline-none mt-2 text-start text-sm">
                   Trocar foto
                 </button>
               </div>
               <form
-                className="flex flex-col gap-24 text-start w-full max-w-[328px] "
+                className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
                 onSubmit={handleUpdateUserData}
               >
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-6">
                   <Input
                     name="firstName"
                     label="Nome"
@@ -195,13 +248,15 @@ const ModalSettings = ({
                   />
                   <Input name="email" label="Email" defaultValue={email} />
                 </div>
-                <Button variant="secondary">Salvar alterações</Button>
+                <Button variant="secondary" className="mt-10">
+                  Salvar alterações
+                </Button>
               </form>
             </div>
           )}
           {currentStep === 2 && (
-            <div className="flex flex-col items-end sm:min-w-[328px] gap-24">
-              <div className="flex flex-col gap-10 max-w-[328px] w-full">
+            <div className="flex flex-col items-end sm:min-w-[328px] gap-[80px] px-2">
+              <div className="flex flex-col gap-6 max-w-[328px] w-full  m-auto sm:m-0">
                 <div className="text-start">
                   <label className="self-start text-secondary-03 font-bold opacity-30">
                     Trocar Tema
@@ -235,7 +290,7 @@ const ModalSettings = ({
                       user.isMentor ? optionsPerfil[0] : optionsPerfil[1]
                     }
                     // value={selectedChangeProfile}
-                    onChange={handleSelectedProfile}
+                    onChange={(option) => handleSelectedProfile(option?.value)}
                     unstyled
                     classNames={{
                       option: ({ isSelected }) =>
@@ -247,18 +302,18 @@ const ModalSettings = ({
                     }}
                   />
                 </div>
+                <Button variant="secondary">Salvar alterações</Button>
               </div>
-              <Button variant="secondary">Salvar alterações</Button>
             </div>
           )}
 
           {currentStep === 3 && (
-            <div className="flex gap-10 sm:min-w-[500px] justify-center">
+            <div className="flex gap-10 sm:min-w-[328px] justify-center">
               <form
-                className="flex flex-col gap-24 text-start w-full"
+                className="flex flex-col text-start w-full"
                 onSubmit={handleChangePassword}
               >
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-6 px-2">
                   <Input
                     type="password"
                     name="newPassword"
@@ -274,17 +329,16 @@ const ModalSettings = ({
                   <div className="flex flex-col gap-6">
                     <button
                       type="button"
-                      className="text-primary-03 self-start"
+                      className="text-primary-03 self-start "
                       onClick={handleDeleteAccount}
                     >
                       Deletar conta
                     </button>
                   </div>
+                  <Button variant="secondary" isLoading={loading}>
+                    Salvar alterações
+                  </Button>
                 </div>
-
-                <Button variant="secondary" isLoading={loading}>
-                  Salvar alterações
-                </Button>
               </form>
             </div>
           )}

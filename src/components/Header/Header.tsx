@@ -30,6 +30,8 @@ const itemsMenuStyle =
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
   // const [darkMode, setDarkMode] = useState(false);
@@ -189,9 +191,10 @@ export default function Header() {
         </Modal>
       )}
       {showModal === "settings" && (
-        <Modal open={true} onOpenChange={() => setShowModal("")}>
+        <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
           {
             <ModalSettings
+              setIsModalOpen={setIsModalOpen}
               firstName={firstName}
               email={email}
               id={id}
