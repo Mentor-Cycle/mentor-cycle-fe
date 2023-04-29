@@ -33,14 +33,13 @@ function Calendar({
     head_cell: "font-medium",
     day_disabled: "text-gray-01",
     day_selected: "bg-primary-02 text-neutral-01",
-    caption: "text-lg font-bold pl-1 mb-12 text-left ml-1",
+    caption: "text-lg font-bold pl-1 mb-12 text-left ml-1 flex justify-between",
     day: "p-1.5 w-[35px] h-[35px] rounded-lg mx-1.5 my-1.5 font-medium",
   };
 
   return (
     <div className="flex flex-col">
       <DayPicker
-        disableNavigation
         selected={selectedDate}
         onDayClick={changeDayClick}
         disabled={isDayDisabled}

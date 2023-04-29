@@ -4,6 +4,7 @@ import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
+import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
@@ -52,7 +53,7 @@ const Mentors: NextPage = () => {
   } = filter;
 
   const [debouncedSearchInput] = useDebounce(firstName, 1000);
-
+  const { user } = useUser();
   const { data, error, loading, refetch } = useQuery(GET_MENTORS, {
     variables: {
       firstName: debouncedSearchInput,
@@ -195,6 +196,7 @@ const Mentors: NextPage = () => {
                       jobTitle={jobTitle}
                       location={location}
                       name={firstName}
+                      isCurrentMentor={user.isLogged && user.id === id}
                     />
                   )
                 )

@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
@@ -14,13 +15,15 @@ const MentorProfile: NextPage = () => {
 
   const { id } = router.query;
   const { mentor, loading, error } = useMentorProfile(id as string);
+  const country = validateUndefined(mentor?.country);
+  const state = validateUndefined(mentor?.state);
 
   return (
     <main className="pb-12">
       <div className="py-12 bg-center bg-cover bg-no-repeat bg-[url('/bg-mentor-profile.png')]">
         <div className="flex justify-center sm:justify-start container">
           <DashboardCardProfile
-            avatar={"/imgCard.png" || mentor.photoUrl}
+            avatar={mentor.photoUrl || "/imgCard.png"}
             job={mentor.jobTitle || ""}
             name={`${mentor.firstName} ${mentor.lastName}`}
             skills={mentor?.skills || []}
@@ -34,7 +37,7 @@ const MentorProfile: NextPage = () => {
             <h2 className="text-2xl font-bold leading-normal mb-4">
               Sobre mim
             </h2>
-            <p>{mentor.biography}</p>
+            <p>{mentor.description}</p>
           </section>
           <section className="mt-12 pb-12 border-secondary-01 border-b border-solid">
             <h2 className="text-2xl font-bold leading-normal mb-4">
@@ -45,7 +48,9 @@ const MentorProfile: NextPage = () => {
           <section className="pt-12 flex flex-wrap gap-y-8">
             <p className="font-bold basis-1/2">{mentor.email}</p>
             <p className="font-bold basis-1/2">{mentor.website}</p>
-            <p className="font-bold basis-1/2">{`${mentor.country}, ${mentor.state}`}</p>
+            <p className="font-bold basis-1/2">{`${country}${
+              country && state && ","
+            } ${state}`}</p>
             <p className="font-bold basis-1/2">{mentor.yearsOfExperience}</p>
           </section>
         </div>

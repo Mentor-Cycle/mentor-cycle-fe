@@ -8,18 +8,23 @@ import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
+import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { UserContext } from "providers/user/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const router = useRouter();
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
+
+  console.log(user);
+
   const { mentor, loading, error, refetch } = useMentorProfile(
     user.id as string
   );
@@ -60,7 +65,7 @@ const Profile: NextPage = () => {
       <div className="py-12 bg-center bg-cover bg-no-repeat bg-[url('/bg-mentor-profile.png')]">
         <div className="flex justify-center sm:justify-start container">
           <DashboardCardProfile
-            avatar={"/imgCard.png" || user.photoUrl}
+            avatar={user.photoUrl || "/imgCard.png"}
             job={user.jobTitle || ""}
             name={`${user.firstName} ${user.lastName}`}
             skills={user?.skills || []}
@@ -74,7 +79,7 @@ const Profile: NextPage = () => {
             <h2 className="text-2xl font-bold leading-normal mb-4">
               Sobre mim
             </h2>
-            <p>{user.biography || "Complete seu sobre"}</p>
+            <p>{user.description || "Complete seu sobre"}</p>
           </section>
           <section className="mt-12 pb-12 border-secondary-01 border-b border-solid">
             <h2 className="text-2xl font-bold leading-normal mb-4">
@@ -92,9 +97,9 @@ const Profile: NextPage = () => {
             <p className="font-bold basis-1/2">
               {user.website || "exemplo.com"}
             </p>
-            <p className="font-bold basis-1/2">{`${user.country || "País"}/${
-              user.state || "Estado"
-            }`}</p>
+            <p className="font-bold basis-1/2">{`${
+              validateUndefined(user.country) || "País"
+            }/${validateUndefined(user.state) || "Estado"}`}</p>
             <p className="font-bold basis-1/2">
               {user.yearsOfExperience || "experiência que você possui"}
             </p>
@@ -154,7 +159,7 @@ const Profile: NextPage = () => {
               variant="primary"
               onClick={handleOpenModalAvailability}
             >
-              {mentor.availability ? "Marcar mentoria" : "Criar agenda"}
+              {mentor?.availability?.length ? "Alterar agenda" : "Criar agenda"}
             </Button>
           )}
           <Button

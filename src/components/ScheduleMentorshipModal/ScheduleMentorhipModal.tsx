@@ -33,6 +33,8 @@ export const ScheduleMentorshipModal = ({
   const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
     {}
   );
+  const [times, setTimes] = useState<string[]>([]);
+
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
 
   const { mentor, loading, error, refetch } = useMentorProfile(id as string);
@@ -162,6 +164,13 @@ export const ScheduleMentorshipModal = ({
     }
   }, [rangeTime, selectedStartTime]);
 
+  useEffect(() => {
+    const times = daysAndTimes[daySelected];
+    if (times) {
+      setTimes(times);
+    }
+  }, [daySelected, daysAndTimes]);
+
   if (loading)
     return (
       <>
@@ -177,7 +186,7 @@ export const ScheduleMentorshipModal = ({
   }
 
   return (
-    <Modal open={open} onOpenChange={resetStates}>
+    <Modal open={open} onOpenChange={() => resetStates()}>
       <div className="px-16 py-12 flex flex-col justify-center items-center">
         {currentStep === 1 && (
           <>
@@ -261,6 +270,7 @@ export const ScheduleMentorshipModal = ({
           <Button
             size="small"
             type="button"
+            disabled={currentStep === 1 && !daySelected}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
             isLoading={loading || eventLoading}

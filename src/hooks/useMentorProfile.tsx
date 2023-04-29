@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { GET_MENTOR_BY_ID } from "services/apollo/queries";
 
 export const useMentorProfile = (id: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_MENTOR_BY_ID, {
+  const { data, loading, error, refetch, client } = useQuery(GET_MENTOR_BY_ID, {
     variables: { id },
   });
 
@@ -47,6 +47,7 @@ export const useMentorProfile = (id: string) => {
     loading,
     error,
     refetch,
+    client,
   };
 };
 

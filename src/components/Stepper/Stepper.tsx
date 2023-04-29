@@ -12,7 +12,7 @@ const Stepper: React.FC<StepperProps> = ({
 
   const sizeClasses = {
     regular: `w-24 h-8 rounded-lg`,
-    small: `w-16 h-5 text-xs m-auto rounded`,
+    small: `w-20 h-5 text-xs m-auto rounded`,
   };
 
   const containerClasses = clsx(

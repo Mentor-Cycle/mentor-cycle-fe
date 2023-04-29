@@ -30,6 +30,7 @@ export const GET_MENTORS = gql`
       country
       state
       description
+      photoUrl
     }
   }
 `;

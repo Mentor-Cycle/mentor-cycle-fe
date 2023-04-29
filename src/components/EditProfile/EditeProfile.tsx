@@ -8,12 +8,13 @@ import { FormEvent } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
 import { EditProfileProps } from "./EditProfile.types";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const EditProfile = ({
   openEditProfile,
   setOpenEditProfile,
 }: EditProfileProps) => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA);
 
@@ -29,7 +30,6 @@ const EditProfile = ({
     state,
     description,
   } = user;
-
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,21 +51,29 @@ const EditProfile = ({
     const newLocale = locale.toString().trim().split(",");
 
     try {
-      await updateUser({
-        variables: {
-          firstName: newFirstName || firstName,
-          email: newEmail || email,
-          biography: newBiography || biography,
-          lastName: newLastName || lastName,
-          description: newDescription || description,
-          jobTitle: newJobTitle || jobTitle,
-          country: newLocale[0] || country,
-          state: newLocale[1] || state,
-          yearsOfExperience:
-            parseFloat(newYearsOfExperience.toString()) || yearsOfExperience,
-          id,
-        },
+      const updatedUser = {
+        firstName: newFirstName || firstName,
+        email: newEmail || email,
+        biography: newBiography || biography,
+        lastName: newLastName || lastName,
+        description: newDescription || description,
+        jobTitle: newJobTitle || jobTitle,
+        country: newLocale[0] || country,
+        state: newLocale[1] || state,
+        yearsOfExperience:
+          parseFloat(newYearsOfExperience.toString()) || yearsOfExperience,
+        id,
+      };
+      const { data } = await updateUser({
+        variables: updatedUser,
       });
+
+      if (data) {
+        setUser({
+          ...user,
+          ...updatedUser,
+        });
+      }
     } catch (er) {
       console.log(er);
       toast.error("Não foi possível alterar suas informações");
@@ -110,7 +118,9 @@ const EditProfile = ({
             type="text"
             name="locale"
             label="País/Estado"
-            defaultValue={`${country}, ${state}`}
+            defaultValue={`${validateUndefined(country)} ${validateUndefined(
+              state
+            )}`}
           />
           <Input
             type="text"

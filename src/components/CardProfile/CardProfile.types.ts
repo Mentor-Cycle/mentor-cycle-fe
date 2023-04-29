@@ -12,4 +12,5 @@ export interface CardProps {
   image: string | StaticImageData;
   chips: ChipProps[];
   variant?: SizeCard;
+  isCurrentMentor?: boolean;
 }

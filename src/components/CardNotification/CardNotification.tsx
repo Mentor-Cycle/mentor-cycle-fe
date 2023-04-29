@@ -16,7 +16,7 @@ const CardNotification = ({
       <div
         data-testid="teste"
         className={clsx(
-          "bg-primary-01 rounded-lg px-4 py-5 flex w-full max-w-[634px] h-22 ",
+          "bg-primary-01 rounded-lg px-4 py-5 flex w-full max-w-[634px] h-22 min-w-[400px]",
           {
             " bg-transparent border border-gray-03 ": alreadyViewed,
           }

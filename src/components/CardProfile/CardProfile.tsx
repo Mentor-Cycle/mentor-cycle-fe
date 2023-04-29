@@ -14,6 +14,7 @@ const CardProfile = ({
   jobTitle,
   location,
   name,
+  isCurrentMentor,
 }: CardProps) => {
   const MAX_WIDTH = "max-w-[365px]";
   const MIN_WIDTH = "min-w-[300px]";
@@ -33,9 +34,17 @@ const CardProfile = ({
         MAX_WIDTH,
         MIN_WIDTH,
         variantSize[variant],
+        isCurrentMentor && "relative bg-neutral-03 shadow-gray-02 shadow-inner",
         " py-6 border w-full border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
       )}
     >
+      {isCurrentMentor && (
+        <div className="absolute right-2 top-2">
+          <Chip size="small" variant="quartenary">
+            Você
+          </Chip>
+        </div>
+      )}
       <div>
         <Image
           src={image}
@@ -68,6 +77,7 @@ const CardProfile = ({
           size="small"
           onClick={handleViewProfileClick}
           className="dark:bg-primary-03"
+          disabled={isCurrentMentor}
         >
           Ver Perfil
         </Button>
