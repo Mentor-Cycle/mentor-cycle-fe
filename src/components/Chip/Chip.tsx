@@ -5,6 +5,7 @@ const Chip = ({
   variant = "quartenary",
   children,
   className,
+  size,
   onClick,
   ...props
 }: ChipProps) => {
@@ -15,11 +16,13 @@ const Chip = ({
     secondary_dark: `text-neutral-01 bg-primary-03 `,
     tertiary: `text-neutral-01 bg-primary-05 `,
     quartenary: `text-neutral-01 bg-secondary-02`,
+    outlined: `text-secondary-03 bg-transparent border border-secondary-03  `,
   };
   return (
     <span
       className={clsx(
-        "px-4 py-1 rounded-2xl flex justify-center text-xxs max-w-[100px] min-w-[85px] truncate ...",
+        "px-4 py-1 rounded-2xl flex justify-center text-xxs max-w-[100px]truncate",
+        size === "small" ? "min-w-[56px] max-w-[56px]" : "min-w-[85px] ",
         variantClasses[variant],
         className
       )}

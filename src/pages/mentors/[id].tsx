@@ -1,67 +1,23 @@
 import Button from "@components/Button";
-import Calendar from "@components/Calendar/Calendar";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
-import Modal from "@components/Modal";
+
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Image from "next/image";
-import Stepper from "@components/Stepper/Stepper";
 import React from "react";
 import { buttonVariant } from "@components/Button/Button.types";
+import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   const { id } = router.query;
   const { mentor, loading, error } = useMentorProfile(id as string);
-
-  const stepButtons: {
-    [key: number]: {
-      text: string;
-      variant: buttonVariant;
-    };
-  } = {
-    1: {
-      text: "Continuar",
-      variant: "primary",
-    },
-    2: {
-      text: "Confirmar mentoria",
-      variant: "primary",
-    },
-    3: {
-      text: "Fechar",
-      variant: "secondary",
-    },
-  };
-
-  if (loading)
-    return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-        ;
-      </>
-    );
-  if (error) {
-    router.replace("/404");
-    return null;
-  }
-
-  const handleSteps = () => {
-    if (openModal) {
-      setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-    } else {
-      setCurrentStep(1);
-    }
-  };
 
   return (
     <main className="pb-12">
@@ -115,91 +71,7 @@ const MentorProfile: NextPage = () => {
               />
             ))}
           </div>
-          <Modal open={openModal} onOpenChange={setOpenModal}>
-            <div className="px-16 py-12 flex flex-col justify-center items-center">
-              {currentStep === 1 && (
-                <>
-                  <div className="rounded-lg flex w-full justify-center items-center">
-                    <Image
-                      src={"/imgCard.png"}
-                      alt="avatar profile"
-                      width={98}
-                      height={98}
-                    />
-                  </div>
-                  <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
-                    Mentoria com {mentor.firstName} {mentor.lastName}
-                  </h2>
-                  <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
-                    Escolha um dia para visualizar os horários disponíveis para
-                    marcar sua mentoria
-                  </p>
-                </>
-              )}
-              <Stepper
-                size="small"
-                steps={[1, 2, 3]}
-                currentStep={currentStep}
-              />
-              {currentStep === 1 && (
-                <>
-                  <div className="mt-10">
-                    <Calendar availableDays={["oi", "oi"]} />
-                  </div>
-                  <div className="w-full">
-                    <h3 className="mb-6 mt-8">Horários disponíveis</h3>
-                    <ul className="grid grid-cols-4 gap-4">
-                      {mentor?.availability?.map((availability, index) => {
-                        return availability.slots.map((slot, slotIndex) => (
-                          <li key={`${index}-${slotIndex}`}>
-                            <Chip key={slotIndex} variant="primary">
-                              {slot}
-                            </Chip>
-                          </li>
-                        ));
-                      })}
-                    </ul>
-                  </div>
-                </>
-              )}
-              {currentStep === 2 && (
-                <>
-                  <hr className="text-gray-02 w-full mt-16" />
-                  <h2 className="mt-16 font-bold text-2xl">
-                    Mentoria de 30 minutos
-                  </h2>
-                  <p className="mt-6">
-                    <span className="font-bold">Horário:</span> 18h até as 18h30
-                  </p>
-                  <p className="mt-2">
-                    <span className="font-bold">Data:</span> Terça-feira 14 de
-                    março de 2023
-                  </p>
-                </>
-              )}
-              {currentStep === 3 && (
-                <>
-                  <h2 className="font-bold text-3xl order-[-2]">
-                    Mentoria agendada!
-                  </h2>
-                  <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-                    Sua mentoria foi agendada no seu calendário e do Ronald
-                    Richards
-                  </p>
-                </>
-              )}
-              <div className="mt-11 min-w-[183px]">
-                <Button
-                  size="small"
-                  type="button"
-                  variant={stepButtons[currentStep].variant}
-                  onClick={handleSteps}
-                >
-                  {stepButtons[currentStep].text}
-                </Button>
-              </div>
-            </div>
-          </Modal>
+          <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
           <Button
             className="mt-12"
             size="regular"

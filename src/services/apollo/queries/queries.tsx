@@ -74,6 +74,23 @@ export const GET_MENTOR_BY_ID = gql`
   }
 `;
 
+export const GET_AVAILABILITIES = gql`
+  query FindAvailabilities($mentorId: String!) {
+    findMentorAvailability(mentorId: $mentorId) {
+      firstName
+      lastName
+      availability {
+        active
+        weekDay
+        startHour
+        endHour
+        startDate
+        endDate
+      }
+    }
+  }
+`;
+
 export const GET_SKILLS = gql`
   query FindSkills {
     findAllSkills {

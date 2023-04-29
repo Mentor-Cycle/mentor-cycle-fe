@@ -106,3 +106,11 @@ export const PERSIST_AVAILABILITY = gql`
     }
   }
 `;
+
+export const CREATE_EVENT = gql`
+  mutation createEvent($event: CreateEventInput!) {
+    createEvent(createEventInput: $event) {
+      id
+    }
+  }
+`;

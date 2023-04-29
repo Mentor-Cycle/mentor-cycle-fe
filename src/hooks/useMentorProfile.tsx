@@ -3,7 +3,7 @@ import { DAYS_OF_THE_WEEK } from "config/constants";
 import { format, parse } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { useEffect, useState } from "react";
-import { GET_MENTOR_BY_ID } from "services/apollo/querys";
+import { GET_MENTOR_BY_ID } from "services/apollo/queries";
 
 export const useMentorProfile = (id: string) => {
   const { data, loading, error, refetch } = useQuery(GET_MENTOR_BY_ID, {
