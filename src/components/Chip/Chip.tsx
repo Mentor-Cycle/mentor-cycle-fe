@@ -21,8 +21,8 @@ const Chip = ({
   return (
     <span
       className={clsx(
-        "px-4 py-1 rounded-2xl flex justify-center text-xxs max-w-[100px] min-w-[85px] truncate ...",
-        size === "small" && "min-w-[56px] max-w-[56px]",
+        "px-4 py-1 rounded-2xl flex justify-center text-xxs max-w-[100px]truncate",
+        size === "small" ? "min-w-[56px] max-w-[56px]" : "min-w-[85px] ",
         variantClasses[variant],
         className
       )}

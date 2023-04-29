@@ -10,10 +10,13 @@ import { id } from "date-fns/locale";
 import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { MentorAvailability } from "./types";
 import clsx from "clsx";
+import { useUser } from "@hooks/useUser";
+import { CREATE_EVENT } from "services/apollo/mutations";
+import { toast } from "react-toastify";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -34,7 +37,10 @@ export const ScheduleMentorshipModal = ({
   );
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
 
-  const { mentor, loading, error } = useMentorProfile(id as string);
+  const { mentor, loading, error, refetch } = useMentorProfile(id as string);
+  const { user } = useUser();
+  const [createEvent, { loading: eventLoading, error: eventError }] =
+    useMutation(CREATE_EVENT);
 
   const stepButtons: {
     [key: number]: {
@@ -56,25 +62,30 @@ export const ScheduleMentorshipModal = ({
     },
   };
   const [currentStep, setCurrentStep] = useState(1);
-  const handleSteps = () => {
+  const handleSteps = async () => {
     if (currentStep === 3) {
       setOpen(false);
+      refetch();
       return setCurrentStep(1);
     }
 
     if (currentStep === 2) {
-      // call backend
-
-      console.log(selectedDate);
-      console.log(selectedStartTime);
-      console.log(selectedEndTime);
-
-      // convert to
-      // 2023-04-28T23:00:00
-      // yyyy-MM-ddTHH:mm:ss
-
-      // seconds are irrelevant but wee need to pass it,
-      // just concat + ":00" to the end of the string is enough
+      const [day, month, year] = daySelected.split("/");
+      const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+      const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+      const payload = {
+        startDate,
+        endDate,
+        mentorId: id,
+        learnerId: user.id,
+        active: true,
+        status: "CONFIRMED",
+      };
+      await createEvent({ variables: { event: payload } });
+      if (eventError) {
+        return toast.error("Erro ao criar evento");
+      }
+      resetStates(false);
     }
 
     if (open) {
@@ -112,7 +123,7 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = () => {
+  const resetStates = (close: boolean = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
@@ -120,7 +131,9 @@ export const ScheduleMentorshipModal = ({
     setDaysAndTimes({});
     setRangeTime([]);
     setCurrentStep(1);
-    setOpen(false);
+    if (close) {
+      setOpen(false);
+    }
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -205,7 +218,7 @@ export const ScheduleMentorshipModal = ({
                 {daysAndTimes[daySelected]?.map((time) => (
                   <li key={time}>
                     <Chip
-                      className="cursor-pointer"
+                      className="cursor-pointer w-[56px]"
                       size="small"
                       onClick={() => setSelectedStartTime(time)}
                       key={time + String(Math.random())}
@@ -252,6 +265,7 @@ export const ScheduleMentorshipModal = ({
             type="button"
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
+            isLoading={loading || eventLoading}
           >
             {stepButtons[currentStep].text}
           </Button>

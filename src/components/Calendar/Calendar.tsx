@@ -26,8 +26,8 @@ function Calendar({
 
   function changeDayClick(day: Date) {
     const formatted = formatDate(day);
-    setDaySelected(formatted);
-    setSelectedDate(day);
+    setDaySelected?.(formatted);
+    setSelectedDate?.(day);
   }
 
   const classNames: ClassNames = {
