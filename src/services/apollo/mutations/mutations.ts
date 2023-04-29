@@ -91,6 +91,7 @@ export const USER_UPDATE_DATA = gql`
       }
     ) {
       id
+      isMentor
     }
   }
 `;

@@ -6,14 +6,12 @@ import { useCallback, useEffect, useState } from "react";
 import { buttonVariant } from "@components/Button/Button.types";
 import Chip from "@components/Chip";
 import { useMentorProfile } from "@hooks/useMentorProfile";
-import { id } from "date-fns/locale";
 import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { MentorAvailability } from "./types";
-import clsx from "clsx";
 import { useUser } from "@hooks/useUser";
 import { CREATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
@@ -221,7 +219,7 @@ export const ScheduleMentorshipModal = ({
                       className="cursor-pointer w-[56px]"
                       size="small"
                       onClick={() => setSelectedStartTime(time)}
-                      key={time + String(Math.random())}
+                      key={time}
                       variant={
                         selectedStartTime === time ? "secondary" : "outlined"
                       }

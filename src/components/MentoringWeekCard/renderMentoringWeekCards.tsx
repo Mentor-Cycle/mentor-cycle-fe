@@ -25,10 +25,8 @@ export const renderMentoringWeekCard = (eventsByDay: {
 
   return Object.entries(eventsByDay).map(
     ([date, events]: [string, { events: Event[] }], index: number) => {
-      // const day = new Date(date).toLocaleString("pt-BR", { weekday: "long", timeZone: 'America/Sao_Paulo' });
       const data = parseISO(date);
       const dayWeek = format(data, "EEEE", { locale: ptBR });
-      // const key = `${dayWeek}_${Math.random().toString(16).substr(2, 8)}`;
       return (
         <MentoringWeekCard
           key={index}
@@ -37,13 +35,13 @@ export const renderMentoringWeekCard = (eventsByDay: {
           chips={events.events.map((event: Event) => (
             <>
               <Chip
-                key={`variant_${event.id}+${index}`}
+                key={`variant_${event.id}`}
                 variant={statusDisplay[event.status].variant}
               >
                 {statusDisplay[event.status].label}
               </Chip>
 
-              <Chip key={`hour_${event.id}+${index}`} variant="secondary">
+              <Chip key={`hour_${event.id}`} variant="secondary">
                 {formatHour(new Date(event.startDate))}
               </Chip>
             </>

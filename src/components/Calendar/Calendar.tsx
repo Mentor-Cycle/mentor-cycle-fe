@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { format } from "date-fns";
 import { ClassNames, DayPicker } from "react-day-picker";
 import { CalendarProps } from "./Calendar.types";

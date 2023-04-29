@@ -2,14 +2,10 @@ import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
-
-import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import React from "react";
-import { buttonVariant } from "@components/Button/Button.types";
+import React, { useState } from "react";
 import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 
 const MentorProfile: NextPage = () => {

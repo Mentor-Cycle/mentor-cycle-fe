@@ -18,6 +18,8 @@ import {
 import { UserContext } from "providers/user/AppContext";
 import clsx from "clsx";
 import Swal from "sweetalert2";
+import client from "services/apollo/apollo-client";
+import { GET_MENTORS } from "services/apollo/queries";
 
 interface ModalSettingsProps {
   firstName: string;
@@ -34,16 +36,16 @@ const ModalSettings = ({
   lastName,
   setIsModalOpen,
 }: ModalSettingsProps) => {
-  const { user } = useContext(UserContext);
   const [dataSucessChange, setDataSucessChange] = useState(false);
-  const [selectedChangeProfile, setSelectedChangeProfile] = useState(null);
   const [currentStep, setCurretStep] = useState(1);
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
 
   const router = useRouter();
 
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
-  const [updateUser, { error }] = useMutation(USER_UPDATE_DATA);
+  const [updateUser] = useMutation(USER_UPDATE_DATA, {
+    refetchQueries: [{ query: GET_MENTORS }, "FindMentors"],
+  });
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 
   const optionsTheme = [
@@ -162,27 +164,25 @@ const ModalSettings = ({
   };
 
   async function switchProfile(profile: any) {
-    const userId = user.id;
     try {
       const userInput = {
+        ...user,
         id: user.id,
         isMentor: profile === "mentor",
       };
 
       const { data } = await updateUser({
         variables: {
-          userInput,
+          ...userInput,
         },
       });
 
-      console.log(data);
-
-      if (data && data.success) {
+      if (data && data.updateUser) {
         setUser(userInput);
         router.replace("/dashboard");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
