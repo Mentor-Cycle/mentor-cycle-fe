@@ -12,7 +12,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { UserContext } from "providers/user/AppContext";
 import { useContext, useEffect, useState } from "react";
-import { GET_EVENTS } from "services/apollo/querys";
+import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 
 const Profile: NextPage = () => {

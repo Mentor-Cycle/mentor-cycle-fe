@@ -73,9 +73,11 @@ export const USER_UPDATE_DATA = gql`
     $description: String
     $yearsOfExperience: Float
     $id: String!
+    $isMentor: Boolean
   ) {
     updateUser(
       userInput: {
+        isMentor: $isMentor
         firstName: $firstName
         lastName: $lastName
         email: $email
@@ -89,6 +91,7 @@ export const USER_UPDATE_DATA = gql`
       }
     ) {
       id
+      isMentor
     }
   }
 `;
@@ -102,6 +105,14 @@ export const DELETE_ACCOUNT = gql`
 export const PERSIST_AVAILABILITY = gql`
   mutation persistAvailability($availability: CreateAvailabilityInput!) {
     createAvailability(createAvailabilityInput: $availability) {
+      id
+    }
+  }
+`;
+
+export const CREATE_EVENT = gql`
+  mutation createEvent($event: CreateEventInput!) {
+    createEvent(createEventInput: $event) {
       id
     }
   }

@@ -2,29 +2,18 @@ import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
-import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   const { id } = router.query;
   const { mentor, loading, error } = useMentorProfile(id as string);
-
-  if (loading)
-    return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-        ;
-      </>
-    );
-  if (error) {
-    router.replace("/404");
-    return null;
-  }
 
   return (
     <main className="pb-12">
@@ -78,7 +67,13 @@ const MentorProfile: NextPage = () => {
               />
             ))}
           </div>
-          <Button className="mt-12" size="regular" variant="primary">
+          <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
+          <Button
+            className="mt-12"
+            size="regular"
+            variant="primary"
+            onClick={() => setOpenModal(true)}
+          >
             Agendar mentoria
           </Button>
         </section>

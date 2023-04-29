@@ -3,7 +3,7 @@ import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
 import { ActionType } from "providers/form";
 import { useQuery } from "@apollo/client";
-import { GET_SKILLS } from "services/apollo/querys";
+import { GET_SKILLS } from "services/apollo/queries";
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();

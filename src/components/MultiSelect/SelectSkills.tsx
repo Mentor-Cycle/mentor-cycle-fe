@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import Select from "react-select";
-import { GET_SKILLS } from "services/apollo/querys";
+import { GET_SKILLS } from "services/apollo/queries";
 
 export interface SelectSkillsProps {
   placeholder: string;

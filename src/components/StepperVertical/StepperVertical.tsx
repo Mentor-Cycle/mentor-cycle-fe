@@ -30,7 +30,7 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
             onClick={() => setCurrentStep(index + 1)}
             key={index}
             className={clsx(
-              "p-6 cursor-pointer",
+              "p-6 cursor-pointer max-w-[200px] opacity-80 hover:opacity-100",
               isActive(index) ? ACTIVE_CLASS : INACTIVE_CLASS
             )}
           >
@@ -40,7 +40,7 @@ const StepperVertical: React.FC<StepperVerticalProps> = ({
           <div
             key={index}
             className={clsx(
-              "p-6",
+              "p-6 max-w-[200px] ",
               isActive(index) ? ACTIVE_CLASS : INACTIVE_CLASS
             )}
           >

@@ -8,7 +8,7 @@ import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { GET_MENTORS } from "services/apollo/querys";
+import { GET_MENTORS } from "services/apollo/queries";
 import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";
 

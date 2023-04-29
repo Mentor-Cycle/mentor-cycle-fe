@@ -6,20 +6,15 @@ import { useRouter } from "next/router";
 
 import { initialValue } from "providers/user/AppContext";
 import { useEffect, useState } from "react";
-
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdNotifications } from "react-icons/md";
-
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
-import Toggle from "@components/Toggle/Toggle";
-
 import { useLazyQuery, useMutation } from "@apollo/client";
-
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/querys";
+import { GET_ME } from "services/apollo/queries";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 
@@ -30,9 +25,9 @@ const itemsMenuStyle =
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
-  const [darkMode, setDarkMode] = useState(false);
 
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
@@ -64,16 +59,6 @@ export default function Header() {
   }> = [
     { text: "Editar Perfil", action: "editprofile" },
     { text: "Configurações", action: "settings" },
-    {
-      text: (
-        <>
-          Dark Mode
-          <Toggle isToggle={darkMode} setIsToggle={setDarkMode} />
-        </>
-      ),
-      action: "theme",
-    },
-    { text: "Trocar de perfil", action: "changeprofile" },
     { text: "Sair", action: "logout" },
   ];
 
@@ -89,8 +74,8 @@ export default function Header() {
       setShowModal("settings");
       setToggleMenuProfile(false);
     },
-    theme: () => setDarkMode(!darkMode),
-    changeprofile: () => console.log("trocar de perfil"),
+    // theme: () => setDarkMode(!darkMode),
+    // changeprofile: () => console.log("trocar de perfil"),
     logout: logOutUser(),
   };
 
@@ -189,9 +174,10 @@ export default function Header() {
         </Modal>
       )}
       {showModal === "settings" && (
-        <Modal open={true} onOpenChange={() => setShowModal("")}>
+        <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
           {
             <ModalSettings
+              setIsModalOpen={setIsModalOpen}
               firstName={firstName}
               email={email}
               id={id}
