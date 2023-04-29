@@ -28,7 +28,6 @@ const Dashboard: NextPage = () => {
   useEffect(() => {
     if (!loading && !error && data) {
       const events = data?.findEvents || [];
-      console.log(groupEventsByDay(events));
       const eventsByDay = groupEventsByDay(events);
       setEventsByDay(eventsByDay);
     }

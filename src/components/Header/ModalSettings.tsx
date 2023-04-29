@@ -40,7 +40,7 @@ const ModalSettings = ({
 
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
   const [updateUser] = useMutation(USER_UPDATE_DATA, {
-    refetchQueries: [{ query: GET_MENTORS }, "FindMentors"],
+    refetchQueries: [{ query: GET_MENTORS }],
   });
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 
@@ -173,7 +173,7 @@ const ModalSettings = ({
         router.replace("/dashboard");
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }
 
