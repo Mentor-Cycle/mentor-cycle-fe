@@ -1,4 +1,5 @@
 import DashboardCardProfile from "@components/DashboardCardProfile";
+import Button from "@components/Button/Button";
 import Select from "react-select";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import Spinner from "@components/Spinner/Spinner";
@@ -13,13 +14,14 @@ import {
   groupEventsByDay,
 } from "utils/dashboard-helpers";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
+import Link from "next/link";
 
 const Dashboard: NextPage = () => {
   const { user } = useContext(UserContext);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [eventsByDay, setEventsByDay] = useState({});
 
-  const { data, loading, error } = useQuery(GET_EVENTS, {
+  const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
     variables: {
       mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
@@ -30,7 +32,9 @@ const Dashboard: NextPage = () => {
       const events = data?.findEvents || [];
       const eventsByDay = groupEventsByDay(events);
       setEventsByDay(eventsByDay);
+      refetch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
 
   const statusOptions = [
@@ -53,7 +57,6 @@ const Dashboard: NextPage = () => {
         <p>Ocorreu um erro a carregar a pagina: {error.message}</p>
       </div>
     );
-
   return (
     <>
       <section className="bg-header-dashboard bg-no-repeat bg-cover">
@@ -63,7 +66,7 @@ const Dashboard: NextPage = () => {
               job={user.jobTitle}
               name={`${user.firstName} ${user.lastName}`}
               skills={user.skills}
-              avatar={user.photoUrl}
+              avatar={user.photoUrl || "/imgCard.png"}
             />
           )}
         </div>
@@ -143,9 +146,31 @@ const Dashboard: NextPage = () => {
           ) : (
             !hasMentorship &&
             selectedFilter === "" && (
-              <p className="text-danger-01">
-                Você não possui nenhuma mentoria agendada.
-              </p>
+              <div className=" min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
+                {user.isMentor ? (
+                  <>
+                    <h3 className="text-secondary-01 font-bold text-center">
+                      Você ainda não definiu seus horários de mentoria.
+                    </h3>
+                    <Button>
+                      <Link href={"/profile"} className="text-sm">
+                        Crie sua Agenda
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-secondary-01 font-bold text-center">
+                      Você não possui nenhuma mentoria agendada.
+                    </h3>
+                    <Button>
+                      <Link href={"/mentors"} className="text-sm ">
+                        Encontre um mentor e agende uma mentoria
+                      </Link>
+                    </Button>
+                  </>
+                )}
+              </div>
             )
           )}
           {!hasMentorship && selectedFilter !== "" && (

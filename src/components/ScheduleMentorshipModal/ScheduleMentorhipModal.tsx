@@ -33,6 +33,7 @@ export const ScheduleMentorshipModal = ({
   const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
     {}
   );
+
   const [times, setTimes] = useState<string[]>([]);
 
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
@@ -63,9 +64,9 @@ export const ScheduleMentorshipModal = ({
   };
   const [currentStep, setCurrentStep] = useState(1);
   const handleSteps = async () => {
+    refetchAvailabilities();
     if (currentStep === 3) {
       setOpen(false);
-      refetch();
       return setCurrentStep(1);
     }
 
@@ -94,11 +95,14 @@ export const ScheduleMentorshipModal = ({
       setCurrentStep(1);
     }
   };
-  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
-    variables: {
-      mentorId: mentor.id,
-    },
-  });
+  const { data, refetch: refetchAvailabilities } = useQuery<MentorAvailability>(
+    GET_AVAILABILITIES,
+    {
+      variables: {
+        mentorId: mentor.id,
+      },
+    }
+  );
 
   const convertAvailabilitiyDays = useCallback(
     (data: MentorAvailability) => {

@@ -8,15 +8,46 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { validateUndefined } from "utils/nullable/validateUndefined";
+import { useQuery } from "@apollo/client";
+import { MentorAvailability } from "@components/ScheduleMentorshipModal/types";
+import { GET_AVAILABILITIES } from "services/apollo/queries";
+import { formatDate } from "utils/dashboard-helpers";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const { id } = router.query;
-  const { mentor, loading, error } = useMentorProfile(id as string);
+  const { mentor } = useMentorProfile(id as string);
   const country = validateUndefined(mentor?.country);
   const state = validateUndefined(mentor?.state);
+
+  const { data, refetch: refetchAvailabilities } = useQuery<MentorAvailability>(
+    GET_AVAILABILITIES,
+    {
+      variables: {
+        mentorId: id,
+      },
+    }
+  );
+
+  const availabilitiesByWeekDay =
+    data?.findMentorAvailability.availability.reduce((acc, availability) => {
+      const weekDayNumber = availability.weekDay;
+      const startDate = parseISO(availability.startDate);
+      const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
+
+      if (!acc[weekDayNumber]) {
+        acc[weekDayNumber] = {
+          weekDay: formattedWeekDay,
+          slots: [],
+        };
+      }
+      acc[weekDayNumber].slots.push(`${availability.startHour}`);
+      return acc;
+    }, {});
 
   return (
     <main className="pb-12">
@@ -56,8 +87,25 @@ const MentorProfile: NextPage = () => {
         </div>
         <section>
           <h2 className="text-3xl font-bold mb-12">Agenda de mentorias</h2>
-          <div className="flex flex-col gap-4">
-            {mentor?.availability?.map((availability) => (
+          {data?.findMentorAvailability.availability.length ? (
+            <div className="flex flex-col gap-4">
+              {availabilitiesByWeekDay &&
+                Object.values(availabilitiesByWeekDay).map((availability) => (
+                  <MentoringWeekCard
+                    key={availability.weekDay}
+                    day={availability.weekDay}
+                    description={
+                      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
+                    }
+                    chips={availability.slots.map((slot) => (
+                      <Chip key={slot} variant="quartenary">
+                        {slot}
+                      </Chip>
+                    ))}
+                  />
+                ))}
+
+              {/* {mentor?.availability?.map((availability) => (
               <MentoringWeekCard
                 key={availability.weekDay}
                 day={availability.weekDay}
@@ -70,8 +118,13 @@ const MentorProfile: NextPage = () => {
                   </Chip>
                 ))}
               />
-            ))}
-          </div>
+            ))} */}
+            </div>
+          ) : (
+            <div className="max-w-xs p-6 border border-gray-03 rounded-lg">
+              <p>O mentor ja está com a agenda lotada para a semana!</p>
+            </div>
+          )}
           <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
           <Button
             className="mt-12"
