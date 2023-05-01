@@ -70,7 +70,7 @@ const MentoringLinkCard = ({
           target="_blank"
         >
           <Button disabled={status === "DONE"} size="small">
-            Acessar chamada
+            {status === "DONE" ? "Chamada Encerrada" : "Acessar chamada"}
           </Button>
         </a>
         <div className="flex items-center justify-center ">
