@@ -82,6 +82,7 @@ const InputComponent: FC<InputComponentProps> = ({
             ref={forwardedRef as any}
             onKeyDown={handleKeyDown}
             name={name}
+            required={props.required}
             disabled={disabled}
             pattern={props?.pattern}
             defaultValue={props?.value}

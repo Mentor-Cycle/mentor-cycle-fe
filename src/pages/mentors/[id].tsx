@@ -9,7 +9,10 @@ import React, { useState } from "react";
 import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 import { useQuery } from "@apollo/client";
-import { MentorAvailability } from "@components/ScheduleMentorshipModal/types";
+import {
+  AvailabilitySlots,
+  MentorAvailability,
+} from "@components/ScheduleMentorshipModal/types";
 import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { formatDate } from "utils/dashboard-helpers";
 import { format, parseISO } from "date-fns";
@@ -34,20 +37,23 @@ const MentorProfile: NextPage = () => {
   );
 
   const availabilitiesByWeekDay =
-    data?.findMentorAvailability.availability.reduce((acc, availability) => {
-      const weekDayNumber = availability.weekDay;
-      const startDate = parseISO(availability.startDate);
-      const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
+    data?.findMentorAvailability.availability.reduce(
+      (acc: AvailabilitySlots, availability) => {
+        const weekDayNumber = availability.weekDay;
+        const startDate = parseISO(availability.startDate);
+        const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
 
-      if (!acc[weekDayNumber]) {
-        acc[weekDayNumber] = {
-          weekDay: formattedWeekDay,
-          slots: [],
-        };
-      }
-      acc[weekDayNumber].slots.push(`${availability.startHour}`);
-      return acc;
-    }, {});
+        if (!acc[weekDayNumber]) {
+          acc[weekDayNumber] = {
+            weekDay: formattedWeekDay,
+            slots: [],
+          };
+        }
+        acc[weekDayNumber].slots.push(`${availability.startHour}`);
+        return acc;
+      },
+      {}
+    );
 
   return (
     <main className="pb-12">
@@ -104,21 +110,6 @@ const MentorProfile: NextPage = () => {
                     ))}
                   />
                 ))}
-
-              {/* {mentor?.availability?.map((availability) => (
-              <MentoringWeekCard
-                key={availability.weekDay}
-                day={availability.weekDay}
-                description={
-                  "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
-                }
-                chips={availability.slots.map((slot) => (
-                  <Chip key={slot} variant="quartenary">
-                    {slot}
-                  </Chip>
-                ))}
-              />
-            ))} */}
             </div>
           ) : (
             <div className="max-w-xs p-6 border border-gray-03 rounded-lg">

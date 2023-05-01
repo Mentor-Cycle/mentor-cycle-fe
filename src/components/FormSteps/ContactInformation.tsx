@@ -24,11 +24,11 @@ const ContactInformation = () => {
         defaultValue={github}
       />
       <Textarea
-        label="Usuário"
+        label="Descrição"
         name="description"
+        required
         value={description}
         onChange={updateFormTextarea}
-        defaultValue={description}
         placeholder="Faça uma breve descrição sobre você"
       />
     </>

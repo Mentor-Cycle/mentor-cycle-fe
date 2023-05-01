@@ -136,6 +136,7 @@ export const GET_EVENTS = gql`
           lastName
           jobTitle
           isMentor
+          photoUrl
         }
       }
       startDate

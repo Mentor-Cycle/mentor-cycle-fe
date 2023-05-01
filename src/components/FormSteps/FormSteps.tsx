@@ -66,7 +66,7 @@ const FormSteps: React.FC = () => {
           }
         );
         if (response.data.signUpUser) {
-          router.push("/");
+          router.push("/dashboard");
         }
       } catch (error) {
         toast.error(`${error}`);

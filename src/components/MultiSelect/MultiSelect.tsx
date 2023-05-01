@@ -38,7 +38,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         required
         isMulti
         name={name}
-        defaultValue={defaultValue}
+        defaultValue={formData?.skills.length ? defaultValue : options?.[0]}
         onChange={(newValue) =>
           handleAddNewSkill(newValue as MultiSelectOptions)
         }

@@ -19,6 +19,7 @@ const MentoringLinkCard = ({
   hour,
   meetingLink,
   eventId,
+  onCancel,
 }: Props) => {
   const [updatedStatus, setUpdatedStatus] = useState(status);
 
@@ -38,6 +39,7 @@ const MentoringLinkCard = ({
     const variant = statusToVariantMap[statusToPortugueseMap[status]];
     return <Chip variant={variant}>{statusToPortugueseMap[status]}</Chip>;
   };
+  const isDisabled = status === "DONE" || status === "CANCELLED";
 
   return (
     <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-full border border-gray-03 rounded-lg">
@@ -69,8 +71,8 @@ const MentoringLinkCard = ({
           rel="noreferrer"
           target="_blank"
         >
-          <Button disabled={status === "DONE"} size="small">
-            {status === "DONE" ? "Chamada Encerrada" : "Acessar chamada"}
+          <Button disabled={isDisabled} size="small">
+            {isDisabled ? "Chamada Encerrada" : "Acessar chamada"}
           </Button>
         </a>
         <div className="flex items-center justify-center ">
@@ -78,10 +80,18 @@ const MentoringLinkCard = ({
             <span className="mt-4 dark:text-neutral-03">{date}</span>
             <span className="text-gray-03 dark:text-neutral-05">{hour}</span>
           </div>
-          <div className="relative cursor-pointer transition-all duration-300">
+
+          <div
+            className={clsx(
+              "relative cursor-pointer transition-all duration-300",
+              ["DONE", "CANCELLED"].includes(status) && "invisible"
+            )}
+          >
             <SelectComponent
               eventId={eventId}
               status={updatedStatus}
+              onCancel={onCancel}
+              disabled={status === "DONE" || status === "CANCELLED"}
               setStatus={setUpdatedStatus}
               nameUser={name}
               hour={hour}
@@ -100,12 +110,16 @@ const SelectComponent = ({
   nameUser,
   date,
   hour,
+  onCancel,
+  disabled,
 }: {
   date: React.ReactNode;
   hour: React.ReactNode;
   nameUser: string;
   eventId: string;
   status: string;
+  disabled?: boolean;
+  onCancel: () => void;
   setStatus: (status: string) => void;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -136,6 +150,7 @@ const SelectComponent = ({
     try {
       await updateEventStatus({ variables: { updateEventInput } });
       setStatus("CANCELLED");
+      onCancel();
     } catch (error) {
       console.error("Error updating event status:", error);
     }
@@ -191,6 +206,7 @@ const SelectComponent = ({
         open={isOpen}
         onOpenChange={setIsOpen}
         value={value}
+        disabled={disabled}
         onValueChange={handleValueChange}
       >
         <Select.Trigger className="flex items-center justify-center cursor-pointer focus:outline-none">

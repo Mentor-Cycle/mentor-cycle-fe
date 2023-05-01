@@ -21,7 +21,7 @@ const SignIn: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleStrategyLogin = async (route: string) => {
-    window.location.href = `http://localhost:3030${route}`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL + route}`;
   };
 
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);

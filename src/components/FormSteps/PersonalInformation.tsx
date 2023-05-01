@@ -17,6 +17,20 @@ const PersonalInformation = () => {
   const [states, setStates] = useState<State[]>([]);
   const [cities, setCities] = useState<City[]>([]);
 
+  const handleLocationChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        [name]: newValue?.label,
+        ...(name === "country" && { state: "", city: "" }),
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchCountries = async () => {
       const fetchedCountries = await getCountries();
@@ -41,18 +55,15 @@ const PersonalInformation = () => {
     fetchCities();
   }, [formData.country, formData.state, getCountries, getStates, getCities]);
 
-  const handleLocationChange = (
-    name: string,
-    newValue: SingleValue<{ label: string; value: string }>
-  ) => {
+  useEffect(() => {
     dispatch({
       type: ActionType.UPDATE_FORM_DATA,
       payload: {
         ...formData,
-        [name]: newValue?.label,
+        country: "Brasil",
       },
     });
-  };
+  }, []);
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -74,6 +85,7 @@ const PersonalInformation = () => {
     const isDateInThePast = isPast(parsedDate);
     return isValidDate && isDateInThePast;
   };
+
   return (
     <>
       <div className="sm:flex gap-4">
@@ -89,7 +101,10 @@ const PersonalInformation = () => {
           name="country"
           options={countries}
           placeholder="Selecione um Pais"
-          value={{ label: formData.country, value: formData.country }}
+          value={{
+            label: formData.country || "Brasil",
+            value: formData.country || "Brasil",
+          }}
         />
         <SelectLocation
           onSelect={(
@@ -104,9 +119,9 @@ const PersonalInformation = () => {
           options={states}
           placeholder="Selecione um estado"
           value={
-            formData.country === "Brasil"
+            formData.state
               ? { label: formData.state, value: formData.state }
-              : undefined
+              : ""
           }
         />
       </div>
@@ -124,9 +139,7 @@ const PersonalInformation = () => {
           isDisabled={formData.country !== "Brasil"}
           placeholder="Selecione uma cidade"
           value={
-            formData.country === "Brasil"
-              ? { label: formData.city, value: formData.city }
-              : undefined
+            formData.city ? { label: formData.city, value: formData.city } : ""
           }
         />
         <Input
@@ -139,7 +152,6 @@ const PersonalInformation = () => {
           onChange={(e) => setDate((e.target as HTMLInputElement).value)}
           placeholder="DD/MM/AAAA"
           maxLength={10}
-          required
           pattern="\d{2}/\d{2}/\d{4}"
           onKeyDown={(e) => {
             if (e.key === "Enter") {

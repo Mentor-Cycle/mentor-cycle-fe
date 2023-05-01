@@ -15,9 +15,10 @@ import {
 } from "utils/dashboard-helpers";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Link from "next/link";
+import { useUser } from "@hooks/useUser";
 
 const Dashboard: NextPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [selectedFilter, setSelectedFilter] = useState("");
   const [eventsByDay, setEventsByDay] = useState({});
 
@@ -28,11 +29,12 @@ const Dashboard: NextPage = () => {
     },
   });
   useEffect(() => {
+    refetch();
+    console.log(data);
     if (!loading && !error && data) {
       const events = data?.findEvents || [];
       const eventsByDay = groupEventsByDay(events);
       setEventsByDay(eventsByDay);
-      refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
@@ -122,6 +124,11 @@ const Dashboard: NextPage = () => {
                   (participant: any) => participant.user.id !== event.mentorId
                 )?.user;
 
+                console.log("mentorInfo", mentorInfo);
+                console.log("learnerInfo", learnerInfo);
+
+                if (!user.isMentor && mentorInfo.id === user.id) return <></>;
+
                 const displayedName = user.isMentor
                   ? `${learnerInfo?.firstName} ${learnerInfo?.lastName}`
                   : `${mentorInfo?.firstName} ${mentorInfo?.lastName}`;
@@ -129,10 +136,17 @@ const Dashboard: NextPage = () => {
                 const displayedJobTitle = user.isMentor
                   ? learnerInfo?.jobTitle
                   : mentorInfo?.jobTitle;
+
+                const displayedAvatar = user.isMentor
+                  ? learnerInfo?.photoUrl
+                  : mentorInfo?.photoUrl;
+
                 return (
                   <MentoringLinkCard
                     key={event.id}
+                    onCancel={refetch}
                     eventId={event.id}
+                    avatar={displayedAvatar}
                     date={formatDate(event.startDate)}
                     hour={formatHour(new Date(event.startDate))}
                     job={displayedJobTitle || "Desenvolvedor"}
@@ -147,29 +161,18 @@ const Dashboard: NextPage = () => {
             !hasMentorship &&
             selectedFilter === "" && (
               <div className=" min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
-                {user.isMentor ? (
-                  <>
-                    <h3 className="text-secondary-01 font-bold text-center">
-                      Você ainda não definiu seus horários de mentoria.
-                    </h3>
-                    <Button>
-                      <Link href={"/profile"} className="text-sm">
-                        Crie sua Agenda
-                      </Link>
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="text-secondary-01 font-bold text-center">
-                      Você não possui nenhuma mentoria agendada.
-                    </h3>
+                <>
+                  <h3 className="text-secondary-01 font-bold text-center">
+                    Você não possui nenhuma mentoria agendada.
+                  </h3>
+                  {!user.isMentor && (
                     <Button>
                       <Link href={"/mentors"} className="text-sm ">
                         Encontre um mentor e agende uma mentoria
                       </Link>
                     </Button>
-                  </>
-                )}
+                  )}
+                </>
               </div>
             )
           )}

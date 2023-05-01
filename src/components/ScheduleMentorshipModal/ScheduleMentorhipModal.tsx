@@ -113,6 +113,12 @@ export const ScheduleMentorshipModal = ({
         const parsedDay = `${day}/${month}/${year}`;
 
         const newDaysAndTimes = daysAndTimes;
+
+        const currentHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
+        if (currentHour > startTime) {
+          return;
+        }
+
         newDaysAndTimes[parsedDay] = [
           ...(newDaysAndTimes[parsedDay] || []),
           startTime.slice(0, 5),
@@ -276,7 +282,7 @@ export const ScheduleMentorshipModal = ({
           <Button
             size="small"
             type="button"
-            disabled={currentStep === 1 && !daySelected}
+            disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
             isLoading={loading || eventLoading}

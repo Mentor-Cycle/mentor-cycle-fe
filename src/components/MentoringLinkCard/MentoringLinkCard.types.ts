@@ -8,6 +8,7 @@ export type Props = {
   status: string;
   meetingLink?: string;
   eventId: string;
+  onCancel: () => void;
 };
 
 export type StatusToVariantMap = {

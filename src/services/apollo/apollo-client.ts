@@ -8,7 +8,7 @@ import { onError } from "@apollo/client/link/error";
 
 const httpLink = new HttpLink({
   // uri: "https://mentor-cycle-be-dev.onrender.com/graphql",
-  uri: "http://localhost:3030/graphql",
+  uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
   credentials: "include",
 });
 

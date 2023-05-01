@@ -18,6 +18,11 @@ const Textarea = ({ label, name, disabled, ...props }: TextareaProps) => {
       htmlFor={name}
     >
       {label}
+      {props.required && (
+        <span title="Obrigatório" className="text-danger-01 mx-1">
+          *
+        </span>
+      )}
       <textarea
         name={name}
         disabled={disabled}

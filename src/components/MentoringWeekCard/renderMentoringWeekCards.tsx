@@ -26,6 +26,7 @@ export const renderMentoringWeekCard = (eventsByDay: {
 
   return Object.entries(eventsByDay).map(
     ([date, events]: [string, { events: Event[] }], index: number) => {
+      console.log(events);
       const data = parseISO(date);
       const dayWeek = format(data, "EEEE", { locale: ptBR });
       return (

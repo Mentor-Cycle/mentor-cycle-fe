@@ -14,3 +14,8 @@ export type MentorAvailability = {
     availability: Availability[];
   };
 };
+
+export type AvailabilitySlots = Record<
+  string,
+  { weekDay: string; slots: string[] }
+>;

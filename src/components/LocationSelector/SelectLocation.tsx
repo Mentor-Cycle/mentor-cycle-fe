@@ -10,6 +10,8 @@ const SelectLocation = ({
   value,
   isDisabled,
   requiredField,
+  defaultValue,
+  autoFocus,
 }: {
   options: State[] | City[] | Country[];
   onSelect: any;
@@ -19,6 +21,8 @@ const SelectLocation = ({
   value?: any;
   requiredField?: boolean;
   isDisabled?: boolean;
+  defaultValue?: any;
+  autoFocus?: boolean;
 }) => {
   return (
     <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
@@ -29,13 +33,15 @@ const SelectLocation = ({
         </span>
       )}
       <Select
-        required
+        required={requiredField}
         name={name}
         value={value}
         isDisabled={isDisabled}
         options={options}
         isLoading={!options}
         isMulti={false}
+        autoFocus={autoFocus}
+        defaultValue={defaultValue}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
