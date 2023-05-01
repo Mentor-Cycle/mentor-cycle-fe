@@ -1,6 +1,9 @@
 import MentoringWeekCard from "@components/MentoringWeekCard";
 import Chip from "@components/Chip/Chip";
-import { formatHour } from "utils/dashboard-helpers";
+import {
+  convertWeekDayNameToNumber,
+  formatHour,
+} from "utils/dashboard-helpers";
 import { ChipVariant } from "@components/Chip/Chip.types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -24,9 +27,8 @@ export const renderMentoringWeekCard = (eventsByDay: {
     CONFIRMED: { label: "Agendada", variant: "primary" },
   };
 
-  return Object.entries(eventsByDay).map(
-    ([date, events]: [string, { events: Event[] }], index: number) => {
-      console.log(events);
+  return Object.entries(eventsByDay)
+    .map(([date, events]: [string, { events: Event[] }], index: number) => {
       const data = parseISO(date);
       const dayWeek = format(data, "EEEE", { locale: ptBR });
       return (
@@ -52,6 +54,11 @@ export const renderMentoringWeekCard = (eventsByDay: {
           ))}
         />
       );
-    }
-  );
+    })
+    .sort((a, b) => {
+      const weekDayA = convertWeekDayNameToNumber(a.props.day);
+      const weekDayB = convertWeekDayNameToNumber(b.props.day);
+      return weekDayA > weekDayB ? 1 : -1;
+    })
+    .slice(0, 6);
 };

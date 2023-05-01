@@ -53,6 +53,75 @@ const Dashboard: NextPage = () => {
 
   let hasMentorship = false;
 
+  const generateCards = () => {
+    const cards = data?.findEvents.map((event: any) => {
+      if (selectedFilter === "" || event.status === selectedFilter) {
+        hasMentorship = true;
+
+        const mentorInfo = event.participants.find(
+          (participant: any) => participant.user.id === event.mentorId
+        )?.user;
+        const learnerInfo = event.participants.find(
+          (participant: any) => participant.user.id !== event.mentorId
+        )?.user;
+
+        if (!user.isMentor && mentorInfo.id === user.id) return;
+
+        const displayedName = user.isMentor
+          ? `${learnerInfo?.firstName} ${learnerInfo?.lastName}`
+          : `${mentorInfo?.firstName} ${mentorInfo?.lastName}`;
+
+        const displayedJobTitle = user.isMentor
+          ? learnerInfo?.jobTitle
+          : mentorInfo?.jobTitle;
+
+        const displayedAvatar = user.isMentor
+          ? learnerInfo?.photoUrl
+          : mentorInfo?.photoUrl;
+
+        return (
+          <MentoringLinkCard
+            key={event.id}
+            onCancel={refetch}
+            eventId={event.id}
+            avatar={displayedAvatar}
+            date={formatDate(event.startDate)}
+            hour={formatHour(new Date(event.startDate))}
+            job={displayedJobTitle || "Desenvolvedor"}
+            name={displayedName}
+            status={event.status}
+            meetingLink={event.meetingLink}
+          />
+        );
+      }
+    });
+
+    if (!!cards.filter(Boolean).length) {
+      return cards;
+    }
+
+    return generateEmptyFeedback();
+  };
+
+  const generateEmptyFeedback = () => {
+    return (
+      <div className=" min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
+        <>
+          <h3 className="text-secondary-01 font-bold text-center">
+            Você não possui nenhuma mentoria agendada.
+          </h3>
+          {!user.isMentor && (
+            <Button>
+              <Link href={"/mentors"} className="text-sm ">
+                Encontre um mentor e agende uma mentoria
+              </Link>
+            </Button>
+          )}
+        </>
+      </div>
+    );
+  };
+
   if (error)
     return (
       <div className="flex min-h-screen justify-center items-center">
@@ -113,68 +182,9 @@ const Dashboard: NextPage = () => {
               <Spinner />
             </div>
           ) : data?.findEvents?.length > 0 && !loading ? (
-            data?.findEvents.map((event: any) => {
-              if (selectedFilter === "" || event.status === selectedFilter) {
-                hasMentorship = true;
-
-                const mentorInfo = event.participants.find(
-                  (participant: any) => participant.user.id === event.mentorId
-                )?.user;
-                const learnerInfo = event.participants.find(
-                  (participant: any) => participant.user.id !== event.mentorId
-                )?.user;
-
-                console.log("mentorInfo", mentorInfo);
-                console.log("learnerInfo", learnerInfo);
-
-                if (!user.isMentor && mentorInfo.id === user.id) return <></>;
-
-                const displayedName = user.isMentor
-                  ? `${learnerInfo?.firstName} ${learnerInfo?.lastName}`
-                  : `${mentorInfo?.firstName} ${mentorInfo?.lastName}`;
-
-                const displayedJobTitle = user.isMentor
-                  ? learnerInfo?.jobTitle
-                  : mentorInfo?.jobTitle;
-
-                const displayedAvatar = user.isMentor
-                  ? learnerInfo?.photoUrl
-                  : mentorInfo?.photoUrl;
-
-                return (
-                  <MentoringLinkCard
-                    key={event.id}
-                    onCancel={refetch}
-                    eventId={event.id}
-                    avatar={displayedAvatar}
-                    date={formatDate(event.startDate)}
-                    hour={formatHour(new Date(event.startDate))}
-                    job={displayedJobTitle || "Desenvolvedor"}
-                    name={displayedName}
-                    status={event.status}
-                    meetingLink={event.meetingLink}
-                  />
-                );
-              }
-            })
+            generateCards()
           ) : (
-            !hasMentorship &&
-            selectedFilter === "" && (
-              <div className=" min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
-                <>
-                  <h3 className="text-secondary-01 font-bold text-center">
-                    Você não possui nenhuma mentoria agendada.
-                  </h3>
-                  {!user.isMentor && (
-                    <Button>
-                      <Link href={"/mentors"} className="text-sm ">
-                        Encontre um mentor e agende uma mentoria
-                      </Link>
-                    </Button>
-                  )}
-                </>
-              </div>
-            )
+            !hasMentorship && selectedFilter === "" && generateEmptyFeedback()
           )}
           {!hasMentorship && selectedFilter !== "" && (
             <p className="text-danger-01">

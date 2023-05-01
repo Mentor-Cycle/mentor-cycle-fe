@@ -9,6 +9,20 @@ export const formatHour = (date: any) => {
   return format(new Date(date), "HH'h'mm", { locale: ptBR });
 };
 
+export const convertWeekDayNameToNumber = (day: string) => {
+  const weekDays: Record<string, number> = {
+    "segunda-feira": 1,
+    "terça-feira": 2,
+    "quarta-feira": 3,
+    "quinta-feira": 4,
+    "sexta-feira": 5,
+    sábado: 6,
+    domingo: 0,
+  };
+
+  return weekDays[day];
+};
+
 export const groupEventsByDay = (events: any[]) => {
   return events.reduce((acc, event) => {
     const date = new Date(event.startDate);

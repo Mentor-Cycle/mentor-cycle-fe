@@ -3,18 +3,19 @@ import Chip from "@components/Chip/Chip";
 import Modal from "@components/Modal";
 import TimeInput from "@components/TimeInput/TimeInput";
 import { DAYS_OF_THE_WEEK_SHORT } from "config/constants";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   AvailabilitySlot,
   saveAvailabilityInMemory,
 } from "./helpers/saveAvailability";
 import { MdClose } from "react-icons/md";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { PERSIST_AVAILABILITY } from "services/apollo/mutations";
 import { useUser } from "@hooks/useUser";
 import { toast } from "react-toastify";
 import { SuccessfullyCreated } from "./SuccessullyCreated";
-import useLocalStorage from "@hooks/useLocalStorage";
+import { GET_AVAILABILITIES } from "services/apollo/queries";
+import { MentorAvailability } from "@components/ScheduleMentorshipModal/types";
 
 export const MentorModalAvailability = ({
   open,
@@ -25,7 +26,6 @@ export const MentorModalAvailability = ({
   setOpen: (open: boolean) => void;
   refetchMentorProfile: any;
 }) => {
-  const [storedUser, setStoredUser] = useLocalStorage("user", null);
   const { user, setUser } = useUser();
   const [persistAvailability, { loading }] = useMutation(PERSIST_AVAILABILITY);
   const [successModal, setSuccessModal] = useState<boolean>(false);
@@ -35,6 +35,11 @@ export const MentorModalAvailability = ({
   const [selectedStart, setSelectedStart] = useState<string>("12:00");
   const [selectedEnd, setSelectedEnd] = useState<string>("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
+  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
+    variables: {
+      mentorId: user?.id || "",
+    },
+  });
 
   const handleSaveAvailability = () => {
     saveAvailabilityInMemory(
@@ -69,10 +74,6 @@ export const MentorModalAvailability = ({
     setOpen(false);
     setSuccessModal(true);
     setUser((prev: any) => ({ ...prev, availability: formattedAvailability }));
-    setStoredUser((prev: any) => ({
-      ...prev,
-      availability: formattedAvailability,
-    }));
     refetchMentorProfile();
   };
 

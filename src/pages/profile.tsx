@@ -50,10 +50,6 @@ const Profile: NextPage = () => {
         ;
       </>
     );
-  if (error && user.isMentor) {
-    router.replace("/404");
-    return null;
-  }
 
   const handleOpenModalAvailability = () =>
     setOpenModalAvailability(!openModalAvailability);
@@ -157,7 +153,7 @@ const Profile: NextPage = () => {
               variant="primary"
               onClick={handleOpenModalAvailability}
             >
-              {mentor?.availability?.length ? "Alterar agenda" : "Criar agenda"}
+              {mentor?.availability?.length ? "Nova agenda" : "Criar agenda"}
             </Button>
           )}
           <Button

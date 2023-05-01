@@ -2,9 +2,13 @@ type MenuClickActions = Record<string, () => void>;
 
 export type NavBarProps = {
   itemsMenu: {
-    text: React.ReactNode;
+    text: string;
     action: keyof MenuClickActions;
   }[];
-  menuClickActions: MenuClickActions;
   className?: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  value: any;
+  disabled?: boolean;
+  handleValueChange?: any;
 };

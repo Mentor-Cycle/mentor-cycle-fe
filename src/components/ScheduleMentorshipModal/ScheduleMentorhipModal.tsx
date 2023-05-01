@@ -66,8 +66,7 @@ export const ScheduleMentorshipModal = ({
   const handleSteps = async () => {
     refetchAvailabilities();
     if (currentStep === 3) {
-      setOpen(false);
-      return setCurrentStep(1);
+      return resetStates();
     }
 
     if (currentStep === 2) {
@@ -115,7 +114,7 @@ export const ScheduleMentorshipModal = ({
         const newDaysAndTimes = daysAndTimes;
 
         const currentHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
-        if (currentHour > startTime) {
+        if (currentHour > startTime && new Date().getDay() === Number(day)) {
           return;
         }
 
@@ -192,10 +191,6 @@ export const ScheduleMentorshipModal = ({
         ;
       </>
     );
-  if (error) {
-    router.replace("/404");
-    return null;
-  }
 
   return (
     <Modal open={open} onOpenChange={() => resetStates()}>

@@ -66,6 +66,7 @@ module.exports = {
     extend: {
       screens: {
         "3xl": "1850px",
+        xs: "400px",
       },
       container: {
         center: true,

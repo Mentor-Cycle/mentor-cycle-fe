@@ -68,7 +68,7 @@ export const saveAvailabilityInMemory = (
         return slot;
       }
     });
-
+    console.log(newAvailability);
     setAvailability(newAvailability);
   } else {
     setAvailability([...availability, newSlot]);

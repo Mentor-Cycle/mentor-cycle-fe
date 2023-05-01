@@ -1,13 +1,10 @@
 import clsx from "clsx";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import { initialValue } from "providers/user/AppContext";
 import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdNotifications } from "react-icons/md";
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
@@ -58,14 +55,16 @@ export default function Header() {
     }
   }, [data, isLogged, me, router, setUser]);
 
-  const itemsMenu: Array<{
-    text: React.ReactNode;
+  const menuOptions: Array<{
+    text: string;
     action: keyof typeof menuClickActions;
   }> = [
     { text: "Editar Perfil", action: "editprofile" },
     { text: "Configurações", action: "settings" },
     { text: "Sair", action: "logout" },
   ];
+
+  const [itemsMenu, setItemsMenu] = useState({ text: "", action: "" });
 
   const logOutUser = () => async () => {
     await signOutUser();
@@ -84,6 +83,13 @@ export default function Header() {
     logout: logOutUser(),
   };
 
+  const handleValueChange = (value: string) => {
+    const item = menuOptions.find((item) => item.action === value);
+    if (item) {
+      menuClickActions[item.action]();
+    }
+  };
+
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
       <figure className="w-1/5 h-full">
@@ -93,7 +99,7 @@ export default function Header() {
             width={64}
             height={56}
             alt="MentorCycle logo"
-            className="py-3 ml-10 lg:ml-20 xl:ml-40"
+            className="py-3 ml-10 lg:ml-20 xl:ml-40 hidden xs:block"
           />
         </Link>
       </figure>
@@ -131,12 +137,6 @@ export default function Header() {
           </li>
           <li className={clsx(linkStyle, "mr-10 lg:mr-16 xl:mr-36")}>
             <div className={clsx(itemsMenuStyle, "items-center")}>
-              {toggleMenuProfile && (
-                <NavBar
-                  itemsMenu={itemsMenu}
-                  menuClickActions={menuClickActions}
-                />
-              )}
               <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
                 <Image
                   src={photoUrl || "/imgCard.png"}
@@ -163,12 +163,14 @@ export default function Header() {
                     {isMentor ? "Mentor" : "Mentorado"}
                   </span>
                 </div>
-                <button
-                  onClick={() => setToggleMenuProfile(!toggleMenuProfile)}
-                >
-                  {toggleMenuProfile ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                </button>
               </div>
+              <NavBar
+                isOpen={toggleMenuProfile}
+                setIsOpen={setToggleMenuProfile}
+                value={itemsMenu}
+                itemsMenu={menuOptions}
+                handleValueChange={handleValueChange}
+              />
             </div>
           </li>
         </ul>
