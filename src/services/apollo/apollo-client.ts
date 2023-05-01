@@ -14,8 +14,12 @@ const httpLink = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      if (message.includes("Forbidden resource")) {
+    graphQLErrors.forEach(({ message, locations, path, ...rest }) => {
+      if (
+        message.includes("Forbidden resource") &&
+        !window.location.pathname.includes("signup") &&
+        !window.location.pathname.includes("request-change-password")
+      ) {
         window.location.href = "/signin";
       }
       console.error(`[GraphQL error]: ${message}`);
