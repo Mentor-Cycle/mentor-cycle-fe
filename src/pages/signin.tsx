@@ -15,6 +15,7 @@ import { SIGN_IN_USER } from "services/apollo/mutations";
 import { GET_IS_USER_LOGGED } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
+import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPrivacyPopup";
 
 const SignIn: NextPage = () => {
   const router = useRouter();
@@ -73,6 +74,7 @@ const SignIn: NextPage = () => {
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
+      <TermsAndPrivacyPopup />
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"

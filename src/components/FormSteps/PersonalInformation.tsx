@@ -63,6 +63,7 @@ const PersonalInformation = () => {
         country: "Brasil",
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
