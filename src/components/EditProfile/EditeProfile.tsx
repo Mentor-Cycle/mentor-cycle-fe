@@ -27,6 +27,7 @@ const EditProfile = ({
     yearsOfExperience,
     jobTitle,
     country,
+    github,
     state,
     description,
   } = user;

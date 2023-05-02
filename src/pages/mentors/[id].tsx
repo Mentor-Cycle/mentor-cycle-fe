@@ -84,7 +84,7 @@ const MentorProfile: NextPage = () => {
           </section>
           <section className="pt-12 flex flex-wrap gap-y-8">
             <p className="font-bold basis-1/2">{mentor.email}</p>
-            <p className="font-bold basis-1/2">{mentor.website}</p>
+            <p className="font-bold basis-1/2">{mentor.github}</p>
             <p className="font-bold basis-1/2">{`${country}${
               country && state && ","
             } ${state}`}</p>

@@ -12,13 +12,19 @@ const httpLink = new HttpLink({
   credentials: "include",
 });
 
+const excludedPaths = [
+  "/signup",
+  "/request-change-password",
+  "terms",
+  "privacy-policy",
+];
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, ...rest }) => {
       if (
         message.includes("Forbidden resource") &&
-        !window.location.pathname.includes("signup") &&
-        !window.location.pathname.includes("request-change-password")
+        !excludedPaths.some((path) => window.location.pathname.includes(path))
       ) {
         window.location.href = "/signin";
       }

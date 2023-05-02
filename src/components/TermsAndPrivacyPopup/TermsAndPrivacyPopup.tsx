@@ -2,23 +2,23 @@ import { Dialog, DialogOverlay, DialogContent } from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const TermsAndPrivacyPopup = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  useEffect(() => {
-    const hasAgreed = localStorage.getItem("hasAgreedToTermsAndPrivacy");
-    if (!hasAgreed) {
-      setDialogOpen(true);
-    }
-  }, []);
-
-  const handleAgree = () => {
+const TermsAndPrivacyPopup = ({
+  open,
+  setOpen,
+  onAgree,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  onAgree: () => void;
+}) => {
+  const handleAgree = async () => {
+    await onAgree();
     localStorage.setItem("hasAgreedToTermsAndPrivacy", "true");
-    setDialogOpen(false);
+    setOpen(false);
   };
 
   return (
-    <Dialog open={dialogOpen}>
+    <Dialog open={open}>
       <DialogOverlay className="fixed z-10 inset-0 bg-secondary-01 bg-opacity-50" />
       <DialogContent
         onCloseAutoFocus={(e) => e.preventDefault()}
@@ -29,12 +29,17 @@ const TermsAndPrivacyPopup = () => {
         </h2>
         <p>
           Ao utilizar esta plataforma, você concorda com nossos{" "}
-          <Link href="/terms" className="text-link-01 hover:text-link-02">
+          <Link
+            href="/terms"
+            target="_blank"
+            className="text-link-01 hover:text-link-02"
+          >
             Termos de Uso
           </Link>{" "}
           e{" "}
           <Link
             href="/privacy-policy"
+            target="_blank"
             className="text-link-01 hover:text-link-02"
           >
             Política de Privacidade

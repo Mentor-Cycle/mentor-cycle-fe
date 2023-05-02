@@ -11,6 +11,7 @@ export type User = {
   id?: string;
   isLogged?: boolean;
   availability?: [];
+  github?: string;
   yearsOfExperience: number;
   biography?: string;
   description: string;

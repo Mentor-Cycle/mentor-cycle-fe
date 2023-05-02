@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
-import { FormEvent, useContext, useEffect, useRef } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPriva
 const SignIn: NextPage = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const [open, setOpen] = useState(false);
 
   const handleStrategyLogin = async (route: string) => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL + route}`;
@@ -59,6 +60,22 @@ const SignIn: NextPage = () => {
     }
   };
 
+  const onAgree = () => {
+    formRef.current?.requestSubmit();
+  };
+
+  const handleLogin = () => {
+    const hasAgreedToTermsAndPrivacy = localStorage.getItem(
+      "hasAgreedToTermsAndPrivacy"
+    );
+
+    if (hasAgreedToTermsAndPrivacy) {
+      return formRef.current?.requestSubmit();
+    }
+
+    setOpen(true);
+  };
+
   useEffect(() => {
     async function checkIfUserIsLogged() {
       const { data } = await client.query({
@@ -74,7 +91,7 @@ const SignIn: NextPage = () => {
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
-      <TermsAndPrivacyPopup />
+      <TermsAndPrivacyPopup open={open} setOpen={setOpen} onAgree={onAgree} />
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"
@@ -144,7 +161,13 @@ const SignIn: NextPage = () => {
                 </Link>
               </div>
             </div>
-            <Button isLoading={loading} size="small" className="mb-4 md:mb-12">
+            <Button
+              type="button"
+              isLoading={loading}
+              onClick={handleLogin}
+              size="small"
+              className="mb-4 md:mb-12"
+            >
               Entrar
             </Button>
           </form>

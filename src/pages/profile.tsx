@@ -11,8 +11,7 @@ import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { UserContext } from "providers/user/AppContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
@@ -89,7 +88,7 @@ const Profile: NextPage = () => {
               {user.email || "exemplo@gmail.com"}
             </p>
             <p className="font-bold basis-1/2">
-              {user.website || "exemplo.com"}
+              {user.github || "exemplo.com"}
             </p>
             <p className="font-bold basis-1/2">{`${
               validateUndefined(user.country) || "País"

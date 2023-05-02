@@ -66,7 +66,7 @@ export type User = {
   jobCompany?: string;
   biography?: string;
   email?: string;
-  website?: string;
+  github?: string;
   yearsOfExperience?: string;
 };
 
