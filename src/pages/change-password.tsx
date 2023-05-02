@@ -47,7 +47,6 @@ const ChangePassword = () => {
           router.push("/");
         }, 5000);
       } catch (er) {
-        console.log(er);
         toast.error("Não foi possivel alterar sua senha");
         formRef.current?.reset();
       }

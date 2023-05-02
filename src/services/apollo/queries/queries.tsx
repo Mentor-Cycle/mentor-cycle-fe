@@ -123,6 +123,12 @@ export const GET_ME = gql`
   }
 `;
 
+export const GET_IS_USER_LOGGED = gql`
+  query isLogged {
+    isUserLogged
+  }
+`;
+
 export const GET_EVENTS = gql`
   query GetEvents($learnerId: String, $mentorId: String) {
     findEvents(learnerId: $learnerId, mentorId: $mentorId) {

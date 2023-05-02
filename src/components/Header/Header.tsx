@@ -26,13 +26,11 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
-
   const [signOutUser] = useMutation(LOGOUT_USER);
   const [me, { data }] = useLazyQuery(GET_ME);
 
   useEffect(() => {
-    if (!isLogged) {
+    if (!user.isLogged) {
       me();
     }
     if (data) {
@@ -53,7 +51,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [data, isLogged, me, router, setUser]);
+  }, [data, user.isLogged, me, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
@@ -68,8 +66,9 @@ export default function Header() {
 
   const logOutUser = () => async () => {
     await signOutUser();
-    await setUser(initialValue);
-    router.replace("/signin");
+    setUser(initialValue);
+    localStorage.removeItem("user");
+    window.location.href = "/";
   };
 
   const menuClickActions = {
@@ -89,6 +88,8 @@ export default function Header() {
       menuClickActions[item.action]();
     }
   };
+
+  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
   return (
     <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">

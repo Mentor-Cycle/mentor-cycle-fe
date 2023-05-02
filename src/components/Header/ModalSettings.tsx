@@ -79,7 +79,6 @@ const ModalSettings = ({
         router.push("/mentors");
       }, 5000);
     } catch (e) {
-      console.log(e);
       toast.error("Não foi possível alterar a senha");
     }
   }
@@ -110,7 +109,7 @@ const ModalSettings = ({
         router.push("/mentors");
       }, 5000);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   }
 
@@ -126,7 +125,7 @@ const ModalSettings = ({
         router.push("/mentors");
       }, 5000);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   }
 
@@ -173,7 +172,7 @@ const ModalSettings = ({
         router.replace("/dashboard");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

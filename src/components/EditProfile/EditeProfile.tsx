@@ -75,7 +75,6 @@ const EditProfile = ({
         });
       }
     } catch (er) {
-      console.log(er);
       toast.error("Não foi possível alterar suas informações");
     }
   }

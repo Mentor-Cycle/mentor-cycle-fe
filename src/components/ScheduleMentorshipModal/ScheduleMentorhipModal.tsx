@@ -33,6 +33,9 @@ export const ScheduleMentorshipModal = ({
   const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
     {}
   );
+  const [convertedDaysAndTimes, setConvertedDaysAndTimes] = useState<string[]>(
+    []
+  );
 
   const [times, setTimes] = useState<string[]>([]);
 
@@ -64,9 +67,10 @@ export const ScheduleMentorshipModal = ({
   };
   const [currentStep, setCurrentStep] = useState(1);
   const handleSteps = async () => {
-    refetchAvailabilities();
+    await refetchAvailabilities();
     if (currentStep === 3) {
-      return resetStates();
+      resetStates();
+      return setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
     }
 
     if (currentStep === 2) {
@@ -132,10 +136,11 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = (close: boolean = true, resetStep = true) => {
+  const resetStates = async (close: boolean = true, resetStep = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
+    setConvertedDaysAndTimes([]);
     setDaySelected("");
     setDaysAndTimes({});
     setRangeTime([]);
@@ -145,6 +150,7 @@ export const ScheduleMentorshipModal = ({
     if (close) {
       setOpen(false);
     }
+    await refetchAvailabilities();
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -180,6 +186,10 @@ export const ScheduleMentorshipModal = ({
     if (times) {
       setTimes(times);
     }
+  }, [daySelected, daysAndTimes]);
+
+  useEffect(() => {
+    setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
   }, [daySelected, daysAndTimes]);
 
   if (loading)
@@ -229,7 +239,7 @@ export const ScheduleMentorshipModal = ({
             <div className="w-full">
               <h3 className="mb-6 mt-8">Horários disponíveis</h3>
               <ul className="grid grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
-                {daysAndTimes[daySelected]?.map((time) => (
+                {convertedDaysAndTimes?.map((time) => (
                   <li key={time}>
                     <Chip
                       className="cursor-pointer w-[56px]"

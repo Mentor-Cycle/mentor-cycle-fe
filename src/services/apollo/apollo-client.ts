@@ -22,19 +22,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       ) {
         window.location.href = "/signin";
       }
-      console.error(`[GraphQL error]: ${message}`);
     });
-  }
-
-  if (networkError) {
-    console.error(`[Network error]: ${networkError}`);
   }
 });
 
 const logLink = new ApolloLink((operation, forward) => {
   return forward(operation).map((response) => {
     if (response.data) {
-      console.log(`[GraphQL response]: ${JSON.stringify(response.data)}`);
+      console.error(`[GraphQL response]: ${JSON.stringify(response.data)}`);
     }
     return response;
   });

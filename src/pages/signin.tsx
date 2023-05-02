@@ -6,13 +6,13 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { UserContext } from "providers/user/AppContext";
-import { FormEvent, useContext, useRef } from "react";
+import { UserContext, initialValue } from "providers/user/AppContext";
+import { FormEvent, useContext, useEffect, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/queries";
+import { GET_IS_USER_LOGGED } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
 
@@ -47,36 +47,29 @@ const SignIn: NextPage = () => {
             rememberMe: rememberMe === "on",
           },
         });
+        setUser(initialValue);
         formRef.current?.reset();
-        const { data } = await client.query({
-          query: GET_ME,
-        });
-        const userData = {
-          firstName: data.me.firstName,
-          lastName: data.me.lastName,
-          jobTitle: data.me.jobTitle,
-          photoUrl: data.me.photoUrl,
-          skills: data.me.skills,
-          email: data.me.email,
-          isMentor: data.me.isMentor,
-          id: data.me.id,
-          biography: data.me.biography,
-          description: data.me.description,
-          yearsOfExperience: data.me.yearsOfExperience,
-          country: data.me.country,
-          state: data.me.state,
-          isLogged: true,
-          availability: data.me.availability,
-        };
-        setUser(userData);
+
         localStorage.removeItem("form-data");
         router.replace("/dashboard");
       } catch (error) {
-        console.log(error);
         toast.error("Erro ao realizar login, tente novamente!");
       }
     }
   };
+
+  useEffect(() => {
+    async function checkIfUserIsLogged() {
+      const { data } = await client.query({
+        query: GET_IS_USER_LOGGED,
+      });
+      if (data.isUserLogged) {
+        router.replace("/dashboard");
+      }
+    }
+    checkIfUserIsLogged();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">

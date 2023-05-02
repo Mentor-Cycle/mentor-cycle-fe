@@ -106,9 +106,9 @@ const Profile: NextPage = () => {
           {user.isMentor &&
             (mentor?.availability?.length ? (
               <div className="flex flex-col gap-4">
-                {mentor.availability.map((availability) => (
+                {mentor.availability.map((availability, index) => (
                   <MentoringWeekCard
-                    key={availability.weekDay}
+                    key={availability.weekDay + index}
                     day={availability.weekDay}
                     description={
                       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."

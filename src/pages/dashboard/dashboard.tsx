@@ -30,7 +30,6 @@ const Dashboard: NextPage = () => {
   });
   useEffect(() => {
     refetch();
-    console.log(data);
     if (!loading && !error && data) {
       const events = data?.findEvents || [];
       const eventsByDay = groupEventsByDay(events);
@@ -121,13 +120,6 @@ const Dashboard: NextPage = () => {
       </div>
     );
   };
-
-  if (error)
-    return (
-      <div className="flex min-h-screen justify-center items-center">
-        <p>Ocorreu um erro a carregar a pagina: {error.message}</p>
-      </div>
-    );
   return (
     <>
       <section className="bg-header-dashboard bg-no-repeat bg-cover">

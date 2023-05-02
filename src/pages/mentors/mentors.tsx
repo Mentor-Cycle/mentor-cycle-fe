@@ -67,8 +67,6 @@ const Mentors: NextPage = () => {
     },
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (data) {
       const mentors = formatMentorCardData(data.findMentors);

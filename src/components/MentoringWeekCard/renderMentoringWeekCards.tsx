@@ -33,7 +33,7 @@ export const renderMentoringWeekCard = (eventsByDay: {
       const dayWeek = format(data, "EEEE", { locale: ptBR });
       return (
         <MentoringWeekCard
-          key={index}
+          key={index + date}
           day={dayWeek}
           description={`Você tem ${
             events.events.length

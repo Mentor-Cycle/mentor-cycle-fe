@@ -96,20 +96,22 @@ const MentorProfile: NextPage = () => {
           {data?.findMentorAvailability.availability.length ? (
             <div className="flex flex-col gap-4">
               {availabilitiesByWeekDay &&
-                Object.values(availabilitiesByWeekDay).map((availability) => (
-                  <MentoringWeekCard
-                    key={availability.weekDay}
-                    day={availability.weekDay}
-                    description={
-                      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
-                    }
-                    chips={availability.slots.map((slot) => (
-                      <Chip key={slot} variant="quartenary">
-                        {slot}
-                      </Chip>
-                    ))}
-                  />
-                ))}
+                Object.values(availabilitiesByWeekDay).map(
+                  (availability, index) => (
+                    <MentoringWeekCard
+                      key={availability.weekDay + index}
+                      day={availability.weekDay}
+                      description={
+                        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
+                      }
+                      chips={availability.slots.map((slot) => (
+                        <Chip key={slot} variant="quartenary">
+                          {slot}
+                        </Chip>
+                      ))}
+                    />
+                  )
+                )}
             </div>
           ) : (
             <div className="max-w-xs p-6 border border-gray-03 rounded-lg">

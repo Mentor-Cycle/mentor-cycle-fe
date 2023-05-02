@@ -220,13 +220,13 @@ const SelectComponent = ({
             "bg-neutral-01 border border-gra p-4 rounded-lg mt-2"
           )}
         >
-          <Select.Item
+          {/* <Select.Item
             data-testid="remarcar-option"
             value="Remarcar"
             className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
           >
             Remarcar
-          </Select.Item>
+          </Select.Item> */}
           <Select.Item
             value="Cancelar"
             className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
