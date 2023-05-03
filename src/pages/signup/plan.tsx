@@ -12,10 +12,7 @@ const Plan = () => {
   };
 
   const handleNext = () => {
-    const signup_info = {
-      isMentor,
-    };
-    sessionStorage.setItem("signup_info", JSON.stringify(signup_info));
+    localStorage.setItem("isMentor", JSON.stringify(isMentor));
     router.replace({
       pathname: "/signup/register",
     });

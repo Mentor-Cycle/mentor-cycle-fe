@@ -49,7 +49,7 @@ const EditProfile = ({
       yearsOfExperience: newYearsOfExperience,
     } = Object.fromEntries(formData.entries());
 
-    const newLocale = locale.toString().trim().split(",");
+    const newLocale = locale.toString().trim().split(" ");
 
     try {
       const updatedUser = {
@@ -74,6 +74,8 @@ const EditProfile = ({
           ...user,
           ...updatedUser,
         });
+        toast.success("Alterações realizadas com sucesso!");
+        setOpenEditProfile(false);
       }
     } catch (er) {
       toast.error("Não foi possível alterar suas informações");
@@ -130,7 +132,9 @@ const EditProfile = ({
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button isLoading={loading}>Enviar alterações</Button>
+          <Button disabled={loading} isLoading={loading}>
+            Enviar alterações
+          </Button>
         </form>
       </div>
     </Modal>
