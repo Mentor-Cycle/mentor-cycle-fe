@@ -4,8 +4,7 @@ import Select from "react-select";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import Spinner from "@components/Spinner/Spinner";
 import { NextPage } from "next";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "providers/user/AppContext";
+import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_EVENTS } from "services/apollo/queries";
 import {
