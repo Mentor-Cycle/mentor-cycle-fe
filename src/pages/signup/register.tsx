@@ -21,15 +21,17 @@ const Register = () => {
 
 const MainSection = () => {
   const [formStorage] = useLocalStorage("form-data", null);
+  const [isMentorStorage] = useLocalStorage("isMentor", null);
   const { formData, dispatch } = useContext(MultiStepFormContext);
   const { currentStep } = useForm();
   useEffect(() => {
-    if (formStorage) {
+    if (formStorage && isMentorStorage !== null) {
       dispatch({
         type: ActionType.UPDATE_FORM_DATA,
         payload: {
           ...formData,
           ...formStorage,
+          isMentor: JSON.parse(isMentorStorage),
         },
       });
     }

@@ -19,7 +19,7 @@ import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPriva
 
 const SignIn: NextPage = () => {
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
+  const refForm = useRef<HTMLFormElement>(null);
   const [open, setOpen] = useState(false);
 
   const handleStrategyLogin = async (route: string) => {
@@ -38,7 +38,7 @@ const SignIn: NextPage = () => {
       formData.entries()
     );
 
-    const isValid = formRef.current?.checkValidity();
+    const isValid = refForm.current?.checkValidity();
 
     if (isValid) {
       try {
@@ -50,7 +50,7 @@ const SignIn: NextPage = () => {
           },
         });
         setUser(initialValue);
-        formRef.current?.reset();
+        refForm.current?.reset();
 
         localStorage.removeItem("form-data");
         router.replace("/dashboard");
@@ -61,7 +61,7 @@ const SignIn: NextPage = () => {
   };
 
   const onAgree = () => {
-    formRef.current?.requestSubmit();
+    refForm.current?.requestSubmit();
   };
 
   const handleLogin = () => {
@@ -70,7 +70,7 @@ const SignIn: NextPage = () => {
     );
 
     if (hasAgreedToTermsAndPrivacy) {
-      return formRef.current?.requestSubmit();
+      return refForm.current?.requestSubmit();
     }
 
     setOpen(true);
@@ -127,7 +127,7 @@ const SignIn: NextPage = () => {
             Já possui uma conta? Preencha os campos para entrar na plataforma
           </p>
           <form
-            ref={formRef}
+            ref={refForm}
             onSubmit={handleSubmit}
             className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[800px]"
           >
