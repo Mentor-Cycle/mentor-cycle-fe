@@ -117,3 +117,9 @@ export const CREATE_EVENT = gql`
     }
   }
 `;
+
+export const UPDATE_USER_PHOTO = gql`
+  mutation UpdateUserPhoto($file: Upload!, $userId: String!) {
+    updateUserPhoto(file: $file, userId: $userId)
+  }
+`;

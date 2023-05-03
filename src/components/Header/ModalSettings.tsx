@@ -16,6 +16,7 @@ import {
   DELETE_ACCOUNT,
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
+import Dropzone from "@components/Dropzone/Dropzone";
 
 interface ModalSettingsProps {
   firstName: string;
@@ -216,10 +217,13 @@ const ModalSettings = ({
               )}
             >
               <div className="flex flex-col m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
-                <Image src="/imgCard.png" alt="" width={136} height={136} />
-                <button className="text-primary-03 focus:outline-none mt-2 text-start text-sm">
-                  Trocar foto
-                </button>
+                <Image
+                  src={user.photoUrl || "/imgCard.png"}
+                  alt=""
+                  width={136}
+                  height={136}
+                />
+                <Dropzone />
               </div>
               <form
                 className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "

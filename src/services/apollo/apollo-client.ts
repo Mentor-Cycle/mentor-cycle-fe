@@ -4,6 +4,7 @@ import {
   HttpLink,
   ApolloLink,
 } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 import { onError } from "@apollo/client/link/error";
 
 const httpLink = new HttpLink({
@@ -41,9 +42,16 @@ const logLink = new ApolloLink((operation, forward) => {
   });
 });
 
+const uploadLink = createUploadLink({
+  uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
+  credentials: "include",
+});
+
+const link = ApolloLink.from([errorLink, uploadLink]);
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([errorLink, httpLink]),
+  link,
 });
 
 export default client;
