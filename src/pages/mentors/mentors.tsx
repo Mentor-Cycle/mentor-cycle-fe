@@ -125,7 +125,7 @@ const Mentors: NextPage = () => {
 
   return (
     <>
-      <main className="min-h-screen sm:container mt-16 overflow-auto mb-5">
+      <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
         <div>
           <h1 className="text-4.5xl font-bold dark:text-neutral-01 text-center lg:text-left">
             Mentores
@@ -134,8 +134,8 @@ const Mentors: NextPage = () => {
             Os melhores mentores, com as melhores didáticas
           </p>
         </div>
-        <div className="flex flex-col lg:flex lg:flex-row justify-between items-center mt-10 px-2 sm:px-0">
-          <div className="w-full max-w-xs sm:max-w-xl 2xl:max-w-2xl">
+        <div className="flex flex-col lg:flex lg:flex-row justify-between items-center mt-10">
+          <div className="w-full max-w-xl 2xl:max-w-2xl">
             <Input
               name="findMentors"
               placeholder="Ronald Richards"
@@ -143,7 +143,7 @@ const Mentors: NextPage = () => {
               search={true}
             />
           </div>
-          <div className="flex flex-col sm:flex sm:flex-row justify-end gap-2 2xl:gap-8">
+          <div className="flex flex-col sm:flex sm:flex-row justify-end gap-4 sm:gap-8">
             <SelectSkills
               placeholder="Especialidade"
               setSelectedSkills={handleSkillsChange}
@@ -165,7 +165,7 @@ const Mentors: NextPage = () => {
               loader={<Spinner size={50} />}
               next={handleLoadMore}
               hasMore={mentors.length >= pageSize}
-              className="mt-8 gap-4 min-h-screen overflow-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center md:justify-items-start items-start px-2 sm:px-0"
+              className="min-h-screen overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-auto items-center sm:items-start justify-center sm:justify-between gap-4 mt-8 justify-items-center"
             >
               {mentors.length > 0 ? (
                 mentors.map(

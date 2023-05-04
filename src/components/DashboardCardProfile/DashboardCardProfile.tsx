@@ -13,7 +13,7 @@ const DashboardCardProfile = ({
   return (
     <div
       className={clsx(
-        "py-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4",
+        "py-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center gap-4",
         className
       )}
     >
@@ -30,7 +30,7 @@ const DashboardCardProfile = ({
           {name}
         </h1>
         <p className="text-sm text-gray-01 max-w-[280px] truncate">{job}</p>
-        <div className="flex gap-2 mt-4 max-w-[270px] truncate">
+        <div className="flex gap-2 mt-4 max-w-[300px] flex-wrap">
           {skills?.map((skill) => {
             return (
               <Chip key={skill} variant="primary">

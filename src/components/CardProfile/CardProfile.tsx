@@ -87,24 +87,23 @@ const CardProfile = ({
             onClick={handleExpandedSkills}
             className="flex w-full justify-end text-xs mt-2 px-2 absolute hover:opacity-80 hover:cursor-pointer"
           >
-            <BsArrowUpCircle
-              size={18}
-              className={clsx(
-                "transition-all duration-300",
-                expandedSkills ? "" : "rotate-180"
-              )}
-            />
+            {expandedSkills ? "ver menos..." : "ver mais..."}
           </span>
         )}
       </div>
       <div className="mt-8">
-        <p className="text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...">
+        <p
+          className={clsx(
+            "text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...",
+            expandedSkills && "mb-0"
+          )}
+        >
           {description}
         </p>
         <Button
           size="small"
           onClick={handleViewProfileClick}
-          className="dark:bg-primary-03"
+          className={clsx("dark:bg-primary-03", expandedSkills && "mt-0")}
           disabled={isCurrentMentor}
         >
           Ver Perfil
