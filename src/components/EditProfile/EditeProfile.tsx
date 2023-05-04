@@ -84,7 +84,7 @@ const EditProfile = ({
 
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
-      <div className="max-xl:px-5 py-16  px-60 ">
+      <div className="max-xl:px-5 py-16 px-60">
         <form
           className="max-md:w-auto w-[672px] text-start"
           onSubmit={handleSubmit}
@@ -132,8 +132,8 @@ const EditProfile = ({
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button disabled={loading} isLoading={loading}>
-            Enviar alterações
+          <Button className="mt-7" disabled={loading} isLoading={loading}>
+            Salvar
           </Button>
         </form>
       </div>
