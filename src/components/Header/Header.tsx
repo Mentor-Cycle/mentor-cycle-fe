@@ -93,7 +93,7 @@ export default function Header() {
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
   return (
-    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
+    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto fixed top-0 z-10">
       <figure className="w-1/5 h-full">
         <Link href="/dashboard">
           <Image

@@ -123,6 +123,7 @@ const MentorProfile: NextPage = () => {
             className="mt-12"
             size="regular"
             variant="primary"
+            disabled={!data?.findMentorAvailability.availability.length}
             onClick={() => setOpenModal(true)}
           >
             Agendar mentoria

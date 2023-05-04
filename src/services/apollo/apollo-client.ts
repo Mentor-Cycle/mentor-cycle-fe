@@ -18,6 +18,7 @@ const excludedPaths = [
   "/request-change-password",
   "terms",
   "privacy-policy",
+  "change-password",
 ];
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

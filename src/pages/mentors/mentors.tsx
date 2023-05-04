@@ -126,12 +126,6 @@ const Mentors: NextPage = () => {
   return (
     <>
       <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed z-30 bottom-4 right-4 p-2 sm:p-4 rounded-full bg-primary-01 text-white hover:bg-primary-02 focus:outline-none"
-        >
-          <FiArrowUpCircle size={30} />
-        </button>
         <div>
           <h1 className="text-4.5xl font-bold dark:text-neutral-01 text-center lg:text-left">
             Mentores
