@@ -14,12 +14,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState(initialValue);
   const router = useRouter();
   const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
-
+  const showHeader = !ROUTES_WITHOUT_HEADER.includes(router.pathname);
   return (
     <ApolloProvider client={client}>
       <UserContext.Provider value={userContextValue}>
-        {!ROUTES_WITHOUT_HEADER.includes(router.pathname) && <Header />}
-        <Component {...pageProps} />
+        {showHeader && <Header />}
+        <div className={showHeader ? "mt-20" : ""}>
+          <Component {...pageProps} />
+        </div>
         <ToastContainer />
       </UserContext.Provider>
     </ApolloProvider>

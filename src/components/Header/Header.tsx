@@ -93,102 +93,104 @@ export default function Header() {
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
   return (
-    <header className="flex w-full justify-between container h-20">
-      <div className="hidden sm:flex">
-        <Link href="/dashboard" legacyBehavior>
-          <Image
-            src={"/logoSvg.svg"}
-            width={64}
-            height={56}
-            alt="MentorCycle logo"
-            className="object-contain"
-          />
-        </Link>
-      </div>
-      {isLogged && (
-        <ul className="flex justify-evenly sm:justify-end items-center w-full space-x-10">
-          <li className={linkStyle}>
-            <Link className={itemsMenuStyle} href="/dashboard">
-              <BsFillHouseDoorFill size={24} />
-              <span className="hidden lg:inline-block">Home</span>
-            </Link>
-          </li>
-          <li className={linkStyle}>
-            <button
-              className={itemsMenuStyle}
-              onClick={() => {
-                setShowModal("notifications");
-                setToggleMenuProfile(false);
-              }}
-            >
-              <MdNotifications size={24} />
-              <span className="hidden lg:inline-block">Notificações</span>
-            </button>
-          </li>
-          <li className={linkStyle}>
-            <Link className={itemsMenuStyle} href="/mentors">
-              <BsFillPeopleFill size={24} />
-              <span className="hidden lg:inline-block">Mentores</span>
-            </Link>
-          </li>
-          <li className={clsx(linkStyle)}>
-            <div className="flex justify-center items-center">
-              <figure className="rounded-full w-9 h-9 overflow-hidden mr-2 hidden sm:inline-block">
-                <Image
-                  src={photoUrl || "/imgCard.png"}
-                  width={100}
-                  height={100}
-                  alt="userPhoto"
-                  className="object-cover"
-                />
-              </figure>
-
-              <div className="flex justify-center items-center">
-                <div className="flex flex-col justify-center items-start">
-                  <h1 className="hidden sm:inline-block">
-                    {firstName} {lastName}
-                  </h1>
-                  <span
-                    className={clsx(
-                      "text-xs text-primary-04 hidden sm:inline-block",
-                      {
-                        isMentor: "text-primary-03",
-                      }
-                    )}
-                  >
-                    {isMentor ? "Mentor" : "Mentorado"}
-                  </span>
-                </div>
-              </div>
-              <NavBar
-                isOpen={toggleMenuProfile}
-                setIsOpen={setToggleMenuProfile}
-                value={itemsMenu}
-                itemsMenu={menuOptions}
-                handleValueChange={handleValueChange}
-              />
-            </div>
-          </li>
-        </ul>
-      )}
-      {showModal === "notifications" && (
-        <Modal open={true} onOpenChange={() => setShowModal("")}>
-          {<ModalNotifications />}
-        </Modal>
-      )}
-      {showModal === "settings" && (
-        <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
-          {
-            <ModalSettings
-              setIsModalOpen={setIsModalOpen}
-              firstName={firstName}
-              email={email}
-              id={id}
-              lastName={lastName}
+    <header className="flex justify-center w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto fixed top-0 z-10">
+      <div className="flex justify-between items-center w-full container">
+        <div className="w-1/5 h-full hidden sm:flex justify-start items-center">
+          <Link href="/dashboard">
+            <Image
+              src={"/logoSvg.svg"}
+              width={64}
+              height={56}
+              alt="MentorCycle logo"
+              className="object-contain"
             />
-          }
-        </Modal>
-      )}
+          </Link>
+        </div>
+        {isLogged && (
+          <ul className="flex justify-evenly sm:justify-end items-center w-full space-x-10">
+            <li className={linkStyle}>
+              <Link className={itemsMenuStyle} href="/dashboard">
+                <BsFillHouseDoorFill size={24} />
+                <span className="hidden lg:inline-block">Home</span>
+              </Link>
+            </li>
+            <li className={linkStyle}>
+              <button
+                className={itemsMenuStyle}
+                onClick={() => {
+                  setShowModal("notifications");
+                  setToggleMenuProfile(false);
+                }}
+              >
+                <MdNotifications size={24} />
+                <span className="hidden lg:inline-block">Notificações</span>
+              </button>
+            </li>
+            <li className={linkStyle}>
+              <Link className={itemsMenuStyle} href="/mentors">
+                <BsFillPeopleFill size={24} />
+                <span className="hidden lg:inline-block">Mentores</span>
+              </Link>
+            </li>
+            <li className={clsx(linkStyle)}>
+              <div className="flex justify-center items-center">
+                <figure className="rounded-full w-9 h-9 overflow-hidden mr-2 hidden sm:inline-block">
+                  <Image
+                    src={photoUrl || "/imgCard.png"}
+                    width={100}
+                    height={100}
+                    alt="userPhoto"
+                    className="object-cover"
+                  />
+                </figure>
+
+                <div className="flex justify-center items-center">
+                  <div className="flex flex-col justify-center items-start">
+                    <h1 className="hidden sm:inline-block">
+                      {firstName} {lastName}
+                    </h1>
+                    <span
+                      className={clsx(
+                        "text-xs text-primary-04 hidden sm:inline-block",
+                        {
+                          isMentor: "text-primary-03",
+                        }
+                      )}
+                    >
+                      {isMentor ? "Mentor" : "Mentorado"}
+                    </span>
+                  </div>
+                </div>
+                <NavBar
+                  isOpen={toggleMenuProfile}
+                  setIsOpen={setToggleMenuProfile}
+                  value={itemsMenu}
+                  itemsMenu={menuOptions}
+                  handleValueChange={handleValueChange}
+                />
+              </div>
+            </li>
+          </ul>
+        )}
+        {showModal === "notifications" && (
+          <Modal open={true} onOpenChange={() => setShowModal("")}>
+            {<ModalNotifications />}
+          </Modal>
+        )}
+        {showModal === "settings" && (
+          <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
+            {
+              <ModalSettings
+                setIsModalOpen={setIsModalOpen}
+                firstName={firstName}
+                email={email}
+                id={id}
+                lastName={lastName}
+              />
+            }
+          </Modal>
+        )}
+      </div>
     </header>
   );
 }
