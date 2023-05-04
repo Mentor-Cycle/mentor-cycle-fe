@@ -42,11 +42,8 @@ const Dropzone = (props: any) => {
   ));
 
   return (
-    <div className="bg-neutral-01 mt-4 min-h-[30vh]">
-      <div
-        {...getRootProps({ className: "dropzone" })}
-        className="min-h-[30vh]"
-      >
+    <div className="bg-neutral-01 mt-4">
+      <div {...getRootProps({ className: "dropzone" })}>
         <button type="button" className="text-danger-02" onClick={open}>
           Trocar foto
         </button>

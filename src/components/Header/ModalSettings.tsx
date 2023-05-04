@@ -211,11 +211,7 @@ const ModalSettings = ({
             clickable
           />
           {currentStep === 1 && (
-            <div
-              className={clsx(
-                "flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700"
-              )}
-            >
+            <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700">
               <div className="flex flex-col m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
                 <Image
                   src={user.photoUrl || "/imgCard.png"}
@@ -249,7 +245,7 @@ const ModalSettings = ({
             </div>
           )}
           {currentStep === 2 && (
-            <div className="flex flex-col items-end sm:min-w-[328px] gap-[80px] px-2">
+            <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2">
               <div className="flex flex-col gap-6 max-w-[328px] w-full  m-auto sm:m-0">
                 <div className="text-start">
                   <label className="self-start text-secondary-03 font-bold opacity-30">
@@ -296,7 +292,9 @@ const ModalSettings = ({
                     }}
                   />
                 </div>
-                <Button variant="secondary">Salvar alterações</Button>
+                <Button className="mt-32" variant="secondary">
+                  Salvar alterações
+                </Button>
               </div>
             </div>
           )}
@@ -329,7 +327,11 @@ const ModalSettings = ({
                       Deletar conta
                     </button>
                   </div>
-                  <Button variant="secondary" isLoading={loading}>
+                  <Button
+                    className="mt-20"
+                    variant="secondary"
+                    isLoading={loading}
+                  >
                     Salvar alterações
                   </Button>
                 </div>
