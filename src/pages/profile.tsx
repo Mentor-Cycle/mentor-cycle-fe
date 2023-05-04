@@ -55,7 +55,7 @@ const Profile: NextPage = () => {
 
   return (
     <main className="pb-12">
-      <div className="py-12 bg-center bg-cover bg-no-repeat bg-[url('/bg-mentor-profile.png')]">
+      <div className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
         <div className="flex justify-center sm:justify-start container">
           <DashboardCardProfile
             avatar={user.photoUrl || "/imgCard.png"}

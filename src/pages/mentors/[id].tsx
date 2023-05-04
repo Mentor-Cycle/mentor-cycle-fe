@@ -17,10 +17,12 @@ import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { formatDate } from "utils/dashboard-helpers";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useUser } from "@hooks/useUser";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const { user } = useUser();
 
   const { id } = router.query;
   const { mentor } = useMentorProfile(id as string);
@@ -119,15 +121,25 @@ const MentorProfile: NextPage = () => {
             </div>
           )}
           <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
-          <Button
-            className="mt-12"
-            size="regular"
-            variant="primary"
-            disabled={!data?.findMentorAvailability.availability.length}
-            onClick={() => setOpenModal(true)}
-          >
-            Agendar mentoria
-          </Button>
+          {user.isMentor ? (
+            <>
+              <div className="max-w-xs mt-4">
+                <Button size="small" disabled>
+                  Vá até Configurações e altere seu perfil para agendar
+                  mentorias.
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Button
+              className="mt-12"
+              size="regular"
+              variant="primary"
+              onClick={() => setOpenModal(true)}
+            >
+              Agendar mentoria
+            </Button>
+          )}
         </section>
       </div>
     </main>

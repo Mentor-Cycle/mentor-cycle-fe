@@ -24,16 +24,17 @@ const MentoringLinkCard = ({
   const [updatedStatus, setUpdatedStatus] = useState(status);
 
   const statusToPortugueseMap: Record<string, string> = {
-    PENDING: "A confirmar",
+    PENDING: "Agendada",
     DONE: "Realizada",
     CANCELLED: "Cancelada",
-    CONFIRMED: "Confirmada",
+    CONFIRMED: "Agendada",
   };
   const handleStatusCard = (status: string) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
-      Realizada: "secondary",
+      Realizada: "primary",
       "A confirmar": "tertiary",
+      Agendada: "tertiary",
     };
 
     const variant = statusToVariantMap[statusToPortugueseMap[status]];
@@ -42,7 +43,7 @@ const MentoringLinkCard = ({
   const isDisabled = status === "DONE" || status === "CANCELLED";
 
   return (
-    <div className="py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-full border border-gray-03 rounded-lg">
+    <div className=" py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-[98%] sm:w-full border border-gray-03 rounded-lg">
       <div className="flex flex-col sm:flex sm:flex-row gap-4 ">
         <div className="rounded-lg overflow-hidden w-24 h-24">
           <Image
@@ -53,7 +54,7 @@ const MentoringLinkCard = ({
           />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-secondary-01 dark:text-neutral-01 max-w-[320px] truncate">
+          <h1 className="text-2xl md:text-3xl font-bold text-secondary-01 dark:text-neutral-01 max-w-[320px] truncate">
             {name}
           </h1>
           <p className="text-sm text-gray-04 dark:text-gray-01 max-w-[280px] truncate">
@@ -64,7 +65,7 @@ const MentoringLinkCard = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-end items-end flex-col md:min-w-[278px] ">
+      <div className="flex justify-end items-end flex-col md:min-w-[270px] ">
         <a
           href={meetingLink}
           className="w-full"

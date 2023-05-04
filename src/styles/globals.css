@@ -37,6 +37,9 @@ a {
   .input-error {
     @apply font-normal my-2 text-danger-01 text-sm;
   }
+  .swal-overlay {
+    @apply z-50;
+  }
 }
 * {
   scrollbar-width: thin;

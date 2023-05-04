@@ -103,7 +103,7 @@ const Dashboard: NextPage = () => {
 
   const generateEmptyFeedback = () => {
     return (
-      <div className=" min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
+      <div className="min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
         <>
           <h3 className="text-secondary-01 font-bold text-center">
             Você não possui nenhuma mentoria agendada.
@@ -121,8 +121,8 @@ const Dashboard: NextPage = () => {
   };
   return (
     <>
-      <section className="bg-header-dashboard bg-no-repeat bg-cover">
-        <div className="max-w-7xl m-auto flex justify-start">
+      <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
+        <div className="px-2 sm:container flex justify-center sm:justify-start">
           {user && (
             <DashboardCardProfile
               job={user.jobTitle}
@@ -133,8 +133,8 @@ const Dashboard: NextPage = () => {
           )}
         </div>
       </section>
-      <main className="min-h-screen max-w-7xl m-auto mt-16 p-2 overflow-auto mb-10">
-        <div className="flex flex-col md:flex md:flex-row justify-between items-center">
+      <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
+        <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
           <div>
             <h1 className="text-4.5xl font-bold dark:text-neutral-01 text-center lg:text-left">
               Todas as suas mentorias
@@ -144,7 +144,7 @@ const Dashboard: NextPage = () => {
             </p>
           </div>
           {data?.findEvents?.length > 0 && !loading && (
-            <div className="mt-6 md:mt-0">
+            <div className="mt-6 md:mt-0 sm:mr-2">
               <Select
                 options={statusOptions}
                 unstyled
@@ -155,7 +155,7 @@ const Dashboard: NextPage = () => {
                   option: (state) =>
                     `py-2 px-2 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
                   control: (state) =>
-                    `bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03 mt-2 mb-2 sm:min-w-[180px]`,
+                    `bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md py-4 px-6 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03 mt-2 mb-2 sm:min-w-[173px]`,
                   menu: (state) =>
                     `p-4 bg-neutral-01 mt-2 rounded-md border border-gray-03 dark:bg-secondary-01`,
                   multiValue: (state) =>
@@ -167,7 +167,7 @@ const Dashboard: NextPage = () => {
             </div>
           )}
         </div>
-        <div className="w-full max-w-7xl m-auto max-h-[95vh] overflow-y-scroll overflow-x-hidden py-8 space-y-4 sm:pr-4 mt-4">
+        <div className="w-full max-h-[95vh] overflow-y-scroll overflow-x-hidden py-8 space-y-4 mt-4 sm:pr-2">
           {loading ? (
             <div className="min-h-[45vh] flex justify-center items-center">
               <Spinner />
@@ -194,7 +194,10 @@ const Dashboard: NextPage = () => {
               Mentorias agendadas
             </h2>
           )}
-          <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:justify-items-center lg:grid-cols-3 sm:justify-items-start  gap-4">
+          <div
+            className="grid justify-items-center grid-cols-1 sm:grid-cols-2 
+          md:grid-cols-2 md:justify-items-start lg:grid-cols-3 gap-4"
+          >
             {renderMentoringWeekCard(eventsByDay)}
           </div>
         </section>

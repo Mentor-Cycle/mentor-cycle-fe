@@ -23,7 +23,7 @@ export const ProfileCard = ({
       {Icon}
       <div className="mt-8">
         <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="text-sm text-gray-05">{description}</p>
+        <p className="text-xs text-gray-05 line-clamp-3">{description} </p>
       </div>
     </section>
   );

@@ -4,6 +4,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { CardProps } from "./CardProfile.types";
 import { useRouter } from "next/router";
+import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { useState } from "react";
 
 const CardProfile = ({
   id,
@@ -16,6 +18,12 @@ const CardProfile = ({
   name,
   isCurrentMentor,
 }: CardProps) => {
+  const [expandedSkills, setExpandedSkills] = useState(false);
+
+  const handleExpandedSkills = () => {
+    setExpandedSkills(!expandedSkills);
+  };
+
   const MAX_WIDTH = "max-w-[365px]";
   const MIN_WIDTH = "min-w-[300px]";
   const router = useRouter();
@@ -63,12 +71,32 @@ const CardProfile = ({
           {location}
         </span>
       </div>
-      <div className="flex gap-2 mt-2 rounded-lg overflow-hidden">
-        {chips?.map((chip, index) => {
-          return <Chip key={`${index}-chip-${index}`}>{chip}</Chip>;
-        })}
+      <div className="relative">
+        <div
+          className={clsx(
+            "flex gap-2 mt-2 rounded-lg overflow-hidden",
+            expandedSkills ? "flex-wrap" : "flex-nowrap"
+          )}
+        >
+          {chips?.map((chip, index) => {
+            return <Chip key={`${index}-chip-${index}`}>{chip}</Chip>;
+          })}
+        </div>
+        {chips?.length > 3 && (
+          <span
+            onClick={handleExpandedSkills}
+            className="flex w-full justify-end text-xs mt-2 px-2 absolute hover:opacity-80 hover:cursor-pointer"
+          >
+            <BsArrowUpCircle
+              size={18}
+              className={clsx(
+                "transition-all duration-300",
+                expandedSkills ? "" : "rotate-180"
+              )}
+            />
+          </span>
+        )}
       </div>
-
       <div className="mt-8">
         <p className="text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...">
           {description}
