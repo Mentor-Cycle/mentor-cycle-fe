@@ -13,7 +13,7 @@ const DashboardCardProfile = ({
   return (
     <div
       className={clsx(
-        "p-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4",
+        "py-4 flex flex-col justify-start  sm:flex sm:flex-row sm:justify-center sm:items-center gap-4",
         className
       )}
     >

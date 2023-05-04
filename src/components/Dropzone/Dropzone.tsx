@@ -4,8 +4,9 @@ import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { UPDATE_USER_PHOTO } from "services/apollo/mutations";
 import { GET_ME } from "services/apollo/queries";
+import Swal from "sweetalert2";
 
-const Dropzone = (props: any) => {
+const Dropzone = ({ setIsModalOpen }: any) => {
   const [uploadImage] = useMutation(UPDATE_USER_PHOTO, {
     refetchQueries: [GET_ME],
   });
@@ -32,6 +33,7 @@ const Dropzone = (props: any) => {
     noKeyboard: true,
     maxFiles: 1,
     maxSize: 1048576,
+    noDrag: true,
     onDrop,
   });
 
@@ -41,13 +43,40 @@ const Dropzone = (props: any) => {
     </li>
   ));
 
+  const handleChangeUserPhoto = () => {
+    setIsModalOpen(false);
+    Swal.fire({
+      customClass: {
+        container: "swal-overlay",
+        popup: "swal-overlay",
+      },
+      title: "Tem certeza que deseja mudar sua foto de perfil?",
+      showCancelButton: true,
+      confirmButtonColor: "#BA0000",
+      cancelButtonColor: "#343434",
+      confirmButtonText: "Sim, mudar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      setIsModalOpen(true);
+      if (result.isConfirmed) {
+        open();
+      } else {
+        toast.info("Troca de foto não finalizada!");
+      }
+    });
+  };
+
   return (
     <div className="bg-neutral-01 mt-4 min-h-[30vh]">
       <div
         {...getRootProps({ className: "dropzone" })}
         className="min-h-[30vh]"
       >
-        <button type="button" className="text-danger-02" onClick={open}>
+        <button
+          type="button"
+          className="text-danger-02"
+          onClick={handleChangeUserPhoto}
+        >
           Trocar foto
         </button>
         <aside>

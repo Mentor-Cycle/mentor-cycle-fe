@@ -21,10 +21,10 @@ export const renderMentoringWeekCard = (eventsByDay: {
     "PENDING" | "CANCELLED" | "DONE" | "CONFIRMED",
     { label: string; variant: ChipVariant }
   > = {
-    PENDING: { label: "A Confirmar", variant: "primary" },
+    PENDING: { label: "Agendado", variant: "primary" },
     CANCELLED: { label: "Cancelada", variant: "quartenary" },
     DONE: { label: "Realizada", variant: "secondary" },
-    CONFIRMED: { label: "Agendada", variant: "primary" },
+    CONFIRMED: { label: "Agendado", variant: "primary" },
   };
 
   return Object.entries(eventsByDay)

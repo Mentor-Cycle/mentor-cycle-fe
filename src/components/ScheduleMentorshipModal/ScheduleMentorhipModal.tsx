@@ -209,10 +209,11 @@ export const ScheduleMentorshipModal = ({
           <>
             <div className="rounded-lg flex w-full justify-center items-center">
               <Image
-                src={"/imgCard.png"}
+                src={mentor.photoUrl || "/imgCard.png"}
                 alt="avatar profile"
                 width={98}
                 height={98}
+                className="rounded-lg"
               />
             </div>
             <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
@@ -279,7 +280,8 @@ export const ScheduleMentorshipModal = ({
               Mentoria agendada!
             </h2>
             <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-              Sua mentoria foi agendada no seu calendário e do Ronald Richards
+              `Sua mentoria foi agendada no seu calendário e do(a){" "}
+              {mentor.firstName} {mentor.lastName}`
             </p>
           </>
         )}

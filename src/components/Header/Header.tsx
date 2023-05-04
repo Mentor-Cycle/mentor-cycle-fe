@@ -93,26 +93,24 @@ export default function Header() {
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
   return (
-    <header className="flex justify-items-end w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto  relative">
-      <figure className="w-1/5 h-full">
-        <Link href="/dashboard">
+    <header className="flex w-full justify-between container h-20">
+      <div className="hidden sm:flex">
+        <Link href="/dashboard" legacyBehavior>
           <Image
             src={"/logoSvg.svg"}
             width={64}
             height={56}
             alt="MentorCycle logo"
-            className="py-3 ml-10 lg:ml-20 xl:ml-40 hidden xs:block"
+            className="object-contain"
           />
         </Link>
-      </figure>
+      </div>
       {isLogged && (
-        <ul className="w-4/5 h-full flex justify-end min-[695px]:justify-end min-[450px]:gap-11 gap-4 xl:gap-11">
+        <ul className="flex justify-evenly sm:justify-end items-center w-full space-x-10">
           <li className={linkStyle}>
             <Link className={itemsMenuStyle} href="/dashboard">
               <BsFillHouseDoorFill size={24} />
-              <span className="hidden min-[770px]:inline-flex text-base">
-                Home
-              </span>
+              <span className="hidden lg:inline-block">Home</span>
             </Link>
           </li>
           <li className={linkStyle}>
@@ -124,22 +122,18 @@ export default function Header() {
               }}
             >
               <MdNotifications size={24} />
-              <span className="hidden min-[770px]:inline-flex text-base">
-                Notificações
-              </span>
+              <span className="hidden lg:inline-block">Notificações</span>
             </button>
           </li>
           <li className={linkStyle}>
             <Link className={itemsMenuStyle} href="/mentors">
               <BsFillPeopleFill size={24} />
-              <span className="hidden min-[770px]:inline-flex text-base">
-                Mentores
-              </span>
+              <span className="hidden lg:inline-block">Mentores</span>
             </Link>
           </li>
-          <li className={clsx(linkStyle, "mr-10 lg:mr-16 xl:mr-36")}>
-            <div className={clsx(itemsMenuStyle, "items-center")}>
-              <figure className="border border-secundary-01 w-9 h-9 rounded-full overflow-hidden">
+          <li className={clsx(linkStyle)}>
+            <div className="flex justify-center items-center">
+              <figure className="rounded-full w-9 h-9 overflow-hidden mr-2 hidden sm:inline-block">
                 <Image
                   src={photoUrl || "/imgCard.png"}
                   width={100}
@@ -149,14 +143,14 @@ export default function Header() {
                 />
               </figure>
 
-              <div className="flex gap-20 items-center ">
-                <div className="flex flex-col">
-                  <h1 className="hidden min-[850px]:inline-flex text-base ">
-                    {firstName}
+              <div className="flex justify-center items-center">
+                <div className="flex flex-col justify-center items-start">
+                  <h1 className="hidden sm:inline-block">
+                    {firstName} {lastName}
                   </h1>
                   <span
                     className={clsx(
-                      "hidden min-[850px]:inline-flex text-xs text-primary-04 ",
+                      "text-xs text-primary-04 hidden sm:inline-block",
                       {
                         isMentor: "text-primary-03",
                       }

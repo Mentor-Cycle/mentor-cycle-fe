@@ -130,24 +130,31 @@ const ModalSettings = ({
     }
   }
 
+  // "Mudança de perfil confirmada!", "", "success",
+
   const handleSelectedProfile = (profile: any) => {
     setIsModalOpen(false);
     Swal.fire({
       title: "Tem certeza que deseja mudar de perfil?",
-      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#BA0000",
+      cancelButtonColor: "#343434",
       confirmButtonText: "Sim, mudar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         await switchProfile(profile);
-        Swal.fire("Mudança de perfil confirmada!", "", "success").then(
-          (result) => {
-            setIsModalOpen(result.isConfirmed);
-          }
-        );
+        Swal.fire({
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
+          title: "Mudança de perfil confirmada!",
+          confirmButtonColor: "#BA0000",
+          confirmButtonText: "Confirmar",
+        }).then((result) => {
+          setIsModalOpen(result.isConfirmed);
+          setIsModalOpen(true);
+        });
       } else {
         setIsModalOpen(true);
       }
@@ -223,7 +230,7 @@ const ModalSettings = ({
                   width={136}
                   height={136}
                 />
-                <Dropzone />
+                <Dropzone setIsModalOpen={setIsModalOpen} />
               </div>
               <form
                 className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
