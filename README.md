@@ -117,4 +117,3 @@ Lembre se de colocar o título conforme o tipo da tarefa, uma mensagem que descr
   	<img src="https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white" alt="Trello"> 
   </a>
 </p>
-
