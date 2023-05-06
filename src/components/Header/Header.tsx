@@ -93,7 +93,7 @@ export default function Header() {
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
   return (
-    <header className="flex justify-center w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto fixed top-0 z-10">
+    <header className="flex justify-center w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto sticky top-0 z-10">
       <div className="flex justify-between items-center w-full container">
         <div className="w-1/5 h-full hidden sm:flex justify-start items-center">
           <Link href="/dashboard">

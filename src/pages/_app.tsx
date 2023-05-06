@@ -19,9 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={client}>
       <UserContext.Provider value={userContextValue}>
         {showHeader && <Header />}
-        <div className={showHeader ? "mt-20" : ""}>
-          <Component {...pageProps} />
-        </div>
+        <Component {...pageProps} />
         <ToastContainer />
       </UserContext.Provider>
     </ApolloProvider>
