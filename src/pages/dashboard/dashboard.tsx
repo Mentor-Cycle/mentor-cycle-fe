@@ -109,11 +109,9 @@ const Dashboard: NextPage = () => {
             Você não possui nenhuma mentoria agendada.
           </h3>
           {!user.isMentor && (
-            <Button>
-              <Link href={"/mentors"} className="text-sm ">
-                Encontre um mentor e agende uma mentoria
-              </Link>
-            </Button>
+            <Link href={"/mentors"} className="text-sm" legacyBehavior>
+              <Button>Encontre um mentor e agende uma mentoria</Button>
+            </Link>
           )}
         </>
       </div>

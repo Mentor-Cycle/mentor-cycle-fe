@@ -9,7 +9,7 @@ const Profile = () => {
   const passwordRequirements = createStringRequirements({
     minLength: 6,
     includeNumber: true,
-    includeLowercase: false,
+    includeLowercase: true,
     includeUppercase: false,
     includeSpecial: false,
   });

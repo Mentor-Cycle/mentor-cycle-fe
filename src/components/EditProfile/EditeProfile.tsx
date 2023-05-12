@@ -78,7 +78,9 @@ const EditProfile = ({
         setOpenEditProfile(false);
       }
     } catch (er) {
-      toast.error("Não foi possível alterar suas informações");
+      toast.error(
+        `Não foi possível alterar suas informações verifique se os novos dados estão corretos`
+      );
     }
   }
 
@@ -115,7 +117,13 @@ const EditProfile = ({
             label="Experiência"
             defaultValue={description}
           />
-          <Input type="text" name="email" label="Email" defaultValue={email} />
+          <Input
+            required
+            type="email"
+            name="email"
+            label="Email"
+            defaultValue={email}
+          />
           <Input
             type="text"
             name="locale"
@@ -125,7 +133,9 @@ const EditProfile = ({
             )}`}
           />
           <Input
-            type="text"
+            type="number"
+            max={45}
+            min={0}
             name="yearsOfExperience"
             label="Anos experiência"
             defaultValue={

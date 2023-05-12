@@ -9,6 +9,7 @@ import client from "services/apollo/apollo-client";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
 import { ROUTES_WITHOUT_HEADER } from "config/constants";
+import { MultiStepFormProvider } from "providers/form";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState(initialValue);
@@ -19,7 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={client}>
       <UserContext.Provider value={userContextValue}>
         {showHeader && <Header />}
-        <Component {...pageProps} />
+        <MultiStepFormProvider>
+          <Component {...pageProps} />
+        </MultiStepFormProvider>
         <ToastContainer />
       </UserContext.Provider>
     </ApolloProvider>
