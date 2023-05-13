@@ -2,20 +2,44 @@ import { FC, useState, ChangeEvent } from "react";
 import clsx from "clsx";
 import { DateProps, DateSize } from "./Date.types";
 import * as Label from "@radix-ui/react-label";
+import InputMask from "react-input-mask";
+import { isValidDate } from "./dateHelpers";
+import useForm from "@hooks/useForm";
+import { ActionType } from "providers/form";
 
-const DateInput: FC<DateProps> = ({
+const InputBirthday: FC<DateProps> = ({
   size = "standard",
   label,
   name,
   disabled,
+  value,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [date, setDate] = useState<string>("1990-01-01T00:00:00.000Z");
+  const { formData, dispatch } = useForm();
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInvalid(!event.target.checkValidity() || !event.target.value);
-    setErrorMessage(event.target.validationMessage || "");
+    const isValidBirthDate = isValidDate(event.target.value);
+    setInvalid(!isValidBirthDate);
+    setErrorMessage(isValidBirthDate ? "" : "Data de nascimento inválida.");
+    console.log(isValidBirthDate);
+    if (isValidBirthDate) {
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: {
+          ...formData,
+          birthDate: date,
+        },
+      });
+    } else {
+      setDate("1990-01-01T00:00:00.000Z");
+    }
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDate(event.target.value);
   };
 
   const sizesDate: { [key in DateSize]: string } = {
@@ -38,9 +62,12 @@ const DateInput: FC<DateProps> = ({
       htmlFor={name}
     >
       {label}
-      <input
+
+      <InputMask
+        mask="99/99/9999"
         name={name}
-        type="date"
+        value={value}
+        onChange={handleChange}
         {...props}
         className={clsx(
           sizesDate[size],
@@ -59,4 +86,4 @@ const DateInput: FC<DateProps> = ({
   );
 };
 
-export default DateInput;
+export default InputBirthday;

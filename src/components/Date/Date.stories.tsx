@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import DateInput from "./Date";
+import DateInput from "./InputBirthday";
 
 const meta = {
   title: "Forms/Date",

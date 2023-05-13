@@ -46,8 +46,12 @@ const FormSteps: React.FC = () => {
     if (isValid) {
       setIsSubmitting(true);
       delete formData.repeatPassword;
-      const date = parse(formData.birthDate || "", "dd/MM/yyyy", new Date());
-      const isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+      let isoDate = "1990-01-01T00:00:00.000Z";
+      if (formData.birthDate && formData.birthDate !== "") {
+        const date = parse(formData.birthDate, "dd/MM/yyyy", new Date());
+        isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+      }
+
       try {
         const response = await toast.promise(
           createUser({
