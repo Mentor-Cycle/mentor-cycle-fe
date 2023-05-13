@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import Spinner from "@components/Spinner/Spinner";
+import Spinner from "@components/Spinner";
 import { useUser } from "@hooks/useUser";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ const Dropzone = ({ setIsModalOpen }: any) => {
 
   const onDrop = async (acceptedFiles: File[]) => {
     setIsModalOpen(false);
-    const selectedFile = acceptedFiles[0];
+    const [selectedFile] = acceptedFiles;
     Swal.fire({
       customClass: {
         container: "swal-overlay",
@@ -31,14 +31,13 @@ const Dropzone = ({ setIsModalOpen }: any) => {
       setIsModalOpen(true);
       if (result.isConfirmed) {
         try {
-          const { data } = await uploadImage({
+          await uploadImage({
             variables: {
               file: selectedFile,
               userId: user.id,
             },
           });
           toast.success("Foto alterada com sucesso!");
-          console.log("Imagem enviada com sucesso:", data);
         } catch (error) {
           toast.error(
             "Erro ao alterar a foto. Por favor, tente novamente mais tarde."
@@ -48,13 +47,19 @@ const Dropzone = ({ setIsModalOpen }: any) => {
     });
   };
 
+  const MAX_FILE_SIZE_MB = 10;
+  const BYTES_IN_MB = 1048576;
+
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,
     noKeyboard: true,
     maxFiles: 1,
-    maxSize: 1048576,
+    maxSize: MAX_FILE_SIZE_MB * BYTES_IN_MB,
     noDrag: true,
     onDrop,
+    accept: {
+      "image/*": [],
+    },
   });
 
   const files = acceptedFiles.map((file) => (
@@ -76,8 +81,9 @@ const Dropzone = ({ setIsModalOpen }: any) => {
             <button type="button" className="text-danger-02" onClick={open}>
               Trocar foto
             </button>
+            <em className="text-xs block">(Apenas imagens são aceitos)</em>
             <aside>
-              <h1 className="text-xs italic">tamanho máximo 1mb</h1>
+              <h1 className="text-xs italic">tamanho máximo 10mb</h1>
               <ul>{files}</ul>
             </aside>
             <input {...getInputProps()} />

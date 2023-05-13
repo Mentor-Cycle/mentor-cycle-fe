@@ -40,8 +40,7 @@ const ModalSettings = ({
   const [signOutUser] = useMutation(LOGOUT_USER);
 
   const router = useRouter();
-  const [changePassword, { loading, error: errorChangePassowrd }] =
-    useMutation(CHANGE_PASSWORD);
+  const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
   const [updateUser] = useMutation(USER_UPDATE_DATA, {
     refetchQueries: [{ query: GET_MENTORS }],
   });
