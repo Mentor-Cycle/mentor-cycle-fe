@@ -43,65 +43,71 @@ const FormSteps: React.FC = () => {
     setIsValid(formRef.current?.checkValidity());
   }, [formData, currentStep]);
 
+  const getIsoDate = (date: string | null) => {
+    if (date && date !== "") {
+      const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+      return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss");
+    }
+    return null;
+  };
+
+  const getErrorMessage = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      description: "A descrição precisa ter no mínimo 2 caracteres",
+      email: "Este email já possui cadastro",
+    };
+
+    for (const key in errorMessages) {
+      if (error.message.includes(key)) {
+        return errorMessages[key];
+      }
+    }
+
+    return error instanceof Error
+      ? error.message
+      : "Não foi possivel concluir o cadastro, tente novamente mais tarde";
+  };
+
   const handleSubmit = async () => {
-    if (isValid) {
-      const isValidBirthDate =
-        formData.birthDate === null ||
-        isValidDate(formData.birthDate) ||
-        formData.birthDate === "";
+    if (!isValid) return;
 
-      if (!isValidBirthDate) {
-        toast.error(`Data de nascimento inválida.`);
-        return;
-      }
-      setIsSubmitting(true);
-      delete formData.repeatPassword;
-      let isoDate = null;
-      if (formData.birthDate && formData.birthDate !== "") {
-        const date = parse(formData.birthDate, "dd/MM/yyyy", new Date());
-        isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
-      }
+    const isValidBirthDate =
+      formData.birthDate === null ||
+      isValidDate(formData.birthDate) ||
+      formData.birthDate === "";
 
-      try {
-        const response = await toast.promise(
-          createUser({
-            variables: {
-              input: {
-                ...formData,
-                birthDate: isoDate,
-              },
+    if (!isValidBirthDate) {
+      toast.error(`Data de nascimento inválida.`);
+      return;
+    }
+
+    setIsSubmitting(true);
+    delete formData.repeatPassword;
+    const isoDate = getIsoDate(formData.birthDate);
+    try {
+      const response = await toast.promise(
+        createUser({
+          variables: {
+            input: {
+              ...formData,
+              birthDate: isoDate,
             },
-          }),
-          {
-            pending: "Aguarde um momento...",
-            success: `Usuário ${
-              formData.firstName ? formData.firstName : "MentorCycle"
-            } cadastrado com sucesso!`,
-          }
-        );
-        if (response.data.signUpUser) {
-          router.push("/dashboard");
+          },
+        }),
+        {
+          pending: "Aguarde um momento...",
+          success: `Usuário ${
+            formData.firstName ? formData.firstName : "MentorCycle"
+          } cadastrado com sucesso!`,
         }
-      } catch (error) {
-        if (error instanceof Error) {
-          if (
-            error.message.includes("description must be longer than equal to 2")
-          ) {
-            toast.error("A descrição precisa ter no mínimo 2 caracteres");
-          }
-          if (error.message.includes("email already exists")) {
-            toast.error("Este email já possui cadastro");
-          } else {
-            toast.error(`${error.message}`);
-          }
-        } else {
-          toast.error(
-            "Não foi possivel concluir o cadastro, tente novamente mais tarde"
-          );
-        }
-      } finally {
-        setIsSubmitting(false);
+      );
+      if (response.data.signUpUser) {
+        router.push("/dashboard");
       }
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
