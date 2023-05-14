@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { format, parse } from "date-fns";
 import Button from "@components/Button";
 import { toast } from "react-toastify";
+import { isValidDate } from "@components/Date/dateHelpers";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -44,9 +45,18 @@ const FormSteps: React.FC = () => {
 
   const handleSubmit = async () => {
     if (isValid) {
+      const isValidBirthDate =
+        formData.birthDate === null ||
+        isValidDate(formData.birthDate) ||
+        formData.birthDate === "";
+
+      if (!isValidBirthDate) {
+        toast.error(`Data de nascimento inválida.`);
+        return;
+      }
       setIsSubmitting(true);
       delete formData.repeatPassword;
-      let isoDate = "1990-01-01T00:00:00.000Z";
+      let isoDate = null;
       if (formData.birthDate && formData.birthDate !== "") {
         const date = parse(formData.birthDate, "dd/MM/yyyy", new Date());
         isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
@@ -73,7 +83,22 @@ const FormSteps: React.FC = () => {
           router.push("/dashboard");
         }
       } catch (error) {
-        toast.error(`${error}`);
+        if (error instanceof Error) {
+          if (
+            error.message.includes("description must be longer than equal to 2")
+          ) {
+            toast.error("A descrição precisa ter no mínimo 2 caracteres");
+          }
+          if (error.message.includes("email already exists")) {
+            toast.error("Este email já possui cadastro");
+          } else {
+            toast.error(`${error.message}`);
+          }
+        } else {
+          toast.error(
+            "Não foi possivel concluir o cadastro, tente novamente mais tarde"
+          );
+        }
       } finally {
         setIsSubmitting(false);
       }

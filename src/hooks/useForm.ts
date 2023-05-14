@@ -38,6 +38,10 @@ const useForm = () => {
         [name]: value,
       },
     });
+    setFormStorage({
+      ...formStorage,
+      [name]: value,
+    });
   };
 
   const updateCurrentStep = (step: number) => {
@@ -45,6 +49,24 @@ const useForm = () => {
       type: ActionType.UPDATE_CURRENT_STEP,
       payload: step,
     });
+  };
+
+  const updateBirthday = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event) {
+      const { name, value } = event.target;
+
+      dispatch({
+        type: ActionType.UPDATE_FORM_DATA,
+        payload: {
+          ...formData,
+          [name]: value,
+        },
+      });
+      setFormStorage({
+        ...formStorage,
+        [name]: value,
+      });
+    }
   };
 
   return {
@@ -55,6 +77,7 @@ const useForm = () => {
     dispatch,
     updateFormTextarea,
     getCurrentStep,
+    updateBirthday,
   };
 };
 

@@ -9,6 +9,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       variant = "primary",
       size = "regular",
+      type = "button",
       children,
       disabled,
       className,
@@ -47,6 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
     return (
       <button
+        type={type}
         ref={ref}
         className={clsx(
           baseClasses,

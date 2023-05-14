@@ -1,45 +1,27 @@
 import { FC, useState, ChangeEvent } from "react";
 import clsx from "clsx";
-import { DateProps, DateSize } from "./Date.types";
+import { DateSize, InputBirthdayProps } from "./Date.types";
 import * as Label from "@radix-ui/react-label";
 import InputMask from "react-input-mask";
-import { isValidDate } from "./dateHelpers";
 import useForm from "@hooks/useForm";
-import { ActionType } from "providers/form";
+import { isValidDate } from "./dateHelpers";
 
-const InputBirthday: FC<DateProps> = ({
+const InputBirthday: FC<InputBirthdayProps> = ({
   size = "standard",
   label,
   name,
   disabled,
-  value,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [date, setDate] = useState<string>("1990-01-01T00:00:00.000Z");
-  const { formData, dispatch } = useForm();
+  const { formData, updateBirthday } = useForm();
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    const isValidBirthDate = isValidDate(event.target.value);
+    const isValidBirthDate =
+      event.target.value === "" || isValidDate(event.target.value);
     setInvalid(!isValidBirthDate);
     setErrorMessage(isValidBirthDate ? "" : "Data de nascimento inválida.");
-    console.log(isValidBirthDate);
-    if (isValidBirthDate) {
-      dispatch({
-        type: ActionType.UPDATE_FORM_DATA,
-        payload: {
-          ...formData,
-          birthDate: date,
-        },
-      });
-    } else {
-      setDate("1990-01-01T00:00:00.000Z");
-    }
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
   };
 
   const sizesDate: { [key in DateSize]: string } = {
@@ -66,8 +48,8 @@ const InputBirthday: FC<DateProps> = ({
       <InputMask
         mask="99/99/9999"
         name={name}
-        value={value}
-        onChange={handleChange}
+        value={formData.birthDate || undefined}
+        onChange={updateBirthday}
         {...props}
         className={clsx(
           sizesDate[size],
@@ -76,6 +58,7 @@ const InputBirthday: FC<DateProps> = ({
         )}
         onBlur={handleBlur}
         disabled={disabled}
+        pattern="\d{2}/\d{2}/\d{4}"
       />
       {errorMessage && !disabled && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>

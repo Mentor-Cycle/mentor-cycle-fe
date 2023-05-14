@@ -77,8 +77,20 @@ const EditProfile = ({
         toast.success("Alterações realizadas com sucesso!");
         setOpenEditProfile(false);
       }
-    } catch (er) {
-      toast.error("Não foi possível alterar suas informações");
+    } catch (error) {
+      if (error instanceof Error) {
+        if (
+          error.message.includes(
+            "Unique constraint failed on the fields: (`email`)"
+          )
+        ) {
+          toast.error("Este email já possui cadastro");
+        } else {
+          toast.error(`${error.message}`);
+        }
+      } else {
+        toast.error("Um erro desconhecido ocorreu");
+      }
     }
   }
 
@@ -132,7 +144,12 @@ const EditProfile = ({
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button className="mt-7" disabled={loading} isLoading={loading}>
+          <Button
+            type="submit"
+            className="mt-7"
+            disabled={loading}
+            isLoading={loading}
+          >
             Salvar
           </Button>
         </form>
