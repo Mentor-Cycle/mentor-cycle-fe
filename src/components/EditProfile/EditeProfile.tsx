@@ -78,21 +78,30 @@ const EditProfile = ({
         setOpenEditProfile(false);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        if (
-          error.message.includes(
-            "Unique constraint failed on the fields: (`email`)"
-          )
-        ) {
-          toast.error("Este email já possui cadastro");
-        } else {
-          toast.error(`${error.message}`);
-        }
-      } else {
-        toast.error("Um erro desconhecido ocorreu");
-      }
+      handleErrors(error);
     }
   }
+
+  const handleErrors = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      "Unique constraint failed on the fields: (`email`)":
+        "Este email já possui cadastro",
+    };
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Erro ao editar o Perfil tente novamente mais tarde";
+    const matchingErrorKey = Object.keys(errorMessages).find((key) =>
+      errorMessage.includes(key)
+    );
+
+    if (matchingErrorKey) {
+      toast.error(errorMessages[matchingErrorKey]);
+    } else {
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
