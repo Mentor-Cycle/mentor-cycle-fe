@@ -1,2 +1,1 @@
-export { default } from "./Date";
-export type { DateProps } from "./Date.types";
+export { default } from "./InputBirthday";

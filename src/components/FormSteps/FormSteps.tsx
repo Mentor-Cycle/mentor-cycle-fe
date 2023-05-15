@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { format, parse } from "date-fns";
 import Button from "@components/Button";
 import { toast } from "react-toastify";
+import { isValidDate } from "@components/Date/dateHelpers";
 
 const FORM_STEPS = [
   { id: 1, component: Profile },
@@ -30,38 +31,72 @@ const FormSteps: React.FC = () => {
     setIsValid(formRef.current?.checkValidity());
   }, [formData, currentStep]);
 
-  const handleSubmit = async () => {
-    if (isValid) {
-      setIsSubmitting(true);
-      delete formData.repeatPassword;
-      const date = parse(formData.birthDate || "", "dd/MM/yyyy", new Date());
-      const isoDate = format(date, "yyyy-MM-dd'T'HH:mm:ss");
-      try {
-        const response = await toast.promise(
-          createUser({
-            variables: {
-              input: {
-                ...formData,
-                birthDate: isoDate,
-              },
-            },
-          }),
-          {
-            pending: "Aguarde um momento...",
-            success: `Usuário ${
-              formData.firstName ? formData.firstName : "MentorCycle"
-            } cadastrado com sucesso!`,
-          }
-        );
-        if (response.data.signUpUser) {
-          localStorage.removeItem("form-data");
-          router.push("/dashboard");
-        }
-      } catch (error) {
-        toast.error(`${error}`);
-      } finally {
-        setIsSubmitting(false);
+  const getIsoDate = (date: string | null) => {
+    if (date && date !== "") {
+      const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+      return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss");
+    }
+    return null;
+  };
+
+  const getErrorMessage = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      description: "A descrição precisa ter no mínimo 2 caracteres",
+      email: "Este email já possui cadastro",
+    };
+
+    for (const key in errorMessages) {
+      if (error.message.includes(key)) {
+        return errorMessages[key];
       }
+    }
+
+    return error instanceof Error
+      ? error.message
+      : "Não foi possivel concluir o cadastro, tente novamente mais tarde";
+  };
+
+  const handleSubmit = async () => {
+    if (!isValid) return;
+
+    const isValidBirthDate =
+      formData.birthDate === null ||
+      isValidDate(formData.birthDate) ||
+      formData.birthDate === "";
+
+    if (!isValidBirthDate) {
+      toast.error(`Data de nascimento inválida.`);
+      return;
+    }
+
+    setIsSubmitting(true);
+    delete formData.repeatPassword;
+    const isoDate = getIsoDate(formData.birthDate);
+    try {
+      const response = await toast.promise(
+        createUser({
+          variables: {
+            input: {
+              ...formData,
+              birthDate: isoDate,
+            },
+          },
+        }),
+        {
+          pending: "Aguarde um momento...",
+          success: `Usuário ${
+            formData.firstName ? formData.firstName : "MentorCycle"
+          } cadastrado com sucesso!`,
+        }
+      );
+      if (response.data.signUpUser) {
+        localStorage.removeItem("form-data");
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

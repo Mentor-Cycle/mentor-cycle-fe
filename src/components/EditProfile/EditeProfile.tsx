@@ -77,12 +77,31 @@ const EditProfile = ({
         toast.success("Alterações realizadas com sucesso!");
         setOpenEditProfile(false);
       }
-    } catch (er) {
-      toast.error(
-        `Não foi possível alterar suas informações verifique se os novos dados estão corretos`
-      );
+    } catch (error) {
+      handleErrors(error);
     }
   }
+
+  const handleErrors = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      "Unique constraint failed on the fields: (`email`)":
+        "Este email já possui cadastro",
+    };
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Erro ao editar o Perfil tente novamente mais tarde";
+    const matchingErrorKey = Object.keys(errorMessages).find((key) =>
+      errorMessage.includes(key)
+    );
+
+    if (matchingErrorKey) {
+      toast.error(errorMessages[matchingErrorKey]);
+    } else {
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
@@ -142,7 +161,12 @@ const EditProfile = ({
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button className="mt-7" disabled={loading} isLoading={loading}>
+          <Button
+            type="submit"
+            className="mt-7"
+            disabled={loading}
+            isLoading={loading}
+          >
             Salvar
           </Button>
         </form>

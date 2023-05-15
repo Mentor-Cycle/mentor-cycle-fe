@@ -4,16 +4,25 @@ import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
 import { ActionType } from "providers/form";
 import { useQuery } from "@apollo/client";
 import { GET_SKILLS } from "services/apollo/queries";
+import useLocalStorage from "@hooks/useLocalStorage";
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();
+  const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
   const { loading, data } = useQuery(GET_SKILLS);
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions) {
     const uniqueSkill = selectOptions.map((option) => option.value);
+    const updatedFormData = { ...formData, [name]: uniqueSkill };
+
     dispatch({
       type: ActionType.UPDATE_FORM_DATA,
-      payload: { [name]: uniqueSkill } as { [key: string]: string[] },
+      payload: updatedFormData,
+    });
+
+    setFormStorage({
+      ...formStorage,
+      ...updatedFormData,
     });
   }
 
@@ -38,7 +47,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         required
         isMulti
         name={name}
-        defaultValue={formData?.skills.length ? defaultValue : options?.[0]}
+        defaultValue={defaultValue}
         onChange={(newValue) =>
           handleAddNewSkill(newValue as MultiSelectOptions)
         }
