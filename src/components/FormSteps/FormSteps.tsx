@@ -79,14 +79,17 @@ const FormSteps: React.FC = () => {
             input: {
               ...formData,
               birthDate: isoDate,
-            },
-          },
-        }),
-        {
-          pending: "Aguarde um momento...",
-          success: `Usuário ${
-            formData.firstName ? formData.firstName : "MentorCycle"
-          } cadastrado com sucesso!`,
+          }),
+          {
+            pending: "Aguarde um momento...",
+            success: `Usuário ${
+              formData.firstName ? formData.firstName : "MentorCycle"
+            } cadastrado com sucesso!`,
+          }
+        );
+        if (response.data.signUpUser) {
+          localStorage.removeItem("form-data");
+          router.push("/dashboard");
         }
       );
       if (response.data.signUpUser) {
