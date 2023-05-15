@@ -78,6 +78,8 @@ const useForm = () => {
     updateFormTextarea,
     getCurrentStep,
     updateBirthday,
+    formStorage,
+    setFormStorage,
   };
 };
 

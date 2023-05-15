@@ -111,7 +111,9 @@ const Profile: NextPage = () => {
               </p>
             )}
             {user.yearsOfExperience ? (
-              <p className="font-bold basis-1/2">{`${user.yearsOfExperience} anos de experiência`}</p>
+              <p className="font-bold basis-1/2">{`${user.yearsOfExperience} ${
+                user.yearsOfExperience > 1 ? "anos" : "ano"
+              } de experiência`}</p>
             ) : (
               <p className="text-gray-05 text-base">
                 experiência que você possui

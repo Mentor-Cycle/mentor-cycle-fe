@@ -4,7 +4,6 @@ import useForm from "@hooks/useForm";
 import clsx from "clsx";
 import ContactInformation from "./ContactInformation";
 import { useRef, useState, useEffect } from "react";
-import { ActionType } from "providers/form";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
@@ -24,20 +23,9 @@ const FormSteps: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
   const { formData, currentStep } = useForm();
-  const { dispatch, updateCurrentStep } = useForm();
+  const { updateCurrentStep } = useForm();
   const [createUser] = useMutation(CREATE_USER);
   const router = useRouter();
-
-  useEffect(() => {
-    const signupInfo = sessionStorage.getItem("signup_info");
-    if (signupInfo) {
-      const { isMentor } = JSON.parse(signupInfo);
-      dispatch({
-        type: ActionType.UPDATE_FORM_DATA,
-        payload: { isMentor },
-      });
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     setIsValid(formRef.current?.checkValidity());
@@ -91,14 +79,17 @@ const FormSteps: React.FC = () => {
             input: {
               ...formData,
               birthDate: isoDate,
-            },
-          },
-        }),
-        {
-          pending: "Aguarde um momento...",
-          success: `Usuário ${
-            formData.firstName ? formData.firstName : "MentorCycle"
-          } cadastrado com sucesso!`,
+          }),
+          {
+            pending: "Aguarde um momento...",
+            success: `Usuário ${
+              formData.firstName ? formData.firstName : "MentorCycle"
+            } cadastrado com sucesso!`,
+          }
+        );
+        if (response.data.signUpUser) {
+          localStorage.removeItem("form-data");
+          router.push("/dashboard");
         }
       );
       if (response.data.signUpUser) {
@@ -133,6 +124,16 @@ const FormSteps: React.FC = () => {
           )}
           variant="secondary"
           onClick={() => updateCurrentStep((currentStep || 2) - 1)}
+        >
+          Voltar
+        </Button>
+        <Button
+          className={clsx(
+            currentStep === 1 ? "" : "hidden",
+            "order-last sm:order-first max-w-[328px]"
+          )}
+          variant="secondary"
+          onClick={() => router.push("/signup/plan")}
         >
           Voltar
         </Button>

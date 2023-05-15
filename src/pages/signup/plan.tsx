@@ -1,18 +1,32 @@
 import Button from "@components/Button";
 import ProfileCardToggle from "@components/ProfileCardToggle";
+import useForm from "@hooks/useForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ActionType } from "providers/form";
 import React, { useState } from "react";
 
 const Plan = () => {
+  const { dispatch, formData, setFormStorage, formStorage } = useForm();
   const [isMentor, setIsMentor] = useState(false);
   const router = useRouter();
+
   const handleIsMentor = (isMentor: boolean) => {
     setIsMentor(isMentor);
   };
 
   const handleNext = () => {
-    localStorage.setItem("isMentor", JSON.stringify(isMentor));
+    dispatch({
+      type: ActionType.UPDATE_FORM_DATA,
+      payload: {
+        ...formData,
+        isMentor,
+      },
+    });
+    setFormStorage({
+      ...formStorage,
+      isMentor,
+    });
     router.replace({
       pathname: "/signup/register",
     });
@@ -36,9 +50,11 @@ const Plan = () => {
           />
         </div>
         <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
-          <Button variant="secondary" className="order-last sm:order-first">
-            <Link href="/">Voltar</Link>
-          </Button>
+          <Link href="/" legacyBehavior>
+            <Button variant="secondary" className="order-last sm:order-first">
+              Voltar
+            </Button>
+          </Link>
           <Button onClick={handleNext}>Próximo</Button>
         </div>
       </section>
