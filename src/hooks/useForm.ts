@@ -55,6 +55,8 @@ const useForm = () => {
     dispatch,
     updateFormTextarea,
     getCurrentStep,
+    formStorage,
+    setFormStorage,
   };
 };
 
