@@ -87,15 +87,22 @@ export const MentorModalAvailability = ({
   return (
     <>
       <Modal open={open} onOpenChange={setOpen}>
-        <section className="w-full px-6 text-left z-20">
-          <h1 className="inline text-secondary-03 font-semibold text-2xl">
+        <section className="w-full py-12 px-16 text-left z-20">
+          <h1 className="inline text-secondary-03 font-semibold text-2xl mb-2">
             Horário de mentoria
           </h1>
           <p>Defina seus horários e datas disponíveis</p>
-          <section className="flex gap-6 mt-12 flex-wrap">
+          <p className="text-base text-primary-05 mt-2">
+            *O tempo de cada mentoria é de aproximadamente 30 minutos.
+          </p>
+          <p className="text-base text-primary-05 ">
+            Cada mentoria deve ser criada com esse intervalo, podendo ter vários
+            horários disponíveis no mesmo dia.
+          </p>
+          <section className="flex gap-7 mt-12 flex-wrap">
             {DAYS_OF_THE_WEEK_SHORT.map((day) => (
               <Chip
-                className="capitalize font-normal cursor-pointer"
+                className="capitalize font-normal cursor-pointer w-28"
                 key={day}
                 variant={
                   selectedDay === day ? "secondary_dark" : "primary_dark"
@@ -106,12 +113,12 @@ export const MentorModalAvailability = ({
               </Chip>
             ))}
           </section>
-          <section className="flex items-center mt-14 gap-14">
+          <section className="flex items-center mt-14 gap-16">
             <p>Horário</p>
             <TimeInput value={selectedStart} onChange={setSelectedStart} />
             <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
           </section>
-          <section className="w-72 mt-20 ml-auto">
+          <section className="w-72 mt-14 ml-auto">
             <Button
               onClick={handleSaveAvailability}
               size="small"
