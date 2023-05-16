@@ -82,23 +82,62 @@ const MentorProfile: NextPage = () => {
                 <h2 className="text-2xl font-bold leading-normal mb-4">
                   Sobre mim
                 </h2>
-                <p>{mentor.description}</p>
+                {mentor.biography ? (
+                  <p className="text-base text-secondary-05">
+                    {mentor.biography}
+                  </p>
+                ) : (
+                  <p className="text-gray-05 text-base">Mentor</p>
+                )}
               </section>
               <section className="mt-12 pb-12 border-secondary-01 border-b border-solid">
                 <h2 className="text-2xl font-bold leading-normal mb-4">
                   Experiência profissional
                 </h2>
-                <p>{mentor.biography}</p>
+                {mentor.description ? (
+                  <p className="text-base text-secondary-05">
+                    {mentor.description}
+                  </p>
+                ) : (
+                  <p className="text-gray-05 text-base">
+                    Escreva suas principais experiências profissionais
+                  </p>
+                )}
               </section>
               <section className="pt-12 flex flex-wrap gap-y-8">
-                <p className="font-bold basis-1/2">{mentor.email}</p>
-                <p className="font-bold basis-1/2">{mentor.github}</p>
-                <p className="font-bold basis-1/2">{`${country}${
-                  country && state && ","
-                } ${state}`}</p>
-                <p className="font-bold basis-1/2">
-                  {mentor.yearsOfExperience}
-                </p>
+                {mentor.email ? (
+                  <p className="font-bold basis-1/2">{mentor.email}</p>
+                ) : (
+                  <p className="text-gray-05 text-base">exemplo@gmail.com</p>
+                )}
+                {mentor.github ? (
+                  <p className="font-bold basis-1/2">{mentor.github}</p>
+                ) : (
+                  <p className="text-gray-05 text-base">exemplo.com.br</p>
+                )}
+                {mentor.country ? (
+                  <p className="font-bold basis-1/2">
+                    {`${validateUndefined(mentor.country) || "País"}${
+                      mentor.country === "Brasil" && mentor.state
+                        ? `/${validateUndefined(mentor.state)}`
+                        : ""
+                    }`}
+                  </p>
+                ) : (
+                  <p className="text-gray-05 text-base">País/Estado</p>
+                )}
+
+                {mentor.yearsOfExperience ? (
+                  <p className="font-bold basis-1/2">{`${
+                    mentor.yearsOfExperience
+                  } ${
+                    user.yearsOfExperience > 1 ? "anos" : "ano"
+                  } de experiência`}</p>
+                ) : (
+                  <p className="text-gray-05 text-base">
+                    experiência que você possui
+                  </p>
+                )}
               </section>
             </div>
             <section>
