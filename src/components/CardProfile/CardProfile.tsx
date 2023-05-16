@@ -4,7 +4,6 @@ import clsx from "clsx";
 import Image from "next/image";
 import { CardProps } from "./CardProfile.types";
 import { useRouter } from "next/router";
-import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
 import { useState } from "react";
 
 const CardProfile = ({
@@ -64,7 +63,14 @@ const CardProfile = ({
         <h2 className="text-2xl font-bold mt-4 text-secondary-01 truncate dark:text-neutral-01">
           {name}
         </h2>
-        <h3 className="font-semibold text-gray-04 mt-2 h-6 truncate dark:text-neutral-04">
+        <h3
+          className={clsx(
+            jobTitle === "Profissão não fornecida"
+              ? "text-gray-01"
+              : "text-gray-04",
+            "font-semibold mt-2 h-6 truncate dark:text-neutral-04"
+          )}
+        >
           {jobTitle}
         </h3>
         <span className="text-xs text-gray-03 dark:text-neutral-03">

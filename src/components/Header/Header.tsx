@@ -90,11 +90,13 @@ export default function Header() {
 
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
+  const userIsLogged = isLogged ? "/dashboard" : "/";
+
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto sticky top-0 z-30">
       <div className="flex justify-between items-center w-full container">
         <div className="w-1/5 h-full hidden sm:flex justify-start items-center">
-          <Link href="/dashboard">
+          <Link href={userIsLogged}>
             <Image
               src={"/logoSvg.svg"}
               width={64}
@@ -144,9 +146,7 @@ export default function Header() {
 
                 <div className="flex justify-center items-center">
                   <div className="flex flex-col justify-center items-start">
-                    <h1 className="hidden sm:inline-block">
-                      {firstName} {lastName}
-                    </h1>
+                    <h1 className="hidden sm:inline-block">{firstName}</h1>
                     <span
                       className={clsx(
                         "text-xs text-primary-04 hidden sm:inline-block",

@@ -162,7 +162,7 @@ const SignIn: NextPage = () => {
               </div>
             </div>
             <Button
-              type="button"
+              type="submit"
               isLoading={loading}
               onClick={handleLogin}
               size="small"

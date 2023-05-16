@@ -280,8 +280,8 @@ export const ScheduleMentorshipModal = ({
               Mentoria agendada!
             </h2>
             <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-              `Sua mentoria foi agendada no seu calendário e do(a){" "}
-              {mentor.firstName} {mentor.lastName}`
+              Sua mentoria foi agendada no seu calendário e do(a){" "}
+              {mentor.firstName} {mentor.lastName}
             </p>
           </>
         )}
