@@ -31,7 +31,10 @@ const Dashboard: NextPage = () => {
     refetch();
     if (!loading && !error && data) {
       const events = data?.findEvents || [];
-      const eventsByDay = groupEventsByDay(events);
+      const filteredEvents = events.filter((mentor: { mentorId: string }) => {
+        return (mentor.mentorId !== user.id && !user.isMentor) || user.isMentor;
+      });
+      const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,8 +42,6 @@ const Dashboard: NextPage = () => {
 
   const statusOptions = [
     { value: "", label: "Filtrar" },
-    // { value: "PENDING", label: "A Confirmar" },
-    // { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
     { value: "CANCELLED", label: "Cancelada" },
   ];
@@ -102,6 +103,7 @@ const Dashboard: NextPage = () => {
   };
 
   const generateEmptyFeedback = () => {
+    if (selectedFilter) return;
     return (
       <div className="min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
         <>

@@ -36,10 +36,15 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (classes) {
-      const eventsByDay = groupEventsByDay(classes.findEvents);
+      const filteredEvents = classes.findEvents.filter(
+        (mentor: { mentorId: string }) => {
+          return mentor.mentorId !== user.id && !user.isMentor;
+        }
+      );
+      const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
-  }, [classes]);
+  }, [classes, user.id, user.isMentor]);
   if (loading || loadingClasses)
     return (
       <>
@@ -135,9 +140,7 @@ const Profile: NextPage = () => {
                   <MentoringWeekCard
                     key={availability.weekDay + index}
                     day={availability.weekDay}
-                    description={
-                      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
-                    }
+                    description="Horários disponíveis:"
                     chips={availability.slots.map((slot) => (
                       <Chip key={slot} variant="quartenary">
                         {slot}
