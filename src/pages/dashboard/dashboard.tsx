@@ -42,6 +42,7 @@ const Dashboard: NextPage = () => {
 
   const statusOptions = [
     { value: "", label: "Filtrar" },
+    { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
     { value: "CANCELLED", label: "Cancelada" },
   ];

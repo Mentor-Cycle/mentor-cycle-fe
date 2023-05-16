@@ -7,12 +7,6 @@ import {
 import { createUploadLink } from "apollo-upload-client";
 import { onError } from "@apollo/client/link/error";
 
-const httpLink = new HttpLink({
-  // uri: "https://mentor-cycle-be-dev.onrender.com/graphql",
-  uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
-  credentials: "include",
-});
-
 const excludedPaths = [
   "/signup",
   "/request-change-password",

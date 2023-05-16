@@ -17,7 +17,7 @@ import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
-import Spinner from "@components/Spinner/Spinner";
+import Spinner from "@components/Spinner";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
@@ -26,17 +26,12 @@ const MentorProfile: NextPage = () => {
 
   const { id } = router.query;
   const { mentor, loading } = useMentorProfile(id as string);
-  const country = validateUndefined(mentor?.country);
-  const state = validateUndefined(mentor?.state);
 
-  const { data, refetch: refetchAvailabilities } = useQuery<MentorAvailability>(
-    GET_AVAILABILITIES,
-    {
-      variables: {
-        mentorId: id,
-      },
-    }
-  );
+  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
+    variables: {
+      mentorId: id,
+    },
+  });
 
   const availabilitiesByWeekDay =
     data?.findMentorAvailability.availability.reduce(

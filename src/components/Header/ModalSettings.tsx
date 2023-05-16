@@ -108,9 +108,6 @@ const ModalSettings = ({
       });
       setUser(newUser);
       setDataSucessChange(true);
-      // setTimeout(() => {
-      //   router.push("/mentors");
-      // }, 5000);
     } catch (error) {
       toast.error(
         `Não foi possível salvar as alterações, verifique se os dados estão corretos`
