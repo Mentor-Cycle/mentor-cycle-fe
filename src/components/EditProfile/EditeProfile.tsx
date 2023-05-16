@@ -77,14 +77,35 @@ const EditProfile = ({
         toast.success("Alterações realizadas com sucesso!");
         setOpenEditProfile(false);
       }
-    } catch (er) {
-      toast.error("Não foi possível alterar suas informações");
+    } catch (error) {
+      handleErrors(error);
     }
   }
 
+  const handleErrors = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      "Unique constraint failed on the fields: (`email`)":
+        "Este email já possui cadastro",
+    };
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Erro ao editar o Perfil tente novamente mais tarde";
+    const matchingErrorKey = Object.keys(errorMessages).find((key) =>
+      errorMessage.includes(key)
+    );
+
+    if (matchingErrorKey) {
+      toast.error(errorMessages[matchingErrorKey]);
+    } else {
+      toast.error(errorMessage);
+    }
+  };
+
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
-      <div className="max-xl:px-5 py-16  px-60 ">
+      <div className="max-xl:px-5 py-16 px-60">
         <form
           className="max-md:w-auto w-[672px] text-start"
           onSubmit={handleSubmit}
@@ -115,7 +136,13 @@ const EditProfile = ({
             label="Experiência"
             defaultValue={description}
           />
-          <Input type="text" name="email" label="Email" defaultValue={email} />
+          <Input
+            required
+            type="email"
+            name="email"
+            label="Email"
+            defaultValue={email}
+          />
           <Input
             type="text"
             name="locale"
@@ -125,15 +152,22 @@ const EditProfile = ({
             )}`}
           />
           <Input
-            type="text"
+            type="number"
+            max={45}
+            min={0}
             name="yearsOfExperience"
             label="Anos experiência"
             defaultValue={
               yearsOfExperience ? yearsOfExperience.toString() : "0"
             }
           />
-          <Button disabled={loading} isLoading={loading}>
-            Enviar alterações
+          <Button
+            type="submit"
+            className="mt-7"
+            disabled={loading}
+            isLoading={loading}
+          >
+            Salvar
           </Button>
         </form>
       </div>

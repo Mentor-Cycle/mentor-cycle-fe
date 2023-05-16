@@ -36,10 +36,15 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (classes) {
-      const eventsByDay = groupEventsByDay(classes.findEvents);
+      const filteredEvents = classes.findEvents.filter(
+        (mentor: { mentorId: string }) => {
+          return mentor.mentorId !== user.id && !user.isMentor;
+        }
+      );
+      const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
-  }, [classes]);
+  }, [classes, user.id, user.isMentor]);
   if (loading || loadingClasses)
     return (
       <>
@@ -72,30 +77,53 @@ const Profile: NextPage = () => {
             <h2 className="text-2xl font-bold leading-normal mb-4">
               Sobre mim
             </h2>
-            <p>{user.description || "Complete seu sobre"}</p>
+            {user.biography ? (
+              <p className="text-base text-secondary-05">{user.biography}</p>
+            ) : (
+              <p className="text-gray-05 text-base">Complete seu sobre mim</p>
+            )}
           </section>
-          <section className="mt-12 pb-12 border-secondary-01 border-b border-solid">
+          <section className="mt-12 pb-12">
             <h2 className="text-2xl font-bold leading-normal mb-4">
               Experiência profissional
             </h2>
-            <p>
-              {user.biography ||
-                "Escreva suas principais experiências profissionais"}
-            </p>
+            {user.description ? (
+              <p className="text-base text-secondary-05">{user.description}</p>
+            ) : (
+              <p className="text-gray-05 text-base">
+                Escreva suas principais experiências profissionais
+              </p>
+            )}
           </section>
-          <section className="pt-12 flex flex-wrap gap-y-8">
-            <p className="font-bold basis-1/2">
-              {user.email || "exemplo@gmail.com"}
-            </p>
-            <p className="font-bold basis-1/2">
-              {user.github || "exemplo.com"}
-            </p>
-            <p className="font-bold basis-1/2">{`${
-              validateUndefined(user.country) || "País"
-            }/${validateUndefined(user.state) || "Estado"}`}</p>
-            <p className="font-bold basis-1/2">
-              {user.yearsOfExperience || "experiência que você possui"}
-            </p>
+          <section className="pt-12 flex flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+            {user.email ? (
+              <p className="font-bold basis-1/2">{user.email}</p>
+            ) : (
+              <p className="text-gray-05 text-base">exemplo@gmail.com</p>
+            )}
+            {user.github ? (
+              <p className="font-bold basis-1/2">{user.github}</p>
+            ) : (
+              <p className="text-gray-05 text-base">exemplo.com.br</p>
+            )}
+            {user.country && user.state ? (
+              <p className="font-bold basis-1/2">{`${
+                validateUndefined(user.country) || "País"
+              }/${validateUndefined(user.state) || "Estado"}`}</p>
+            ) : (
+              <p className="text-gray-05 text-base">
+                Digite seu País/Estado aqui
+              </p>
+            )}
+            {user.yearsOfExperience ? (
+              <p className="font-bold basis-1/2">{`${user.yearsOfExperience} ${
+                user.yearsOfExperience > 1 ? "anos" : "ano"
+              } de experiência`}</p>
+            ) : (
+              <p className="text-gray-05 text-base">
+                experiência que você possui
+              </p>
+            )}
           </section>
         </div>
         <section>
@@ -109,9 +137,7 @@ const Profile: NextPage = () => {
                   <MentoringWeekCard
                     key={availability.weekDay + index}
                     day={availability.weekDay}
-                    description={
-                      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
-                    }
+                    description="Horários disponíveis:"
                     chips={availability.slots.map((slot) => (
                       <Chip key={slot} variant="quartenary">
                         {slot}

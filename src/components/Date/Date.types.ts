@@ -1,8 +1,11 @@
+import { InputHTMLAttributes } from "react";
+
 export type DateSize = "standard" | "small";
 
-export interface DateProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, "size"> {
-  name: string;
+export interface InputBirthdayProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   size?: DateSize;
-  label?: string;
+  label: string;
+  name: string;
+  disabled?: boolean;
 }

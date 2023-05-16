@@ -1,6 +1,7 @@
 import Button from "@components/Button/Button";
 import Input from "@components/Input/Input";
 import StepperVertical from "@components/StepperVertical/StepperVertical";
+import { initialValue } from "providers/user/AppContext";
 import Image from "next/image";
 import Select from "react-select";
 import { useMutation } from "@apollo/client";
@@ -8,12 +9,12 @@ import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
-import clsx from "clsx";
 import Swal from "sweetalert2";
 import { GET_MENTORS } from "services/apollo/queries";
 import {
   CHANGE_PASSWORD,
   DELETE_ACCOUNT,
+  LOGOUT_USER,
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
 import Dropzone from "@components/Dropzone/Dropzone";
@@ -36,9 +37,9 @@ const ModalSettings = ({
   const [dataSucessChange, setDataSucessChange] = useState(false);
   const [currentStep, setCurretStep] = useState(1);
   const { user, setUser } = useUser();
+  const [signOutUser] = useMutation(LOGOUT_USER);
 
   const router = useRouter();
-
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
   const [updateUser] = useMutation(USER_UPDATE_DATA, {
     refetchQueries: [{ query: GET_MENTORS }],
@@ -79,8 +80,8 @@ const ModalSettings = ({
       setTimeout(() => {
         router.push("/mentors");
       }, 5000);
-    } catch (e) {
-      toast.error("Não foi possível alterar a senha");
+    } catch (error) {
+      toast.error(`Não foi possível alterar a senha`);
     }
   }
 
@@ -109,28 +110,55 @@ const ModalSettings = ({
       setTimeout(() => {
         router.push("/mentors");
       }, 5000);
-    } catch (er) {
-      console.error(er);
+    } catch (error) {
+      toast.error(
+        `Não foi possível salvar as alterações, verifique se os dados estão corretos`
+      );
     }
   }
+
+  const logOutUser = async () => {
+    await signOutUser();
+    setUser(initialValue);
+    localStorage.removeItem("user");
+  };
 
   async function handleDeleteAccount() {
-    try {
-      await deactivateAccount({
-        variables: {
-          id,
-        },
-      });
-      setDataSucessChange(true);
-      setTimeout(() => {
-        router.push("/mentors");
-      }, 5000);
-    } catch (er) {
-      console.error(er);
-    }
+    setIsModalOpen(false);
+    Swal.fire({
+      title: "Tem certeza que deseja desativar sua conta?",
+      showCancelButton: true,
+      confirmButtonColor: "#BA0000",
+      cancelButtonColor: "#343434",
+      confirmButtonText: "Sim",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setIsModalOpen(true);
+        try {
+          await deactivateAccount({
+            variables: {
+              id,
+            },
+          });
+          setDataSucessChange(true);
+          setIsModalOpen(false);
+          toast.info("A sua conta foi desativada");
+          localStorage.removeItem("form-data");
+          setUser({});
+          await logOutUser();
+        } catch (error) {
+          toast.error(
+            "Ocorreu um erro ao desativar a conta. Tente novamente mais tarde."
+          );
+          console.error(error);
+          setIsModalOpen(false);
+        }
+      } else {
+        setIsModalOpen(true);
+      }
+    });
   }
-
-  // "Mudança de perfil confirmada!", "", "success",
 
   const handleSelectedProfile = (profile: any) => {
     setIsModalOpen(false);
@@ -144,17 +172,7 @@ const ModalSettings = ({
     }).then(async (result) => {
       if (result.isConfirmed) {
         await switchProfile(profile);
-        Swal.fire({
-          customClass: {
-            confirmButton: "swal-confirm-button",
-          },
-          title: "Mudança de perfil confirmada!",
-          confirmButtonColor: "#BA0000",
-          confirmButtonText: "Confirmar",
-        }).then((result) => {
-          setIsModalOpen(result.isConfirmed);
-          setIsModalOpen(true);
-        });
+        setIsModalOpen(true);
       } else {
         setIsModalOpen(true);
       }
@@ -243,7 +261,12 @@ const ModalSettings = ({
                     label="Sobrenome"
                     defaultValue={lastName}
                   />
-                  <Input name="email" label="Email" defaultValue={email} />
+                  <Input
+                    name="email"
+                    type="email"
+                    label="Email"
+                    defaultValue={email}
+                  />
                 </div>
                 <Button variant="secondary" className="mt-10">
                   Salvar alterações
@@ -305,7 +328,6 @@ const ModalSettings = ({
               </div>
             </div>
           )}
-
           {currentStep === 3 && (
             <div className="flex gap-10 sm:min-w-[328px] justify-center">
               <form

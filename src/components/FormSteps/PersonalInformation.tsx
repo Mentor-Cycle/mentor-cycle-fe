@@ -8,6 +8,7 @@ import useForm from "@hooks/useForm";
 import { ActionType } from "providers/form";
 import { useFetch } from "@hooks/useFetch";
 import { Country, State, City } from "@hooks/useFetch.types";
+import InputBirthday from "@components/Date/InputBirthday";
 
 const PersonalInformation = () => {
   const { formData, dispatch } = useForm();
@@ -66,27 +67,6 @@ const PersonalInformation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const isValidDate = validateDate(value);
-    if (isValidDate) {
-      dispatch({
-        type: ActionType.UPDATE_FORM_DATA,
-        payload: {
-          ...formData,
-          birthDate: value,
-        },
-      });
-    }
-  };
-
-  const validateDate = (date: string) => {
-    const parsedDate = parse(date, "dd/MM/yyyy", new Date());
-    const isValidDate = isValid(parsedDate);
-    const isDateInThePast = isPast(parsedDate);
-    return isValidDate && isDateInThePast;
-  };
-
   return (
     <>
       <div className="sm:flex gap-4">
@@ -143,22 +123,10 @@ const PersonalInformation = () => {
             formData.city ? { label: formData.city, value: formData.city } : ""
           }
         />
-        <Input
-          label="Aniversário"
+        <InputBirthday
           name="birthDate"
-          type="text"
-          value={date}
-          mask="99/99/9999"
-          onBlur={handleBlur}
-          onChange={(e) => setDate((e.target as HTMLInputElement).value)}
+          label="Aniversário"
           placeholder="DD/MM/AAAA"
-          maxLength={10}
-          pattern="\d{2}/\d{2}/\d{4}"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
         />
       </div>
       <MultiSelect label="Especialização" name="skills" />

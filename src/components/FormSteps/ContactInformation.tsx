@@ -27,6 +27,7 @@ const ContactInformation = () => {
         label="Descrição"
         name="description"
         required
+        min={2}
         max={400}
         value={description}
         onChange={updateFormTextarea}
