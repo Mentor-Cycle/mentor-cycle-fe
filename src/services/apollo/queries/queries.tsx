@@ -31,6 +31,7 @@ export const GET_MENTORS = gql`
       state
       description
       photoUrl
+      jobTitle
     }
   }
 `;

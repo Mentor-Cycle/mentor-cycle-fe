@@ -106,15 +106,18 @@ const Profile: NextPage = () => {
             ) : (
               <p className="text-gray-05 text-base">exemplo.com.br</p>
             )}
-            {user.country && user.state ? (
-              <p className="font-bold basis-1/2">{`${
-                validateUndefined(user.country) || "País"
-              }/${validateUndefined(user.state) || "Estado"}`}</p>
-            ) : (
-              <p className="text-gray-05 text-base">
-                Digite seu País/Estado aqui
+            {user.country ? (
+              <p className="font-bold basis-1/2">
+                {`${validateUndefined(user.country) || "País"}${
+                  user.country === "Brasil" && user.state
+                    ? `/${validateUndefined(user.state)}`
+                    : ""
+                }`}
               </p>
+            ) : (
+              <p className="text-gray-05 text-base">País/Estado</p>
             )}
+
             {user.yearsOfExperience ? (
               <p className="font-bold basis-1/2">{`${user.yearsOfExperience} ${
                 user.yearsOfExperience > 1 ? "anos" : "ano"

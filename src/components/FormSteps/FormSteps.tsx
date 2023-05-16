@@ -126,6 +126,7 @@ const FormSteps: React.FC = () => {
           Voltar
         </Button>
         <Button
+          tabIndex={2}
           className={clsx(
             currentStep === 1 ? "" : "hidden",
             "order-last sm:order-first max-w-[328px]"
@@ -136,6 +137,7 @@ const FormSteps: React.FC = () => {
           Voltar
         </Button>
         <Button
+          tabIndex={0}
           className={clsx("max-w-[328px]", "order-first sm:order-last")}
           isLoading={isSubmitting}
           onClick={() => {

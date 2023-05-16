@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { InputComponentProps, InputProps, InputSize } from "./Input.types";
 import { AiOutlineSearch } from "react-icons/ai";
 import * as Label from "@radix-ui/react-label";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 // eslint-disable-next-line react/display-name
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
@@ -18,12 +19,15 @@ const InputComponent: FC<InputComponentProps> = ({
   forwardedRef,
   search,
   mask,
+  type,
   onBlur,
   onValidChange,
   ...props
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const inputType = isPasswordVisible ? "text" : "password";
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (onBlur) {
@@ -68,6 +72,7 @@ const InputComponent: FC<InputComponentProps> = ({
       <div className="flex items-center relative">
         <input
           ref={forwardedRef}
+          type={type === "password" ? inputType : type}
           name={name}
           disabled={disabled}
           {...props}
@@ -75,18 +80,39 @@ const InputComponent: FC<InputComponentProps> = ({
             "text-secondary-05",
             sizesInput[size],
             search && "pl-[72px]",
+            type === "password" && "pr-[52px]",
             invalid && "input-invalid",
             "input-default"
           )}
           onBlur={handleBlur}
         />
+        {type === "password" && (
+          <button
+            tabIndex={-1}
+            type="button"
+            className="absolute right-0 top-0 bottom-0 px-6 flex items-center focus:outline-none"
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+          >
+            {isPasswordVisible ? (
+              <AiOutlineEye
+                size="26px"
+                className="text-secondary-05 opacity-50"
+              />
+            ) : (
+              <AiOutlineEyeInvisible
+                size="26px"
+                className="text-secondary-05 opacity-50"
+              />
+            )}
+          </button>
+        )}
         {search && (
           <div className="absolute left-0 top-0 bottom-0 px-6 flex items-center pointer-events-none">
             <AiOutlineSearch size="28px" className="text-secondary-05" />
           </div>
         )}
       </div>
-      {errorMessage && !disabled && (
+      {errorMessage && !disabled && name !== "repeatPassword" && (
         <div className={"font-normal my-2 text-danger-01 text-sm"}>
           {errorMessage}
         </div>

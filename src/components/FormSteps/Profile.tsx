@@ -2,10 +2,12 @@ import Input from "@components/Input";
 import clsx from "clsx";
 import { createStringRequirements } from "utils/regex";
 import useForm from "@hooks/useForm";
+import { useState } from "react";
 
 const Profile = () => {
   const { updateForm, formData } = useForm();
   const { firstName, lastName, email, password, repeatPassword } = formData;
+  const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
   const passwordRequirements = createStringRequirements({
     minLength: 6,
     includeNumber: true,
@@ -13,6 +15,11 @@ const Profile = () => {
     includeUppercase: false,
     includeSpecial: false,
   });
+
+  const handlePasswordChange = (event: any) => {
+    updateForm(event);
+    setPasswordsDoNotMatch(formData.password !== formData.repeatPassword);
+  };
 
   return (
     <>
@@ -23,6 +30,7 @@ const Profile = () => {
           placeholder="Guy"
           onBlur={updateForm}
           defaultValue={firstName}
+          pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
           required
         />
         <Input
@@ -31,6 +39,7 @@ const Profile = () => {
           placeholder="Hawkins"
           onBlur={updateForm}
           defaultValue={lastName}
+          pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
           required
         />
       </div>
@@ -51,7 +60,7 @@ const Profile = () => {
             name="password"
             placeholder="**********************"
             type="password"
-            onBlur={updateForm}
+            onBlur={handlePasswordChange}
             defaultValue={password}
             pattern={passwordRequirements.toString().slice(1, -1)}
             required
@@ -70,11 +79,15 @@ const Profile = () => {
             name="repeatPassword"
             placeholder="**********************"
             type="password"
-            onBlur={updateForm}
+            value={formData.repeatPassword}
+            onChange={handlePasswordChange}
             defaultValue={repeatPassword}
             pattern={formData.password}
             required
           />
+          {passwordsDoNotMatch && (
+            <p className="text-danger-01 text-sm">As senhas não coincidem</p>
+          )}
         </div>
       </div>
     </>

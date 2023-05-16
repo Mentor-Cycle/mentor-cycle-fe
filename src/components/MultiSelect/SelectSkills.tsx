@@ -24,6 +24,7 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   return (
     <Select
       placeholder={error ? "Especialidade" : placeholder}
+      isDisabled={loading}
       isLoading={loading}
       onChange={(selected) => setSelectedSkills(selected.value)}
       options={options}

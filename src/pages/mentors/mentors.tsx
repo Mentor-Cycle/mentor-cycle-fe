@@ -54,6 +54,7 @@ const Mentors: NextPage = () => {
 
   const [debouncedSearchInput] = useDebounce(firstName, 1000);
   const { user } = useUser();
+
   const { data, error, loading, refetch } = useQuery(GET_MENTORS, {
     variables: {
       firstName: debouncedSearchInput,
@@ -187,7 +188,7 @@ const Mentors: NextPage = () => {
                       chips={chips}
                       description={description}
                       image={image}
-                      jobTitle={jobTitle}
+                      jobTitle={user.jobtitle || jobTitle}
                       location={location}
                       name={firstName}
                       isCurrentMentor={user.isLogged && user.id === id}

@@ -4,11 +4,15 @@ import Input from "@components/Input";
 import Modal from "@components/Modal";
 import Textarea from "@components/Textarea/Textarea";
 import { useUser } from "@hooks/useUser";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
 import { EditProfileProps } from "./EditProfile.types";
 import { validateUndefined } from "utils/nullable/validateUndefined";
+import SelectLocation from "@components/LocationSelector/SelectLocation";
+import { SingleValue } from "react-select";
+import { Country, State } from "@hooks/useFetch.types";
+import { useFetch } from "@hooks/useFetch";
 
 const EditProfile = ({
   openEditProfile,
@@ -17,6 +21,30 @@ const EditProfile = ({
   const { user, setUser } = useUser();
 
   const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [selectedCountry, setSelectedCountry] =
+    useState<SingleValue<{ label: string; value: string }>>(null);
+  const [selectedStates, setSelectedStates] =
+    useState<SingleValue<{ label: string; value: string }>>(null);
+  const { getCountries, getStates } = useFetch();
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      const fetchedCountries = await getCountries();
+      setCountries(fetchedCountries);
+    };
+    const fetchStates = async () => {
+      if (selectedCountry?.value === "Brasil") {
+        const fetchedStates = await getStates();
+        setStates(fetchedStates);
+      } else {
+        setSelectedStates(null);
+      }
+    };
+    fetchCountries();
+    fetchStates();
+  }, [getCountries, getStates, selectedCountry]);
 
   const {
     firstName,
@@ -45,11 +73,8 @@ const EditProfile = ({
       biography: newBiography,
       description: newDescription,
       email: newEmail,
-      locale,
       yearsOfExperience: newYearsOfExperience,
     } = Object.fromEntries(formData.entries());
-
-    const newLocale = locale.toString().trim().split(" ");
 
     try {
       const updatedUser = {
@@ -59,8 +84,8 @@ const EditProfile = ({
         lastName: newLastName || lastName,
         description: newDescription || description,
         jobTitle: newJobTitle || jobTitle,
-        country: newLocale[0] || country,
-        state: newLocale[1] || state,
+        country: selectedCountry ? selectedCountry.value : country,
+        state: selectedStates ? selectedStates.label : "",
         yearsOfExperience:
           parseFloat(newYearsOfExperience.toString()) || yearsOfExperience,
         id,
@@ -103,6 +128,19 @@ const EditProfile = ({
     }
   };
 
+  const handleCountryChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    setSelectedCountry(newValue);
+  };
+  const handleStatesChange = (
+    name: string,
+    newValue: SingleValue<{ label: string; value: string }>
+  ) => {
+    setSelectedStates(newValue);
+  };
+
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
       <div className="max-xl:px-5 py-16 px-60">
@@ -115,12 +153,14 @@ const EditProfile = ({
               type="text"
               name="firstName"
               label="Nome"
+              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
               defaultValue={firstName}
             />
             <Input
               type="text"
               name="lastName"
               label="Sobrenome"
+              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
               defaultValue={lastName}
             />
           </div>
@@ -128,6 +168,7 @@ const EditProfile = ({
             type="text"
             name="jobTitle"
             label="Profissão"
+            pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
             defaultValue={jobTitle}
           />
           <Textarea name="biography" label="Bio" defaultValue={biography} />
@@ -143,13 +184,34 @@ const EditProfile = ({
             label="Email"
             defaultValue={email}
           />
-          <Input
-            type="text"
-            name="locale"
-            label="País/Estado"
-            defaultValue={`${validateUndefined(country)} ${validateUndefined(
-              state
-            )}`}
+          <SelectLocation
+            onSelect={(
+              newValue: SingleValue<{
+                label: string;
+                value: string;
+              }>
+            ) => handleCountryChange("country", newValue)}
+            label="Pais"
+            requiredField={true}
+            name="country"
+            options={countries}
+            placeholder="Selecione um Pais"
+            value={selectedCountry || { label: country, value: country }}
+          />
+          <SelectLocation
+            onSelect={(
+              newValue: SingleValue<{
+                label: string;
+                value: string;
+              }>
+            ) => handleStatesChange("state", newValue)}
+            label="Estado"
+            requiredField={true}
+            name="state"
+            options={states}
+            placeholder="Selecione um Estado"
+            value={selectedStates || { label: state, value: state }}
+            isDisabled={selectedCountry?.value !== "Brasil"}
           />
           <Input
             type="number"

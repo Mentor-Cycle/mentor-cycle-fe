@@ -96,6 +96,7 @@ const ModalSettings = ({
     } = Object.fromEntries(formData.entries());
     try {
       const newUser = {
+        ...user,
         firstName: newFirstName.toString() || firstName,
         lastName: newLastName.toString() || lastName,
         email: newEmail.toString() || email,
@@ -107,9 +108,6 @@ const ModalSettings = ({
       });
       setUser(newUser);
       setDataSucessChange(true);
-      setTimeout(() => {
-        router.push("/mentors");
-      }, 5000);
     } catch (error) {
       toast.error(
         `Não foi possível salvar as alterações, verifique se os dados estão corretos`
@@ -268,7 +266,7 @@ const ModalSettings = ({
                     defaultValue={email}
                   />
                 </div>
-                <Button variant="secondary" className="mt-10">
+                <Button type="submit" variant="secondary" className="mt-10">
                   Salvar alterações
                 </Button>
               </form>
