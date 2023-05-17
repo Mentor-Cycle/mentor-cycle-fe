@@ -11,6 +11,7 @@ import { Hr } from "@react-email/hr";
 import { Img } from "@react-email/img";
 import { Button } from "@react-email/button";
 import { Column } from "@react-email/column";
+import { Link } from "@react-email/link";
 
 export const ResetPassword = () => (
   <Html>
@@ -62,7 +63,7 @@ export const ResetPassword = () => (
             clique no botão a baixo para realizar a alteração:
           </Text>
           <div className="flex justify-center items-center mt-16 max-w-xs m-auto cursor-pointer">
-            <Button className="p-4 bg-primary-03 text-neutral-03 rounded-lg flex-1 text-center">
+            <Button className="p-4 bg-primary-03 text-neutral-03 rounded-lg flex-1 text-center mx-auto">
               Alterar senha
             </Button>
           </div>
@@ -90,24 +91,21 @@ export const ResetPassword = () => (
             </Column>
             <Column className="text-left w-56 text-gray-01">
               <Text className="text-left font-bold my-0">Contatos</Text>
-              <Text className="my-0">Telefone: +55 (85) 9998-6110</Text>
-              <Text className="my-0">E-mail: contato@idip.com.br</Text>
               <div className="flex justify-start items-center gap-2 py-2 h-6 w-6">
-                <Img
-                  src={`/static/linkedin.svg`}
-                  alt="LinkedIn icon"
-                  className="w-6 h-6 object-fill"
-                />
-                <Img
-                  src={`/static/youtube.svg`}
-                  alt="YouTube icon"
-                  className="w-6 h-6 object-contain"
-                />
-                <Img
-                  src={`/static/instagram.svg`}
-                  alt="Instagram icon"
-                  className="w-6 h-6 object-cover"
-                />
+                <Link href="https://www.linkedin.com/company/mentor-cycle/">
+                  <Img
+                    src={`/static/linkedin.svg`}
+                    alt="LinkedIn icon"
+                    className="w-6 h-6 object-fill"
+                  />
+                </Link>
+                <Link href="https://discord.gg/WRD3uT3JaC">
+                  <Img
+                    src={`/static/discord.svg`}
+                    alt="Discord icon"
+                    className="w-6 h-6 object-fill"
+                  />
+                </Link>
               </div>
             </Column>
           </Section>
