@@ -88,11 +88,11 @@ export const ResetPassword = () => (
                 />
               </div>
             </Column>
-            <Column className="text-center w-[35%] text-gray-01">
+            <Column className="text-left w-56 text-gray-01">
               <Text className="text-left font-bold my-0">Contatos</Text>
               <Text className="my-0">Telefone: +55 (85) 9998-6110</Text>
               <Text className="my-0">E-mail: contato@idip.com.br</Text>
-              <div className="flex justify-start items-center gap-2 p-2 h-6 w-6">
+              <div className="flex justify-start items-center gap-2 py-2 h-6 w-6">
                 <Img
                   src={`/static/linkedin.svg`}
                   alt="LinkedIn icon"
