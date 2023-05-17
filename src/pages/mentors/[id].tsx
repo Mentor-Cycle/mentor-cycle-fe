@@ -99,7 +99,7 @@ const MentorProfile: NextPage = () => {
                   </p>
                 )}
               </section>
-              <section className="pt-12 flex flex-wrap gap-y-8">
+              <section className="pt-12 flex flex-col sm:flex-row flex-wrap gap-y-8">
                 {mentor.email ? (
                   <p className="font-bold basis-1/2">{mentor.email}</p>
                 ) : (

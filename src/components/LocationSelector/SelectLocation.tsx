@@ -1,5 +1,6 @@
 import Select from "react-select";
 import { City, Country, State } from "@hooks/useFetch.types";
+import clsx from "clsx";
 
 const SelectLocation = ({
   options,
@@ -25,7 +26,13 @@ const SelectLocation = ({
   autoFocus?: boolean;
 }) => {
   return (
-    <label htmlFor={name} className="text-secondary-01 font-semibold w-full">
+    <label
+      htmlFor={name}
+      className={clsx(
+        " font-semibold w-full",
+        isDisabled ? "opacity-50 cursor-not-allowed" : "text-secondary-01"
+      )}
+    >
       {label}
       {requiredField && (
         <span title="Obrigatório" className="text-danger-01 mx-1">

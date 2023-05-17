@@ -172,7 +172,7 @@ export default function Header() {
         )}
         {showModal === "notifications" && (
           <Modal open={true} onOpenChange={() => setShowModal("")}>
-            {<ModalNotifications />}
+            {<ModalNotifications setShowModal={setShowModal} />}
           </Modal>
         )}
         {showModal === "settings" && (
