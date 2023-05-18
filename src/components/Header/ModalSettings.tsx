@@ -280,29 +280,6 @@ const ModalSettings = ({
             <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2">
               <div className="flex flex-col gap-6 max-w-[328px] w-full  m-auto sm:m-0">
                 <div className="text-start">
-                  <label className="self-start text-secondary-03 font-bold opacity-30">
-                    Trocar Tema
-                  </label>
-                  <Select
-                    options={optionsTheme}
-                    isDisabled={true}
-                    placeholder={"Em breve"}
-                    unstyled
-                    classNames={{
-                      option: (state) =>
-                        `py-2 px-2 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
-                      control: (state) =>
-                        `${
-                          state.isDisabled
-                            ? "opacity-30 hover:cursor-not-allowed"
-                            : ""
-                        } bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md p-4 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03 mt-2 mb-2 sm:min-w-[180px]`,
-                      menu: (state) =>
-                        ` p-4 bg-neutral-01 mt-2 rounded-md border border-gray-03 dark:bg-secondary-01`,
-                    }}
-                  />
-                </div>
-                <div className="text-start">
                   <label className=" text-secondary-03 font-bold">
                     Tipo de perfil
                   </label>
