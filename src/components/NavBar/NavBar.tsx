@@ -11,8 +11,8 @@ const NavBar = ({
   value,
   disabled,
   handleValueChange,
+  isDark,
   setDarkMode,
-  isToggle,
 }: NavBarProps) => {
   const menuStyle =
     "cursor-pointer px-3 hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03 flex items-center";
@@ -46,7 +46,7 @@ const NavBar = ({
               {item.text}
               {item.action === "darkmode" && (
                 <span className="mr-4 mb-2">
-                  <Toggle onClick={setDarkMode} isToggle={isToggle} />
+                  <Toggle onClick={setDarkMode} isToggle={isDark} />
                 </span>
               )}
             </>

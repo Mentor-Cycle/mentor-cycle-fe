@@ -11,6 +11,7 @@ export type NavBarProps = {
   value: any;
   disabled?: boolean;
   handleValueChange?: any;
-  setDarkMode: any;
-  isToggle: any;
+  isDark: boolean;
+  setDarkMode: () => void;
+  isToggle?: boolean;
 };

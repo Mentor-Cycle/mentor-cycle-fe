@@ -109,7 +109,7 @@ export default function Header() {
     setIsToogle(!isToggle);
     const theme = resolvedTheme === "dark" ? "light" : "dark";
     try {
-      await setTheme(theme);
+      setTheme(theme);
     } catch (error) {
       console.error("Erro ao definir o tema:", error);
     }
@@ -184,6 +184,7 @@ export default function Header() {
                   value={itemsMenu}
                   itemsMenu={menuOptions}
                   handleValueChange={handleValueChange}
+                  isDark={resolvedTheme === "dark"}
                   setDarkMode={setDarkMode}
                   isToggle={isToggle}
                 />
