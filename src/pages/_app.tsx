@@ -10,6 +10,7 @@ import "../styles/globals.css";
 import { useRouter } from "next/router";
 import { ROUTES_WITHOUT_HEADER } from "config/constants";
 import { MultiStepFormProvider } from "providers/form";
+import { ThemeProvider } from "next-themes";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState(initialValue);
@@ -17,15 +18,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
   const showHeader = !ROUTES_WITHOUT_HEADER.includes(router.pathname);
   return (
-    <ApolloProvider client={client}>
-      <UserContext.Provider value={userContextValue}>
-        {showHeader && <Header />}
-        <MultiStepFormProvider>
-          <Component {...pageProps} />
-        </MultiStepFormProvider>
-        <ToastContainer />
-      </UserContext.Provider>
-    </ApolloProvider>
+    <ThemeProvider enableSystem={true} attribute="class">
+      <ApolloProvider client={client}>
+        <UserContext.Provider value={userContextValue}>
+          {showHeader && <Header />}
+          <MultiStepFormProvider>
+            <Component {...pageProps} />
+          </MultiStepFormProvider>
+          <ToastContainer />
+        </UserContext.Provider>
+      </ApolloProvider>
+    </ThemeProvider>
   );
 }
 

@@ -33,13 +33,13 @@ const Plan = () => {
   };
 
   return (
-    <main className="bg-neutral-03 min-h-screen flex flex-col items-center">
+    <main className=" min-h-screen flex flex-col items-center">
       <section className="max-w-2xl mt-20">
         <div>
-          <h1 className="text-primary-05 text-2xl sm:text-5xl text-center">
+          <h1 className="text-primary-05 dark:text-neutral-01 text-2xl sm:text-5xl text-center">
             Escolha o modelo de usuário que deseja seguir
           </h1>
-          <p className="text-gray-04 text-sm text-center mt-2 mb-8">
+          <p className="text-gray-04 dark:text-gray-01 text-sm text-center mt-2 mb-8">
             Aqui você vai criar o modelo da sua conta.
           </p>
         </div>

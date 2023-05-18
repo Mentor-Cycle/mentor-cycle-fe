@@ -17,6 +17,20 @@ a {
   box-sizing: border-box;
 }
 
+@layer base {
+  body {
+    @apply dark:bg-secondary-02 bg-neutral-03;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  label {
+    @apply text-primary-05 dark:text-neutral-01;
+  }
+}
+
 @layer components {
   .input-invalid {
     @apply invalid:border-danger-01 invalid:focus:ring-1 invalid:focus:ring-danger-01 invalid:text-danger-01 invalid:placeholder:text-danger-01 dark:invalid:placeholder:text-danger-01;

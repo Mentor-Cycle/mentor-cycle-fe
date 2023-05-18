@@ -8,8 +8,8 @@ const Register = () => {
   const { currentStep } = useForm();
 
   return (
-    <main className="bg-neutral-03 min-h-[130vh] flex flex-col">
-      <section className="bg-neutral-01 border-opacity-30 border-t border-b border-gray-02 w-full py-[52px] sm:justify-between 2xl:justify-around sm:px-8 lg:px-20 2xl:px-36 hidden sm:flex">
+    <main className="min-h-[130vh] flex flex-col">
+      <section className="border-opacity-30 border-t border-b border-gray-02 w-full py-[52px] sm:justify-between 2xl:justify-around sm:px-8 lg:px-20 2xl:px-36 hidden sm:flex">
         <Stepper
           steps={[1, 2, 3]}
           currentStep={currentStep}

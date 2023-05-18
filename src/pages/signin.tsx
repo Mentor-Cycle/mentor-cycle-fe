@@ -92,7 +92,7 @@ const SignIn: NextPage = () => {
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
       <TermsAndPrivacyPopup open={open} setOpen={setOpen} onAgree={onAgree} />
-      <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
+      <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 dark:from-primary-04 dark:to-primary-05 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"
           src={"/logo.png"}
@@ -111,6 +111,7 @@ const SignIn: NextPage = () => {
         </div>
         <div className="absolute hidden md:block md:bottom-3 md:-right-11">
           <Image
+            className="dark:rotate-180"
             alt="logo mentor cycle -circle"
             src={"/circle.png"}
             width={100}
@@ -118,7 +119,7 @@ const SignIn: NextPage = () => {
           />
         </div>
       </div>
-      <div className="bg-neutral-01 col-span-1 md:col-span-6 py-16 md:px-8">
+      <div className="bg-neutral-01 dark:bg-secondary-02 col-span-1 md:col-span-6 py-16 md:px-8">
         <div className="max-w-sm sm:max-w-md mx-auto px-4 sm:px-0">
           <h1 className="mt-0 mb-4 text-primary-05 text-5xl text-center md:text-left dark:text-neutral-01">
             Bem-Vindo ao Mentor Cycle!
@@ -155,7 +156,7 @@ const SignIn: NextPage = () => {
                 />
                 <Link
                   href="/request-change-password"
-                  className="mt-2.5 text-sm text-gray-05 hover:underline"
+                  className="mt-2.5 text-sm text-gray-05 hover:underline dark:text-neutral-04"
                 >
                   Esqueceu sua senha?
                 </Link>
@@ -175,7 +176,7 @@ const SignIn: NextPage = () => {
             <Button
               onClick={() => handleStrategyLogin("/auth/google")}
               size="small"
-              variant="secondary"
+              variant="terciary"
               className="mb-4"
             >
               <Button.Icon icon={FcGoogle} />
@@ -184,16 +185,16 @@ const SignIn: NextPage = () => {
             <Button
               onClick={() => handleStrategyLogin("/auth/linkedin")}
               size="small"
-              variant="secondary"
+              variant="terciary"
             >
               <Button.Icon icon={GrLinkedinOption} className="text-[#0e76a8]" />
               Entrar com Linkedin
             </Button>
-            <p className="text-primary-05 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
+            <p className="text-primary-05 dark:text-neutral-01 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
               Não tem uma conta?{" "}
               <Link
                 href="/signup/plan"
-                className="text-primary-03 hover:text-primary-02"
+                className="text-primary-03 dark:text-primary-01 hover:text-primary-02 dark:hover:text-primary-03"
               >
                 Se registre aqui!
               </Link>

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { NavBarProps } from "./NavBar.types";
 import * as Select from "@radix-ui/react-select";
 import { BiChevronUp, BiChevronDown } from "react-icons/bi";
+import Toggle from "@components/Toggle";
 
 const NavBar = ({
   itemsMenu,
@@ -10,9 +11,11 @@ const NavBar = ({
   value,
   disabled,
   handleValueChange,
+  setDarkMode,
+  isToggle,
 }: NavBarProps) => {
   const menuStyle =
-    "cursor-pointer px-3 hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03";
+    "cursor-pointer px-3 hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03 flex items-center";
 
   return (
     <Select.Root
@@ -29,7 +32,9 @@ const NavBar = ({
         position="popper"
         alignOffset={30}
         side="left"
-        className={clsx("bg-neutral-01 border border-gra p-4 rounded-lg mt-2")}
+        className={clsx(
+          "flex flex-col justify-between bg-neutral-01 dark:bg-secondary-01 border border-gray-04 p-4 rounded-lg mt-2"
+        )}
       >
         {itemsMenu.map((item) => (
           <Select.Item
@@ -37,7 +42,14 @@ const NavBar = ({
             value={item.action}
             className={menuStyle}
           >
-            {item.text}
+            <>
+              {item.text}
+              {item.action === "darkmode" && (
+                <span className="mr-4 mb-2">
+                  <Toggle onClick={setDarkMode} isToggle={isToggle} />
+                </span>
+              )}
+            </>
           </Select.Item>
         ))}
       </Select.Content>
