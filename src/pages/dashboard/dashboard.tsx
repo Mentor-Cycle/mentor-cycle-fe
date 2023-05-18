@@ -136,7 +136,7 @@ const Dashboard: NextPage = () => {
       <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
         <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
           <div>
-            <h1 className="text-4.5xl font-bold dark:text-neutral-01 text-center lg:text-left">
+            <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
               Todas as suas mentorias
             </h1>
             <p className="text-gray-03 text-center lg:text-left">

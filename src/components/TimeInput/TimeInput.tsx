@@ -34,7 +34,7 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
           onClick={() => updateTime(-30)}
           className="text-2xl text-secondary-03 outline-none"
         >
-          <MdChevronLeft />
+          <MdChevronLeft className="text-secondary-02 dark:text-neutral-01" />
         </button>
         <p className="text-center w-20 outline-none border-0 bg-transparent ">
           {`${padZero(inputHours)}:${padZero(inputMinutes)}`}
@@ -43,7 +43,7 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
           onClick={() => updateTime(30)}
           className="text-2xl text-secondary-03 outline-none"
         >
-          <MdChevronRight />
+          <MdChevronRight className="text-secondary-02 dark:text-neutral-01" />
         </button>
       </div>
     </section>

@@ -34,7 +34,8 @@ const MentoringLinkCard = ({
       "Não realizada": "primary",
       Realizada: "primary",
       "A confirmar": "tertiary",
-      Agendada: "tertiary",
+      Agendada: "chipCards",
+      Cancelada: "chipCards",
     };
 
     const variant = statusToVariantMap[statusToPortugueseMap[status]];
@@ -218,7 +219,7 @@ const SelectComponent = ({
           alignOffset={30}
           side="left"
           className={clsx(
-            "bg-neutral-01 border border-gra p-4 rounded-lg mt-2"
+            "bg-neutral-01 dark:bg-secondary-02 border border-gra p-4 rounded-lg mt-2"
           )}
         >
           {/* <Select.Item

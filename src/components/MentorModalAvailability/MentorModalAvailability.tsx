@@ -113,7 +113,7 @@ export const MentorModalAvailability = ({
               </Chip>
             ))}
           </section>
-          <section className="flex items-center mt-14 gap-16">
+          <section className="flex items-center mt-14 gap-16 dark:text-neutral-02">
             <p>Horário</p>
             <TimeInput value={selectedStart} onChange={setSelectedStart} />
             <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
@@ -135,11 +135,11 @@ export const MentorModalAvailability = ({
                 <article className="min-w-[80px]">
                   <p>{slot.weekDay}</p>
                 </article>
-                <article className="min-w-[120px]">
+                <article className="min-w-[120px] text-secondary-01 dark:text-neutral-02">
                   {slot.startHour} até {slot.endHour}
                 </article>
                 <MdClose
-                  className="cursor-pointer"
+                  className="cursor-pointer text-secondary-01 dark:text-neutral-02"
                   onClick={() => removeAvailability(slot)}
                 />
               </section>

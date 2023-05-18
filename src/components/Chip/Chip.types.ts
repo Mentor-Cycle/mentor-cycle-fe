@@ -7,7 +7,9 @@ export type ChipVariant =
   | "quartenary"
   | "primary_dark"
   | "secondary_dark"
-  | "outlined";
+  | "outlined"
+  | "chipCards"
+  | "chipCardsMentors";
 
 export type ChipProps = {
   variant?: ChipVariant;

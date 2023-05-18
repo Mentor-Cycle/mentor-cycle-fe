@@ -7,7 +7,6 @@ import Spinner from "@components/Spinner";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { FiArrowUpCircle } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { GET_MENTORS } from "services/apollo/queries";
 import { useDebounce } from "use-debounce";
@@ -128,9 +127,9 @@ const Mentors: NextPage = () => {
 
   return (
     <>
-      <main className="min-h-screen max-w-6xl m-auto mt-16 p-2 overflow-auto mb-5">
+      <main className="min-h-screen xs:container m-auto mt-16 p-2 overflow-auto mb-5">
         <div>
-          <h1 className="text-4.5xl font-bold dark:text-neutral-01 text-center lg:text-left">
+          <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
             Mentores
           </h1>
           <p className="text-gray-03 text-center lg:text-left">

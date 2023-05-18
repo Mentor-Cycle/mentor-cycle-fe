@@ -23,14 +23,17 @@ const CardProfile = ({
   const handleExpandedSkills = () => {
     setExpandedSkills(!expandedSkills);
   };
-
-  const MAX_WIDTH = "max-w-[365px]";
-  const MIN_WIDTH = "min-w-[300px]";
+  const MAX_VISIBLE_CHIPS = 3;
+  const MAX_WIDTH = "max-w-[390px]";
+  const MIN_WIDTH = "sm:min-w-[280px]";
+  const visibleChips = expandedSkills
+    ? chips
+    : chips?.slice(0, MAX_VISIBLE_CHIPS);
   const router = useRouter();
 
   const variantSize = {
     Medium: "px-[24px]",
-    Large: "px-11 ",
+    Large: "p-4 sm:px-11 ",
   };
 
   const handleViewProfileClick = () => {
@@ -42,13 +45,14 @@ const CardProfile = ({
         MAX_WIDTH,
         MIN_WIDTH,
         variantSize[variant],
-        isCurrentMentor && "relative bg-neutral-03 shadow-gray-02 shadow-inner",
+        isCurrentMentor &&
+          "relative bg-neutral-03 dark:bg-gray-05 shadow-gray-02 shadow-inner",
         " py-6 border w-full border-gray-03 rounded-lg shadow-sm shadow-gray-03 hover:opacity-90 transition-all"
       )}
     >
       {isCurrentMentor && (
         <div className="absolute right-2 top-2">
-          <Chip size="small" variant="quartenary">
+          <Chip size="small" variant="chipCards">
             Você
           </Chip>
         </div>
@@ -81,12 +85,16 @@ const CardProfile = ({
       <div className="relative">
         <div
           className={clsx(
-            "flex gap-2 mt-2 rounded-lg overflow-hidden",
+            "flex gap-2 mt-2 rounded-lg",
             expandedSkills ? "flex-wrap" : "flex-nowrap"
           )}
         >
-          {chips?.map((chip, index) => {
-            return <Chip key={`${index}-chip-${index}`}>{chip}</Chip>;
+          {visibleChips?.map((chip, index) => {
+            return (
+              <Chip variant="chipCardsMentors" key={`${chip}-chip-${name}`}>
+                {chip}
+              </Chip>
+            );
           })}
         </div>
         {chips?.length > 3 && (

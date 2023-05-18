@@ -32,7 +32,7 @@ const ModalNotifications = ({ setShowModal }: any) => {
           />
         ) : (
           <div className="border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg px-4">
-            <p className="text-center text-gray-03">
+            <p className="text-center text-gray-03 break-words">
               Não possui nenhuma Notificação.
             </p>
           </div>

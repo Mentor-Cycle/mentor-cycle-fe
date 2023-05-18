@@ -15,10 +15,18 @@ import { GET_ME } from "services/apollo/queries";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
   "flex gap-2 items-center justify-center hover:text-gray-04 dark:hover:text-gray-01";
+
+const DynamicThemedImage = dynamic(
+  () => import("@components/Header/ThemeImage"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Header() {
   const { user, setUser } = useUser();
@@ -29,7 +37,7 @@ export default function Header() {
 
   const [signOutUser] = useMutation(LOGOUT_USER);
   const [me, { data }] = useLazyQuery(GET_ME);
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
 
   useEffect(() => {
@@ -97,29 +105,22 @@ export default function Header() {
 
   const userIsLogged = isLogged ? "/dashboard" : "/";
 
-  const setDarkMode = () => {
+  const setDarkMode = async () => {
     setIsToogle(!isToggle);
-    if (!isToggle) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
+    const theme = resolvedTheme === "dark" ? "light" : "dark";
+    try {
+      await setTheme(theme);
+    } catch (error) {
+      console.error("Erro ao definir o tema:", error);
     }
   };
-
-  const logoStyle = theme === "dark" ? "/logoDarkMode.png" : "/logoSvg.svg";
 
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">
       <div className="flex justify-between items-center w-full container">
         <div className="w-1/5 h-full hidden sm:flex justify-start items-center">
           <Link href={userIsLogged}>
-            <Image
-              src={logoStyle}
-              width={64}
-              height={56}
-              alt="MentorCycle logo"
-              className="object-contain"
-            />
+            <DynamicThemedImage />
           </Link>
         </div>
         {isLogged && (
@@ -162,7 +163,9 @@ export default function Header() {
 
                 <div className="flex justify-center items-center">
                   <div className="flex flex-col justify-center items-start">
-                    <h1 className="hidden sm:inline-block">{firstName}</h1>
+                    <h1 className="hidden sm:inline-block text-secondary-01 dark:text-neutral-02">
+                      {firstName}
+                    </h1>
                     <span
                       className={clsx(
                         "text-xs text-primary-04 dark:text-primary-02 hidden sm:inline-block",
