@@ -99,7 +99,7 @@ const MentorProfile: NextPage = () => {
                   </p>
                 )}
               </section>
-              <section className="pt-12 flex flex-wrap gap-y-8">
+              <section className="pt-12 flex flex-col sm:flex-row flex-wrap gap-y-8">
                 {mentor.email ? (
                   <p className="font-bold basis-1/2">{mentor.email}</p>
                 ) : (
@@ -124,9 +124,11 @@ const MentorProfile: NextPage = () => {
 
                 {mentor.yearsOfExperience ? (
                   <p className="font-bold basis-1/2">{`${
-                    mentor.yearsOfExperience
+                    +mentor.yearsOfExperience < 30
+                      ? mentor.yearsOfExperience
+                      : "30+"
                   } ${
-                    user.yearsOfExperience > 1 ? "anos" : "ano"
+                    +mentor.yearsOfExperience > 1 ? "anos" : "ano"
                   } de experiência`}</p>
                 ) : (
                   <p className="text-gray-05 text-base">

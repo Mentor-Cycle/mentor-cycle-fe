@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { GET_MENTORS } from "services/apollo/queries";
+import { GET_ME, GET_MENTORS } from "services/apollo/queries";
 import {
   CHANGE_PASSWORD,
   DELETE_ACCOUNT,
@@ -42,7 +42,7 @@ const ModalSettings = ({
   const router = useRouter();
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
   const [updateUser] = useMutation(USER_UPDATE_DATA, {
-    refetchQueries: [{ query: GET_MENTORS }],
+    refetchQueries: [GET_MENTORS, GET_ME],
   });
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 

@@ -17,6 +17,7 @@ const PAGE_SIZE = 9;
 
 interface Filter {
   firstName: string;
+  lastName: string;
   orderBy: string;
   order: string;
   skip: number;
@@ -30,8 +31,9 @@ interface Filter {
 const Mentors: NextPage = () => {
   const [filter, setFilter] = useState<Filter>({
     firstName: "",
+    lastName: "",
     orderBy: "firstName",
-    order: "ASC",
+    order: "asc",
     skip: 0,
     pageSize: PAGE_SIZE,
     pageNumber: 1,
@@ -179,6 +181,7 @@ const Mentors: NextPage = () => {
                       jobTitle,
                       location,
                       firstName,
+                      lastName,
                     },
                     index
                   ) => (
@@ -191,6 +194,7 @@ const Mentors: NextPage = () => {
                       jobTitle={user.jobtitle || jobTitle}
                       location={location}
                       name={firstName}
+                      lastName={lastName}
                       isCurrentMentor={user.isLogged && user.id === id}
                     />
                   )

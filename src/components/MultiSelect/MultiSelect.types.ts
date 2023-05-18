@@ -1,5 +1,5 @@
 export type MultiSelectProps = {
-  name: string;
+  name?: any;
   label: string;
 };
 

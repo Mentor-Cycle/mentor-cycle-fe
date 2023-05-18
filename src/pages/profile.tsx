@@ -78,7 +78,9 @@ const Profile: NextPage = () => {
               Sobre mim
             </h2>
             {user.biography ? (
-              <p className="text-base text-secondary-05">{user.biography}</p>
+              <p className="text-base text-secondary-05 overflow-hidden break-words">
+                {user.biography}
+              </p>
             ) : (
               <p className="text-gray-05 text-base">Complete seu sobre mim</p>
             )}
@@ -88,7 +90,9 @@ const Profile: NextPage = () => {
               Experiência profissional
             </h2>
             {user.description ? (
-              <p className="text-base text-secondary-05">{user.description}</p>
+              <p className="text-base text-secondary-05 overflow-hidden break-words">
+                {user.description}
+              </p>
             ) : (
               <p className="text-gray-05 text-base">
                 Escreva suas principais experiências profissionais
@@ -119,7 +123,9 @@ const Profile: NextPage = () => {
             )}
 
             {user.yearsOfExperience ? (
-              <p className="font-bold basis-1/2">{`${user.yearsOfExperience} ${
+              <p className="font-bold basis-1/2">{`${parseInt(
+                user.yearsOfExperience < 30 ? user.yearsOfExperience : "30+"
+              )} ${
                 user.yearsOfExperience > 1 ? "anos" : "ano"
               } de experiência`}</p>
             ) : (
