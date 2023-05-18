@@ -15,26 +15,22 @@ O Mentor Cycle é uma iniciativa open-source que tem como objetivo conectar pess
 Para entender melhor o projeto, você pode assistir esse vídeo que mostra uma visão macro da plataforma:
 
 - [Conheça o Projeto](https://youtu.be/mIt9n-BdLYY)<br>
-- [Guia para a primeira contribuição](https://www.youtube.com/watch?v=hZ-0QYmpjHg)
 
 ## Como contribuir ❓
+
 Antes de tudo precisamos ter as seguintes ferramentas instaladas na sua máquina:
+
 - [Node.js](https://nodejs.org/en/)
 - [Git](https://git-scm.com/)
 - [Visual Studio Code](https://code.visualstudio.com/) ou similar
+  <br>
+
+1. Para encontrar uma tarefa disponível para contribuir, acesse o [Github Projects](https://github.com/orgs/Mentor-Cycle/projects/1) e localize a coluna "Para Fazer". Clique em um card que lhe interesse e deixe um comentário para indicar que você irá trabalhar nesta tarefa. Em seguida, arraste o card para a coluna "Em progresso". A partir deste momento, você será responsável pela entrega da tarefa selecionada.<br>
+   _*obs:* Certifique-se de verificar as descrições e comentários da tarefa para entender completamente os requisitos e as expectativas de entrega._
+   <br>
+2. Agora vá até o repositório **Front-end**, baseado na tarefa que você escolheu você irá fazer um **"Fork"** da aplicação, para isso você precisa abrir o repositório no [GitHub](https://github.com/Mentor-Cycle/mentor-cycle-fe) e clicar em **"fork"**, do lado superior direito conforme na imagem:<br>
+_*obs:* É importante que você faça o "fork" do projeto e não um "clone", se estiver com dúvidas sobre fork [leia aqui](https://docs.github.com/pt/get-started/quickstart/fork-a-repo)._<br>
 <br>
-
-1. Para encontrar uma tarefa disponível para contribuir, acesse o [Trello](https://trello.com/invite/b/BJtM6SNZ/ATTI639cccf0290c7a457af0081bdf76db2663ADCDA3/tarefas) e localize a coluna "A Fazer". Clique em um card que lhe interesse e selecione "Ingressar" para indicar que você irá trabalhar nesta tarefa. Em seguida, arraste o card para a coluna "Em andamento". A partir deste momento, você será responsável pela entrega da tarefa selecionada.<br>
-_*obs:* Lembre-se de que o Trello é uma ferramenta de gerenciamento de projetos baseada em cartões. Certifique-se de verificar as descrições e comentários da tarefa para entender completamente os requisitos e as expectativas de entrega._
-<br>
-
-<p align="center">
-  <img width="600" src="https://user-images.githubusercontent.com/57500163/216627716-657789cd-e68f-4f1a-9564-7382bfd3f061.png">
-</p>
-
-2. Agora vá até a coluna **"Referências"** no [Trello](https://trello.com/invite/b/BJtM6SNZ/ATTI639cccf0290c7a457af0081bdf76db2663ADCDA3/tarefas) e escolha o repositório **Front-end**,  baseado na tarefa que você escolheu você irá fazer um **"Fork"** da aplicação, para isso você precisa abrir o repositório no [GitHub](https://github.com/Mentor-Cycle/mentor-cycle-fe) e clicar em **"fork"**, do lado superior direito conforme na imagem:<br>
- _*obs:* É importante que você faça o "fork" do projeto e não um "clone", se estiver com dúvidas sobre fork [leia aqui](https://docs.github.com/pt/get-started/quickstart/fork-a-repo)._<br>
- <br>
  <p align="center">
   <img width="600" src="https://user-images.githubusercontent.com/57500163/216629255-034809cf-1041-4ee7-9a60-63722b4ab08d.png">
 </p>
@@ -51,14 +47,16 @@ O objetivo do Fork é criar uma cópia do repositório na sua conta do GitHub, p
 
 > Clonar um repositório significa baixa-lo para a sua máquina mantendo uma conexão com o GitHub<br>
 
-```git clone https://github.com/seu_nome_de_usuario/mentor-cycle-fe.git```<br>
-
+`git clone https://github.com/seu_nome_de_usuario/mentor-cycle-fe.git`<br>
 
 4 Com repositório na sua máquina, basta você abri-lo com seu editor de código favorito, em seguida executar o comando:<br>
+
 ```bash
 yarn install
 ```
+
 Isso fará com que o gerenciador de pacotes do node, baixe todas as dependências necessárias para rodar, finalizado a instalação rode o comando:<br>
+
 ```bash
 yarn dev
 ```
@@ -66,23 +64,31 @@ yarn dev
 5. Agora com tudo instalado e rodando, basta você criar a sua branch, executar a sua tarefa e após finalizado lembrar-se de adicionar ao stage com os seguintes comandos:
 
 Criar branch:
+
 ```bash
 git checkout -b nome_da_branch
 ```
+
 Adicionando arquivos:
+
 ```bash
 git add .
 ```
-Adicione uma mensagem de commit com o comando: 
+
+Adicione uma mensagem de commit com o comando:
+
 ```bash
 git commit -m "sua_mensagem_aqui"
 ```
+
 > Neste passo lembre-se de utilizar uma mensagem em inglês e também descrevendo o que você fez com poucas palavras e o padrão de commits, por exemplo "feat: create user endpoint"
 
 e em seguida suba as alterações para o seu repositório fork com o comando:
+
 ```bash
 git push
 ```
+
 6. Hora do pull request, após dar o `git push`, ao abrir o seu repositório fork na página do GitHub, você notará que existe uma mensagem logo no topo assim como essa:  
 <br>
 <p align="center">
@@ -91,10 +97,9 @@ git push
 
 Vendo isso, clique no botão **"Compare & pull request"**, isso começara o processo de abertura de uma **PR(Pull Request**) e lembre se de apontar sempre para a branch `dev` do projeto Mentor Cycle . Esse passo é muito importante, pois existem pessoas responsáveis nas Reviews, que irão validar o que você fez e caso tenha algo errado ou que possa ser melhorado elas irão comentar. Isso ajudará muito na sua evolução.
 
-Lembre se de colocar o título conforme o tipo da tarefa, uma mensagem que descreva o que você fez, se possível anexar uma captura de tela e colocar o Link do card da tarefa do Trello que você pegou, pode seguir este modelo ficando mais ou menos assim: 
+Lembre se de colocar o título conforme o tipo da tarefa, uma mensagem que descreva o que você fez, se possível anexar uma captura de tela e colocar o Link do card da tarefa do Trello que você pegou, pode seguir este modelo ficando mais ou menos assim:
 
 ![image](https://user-images.githubusercontent.com/57500163/216638205-a473736a-6dbb-453c-948f-2b7712df7d4a.png)
-
 
 **Pronto, feito isso, é só aguardar a análise da sua PR, você será notificado caso seja aprovada ou o revisor solicite alguma alteração, BORA PRA CIMA!!!! 🚀🚀🚀**
 

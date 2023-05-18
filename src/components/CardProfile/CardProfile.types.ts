@@ -11,6 +11,7 @@ export interface CardProps {
   description: string;
   image: string | StaticImageData;
   chips: ChipProps[];
+  lastName: string;
   variant?: SizeCard;
   isCurrentMentor?: boolean;
 }

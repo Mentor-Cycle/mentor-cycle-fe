@@ -13,6 +13,9 @@ import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { SingleValue } from "react-select";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
+import SkillsEditProfile from "@components/MultiSelect/SkillsEditProfile";
+import { MultiSelectOptions } from "@components/MultiSelect/MultiSelect.types";
+import { GET_ME, GET_MENTORS } from "services/apollo/queries";
 
 const EditProfile = ({
   openEditProfile,
@@ -20,7 +23,10 @@ const EditProfile = ({
 }: EditProfileProps) => {
   const { user, setUser } = useUser();
 
-  const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA);
+  const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA, {
+    refetchQueries: [GET_MENTORS, GET_ME],
+  });
+  const [selectedSkills, setSelectedSkills] = useState<MultiSelectOptions>([]);
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
   const [selectedCountry, setSelectedCountry] =
@@ -86,8 +92,11 @@ const EditProfile = ({
         jobTitle: newJobTitle || jobTitle,
         country: selectedCountry ? selectedCountry.value : country,
         state: selectedStates ? selectedStates.label : "",
-        yearsOfExperience:
-          parseFloat(newYearsOfExperience.toString()) || yearsOfExperience,
+        skills: selectedSkills.map((skill) => skill.value),
+        yearsOfExperience: isNaN(parseFloat(newYearsOfExperience.toString()))
+          ? yearsOfExperience
+          : parseFloat(newYearsOfExperience.toString()),
+
         id,
       };
       const { data } = await updateUser({
@@ -141,6 +150,10 @@ const EditProfile = ({
     setSelectedStates(newValue);
   };
 
+  const handleSelectedSkills = (skills: MultiSelectOptions) => {
+    setSelectedSkills(skills);
+  };
+
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
       <div className="max-xl:px-5 py-16 px-60">
@@ -164,65 +177,76 @@ const EditProfile = ({
               defaultValue={lastName}
             />
           </div>
-          <Input
-            type="text"
-            name="jobTitle"
-            label="Profissão"
-            pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-            defaultValue={jobTitle}
-          />
-          <Textarea name="biography" label="Bio" defaultValue={biography} />
-          <Textarea
-            name="description"
-            label="Experiência"
-            defaultValue={description}
-          />
-          <Input
-            required
-            type="email"
-            name="email"
-            label="Email"
-            defaultValue={email}
-          />
-          <SelectLocation
-            onSelect={(
-              newValue: SingleValue<{
-                label: string;
-                value: string;
-              }>
-            ) => handleCountryChange("country", newValue)}
-            label="Pais"
-            requiredField={true}
-            name="country"
-            options={countries}
-            placeholder="Selecione um Pais"
-            value={selectedCountry || { label: country, value: country }}
-          />
-          <SelectLocation
-            onSelect={(
-              newValue: SingleValue<{
-                label: string;
-                value: string;
-              }>
-            ) => handleStatesChange("state", newValue)}
-            label="Estado"
-            requiredField={true}
-            name="state"
-            options={states}
-            placeholder="Selecione um Estado"
-            value={selectedStates || { label: state, value: state }}
-            isDisabled={selectedCountry?.value !== "Brasil"}
-          />
-          <Input
-            type="number"
-            max={45}
-            min={0}
-            name="yearsOfExperience"
-            label="Anos experiência"
-            defaultValue={
-              yearsOfExperience ? yearsOfExperience.toString() : "0"
-            }
-          />
+          <div className="flex flex-col gap-2">
+            <Input
+              type="text"
+              name="jobTitle"
+              label="Profissão"
+              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
+              defaultValue={jobTitle}
+            />
+            <Textarea name="biography" label="Bio" defaultValue={biography} />
+            <Textarea
+              name="description"
+              label="Experiência"
+              defaultValue={description}
+            />
+            <Input
+              required
+              type="email"
+              name="email"
+              label="Email"
+              defaultValue={email}
+            />
+            <SelectLocation
+              onSelect={(
+                newValue: SingleValue<{
+                  label: string;
+                  value: string;
+                }>
+              ) => handleCountryChange("country", newValue)}
+              label="Pais"
+              requiredField={true}
+              name="country"
+              options={countries}
+              placeholder="Selecione um Pais"
+              value={selectedCountry || { label: country, value: country }}
+            />
+            <SelectLocation
+              onSelect={(
+                newValue: SingleValue<{
+                  label: string;
+                  value: string;
+                }>
+              ) => handleStatesChange("state", newValue)}
+              label="Estado"
+              requiredField={true}
+              name="state"
+              options={states}
+              placeholder="Selecione um Estado"
+              value={selectedStates || { label: state, value: state }}
+              isDisabled={selectedCountry?.value !== "Brasil"}
+            />
+            <Input
+              type="number"
+              max={45}
+              min={0}
+              name="yearsOfExperience"
+              label="Anos experiência"
+              required
+              defaultValue={
+                yearsOfExperience ? yearsOfExperience.toString() : "0"
+              }
+            />
+            <SkillsEditProfile
+              label="Especialização"
+              onSelectedSkills={handleSelectedSkills}
+              uniqueSkill={user.skills.map((skill: string) => ({
+                label: skill,
+                value: skill,
+              }))}
+            />
+          </div>
           <Button
             type="submit"
             className="mt-7"
