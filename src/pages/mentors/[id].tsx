@@ -60,7 +60,7 @@ const MentorProfile: NextPage = () => {
         </div>
       ) : (
         <>
-          <div className="py-12 bg-center bg-cover bg-no-repeat bg-[url('/bg-mentor-profile.png')]">
+          <div className="py-6 bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover">
             <div className="flex justify-center sm:justify-start container">
               <DashboardCardProfile
                 avatar={mentor.photoUrl || "/imgCard.png"}
@@ -151,7 +151,7 @@ const MentorProfile: NextPage = () => {
                             "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
                           }
                           chips={availability.slots.map((slot) => (
-                            <Chip key={slot} variant="quartenary">
+                            <Chip key={slot} variant="chipCards">
                               {slot}
                             </Chip>
                           ))}

@@ -108,7 +108,10 @@ const InputComponent: FC<InputComponentProps> = ({
         )}
         {search && (
           <div className="absolute left-0 top-0 bottom-0 px-6 flex items-center pointer-events-none">
-            <AiOutlineSearch size="28px" className="text-secondary-05" />
+            <AiOutlineSearch
+              size="28px"
+              className="text-secondary-05 dark:text-neutral-02"
+            />
           </div>
         )}
       </div>

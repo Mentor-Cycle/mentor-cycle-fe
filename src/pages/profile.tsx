@@ -148,7 +148,7 @@ const Profile: NextPage = () => {
                     day={availability.weekDay}
                     description="Horários disponíveis:"
                     chips={availability.slots.map((slot) => (
-                      <Chip key={slot} variant="quartenary">
+                      <Chip key={slot} variant="chipCards">
                         {slot}
                       </Chip>
                     ))}

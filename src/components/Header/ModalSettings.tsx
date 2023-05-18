@@ -18,6 +18,7 @@ import {
   USER_UPDATE_DATA,
 } from "services/apollo/mutations";
 import Dropzone from "@components/Dropzone/Dropzone";
+import { useTheme } from "next-themes";
 
 interface ModalSettingsProps {
   firstName: string;
@@ -38,6 +39,7 @@ const ModalSettings = ({
   const [currentStep, setCurretStep] = useState(1);
   const { user, setUser } = useUser();
   const [signOutUser] = useMutation(LOGOUT_USER);
+  const { theme } = useTheme();
 
   const router = useRouter();
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
@@ -125,6 +127,7 @@ const ModalSettings = ({
     setIsModalOpen(false);
     Swal.fire({
       title: "Tem certeza que deseja desativar sua conta?",
+      background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
       showCancelButton: true,
       confirmButtonColor: "#BA0000",
       cancelButtonColor: "#343434",
@@ -162,6 +165,7 @@ const ModalSettings = ({
     setIsModalOpen(false);
     Swal.fire({
       title: "Tem certeza que deseja mudar de perfil?",
+      background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
       showCancelButton: true,
       confirmButtonColor: "#BA0000",
       cancelButtonColor: "#343434",
@@ -332,7 +336,7 @@ const ModalSettings = ({
                 className="flex flex-col text-start w-full"
                 onSubmit={handleChangePassword}
               >
-                <div className="flex flex-col gap-6 px-2">
+                <div className="flex flex-col gap-6">
                   <Input
                     type="password"
                     name="newPassword"

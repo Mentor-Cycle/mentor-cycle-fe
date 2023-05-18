@@ -16,14 +16,18 @@ export const ProfileCard = ({
     <section
       onClick={onClick}
       className={clsx(
-        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg max-w-xs cursor-pointer transition duration-500 ease-linear",
-        active ? "border-transparent outline outline-primary-03 outline-4" : ""
+        "p-8 border border-solid border-gray-02 box-border flex flex-col justify-center gap-4 rounded-lg max-w-xs cursor-pointer transition duration-500 ease-linear ",
+        active
+          ? "border-transparent outline outline-primary-03 outline-4 dark:bg-primary-03"
+          : ""
       )}
     >
       {Icon}
       <div className="mt-8">
         <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="text-xs text-gray-05 line-clamp-3">{description} </p>
+        <p className="text-xs text-gray-05 dark:text-neutral-01 line-clamp-3">
+          {description}{" "}
+        </p>
       </div>
     </section>
   );
@@ -47,7 +51,9 @@ carreira profissional"
           <MdPermIdentity
             size={64}
             className={`${
-              !isMentor ? "text-primary-03" : "text-gray-02"
+              !isMentor
+                ? "text-primary-03 dark:text-neutral-01"
+                : "text-gray-02"
             } transition duration-500 ease-in-out`}
           />
         }
@@ -64,7 +70,9 @@ carreira profissional"
         Icon={
           <MdMenu
             size={64}
-            className={isMentor ? "text-primary-03" : "text-gray-02"}
+            className={
+              isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"
+            }
           />
         }
       />

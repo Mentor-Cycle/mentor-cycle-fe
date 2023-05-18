@@ -250,7 +250,7 @@ export const ScheduleMentorshipModal = ({
                       onClick={() => setSelectedStartTime(time)}
                       key={time}
                       variant={
-                        selectedStartTime === time ? "secondary" : "outlined"
+                        selectedStartTime === time ? "secondary" : "chipCards"
                       }
                     >
                       {time}

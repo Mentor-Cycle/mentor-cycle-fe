@@ -14,10 +14,19 @@ import { LOGOUT_USER } from "services/apollo/mutations";
 import { GET_ME } from "services/apollo/queries";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
-  "flex gap-2 items-center justify-center hover:text-gray-04";
+  "flex gap-2 items-center justify-center hover:text-gray-04 dark:hover:text-gray-01";
+
+const DynamicThemedImage = dynamic(
+  () => import("@components/Header/ThemeImage"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Header() {
   const { user, setUser } = useUser();
@@ -28,6 +37,8 @@ export default function Header() {
 
   const [signOutUser] = useMutation(LOGOUT_USER);
   const [me, { data }] = useLazyQuery(GET_ME);
+  const { setTheme, resolvedTheme } = useTheme();
+  const [isToggle, setIsToogle] = useState(true);
 
   useEffect(() => {
     if (!user.isLogged) {
@@ -59,6 +70,7 @@ export default function Header() {
     action: keyof typeof menuClickActions;
   }> = [
     { text: "Editar Perfil", action: "editprofile" },
+    { text: "Dark Mode", action: "darkmode" },
     { text: "Configurações", action: "settings" },
     { text: "Sair", action: "logout" },
   ];
@@ -74,6 +86,7 @@ export default function Header() {
 
   const menuClickActions = {
     editprofile: () => router.push("/profile"),
+    darkmode: () => setDarkMode(),
     settings: () => {
       setShowModal("settings");
       setToggleMenuProfile(false);
@@ -92,18 +105,22 @@ export default function Header() {
 
   const userIsLogged = isLogged ? "/dashboard" : "/";
 
+  const setDarkMode = async () => {
+    setIsToogle(!isToggle);
+    const theme = resolvedTheme === "dark" ? "light" : "dark";
+    try {
+      setTheme(theme);
+    } catch (error) {
+      console.error("Erro ao definir o tema:", error);
+    }
+  };
+
   return (
-    <header className="flex justify-center w-full h-20 bg-neutral-01 border-gray-02 border-b m-auto sticky top-0 z-30">
+    <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">
       <div className="flex justify-between items-center w-full container">
         <div className="w-1/5 h-full hidden sm:flex justify-start items-center">
           <Link href={userIsLogged}>
-            <Image
-              src={"/logoSvg.svg"}
-              width={64}
-              height={56}
-              alt="MentorCycle logo"
-              className="object-contain"
-            />
+            <DynamicThemedImage />
           </Link>
         </div>
         {isLogged && (
@@ -146,10 +163,12 @@ export default function Header() {
 
                 <div className="flex justify-center items-center">
                   <div className="flex flex-col justify-center items-start">
-                    <h1 className="hidden sm:inline-block">{firstName}</h1>
+                    <h1 className="hidden sm:inline-block text-secondary-01 dark:text-neutral-02">
+                      {firstName}
+                    </h1>
                     <span
                       className={clsx(
-                        "text-xs text-primary-04 hidden sm:inline-block",
+                        "text-xs text-primary-04 dark:text-primary-02 hidden sm:inline-block",
                         {
                           isMentor: "text-primary-03",
                         }
@@ -165,6 +184,9 @@ export default function Header() {
                   value={itemsMenu}
                   itemsMenu={menuOptions}
                   handleValueChange={handleValueChange}
+                  isDark={resolvedTheme === "dark"}
+                  setDarkMode={setDarkMode}
+                  isToggle={isToggle}
                 />
               </div>
             </li>

@@ -12,5 +12,5 @@ export type Props = {
 };
 
 export type StatusToVariantMap = {
-  [key: string]: "primary" | "secondary" | "tertiary";
+  [key: string]: "primary" | "secondary" | "tertiary" | "chipCards";
 };

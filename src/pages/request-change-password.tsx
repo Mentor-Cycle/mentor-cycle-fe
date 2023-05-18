@@ -34,7 +34,7 @@ function ChangePassword() {
   };
   return (
     <main className="grid grid-cols-1 md:grid-cols-[395px,1fr] lg:grid-cols-[495px,1fr] xl:grid-cols-[595px,1fr] min-h-screen">
-      <div className="bg-gradient-to-r from-primary-04 to-primary-02">
+      <div className="bg-gradient-to-r from-primary-04 to-primary-02 dark:from-primary-04 dark:to-primary-05">
         <Image
           alt="Mentor Cycle Logo"
           src={"/logo.png"}
@@ -57,10 +57,11 @@ function ChangePassword() {
             src={"/circle.png"}
             width={100}
             height={100}
+            className="dark:rotate-180"
           />
         </div>
       </div>
-      <div className="bg-neutral-01 py-20 md:px-8">
+      <div className="py-20 md:px-8">
         <div className="sm:max-w-xl mx-auto px-4 sm:px-0 ">
           <h1 className="mb-4 text-primary-05 text-4xl text-center sm:text-5xl md:text-left">
             Alteração de senha

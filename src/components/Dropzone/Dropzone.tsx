@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import Spinner from "@components/Spinner";
 import { useUser } from "@hooks/useUser";
+import { useTheme } from "next-themes";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { UPDATE_USER_PHOTO } from "services/apollo/mutations";
@@ -12,6 +13,7 @@ const Dropzone = ({ setIsModalOpen }: any) => {
     refetchQueries: [GET_ME],
   });
   const { user, setUser } = useUser();
+  const { theme } = useTheme();
 
   const onDrop = async (acceptedFiles: File[]) => {
     setIsModalOpen(false);
@@ -22,6 +24,7 @@ const Dropzone = ({ setIsModalOpen }: any) => {
         popup: "swal-overlay",
       },
       title: "Tem certeza que deseja mudar sua foto de perfil?",
+      background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
       showCancelButton: true,
       confirmButtonColor: "#BA0000",
       cancelButtonColor: "#343434",
@@ -73,7 +76,7 @@ const Dropzone = ({ setIsModalOpen }: any) => {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="bg-neutral-01 mt-4">
+        <div className="bg-neutral-01 dark:bg-secondary-02 mt-4">
           <div
             {...getRootProps({ className: "dropzone" })}
             className="min-h-[30vh]"
@@ -81,9 +84,13 @@ const Dropzone = ({ setIsModalOpen }: any) => {
             <button type="button" className="text-danger-02" onClick={open}>
               Trocar foto
             </button>
-            <em className="text-xs block">(Apenas imagens são aceitos)</em>
+            <em className="text-xs block dark:text-neutral-02">
+              (Apenas imagens são aceitos)
+            </em>
             <aside>
-              <h1 className="text-xs italic">tamanho máximo 10mb</h1>
+              <h1 className="text-xs italic text-secondary-02 dark:text-neutral-02">
+                tamanho máximo 10mb
+              </h1>
               <ul>{files}</ul>
             </aside>
             <input {...getInputProps()} />
