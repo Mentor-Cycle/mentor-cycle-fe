@@ -16,7 +16,7 @@ const ModalNotifications = ({ setShowModal }: any) => {
   const isProfileCompleted = Object.values(user).length >= TOTAL_USER_FIELDS;
 
   return (
-    <div className="flex flex-col px-2 gap-12 m-auto">
+    <div className="flex flex-col p-5 gap-12 m-auto">
       <h1 className=" self-start text-secondary-02 text-2xl font-bold">
         Notificações
       </h1>

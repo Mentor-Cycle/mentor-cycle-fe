@@ -114,11 +114,13 @@ export const ScheduleMentorshipModal = ({
         const [_, endTime] = item.endDate.split("T");
         const [year, month, day] = startDate.split("-");
         const parsedDay = `${day}/${month}/${year}`;
-
         const newDaysAndTimes = daysAndTimes;
-
-        const currentHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
-        if (currentHour > startTime && new Date().getDay() === Number(day)) {
+        const currentHour = new Date().toLocaleTimeString("pt-BR", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        if (currentHour > startTime && new Date().getDate() === Number(day)) {
           return;
         }
 

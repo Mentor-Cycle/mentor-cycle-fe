@@ -17,8 +17,14 @@ import Link from "next/link";
 import { useUser } from "@hooks/useUser";
 
 const Dashboard: NextPage = () => {
+  const statusOptions = [
+    { value: "", label: "Filtrar" },
+    { value: "DONE", label: "Realizada" },
+    { value: "CONFIRMED", label: "Agendada" },
+    { value: "CANCELLED", label: "Cancelada" },
+  ];
   const { user } = useUser();
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState(statusOptions[2].value);
   const [eventsByDay, setEventsByDay] = useState({});
 
   const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
@@ -39,13 +45,6 @@ const Dashboard: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
-
-  const statusOptions = [
-    { value: "", label: "Filtrar" },
-    { value: "DONE", label: "Realizada" },
-    { value: "CONFIRMED", label: "Agendada" },
-    { value: "CANCELLED", label: "Cancelada" },
-  ];
 
   const handleFilterChange = (event: any) => {
     setSelectedFilter(event.value);
@@ -148,6 +147,7 @@ const Dashboard: NextPage = () => {
             <div className="mt-6 md:mt-0 sm:mr-2">
               <Select
                 options={statusOptions}
+                defaultValue={statusOptions[2]}
                 unstyled
                 classNamePrefix="select"
                 placeholder="Filtrar"

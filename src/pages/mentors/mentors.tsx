@@ -33,7 +33,7 @@ const Mentors: NextPage = () => {
     firstName: "",
     lastName: "",
     orderBy: "firstName",
-    order: "desc",
+    order: "asc",
     skip: 0,
     pageSize: PAGE_SIZE,
     pageNumber: 1,
