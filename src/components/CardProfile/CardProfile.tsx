@@ -15,6 +15,7 @@ const CardProfile = ({
   jobTitle,
   location,
   name,
+  lastName,
   isCurrentMentor,
 }: CardProps) => {
   const [expandedSkills, setExpandedSkills] = useState(false);
@@ -61,7 +62,7 @@ const CardProfile = ({
           className="rounded-lg w-22 h-22 object-cover object-center"
         />
         <h2 className="text-2xl font-bold mt-4 text-secondary-01 truncate dark:text-neutral-01">
-          {name}
+          {name} {lastName}
         </h2>
         <h3
           className={clsx(

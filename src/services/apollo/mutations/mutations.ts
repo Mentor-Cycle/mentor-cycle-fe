@@ -74,6 +74,7 @@ export const USER_UPDATE_DATA = gql`
     $yearsOfExperience: Float
     $id: String!
     $isMentor: Boolean
+    $skills: [String!]
   ) {
     updateUser(
       userInput: {
@@ -88,6 +89,7 @@ export const USER_UPDATE_DATA = gql`
         country: $country
         description: $description
         yearsOfExperience: $yearsOfExperience
+        skills: $skills
       }
     ) {
       id

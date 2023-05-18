@@ -4,6 +4,7 @@ import { CardProps } from "./CardProfile.types";
 export const cardMock: CardProps[] = [
   {
     id: "123",
+    lastName: "Jr",
     name: "Ronald Richards",
     jobTitle: "Software Engineer at Apple",
     location: "São Paulo, SP - Brasil",
