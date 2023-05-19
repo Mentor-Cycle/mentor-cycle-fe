@@ -1,0 +1,77 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Introdução" />
+
+# Storybook Mentor Cycle
+
+Este é o Storybook para o projeto **Mentor Cycle.** Aqui você pode visualizar e testar os componentes da nossa biblioteca de design.
+
+## Como usar o Storybook
+
+Para iniciar o Storybook, execute o comando `yarn storybook`.
+
+Em seguida, acesse http://localhost:6006 para abrir o Storybook em seu navegador.
+
+## Navegando no Storybook
+
+No painel à esquerda, você pode navegar pelos diferentes componentes e suas variações. Clique em um componente para ver sua documentação e exemplos de uso.
+
+## Vinculando ao Figma
+
+Para vincular um elemento do Figma a um componente Storybook, basta adicionar o parâmetro `design` na definição da história (story) e passar a URL do elemento do Figma como valor do parâmetro.
+
+Por exemplo:
+
+```js
+const meta = {
+  title: "Data Display/MentoringWeekCard",
+  component: MentoringWeekCard,
+    parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/KnsardnDQ2lDKUYo58G8Pf/Mentor-Cycle?node-id=1921-5642&t=GMEw33yWzk1MdUGZ-0"
+    }
+  }
+} satisfies Meta<typeof MentoringWeekCard>;
+```
+
+## Exemplo de Stories
+
+Abaixo está um exemplo de como criar uma story para o componente `MentoringWeekCard`:
+
+```js
+import { Meta, StoryObj } from "@storybook/react";
+import MentoringWeekCard from "./MentoringWeekCard";
+
+const meta = {
+  title: "Data Display/MentoringWeekCard",
+  component: MentoringWeekCard,
+  argTypes: {
+    day: {
+      options: [
+        "Domingo",
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sábado",
+      ],
+      control: { type: "radio" },
+    },
+  },
+} satisfies Meta<typeof MentoringWeekCard>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    day: "Segunda-feira",
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.",
+    hour: "19h30",
+    status: "A confirmar",
+  },
+};
+```

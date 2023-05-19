@@ -2,6 +2,10 @@
 
 # dependencies
 /node_modules
+/.react-email
+
+.env
+
 /.pnp
 .pnp.js
 package-lock.json
@@ -11,6 +15,7 @@ package-lock.json
 
 # next.js
 /.next/
+
 /out/
 
 # production
@@ -37,3 +42,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+#storybook
+/storybook-static
