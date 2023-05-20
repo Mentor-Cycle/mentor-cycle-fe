@@ -79,7 +79,7 @@ const Dropzone = ({ setIsModalOpen }: any) => {
         <div className="bg-neutral-01 dark:bg-secondary-02 mt-4">
           <div
             {...getRootProps({ className: "dropzone" })}
-            className="min-h-[30vh]"
+            className="min-h-[10vh]"
           >
             <button type="button" className="text-danger-02" onClick={open}>
               Trocar foto

@@ -44,7 +44,7 @@ const MentoringLinkCard = ({
   const isDisabled = status === "DONE" || status === "CANCELLED";
 
   return (
-    <div className=" py-4 px-6 flex flex-col sm:flex sm:flex-row  justify-between gap-4 max-w-7xl w-[98%] sm:w-full border border-gray-03 rounded-lg">
+    <div className="py-4 px-6 m-auto flex flex-col md:flex-row justify-between gap-4 max-w-[290px] sm:max-w-7xl  sm:w-full border border-gray-03 rounded-lg">
       <div className="flex flex-col sm:flex sm:flex-row gap-4 ">
         <div className="rounded-lg overflow-hidden w-24 h-24">
           <Image
@@ -66,10 +66,10 @@ const MentoringLinkCard = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-end items-end flex-col md:min-w-[270px] ">
+      <div className="flex justify-center lg:w-full lg:max-w-xs items-end flex-col sm:flex-row md:flex-col">
         <a
           href={meetingLink}
-          className="w-full"
+          className="w-full sm:max-w-sm md:max-w-lg m-auto"
           rel="noreferrer"
           target="_blank"
         >
@@ -77,7 +77,7 @@ const MentoringLinkCard = ({
             {isDisabled ? "Chamada Encerrada" : "Acessar chamada"}
           </Button>
         </a>
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-end w-full sm:max-w-sm">
           <div className="flex flex-col justify-end items-end mr-3">
             <span className="mt-4 dark:text-neutral-03">{date}</span>
             <span className="text-gray-03 dark:text-neutral-05">{hour}</span>

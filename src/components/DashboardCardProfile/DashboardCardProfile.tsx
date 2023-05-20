@@ -26,7 +26,7 @@ const DashboardCardProfile = ({
         />
       </div>
       <div>
-        <h1 className="text-3xl font-bold text-neutral-01 max-w-[320px] truncate">
+        <h1 className="text-2xl xs:text-3xl font-bold text-neutral-01 max-w-[300px] truncate">
           {name}
         </h1>
         <p className="text-sm text-gray-01 max-w-[280px] truncate">{job}</p>

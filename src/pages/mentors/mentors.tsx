@@ -137,7 +137,7 @@ const Mentors: NextPage = () => {
           </p>
         </div>
         <div className="flex flex-col lg:flex lg:flex-row justify-between items-center mt-10">
-          <div className="w-full max-w-xl 2xl:max-w-2xl">
+          <div className="w-full max-w-[550px] 2xl:max-w-2xl">
             <Input
               name="findMentors"
               placeholder="Ronald Richards"

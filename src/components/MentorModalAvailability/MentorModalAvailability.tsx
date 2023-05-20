@@ -87,38 +87,46 @@ export const MentorModalAvailability = ({
   return (
     <>
       <Modal open={open} onOpenChange={setOpen}>
-        <section className="w-full py-12 px-16 text-left z-20">
+        <section className=" text-left z-20 p-8  w-[300px] xs:w-[380px] sm:w-auto">
           <h1 className="inline text-secondary-03 font-semibold text-2xl mb-2">
             Horário de mentoria
           </h1>
-          <p>Defina seus horários e datas disponíveis</p>
-          <p className="text-base text-primary-05 mt-2">
+          <p className="text-secondary-02">
+            Defina seus horários e datas disponíveis
+          </p>
+          <p className="text-sm sm:text-base text-primary-05 mt-2">
             *O tempo de cada mentoria é de aproximadamente 30 minutos.
           </p>
-          <p className="text-base text-primary-05 ">
+          <p className="text-sm sm:text-base text-primary-05 mt-2">
             Cada mentoria deve ser criada com esse intervalo, podendo ter vários
             horários disponíveis no mesmo dia.
           </p>
-          <section className="flex gap-7 mt-12 flex-wrap">
+          <section className="flex gap-4 mt-12 flex-wrap max-w-[100px] xs:max-w-[200px] sm:max-w-[450px] md:max-w-max m-auto">
             {DAYS_OF_THE_WEEK_SHORT.map((day) => (
-              <Chip
-                className="capitalize font-normal cursor-pointer w-28"
-                key={day}
-                variant={
-                  selectedDay === day ? "secondary_dark" : "primary_dark"
-                }
-                onClick={() => setSelectedDay(day)}
-              >
-                {day}
-              </Chip>
+              <div className=" min-w-[75px] m-auto sm:m-0" key={day}>
+                <Chip
+                  className="capitalize font-normal cursor-pointer "
+                  key={day}
+                  variant={
+                    selectedDay === day ? "secondary_dark" : "primary_dark"
+                  }
+                  onClick={() => setSelectedDay(day)}
+                >
+                  {day}
+                </Chip>
+              </div>
             ))}
           </section>
-          <section className="flex items-center mt-14 gap-16 dark:text-neutral-02">
-            <p>Horário</p>
-            <TimeInput value={selectedStart} onChange={setSelectedStart} />
-            <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
+          <section className="flex flex-col sm:flex-row items-center  justify-between md:justify-center mt-14 gap-4 sm:gap-8 dark:text-neutral-02">
+            <div>
+              <p>Horário</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <TimeInput value={selectedStart} onChange={setSelectedStart} />
+              <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
+            </div>
           </section>
-          <section className="w-72 mt-14 ml-auto">
+          <section className="mt-14 m-auto max-w-[450px]">
             <Button
               onClick={handleSaveAvailability}
               size="small"
@@ -131,11 +139,14 @@ export const MentorModalAvailability = ({
           <div className="bg-gray-03 h-px w-full mt-14" />
           <section className="flex pt-14  flex-col text-gray-05 font-semibold">
             {availability.map((slot) => (
-              <section key={slot.weekDay} className="flex gap-14 items-center">
-                <article className="min-w-[80px]">
+              <section
+                key={slot.weekDay}
+                className="flex flex-col xs:flex-row xs:space-x-4 items-center mt-2 m-auto"
+              >
+                <article className="">
                   <p>{slot.weekDay}</p>
                 </article>
-                <article className="min-w-[120px] text-secondary-01 dark:text-neutral-02">
+                <article className="text-secondary-01 dark:text-neutral-02">
                   {slot.startHour} até {slot.endHour}
                 </article>
                 <MdClose
@@ -145,7 +156,7 @@ export const MentorModalAvailability = ({
               </section>
             ))}
           </section>
-          <section className="w-72 mt-20 ml-auto">
+          <section className=" mt-20 m-auto max-w-[450px]">
             <Button
               onClick={handlePersistAvailability}
               isLoading={loading}
