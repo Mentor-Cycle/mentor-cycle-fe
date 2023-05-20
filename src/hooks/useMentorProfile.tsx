@@ -67,7 +67,7 @@ export type User = {
   biography?: string;
   email?: string;
   github?: string;
-  yearsOfExperience?: string;
+  yearsOfExperience?: any;
 };
 
 type AvailabilityApi = {

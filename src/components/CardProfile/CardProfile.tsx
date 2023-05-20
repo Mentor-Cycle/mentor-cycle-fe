@@ -24,6 +24,7 @@ const CardProfile = ({
     setExpandedSkills(!expandedSkills);
   };
   const MAX_VISIBLE_CHIPS = 3;
+  const MIN_HEIGHT = "min-h-[485px]";
   const MAX_WIDTH = "max-w-[390px]";
   const MIN_WIDTH = "sm:min-w-[280px]";
   const visibleChips = expandedSkills
@@ -33,7 +34,7 @@ const CardProfile = ({
 
   const variantSize = {
     Medium: "px-[24px]",
-    Large: "p-4 sm:px-11 ",
+    Large: "px-11 ",
   };
 
   const handleViewProfileClick = () => {
@@ -42,6 +43,7 @@ const CardProfile = ({
   return (
     <div
       className={clsx(
+        MIN_HEIGHT,
         MAX_WIDTH,
         MIN_WIDTH,
         variantSize[variant],
@@ -100,7 +102,7 @@ const CardProfile = ({
         {chips?.length > 3 && (
           <span
             onClick={handleExpandedSkills}
-            className="flex w-full justify-end text-xs mt-2 px-2 absolute hover:opacity-80 hover:cursor-pointer"
+            className="flex w-full justify-end text-xs mt-2 px-2 absolute hover:opacity-80 hover:cursor-pointer max-w-[270px]"
           >
             {expandedSkills ? "ver menos..." : "ver mais..."}
           </span>
@@ -109,7 +111,7 @@ const CardProfile = ({
       <div className="mt-8">
         <p
           className={clsx(
-            "text-gray-05 dark:text-neutral-05 mb-8 h-24 overflow-ellipsis overflow-hidden ...",
+            "text-gray-05 dark:text-neutral-05 mb-8 h-24 line-clamp-6 overflow-hidden",
             expandedSkills && "mb-0"
           )}
         >

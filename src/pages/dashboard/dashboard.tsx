@@ -121,18 +121,18 @@ const Dashboard: NextPage = () => {
   };
   return (
     <>
-      <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
-        <div className="px-2 sm:container flex justify-center sm:justify-start">
-          {user && (
+      <header>
+        <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
+          <div className="flex justify-start  container ">
             <DashboardCardProfile
-              job={user.jobTitle}
-              name={`${user.firstName} ${user.lastName}`}
-              skills={user.skills}
               avatar={user.photoUrl || "/imgCard.png"}
+              job={user.jobTitle || ""}
+              name={`${user.firstName} ${user.lastName}`}
+              skills={user?.skills || []}
             />
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      </header>
       <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
         <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
           <div>
@@ -179,7 +179,7 @@ const Dashboard: NextPage = () => {
             !hasMentorship && selectedFilter === "" && generateEmptyFeedback()
           )}
           {!hasMentorship && selectedFilter !== "" && (
-            <p className="text-danger-01">
+            <p className="text-danger-01 text-center">
               Não foram encontradas mentorias com o status{" "}
               {
                 statusOptions.find((item) => item.value === selectedFilter)
