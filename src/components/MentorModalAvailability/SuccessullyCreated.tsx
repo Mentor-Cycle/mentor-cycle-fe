@@ -11,8 +11,10 @@ export const SuccessfullyCreated = ({
   return (
     <Modal open={open} onOpenChange={onClose}>
       <section className="py-10 px-16">
-        <h1 className="text-3xl font-extrabold">Agenda criada!</h1>
-        <p className="font-semibold mt-10">
+        <h1 className="text-3xl font-extrabold text-secondary-02">
+          Agenda criada!
+        </h1>
+        <p className="font-semibold mt-10 text-success-01">
           Sua agenda foi criada com sucesso!
         </p>
         <Button

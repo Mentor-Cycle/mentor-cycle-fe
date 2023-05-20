@@ -205,7 +205,7 @@ const ModalSettings = ({
   }
 
   return (
-    <div className="flex flex-col sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] sm:px-28 sm:py-16">
+    <div className="flex flex-col w-[300px] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
       <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
         Configurações
       </h1>
@@ -238,13 +238,14 @@ const ModalSettings = ({
             clickable
           />
           {currentStep === 1 && (
-            <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700">
-              <div className="flex flex-col m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
+            <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700 min-h-[480px] ">
+              <div className="flex flex-col justify-center items-center sm:justify-start  m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
                 <Image
                   src={user.photoUrl || "/imgCard.png"}
                   alt=""
                   width={136}
                   height={136}
+                  className="rounded-lg"
                 />
                 <Dropzone setIsModalOpen={setIsModalOpen} />
               </div>
@@ -277,8 +278,8 @@ const ModalSettings = ({
             </div>
           )}
           {currentStep === 2 && (
-            <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2">
-              <div className="flex flex-col gap-6 max-w-[328px] w-full  m-auto sm:m-0">
+            <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2 mt-8 lg:mt-0 min-h-[480px] ">
+              <div className="flex flex-col gap-6  w-full  m-auto sm:m-0">
                 <div className="text-start">
                   <label className=" text-secondary-03 font-bold">
                     Tipo de perfil
@@ -301,19 +302,19 @@ const ModalSettings = ({
                     }}
                   />
                 </div>
-                <Button className="mt-32" variant="secondary">
-                  Salvar alterações
-                </Button>
               </div>
+              <Button className="mt-32" variant="secondary">
+                Salvar alterações
+              </Button>
             </div>
           )}
           {currentStep === 3 && (
-            <div className="flex gap-10 sm:min-w-[328px] justify-center">
+            <div className="flex gap-10 sm:min-w-[328px] justify-center min-h-[480px] ">
               <form
                 className="flex flex-col text-start w-full"
                 onSubmit={handleChangePassword}
               >
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 mt-8 lg:mt-0">
                   <Input
                     type="password"
                     name="newPassword"

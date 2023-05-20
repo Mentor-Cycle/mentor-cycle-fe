@@ -16,6 +16,7 @@ import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import MobileNavBar from "@components/NavBar/MobileNavBar";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
