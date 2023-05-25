@@ -57,156 +57,168 @@ const Profile: NextPage = () => {
 
   const handleOpenModalAvailability = () =>
     setOpenModalAvailability(!openModalAvailability);
-
   return (
-    <main className="pb-12">
-      <div className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
-        <div className="flex justify-center sm:justify-start container">
-          <DashboardCardProfile
-            avatar={user.photoUrl || "/imgCard.png"}
-            job={user.jobTitle || ""}
-            name={`${user.firstName} ${user.lastName}`}
-            skills={user?.skills || []}
-          />
-        </div>
-      </div>
-
-      <div className="container flex justify-between flex-wrap pt-8 gap-8">
-        <div className="max-w-xl">
-          <section>
-            <h2 className="text-2xl font-bold leading-normal mb-4">
-              Sobre mim
-            </h2>
-            {user.biography ? (
-              <p className="text-base text-secondary-05 overflow-hidden break-words">
-                {user.biography}
-              </p>
-            ) : (
-              <p className="text-gray-05 text-base">Complete seu sobre mim</p>
-            )}
-          </section>
-          <section className="mt-12 pb-12">
-            <h2 className="text-2xl font-bold leading-normal mb-4">
-              Experiência profissional
-            </h2>
-            {user.description ? (
-              <p className="text-base text-secondary-05 overflow-hidden break-words">
-                {user.description}
-              </p>
-            ) : (
-              <p className="text-gray-05 text-base">
-                Escreva suas principais experiências profissionais
-              </p>
-            )}
-          </section>
-          <section className="pt-12 flex flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            {user.email ? (
-              <p className="font-bold basis-1/2">{user.email}</p>
-            ) : (
-              <p className="text-gray-05 text-base">exemplo@gmail.com</p>
-            )}
-            {user.github ? (
-              <p className="font-bold basis-1/2">{user.github}</p>
-            ) : (
-              <p className="text-gray-05 text-base">exemplo.com.br</p>
-            )}
-            {user.country ? (
-              <p className="font-bold basis-1/2">
-                {`${validateUndefined(user.country) || "País"}${
-                  user.country === "Brasil" && user.state
-                    ? `/${validateUndefined(user.state)}`
-                    : ""
-                }`}
-              </p>
-            ) : (
-              <p className="text-gray-05 text-base">País/Estado</p>
-            )}
-
-            {user.yearsOfExperience ? (
-              <p className="font-bold basis-1/2">{`${parseInt(
-                user.yearsOfExperience < 30 ? user.yearsOfExperience : "30+"
-              )} ${
-                user.yearsOfExperience > 1 ? "anos" : "ano"
-              } de experiência`}</p>
-            ) : (
-              <p className="text-gray-05 text-base">
-                experiência que você possui
-              </p>
-            )}
-          </section>
-        </div>
-        <section>
-          <h2 className="text-3xl font-bold mb-12">
-            Agenda {user.isMentor ? "do Mentor" : "de Mentorias"}
+    <>
+      <header>
+        <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
+          <div className="flex justify-start container ">
+            <DashboardCardProfile
+              avatar={user.photoUrl || "/imgCard.png"}
+              job={user.jobTitle || ""}
+              name={`${user.firstName} ${user.lastName}`}
+              skills={user?.skills || []}
+            />
+          </div>
+        </section>
+      </header>
+      <main className="grid grid-cols-1 md:grid-cols-2 container min-h-screen mb-28 mt-12">
+        <aside>
+          <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02">
+            Sobre mim
           </h2>
-          {user.isMentor &&
-            (mentor?.availability?.length ? (
-              <div className="flex flex-col gap-4">
-                {mentor.availability.map((availability, index) => (
-                  <MentoringWeekCard
-                    key={availability.weekDay + index}
-                    day={availability.weekDay}
-                    description="Horários disponíveis:"
-                    chips={availability.slots.map((slot) => (
-                      <Chip key={slot} variant="chipCards">
-                        {slot}
-                      </Chip>
+          <p
+            className={`text-base w-full ${
+              user.biography
+                ? "text-secondary-05 overflow-hidden break-words"
+                : "text-gray-05"
+            }`}
+          >
+            {user.biography || "Complete seu sobre mim"}
+          </p>
+          <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02 mt-12">
+            Experiência profissional
+          </h2>
+          <p
+            className={`text-base w-full mb-12 ${
+              user.description
+                ? "text-secondary-05 overflow-hidden break-words"
+                : "text-gray-05"
+            }`}
+          >
+            {user.description ||
+              "Escreva suas principais experiências profissionais"}
+          </p>
+          <section className="pt-12 pb-12 px-4 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+            <p
+              className={`font-bold basis-1/2 text-secondary-02 ${
+                user.email ? "" : "text-gray-05 text-base"
+              }`}
+            >
+              {user.email || "exemplo@gmail.com"}
+            </p>
+            <p
+              className={`font-bold basis-1/2 text-secondary-02 ${
+                user.github ? "" : "text-gray-05 text-base"
+              }`}
+            >
+              {user.github || "exemplo.com.br"}
+            </p>
+            <p
+              className={`font-bold basis-1/2 text-secondary-02 ${
+                user.country ? "" : "text-gray-05 text-base"
+              }`}
+            >
+              {`${validateUndefined(user.country) || "País"}${
+                user.country === "Brasil" && user.state
+                  ? `/${validateUndefined(user.state)}`
+                  : ""
+              }`}
+            </p>
+            <p
+              className={`font-bold basis-1/2 text-secondary-02 ${
+                user.yearsOfExperience ? "" : "text-gray-05 text-base"
+              }`}
+            >
+              {user.yearsOfExperience
+                ? `${parseInt(
+                    user.yearsOfExperience < 30 ? user.yearsOfExperience : "30+"
+                  )} ${
+                    user.yearsOfExperience > 1 ? "anos" : "ano"
+                  } de experiência`
+                : "experiência que você possui"}
+            </p>
+          </section>
+        </aside>
+        <aside className="flex justify-center md:justify-end md:items-start">
+          <div className="max-w-[290px]">
+            <h2 className="text-3xl font-bold mb-12 text-secondary-02 text-center ">
+              Agenda {user.isMentor ? "do Mentor" : "de Mentorias"}
+            </h2>
+            {user.isMentor &&
+              (mentor?.availability?.length ? (
+                <div className="w-[290px] m-auto">
+                  <div className="">
+                    {mentor.availability.map((availability, index) => (
+                      <MentoringWeekCard
+                        key={availability.weekDay + index}
+                        day={availability.weekDay}
+                        description="Horários disponíveis:"
+                        chips={availability.slots.map((slot) => (
+                          <Chip key={slot} variant="chipCards">
+                            {slot}
+                          </Chip>
+                        ))}
+                      />
                     ))}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
-                <p className="text-center text-gray-03">
-                  Não possui nenhuma mentoria agendada
-                </p>
-              </div>
-            ))}
-          {!user.isMentor && (
-            <div className="flex flex-col gap-4">
-              {classes?.findEvents.length > 0 && !loading ? (
-                renderMentoringWeekCard(eventsByDay)
+                  </div>
+                </div>
               ) : (
                 <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
                   <p className="text-center text-gray-03">
                     Não possui nenhuma mentoria agendada
                   </p>
                 </div>
+              ))}
+            {!user.isMentor && (
+              <div className="flex flex-col gap-4">
+                {classes?.findEvents.length > 0 && !loading ? (
+                  renderMentoringWeekCard(eventsByDay)
+                ) : (
+                  <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
+                    <p className="text-center text-gray-03">
+                      Não possui nenhuma mentoria agendada
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+            <MentorModalAvailability
+              open={openModalAvailability}
+              setOpen={setOpenModalAvailability}
+              refetchMentorProfile={refetch}
+            />
+            <div className="max-w-[300px] m-auto">
+              {user.isMentor && (
+                <Button
+                  className="mt-12"
+                  size="regular"
+                  variant="primary"
+                  onClick={handleOpenModalAvailability}
+                >
+                  {mentor?.availability?.length
+                    ? "Nova agenda"
+                    : "Criar agenda"}
+                </Button>
               )}
+              <Button
+                className="mt-12"
+                size="regular"
+                variant="secondary"
+                onClick={() => setOpenEditProfile(!openEditProfile)}
+              >
+                Editar Perfil
+              </Button>
             </div>
-          )}
-          <MentorModalAvailability
-            open={openModalAvailability}
-            setOpen={setOpenModalAvailability}
-            refetchMentorProfile={refetch}
-          />
-          {user.isMentor && (
-            <Button
-              className="mt-12"
-              size="regular"
-              variant="primary"
-              onClick={handleOpenModalAvailability}
-            >
-              {mentor?.availability?.length ? "Nova agenda" : "Criar agenda"}
-            </Button>
-          )}
-          <Button
-            className="mt-12"
-            size="regular"
-            variant="secondary"
-            onClick={() => setOpenEditProfile(!openEditProfile)}
-          >
-            Editar Perfil
-          </Button>
-        </section>
-      </div>
+          </div>
+        </aside>
+      </main>
       {
         <EditProfile
           openEditProfile={openEditProfile}
           setOpenEditProfile={setOpenEditProfile}
         />
       }
-    </main>
+    </>
   );
 };
 

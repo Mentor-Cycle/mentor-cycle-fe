@@ -156,12 +156,12 @@ const EditProfile = ({
 
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
-      <div className="max-xl:px-5 py-16 px-60">
+      <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
         <form
-          className="max-md:w-auto w-[672px] text-start"
+          className="max-md:w-auto md:w-[672px] text-start"
           onSubmit={handleSubmit}
         >
-          <div className="flex gap-2 w-full">
+          <div className="flex flex-col md:flex-row gap-2 w-full">
             <Input
               type="text"
               name="firstName"

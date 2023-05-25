@@ -30,11 +30,11 @@ function Calendar({
   }
 
   const classNames: ClassNames = {
-    head_cell: "font-medium",
+    head_cell: "font-normal",
     day_disabled: "text-gray-01",
     day_selected: "bg-primary-02 text-neutral-01",
     caption: "text-lg font-bold pl-1 mb-12 text-left ml-1 flex justify-between",
-    day: "p-1.5 w-[35px] h-[35px] rounded-lg mx-1.5 my-1.5 font-medium",
+    day: "xs:p-1.5  w-[20px] xs:w-[35px] h-[20px] xs:h-[35px] rounded-lg mx-1.5 my-1.5 font-medium",
   };
 
   return (
@@ -44,7 +44,7 @@ function Calendar({
         onDayClick={changeDayClick}
         disabled={isDayDisabled}
         locale={pt}
-        className="p-12 bg-neutral-02 rounded-lg w-[445px] h-[447px] border-gray-02 border text-center"
+        className="p-2 sm:p-12 bg-neutral-02 rounded-lg sm:w-[445px] sm:h-[447px] border-gray-02 border text-center"
         classNames={classNames}
       />
     </div>

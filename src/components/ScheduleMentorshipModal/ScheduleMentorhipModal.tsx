@@ -200,13 +200,12 @@ export const ScheduleMentorshipModal = ({
         <div className="min-h-screen flex justify-center items-center">
           <Spinner />
         </div>
-        ;
       </>
     );
 
   return (
     <Modal open={open} onOpenChange={() => resetStates()}>
-      <div className="px-16 py-12 flex flex-col justify-center items-center">
+      <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
         {currentStep === 1 && (
           <>
             <div className="rounded-lg flex w-full justify-center items-center">
@@ -241,7 +240,7 @@ export const ScheduleMentorshipModal = ({
             </div>
             <div className="w-full">
               <h3 className="mb-6 mt-8">Horários disponíveis</h3>
-              <ul className="grid grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
+              <ul className="grid grid-cols-3 xs:grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
                 {convertedDaysAndTimes?.map((time) => (
                   <li key={time}>
                     <Chip
@@ -263,22 +262,27 @@ export const ScheduleMentorshipModal = ({
         )}
         {currentStep === 2 && (
           <>
-            <hr className="text-gray-02 w-full mt-16" />
-            <h2 className="mt-16 font-bold text-2xl">Mentoria de 30 minutos</h2>
-            <p className="mt-6">
-              <span className="font-bold">Horário:</span>{" "}
-              {selectedStartTime.replace(":", "h")} até as{" "}
-              {selectedEndTime.replace(":", "h")}
-            </p>
-            <p className="mt-2">
-              <span className="font-bold">Data:</span>{" "}
-              {getDateNamePhrase(selectedDate || new Date())}
-            </p>
+            <div className="min-w-[280px]">
+              <hr className="text-gray-02 w-full mt-16" />
+              <h2 className="mt-16 font-bold text-2xl text-secondary-02">
+                Mentoria de 30 minutos
+              </h2>
+              <p className="mt-6 text-secondary-02">
+                <span className="font-bold text-secondary-02">Horário:</span>{" "}
+                {selectedStartTime.replace(":", "h")} até as{" "}
+                {selectedEndTime.replace(":", "h")}
+              </p>
+              <p className="mt-2 text-secondary-02">
+                <span className="font-bold">Data:</span>{" "}
+                {getDateNamePhrase(selectedDate || new Date())}
+              </p>
+            </div>
           </>
         )}
         {currentStep === 3 && (
           <>
-            <h2 className="font-bold text-3xl order-[-2]">
+            <div className="min-w-[280px]"></div>
+            <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
               Mentoria agendada!
             </h2>
             <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">

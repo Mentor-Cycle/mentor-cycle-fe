@@ -2,7 +2,7 @@ import { Props } from "./MentoringWeekCard.types";
 
 const MentoringWeekCard = ({ day, description, chips }: Props) => {
   return (
-    <div className="max-w-xs p-6 border border-gray-03 rounded-lg">
+    <div className="max-w-[290px] p-6 border border-gray-03 rounded-lg">
       <h2 className={"font-bold text-2xl text-secondary-01 capitalize"}>
         {day}
       </h2>
