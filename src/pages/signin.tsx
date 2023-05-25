@@ -173,15 +173,15 @@ const SignIn: NextPage = () => {
             </Button>
           </form>
           <div className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[700px]">
-            <Button
-              onClick={() => handleStrategyLogin("/auth/google")}
-              size="small"
-              variant="terciary"
-              className="mb-4"
-            >
-              <Button.Icon icon={FcGoogle} />
-              Entrar com Google
-            </Button>
+            {/* <Button */}
+            {/*   onClick={() => handleStrategyLogin("/auth/google")} */}
+            {/*   size="small" */}
+            {/*   variant="terciary" */}
+            {/*   className="mb-4" */}
+            {/* > */}
+            {/*   <Button.Icon icon={FcGoogle} /> */}
+            {/*   Entrar com Google */}
+            {/* </Button> */}
             <Button
               onClick={() => handleStrategyLogin("/auth/linkedin")}
               size="small"
