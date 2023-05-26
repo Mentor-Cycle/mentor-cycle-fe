@@ -3,6 +3,7 @@ import { createContext, useMemo, useReducer } from "react";
 export enum ActionType {
   UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
   UPDATE_CURRENT_STEP = "UPDATE_CURRENT_STEP",
+  UPDATE_IS_ALLOWED_TO_GO_NEXT = "UPDATE_IS_ALLOWED_TO_GO_NEXT",
 }
 
 interface IAction {
@@ -33,6 +34,7 @@ export interface IMultiStepFormContext {
   formData: IFormData;
   states: any[];
   cities: any[];
+  isAllowedToGoNext?: boolean;
 }
 
 interface MultiStepFormProviderProps {
@@ -59,6 +61,7 @@ const initialState = {
   },
   cities: [],
   states: [],
+  isAllowedToGoNext: false,
 };
 
 const actionHandlers: Record<
@@ -72,6 +75,10 @@ const actionHandlers: Record<
   [ActionType.UPDATE_CURRENT_STEP]: (state, action) => ({
     ...state,
     currentStep: action.payload,
+  }),
+  [ActionType.UPDATE_IS_ALLOWED_TO_GO_NEXT]: (state, action) => ({
+    ...state,
+    isAllowedToGoNext: action.payload,
   }),
 };
 
