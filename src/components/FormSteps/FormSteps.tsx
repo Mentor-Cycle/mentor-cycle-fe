@@ -22,8 +22,8 @@ const FormSteps: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean | undefined>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const { formData, currentStep } = useForm();
-  const { updateCurrentStep } = useForm();
+  const { formData, currentStep, updateCurrentStep, getIsAllowedToGoNext } =
+    useForm();
   const [createUser] = useMutation(CREATE_USER);
   const router = useRouter();
 
@@ -147,7 +147,11 @@ const FormSteps: React.FC = () => {
               updateCurrentStep((currentStep || 2) + 1);
             }
           }}
-          disabled={!isValid || isSubmitting}
+          disabled={
+            !isValid ||
+            isSubmitting ||
+            (currentStep === 1 && !getIsAllowedToGoNext())
+          }
         >
           {currentStep === 3 ? "Finalizar" : "Próximo"}
         </Button>

@@ -3,7 +3,8 @@ import { ChangeEvent, FormEvent, useContext } from "react";
 import useLocalStorage from "./useLocalStorage";
 
 const useForm = () => {
-  const { formData, dispatch, currentStep } = useContext(MultiStepFormContext);
+  const { formData, dispatch, currentStep, isAllowedToGoNext } =
+    useContext(MultiStepFormContext);
   const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
   const updateForm = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,6 +29,10 @@ const useForm = () => {
     return currentStep;
   };
 
+  const getIsAllowedToGoNext = () => {
+    return isAllowedToGoNext;
+  };
+
   const updateFormTextarea = (event: FormEvent<HTMLTextAreaElement>) => {
     const target = event.target as HTMLTextAreaElement;
     const { name, value } = target;
@@ -48,6 +53,13 @@ const useForm = () => {
     dispatch({
       type: ActionType.UPDATE_CURRENT_STEP,
       payload: step,
+    });
+  };
+
+  const setIsAllowedToGoNext = (isAllowed: boolean) => {
+    dispatch({
+      type: ActionType.UPDATE_IS_ALLOWED_TO_GO_NEXT,
+      payload: isAllowed,
     });
   };
 
@@ -80,6 +92,8 @@ const useForm = () => {
     updateBirthday,
     formStorage,
     setFormStorage,
+    setIsAllowedToGoNext,
+    getIsAllowedToGoNext,
   };
 };
 

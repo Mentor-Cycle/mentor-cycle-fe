@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Input from "@components/Input";
 import clsx from "clsx";
 import { createStringRequirements } from "utils/regex";
 import useForm from "@hooks/useForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
-  const { updateForm, formData } = useForm();
+  const { updateForm, formData, setIsAllowedToGoNext } = useForm();
   const { firstName, lastName, email, password, repeatPassword } = formData;
   const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
   const passwordRequirements = createStringRequirements({
@@ -20,6 +21,12 @@ const Profile = () => {
     updateForm(event);
     setPasswordsDoNotMatch(formData.password !== formData.repeatPassword);
   };
+
+  useEffect(() => {
+    if (password === repeatPassword) {
+      setIsAllowedToGoNext(true);
+    }
+  }, [repeatPassword]);
 
   return (
     <>
