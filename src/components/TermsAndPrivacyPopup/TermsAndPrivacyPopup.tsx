@@ -1,18 +1,14 @@
 import { Dialog, DialogOverlay, DialogContent } from "@radix-ui/react-dialog";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const TermsAndPrivacyPopup = ({
   open,
   setOpen,
-  onAgree,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onAgree: () => void;
 }) => {
   const handleAgree = async () => {
-    await onAgree();
     localStorage.setItem("hasAgreedToTermsAndPrivacy", "true");
     setOpen(false);
   };

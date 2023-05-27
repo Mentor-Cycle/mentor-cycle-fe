@@ -78,69 +78,97 @@ const MentorProfile: NextPage = () => {
           <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02">
             Sobre mim
           </h2>
-          <p
-            className={`text-base w-full ${
-              mentor.biography
-                ? "text-secondary-05 overflow-hidden break-words"
-                : "text-gray-05"
-            }`}
-          >
-            {mentor.biography || "Complete seu sobre mim"}
-          </p>
+          <div className="min-h-[200px]">
+            <p
+              className={`text-base w-full ${
+                mentor.biography
+                  ? "text-secondary-05 overflow-hidden break-words"
+                  : "text-gray-05"
+              }`}
+            >
+              {mentor.biography || "Complete seu sobre mim"}
+            </p>
+          </div>
           <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02 mt-12">
             Experiência profissional
           </h2>
-          <p
-            className={`text-base w-full mb-12 ${
-              mentor.description
-                ? "text-secondary-05 overflow-hidden break-words"
-                : "text-gray-05"
-            }`}
-          >
-            {mentor.description ||
-              "Escreva suas principais experiências profissionais"}
-          </p>
-          <section className="pt-12 pb-12 px-4 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+          <div className="min-h-[200px]">
             <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.email ? "" : "text-gray-05 text-base"
+              className={`text-base w-full mb-12 ${
+                mentor.description
+                  ? "text-secondary-05 overflow-hidden break-words"
+                  : "text-gray-05"
               }`}
             >
-              {mentor.email || "exemplo@gmail.com"}
+              {mentor.description ||
+                "Escreva suas principais experiências profissionais"}
             </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.github ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {mentor.github || "exemplo.com.br"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.country ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {`${validateUndefined(mentor.country) || "País"}${
-                mentor.country === "Brasil" && mentor.state
-                  ? `/${validateUndefined(mentor.state)}`
-                  : ""
-              }`}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.yearsOfExperience ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {mentor.yearsOfExperience
-                ? `${parseInt(
-                    mentor.yearsOfExperience < 30
-                      ? mentor.yearsOfExperience
-                      : "30+"
-                  )} ${
-                    mentor.yearsOfExperience > 1 ? "anos" : "ano"
-                  } de experiência`
-                : "experiência que você possui"}
-            </p>
+          </div>
+          <section className="pt-12 pb-12 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid justify-between">
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Email
+              </span>
+              <p
+                className={`font-bold text-secondary-02 text-base ${
+                  mentor.email ? "" : "text-gray-05 text-base"
+                }`}
+              >
+                {mentor.email || "exemplo@gmail.com"}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Github/Portifólio
+              </span>
+              <p
+                className={` text-base ${
+                  mentor.github
+                    ? "font-bold text-secondary-02"
+                    : "text-gray-05 text-base"
+                }`}
+              >
+                {mentor.github || "exemplo.com.br"}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                País/Estado
+              </span>
+              <p
+                className={`font-bold text-secondary-02 text-base ${
+                  mentor.country ? "" : "text-gray-05 text-base"
+                }`}
+              >
+                {`${validateUndefined(mentor.country) || "País"}${
+                  mentor.country === "Brasil" && mentor.state
+                    ? `/${validateUndefined(mentor.state)}`
+                    : ""
+                }`}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Experiência
+              </span>
+              <p
+                className={`text-base ${
+                  mentor.yearsOfExperience
+                    ? "font-bold text-secondary-02"
+                    : "text-secondary-03"
+                }`}
+              >
+                {mentor.yearsOfExperience
+                  ? `${parseInt(
+                      mentor.yearsOfExperience < 30
+                        ? mentor.yearsOfExperience
+                        : "30+"
+                    )} ${
+                      mentor.yearsOfExperience > 1 ? "anos" : "ano"
+                    } de experiência`
+                  : "experiência que você possui"}
+              </p>
+            </div>
           </section>
         </aside>
         <section className="flex flex-col items-center md:items-end">

@@ -12,6 +12,7 @@ export type User = {
   isLogged?: boolean;
   availability?: [];
   github?: string;
+  linkedin?: string;
   yearsOfExperience: number;
   biography?: string;
   description: string;
@@ -30,6 +31,8 @@ export const initialValue: User = {
   skills: [],
   biography: "",
   jobTitle: "",
+  github: "",
+  linkedin: "",
   availability: [],
   yearsOfExperience: 0,
   description: "",
