@@ -76,67 +76,101 @@ const Profile: NextPage = () => {
           <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02">
             Sobre mim
           </h2>
-          <p
-            className={`text-base w-full ${
-              user.biography
-                ? "text-secondary-05 overflow-hidden break-words"
-                : "text-gray-05"
-            }`}
-          >
-            {user.biography || "Complete seu sobre mim"}
-          </p>
+          <div className="min-h-[200px]">
+            <p
+              className={`text-base w-full ${
+                user.biography
+                  ? "text-secondary-05 overflow-hidden break-words"
+                  : "text-gray-05"
+              }`}
+            >
+              {user.biography || "Complete seu sobre mim"}
+            </p>
+          </div>
           <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02 mt-12">
             Experiência profissional
           </h2>
-          <p
-            className={`text-base w-full mb-12 ${
-              user.description
-                ? "text-secondary-05 overflow-hidden break-words"
-                : "text-gray-05"
-            }`}
-          >
-            {user.description ||
-              "Escreva suas principais experiências profissionais"}
-          </p>
-          <section className="pt-12 pb-12 px-4 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+          <div className="min-h-[200px]">
             <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.email ? "" : "text-gray-05 text-base"
+              className={`text-base w-full mb-12 ${
+                user.description
+                  ? "text-secondary-05 overflow-hidden break-words"
+                  : "text-gray-05"
               }`}
             >
-              {user.email || "exemplo@gmail.com"}
+              {user.description ||
+                "Escreva suas principais experiências profissionais"}
             </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.github ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {user.github || "exemplo.com.br"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.country ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {`${validateUndefined(user.country) || "País"}${
-                user.country === "Brasil" && user.state
-                  ? `/${validateUndefined(user.state)}`
-                  : ""
-              }`}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.yearsOfExperience ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {user.yearsOfExperience
-                ? `${parseInt(
-                    user.yearsOfExperience < 30 ? user.yearsOfExperience : "30+"
-                  )} ${
-                    user.yearsOfExperience > 1 ? "anos" : "ano"
-                  } de experiência`
-                : "experiência que você possui"}
-            </p>
+          </div>
+          <section className="pt-12 pb-12  flex flex-col 2xl:flex-row flex-wrap gap-6 border-gray-03 border-t border-solid justify-between">
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Email
+              </span>
+              <p
+                className={`text-base ${
+                  user.email
+                    ? "font-bold text-secondary-02"
+                    : "text-gray-05 text-base"
+                }`}
+              >
+                {user.email || "exemplo@gmail.com"}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Github/Portifólio
+              </span>
+              <p
+                className={`text-base ${
+                  user.github
+                    ? "font-bold text-secondary-02"
+                    : "text-gray-05 text-base"
+                }`}
+              >
+                {user.github || "exemplo.com.br"}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                País/Estado
+              </span>
+              <p
+                className={`text-base ${
+                  user.country
+                    ? "font-bold text-secondary-02"
+                    : "text-gray-05 text-base"
+                }`}
+              >
+                {`${validateUndefined(user.country) || "País"}${
+                  user.country === "Brasil" && user.state
+                    ? `/${validateUndefined(user.state)}`
+                    : ""
+                }`}
+              </p>
+            </div>
+            <div className="border border-gray-03 p-4 rounded bg-neutral-01 dark:bg-transparent min-w-[270px]">
+              <span className="text-gray-04 dark:text-neutral-05 text-sm mb-2 block">
+                Experiência
+              </span>
+              <p
+                className={` text-base ${
+                  user.yearsOfExperience
+                    ? "font-bold text-secondary-02"
+                    : "text-gray-05 text-base"
+                }`}
+              >
+                {user.yearsOfExperience
+                  ? `${parseInt(
+                      user.yearsOfExperience < 30
+                        ? user.yearsOfExperience
+                        : "30+"
+                    )} ${
+                      user.yearsOfExperience > 1 ? "anos" : "ano"
+                    } de experiência`
+                  : "experiência que você possui"}
+              </p>
+            </div>
           </section>
         </aside>
         <aside className="flex justify-center md:justify-end md:items-start">

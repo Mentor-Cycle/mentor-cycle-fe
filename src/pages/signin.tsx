@@ -29,9 +29,19 @@ const SignIn: NextPage = () => {
   const [signInUser, { loading }] = useMutation(SIGN_IN_USER);
   const { setUser } = useContext(UserContext);
 
+  useEffect(() => {
+    const hasAgreedToTermsAndPrivacy = localStorage.getItem(
+      "hasAgreedToTermsAndPrivacy"
+    );
+    if (!hasAgreedToTermsAndPrivacy) {
+      setTimeout(() => {
+        setOpen(true);
+      }, 1000);
+    }
+  }, []);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
     const { email, password, rememberMe } = Object.fromEntries(
@@ -60,22 +70,6 @@ const SignIn: NextPage = () => {
     }
   };
 
-  const onAgree = () => {
-    refForm.current?.requestSubmit();
-  };
-
-  const handleLogin = () => {
-    const hasAgreedToTermsAndPrivacy = localStorage.getItem(
-      "hasAgreedToTermsAndPrivacy"
-    );
-
-    if (hasAgreedToTermsAndPrivacy) {
-      return refForm.current?.requestSubmit();
-    }
-
-    setOpen(true);
-  };
-
   useEffect(() => {
     async function checkIfUserIsLogged() {
       const { data } = await client.query({
@@ -91,7 +85,7 @@ const SignIn: NextPage = () => {
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
-      <TermsAndPrivacyPopup open={open} setOpen={setOpen} onAgree={onAgree} />
+      <TermsAndPrivacyPopup open={open} setOpen={setOpen} />
       <div className="relative bg-gradient-to-r from-primary-04 to-primary-02 dark:from-primary-04 dark:to-primary-05 py-16 col-span-1 md:col-span-6 md:py-0 md:pl-12 lg:pl-32 md:pr-2">
         <Image
           alt="Mentor Cycle Logo"
@@ -165,7 +159,6 @@ const SignIn: NextPage = () => {
             <Button
               type="submit"
               isLoading={loading}
-              onClick={handleLogin}
               size="small"
               className="mb-4 md:mb-12"
             >
