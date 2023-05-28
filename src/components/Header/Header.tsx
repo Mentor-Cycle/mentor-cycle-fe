@@ -57,6 +57,7 @@ export default function Header() {
         yearsOfExperience: data.me.yearsOfExperience,
         skills: data.me.skills,
         github: data.me.github,
+        linkedin: data.me.linkedin,
         email: data.me.email,
         jobTitle: data.me.jobTitle,
         isMentor: data.me.isMentor,

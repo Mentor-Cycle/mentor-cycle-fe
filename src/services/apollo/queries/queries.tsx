@@ -67,6 +67,7 @@ export const GET_MENTOR_BY_ID = gql`
       biography
       email
       github
+      linkedin
       yearsOfExperience
       availability {
         weekDay
@@ -116,6 +117,7 @@ export const GET_ME = gql`
       country
       description
       github
+      linkedin
       state
       availability {
         startHour

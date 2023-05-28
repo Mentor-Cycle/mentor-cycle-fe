@@ -8,7 +8,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
 import { EditProfileProps } from "./EditProfile.types";
-import { validateUndefined } from "utils/nullable/validateUndefined";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { SingleValue } from "react-select";
 import { Country, State } from "@hooks/useFetch.types";
@@ -34,6 +33,17 @@ const EditProfile = ({
   const [selectedStates, setSelectedStates] =
     useState<SingleValue<{ label: string; value: string }>>(null);
   const { getCountries, getStates } = useFetch();
+
+  useEffect(() => {
+    if (user.skills) {
+      setSelectedSkills(
+        user.skills.map((skill: string) => ({
+          label: skill,
+          value: skill,
+        }))
+      );
+    }
+  }, [user.skills]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -62,6 +72,7 @@ const EditProfile = ({
     jobTitle,
     country,
     github,
+    linkedin,
     state,
     description,
   } = user;
@@ -79,6 +90,8 @@ const EditProfile = ({
       biography: newBiography,
       description: newDescription,
       email: newEmail,
+      github: newGithub,
+      linkedin: newLinkedin,
       yearsOfExperience: newYearsOfExperience,
     } = Object.fromEntries(formData.entries());
 
@@ -88,6 +101,8 @@ const EditProfile = ({
         email: newEmail || email,
         biography: newBiography || biography,
         lastName: newLastName || lastName,
+        github: newGithub || github,
+        linkedin: newLinkedin || linkedin,
         description: newDescription || description,
         jobTitle: newJobTitle || jobTitle,
         country: selectedCountry ? selectedCountry.value : country,
@@ -99,6 +114,7 @@ const EditProfile = ({
 
         id,
       };
+
       const { data } = await updateUser({
         variables: updatedUser,
       });
@@ -226,6 +242,18 @@ const EditProfile = ({
               placeholder="Selecione um Estado"
               value={selectedStates || { label: state, value: state }}
               isDisabled={selectedCountry?.value !== "Brasil"}
+            />
+            <Input
+              name="linkedin"
+              label="Linkedin"
+              placeholder="linkedin.com/in/usuario1"
+              defaultValue={linkedin}
+            />
+            <Input
+              name="github"
+              label="Portifólio/Github"
+              placeholder="portfóliousuário.com.br"
+              defaultValue={github}
             />
             <Input
               type="number"

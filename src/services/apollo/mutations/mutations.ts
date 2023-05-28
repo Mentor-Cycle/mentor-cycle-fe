@@ -71,6 +71,8 @@ export const USER_UPDATE_DATA = gql`
     $state: String
     $country: String
     $description: String
+    $github: String
+    $linkedin: String
     $yearsOfExperience: Float
     $id: String!
     $isMentor: Boolean
@@ -84,6 +86,8 @@ export const USER_UPDATE_DATA = gql`
         email: $email
         id: $id
         biography: $biography
+        github: $github
+        linkedin: $linkedin
         jobTitle: $jobTitle
         state: $state
         country: $country
