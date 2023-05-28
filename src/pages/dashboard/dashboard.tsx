@@ -15,6 +15,7 @@ import {
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Link from "next/link";
 import { useUser } from "@hooks/useUser";
+import EmptyValueDashboard from "layout/EmptyValueDashboard";
 
 const Dashboard: NextPage = () => {
   const statusOptions = [
@@ -102,6 +103,13 @@ const Dashboard: NextPage = () => {
     return generateEmptyFeedback();
   };
 
+  if (loading)
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
+
   const generateEmptyFeedback = () => {
     if (selectedFilter) return;
     return (
@@ -135,14 +143,16 @@ const Dashboard: NextPage = () => {
       </header>
       <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
         <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
-          <div>
-            <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
-              Todas as suas mentorias
-            </h1>
-            <p className="text-gray-03 text-center lg:text-left">
-              Confira abaixo as mentorias realizadas e que foram marcadas
-            </p>
-          </div>
+          {hasMentorship && selectedFilter !== "" && (
+            <div>
+              <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
+                Todas as suas mentorias
+              </h1>
+              <p className="text-gray-03 text-center lg:text-left">
+                Confira abaixo as mentorias realizadas e que foram marcadas
+              </p>
+            </div>
+          )}
           {data?.findEvents?.length > 0 && !loading && (
             <div className="mt-6 md:mt-0 sm:mr-2">
               <Select
@@ -178,15 +188,11 @@ const Dashboard: NextPage = () => {
           ) : (
             !hasMentorship && selectedFilter === "" && generateEmptyFeedback()
           )}
-          {!hasMentorship && selectedFilter !== "" && (
-            <p className="text-danger-01 text-center">
-              Não foram encontradas mentorias com o status{" "}
-              {
-                statusOptions.find((item) => item.value === selectedFilter)
-                  ?.label
-              }
-              .
-            </p>
+          {!hasMentorship && !user.availability && selectedFilter !== "" && (
+            <EmptyValueDashboard
+              statusOptions={statusOptions}
+              selectedFilter={selectedFilter}
+            />
           )}
         </div>
         <section className="mt-16">
