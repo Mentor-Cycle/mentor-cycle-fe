@@ -24,7 +24,9 @@ export const ProfileCard = ({
     >
       {Icon}
       <div className="mt-8">
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-2xl font-bold text-secondary-03 dark:bg-neutral-01">
+          {title}
+        </h1>
         <p className="text-xs text-gray-05 dark:text-neutral-01 line-clamp-3">
           {description}{" "}
         </p>

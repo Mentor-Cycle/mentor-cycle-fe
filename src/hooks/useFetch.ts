@@ -15,16 +15,25 @@ export const useFetch = (): IUseFetch => {
 
   const getCountries = useCallback(
     async (params?: GetCountriesParams) => {
-      const url = new URL(`${IBGE_PLACES_API_URL}/paises`);
-      if (params?.orderBy) {
-        url.searchParams.append("orderBy", params.orderBy);
+      try {
+        const url = new URL(`${IBGE_PLACES_API_URL}/paises`);
+        if (params?.orderBy) {
+          url.searchParams.append("orderBy", params.orderBy);
+        }
+        const res = await fetch(url.toString(), GET_PROPS);
+        if (!res.ok) {
+          throw new Error(`An error occurred: ${res.statusText}`);
+        }
+
+        const countries = await res.json();
+        return countries.map(({ id: { M49 }, nome }: any) => ({
+          value: nome,
+          label: nome,
+        }));
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        return [];
       }
-      const res = await fetch(url.toString(), GET_PROPS);
-      const countries = await res.json();
-      return countries.map(({ id: { M49 }, nome }: any) => ({
-        value: nome,
-        label: nome,
-      }));
     },
     [GET_PROPS]
   );

@@ -8,6 +8,9 @@ module.exports = {
     fontFamily: {
       sans: ["Poppins", "sans-serif"],
     },
+    boxShadow: {
+      inner2: "inset 0 1px 1px hsla(0,0%,20%)",
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",

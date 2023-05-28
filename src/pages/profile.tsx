@@ -10,21 +10,18 @@ import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
+import { InfoCard } from "@components/InfoCard";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
-  const router = useRouter();
   const { user } = useUser();
 
-  const { mentor, loading, error, refetch } = useMentorProfile(
-    user.id as string
-  );
+  const { mentor, loading, refetch } = useMentorProfile(user.id as string);
 
   const [eventsByDay, setEventsByDay] = useState({});
 
@@ -98,45 +95,50 @@ const Profile: NextPage = () => {
             {user.description ||
               "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="pt-12 pb-12 px-4 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.email ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {user.email || "exemplo@gmail.com"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.github ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {user.github || "exemplo.com.br"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.country ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {`${validateUndefined(user.country) || "País"}${
+          <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+            <InfoCard
+              title="E-mail"
+              label="example@email.com"
+              content={user.email}
+            />
+            <InfoCard
+              title="Portfólio/GitHub"
+              label="exemplo.com.br"
+              content={user.github}
+              alignRight
+            />
+            <InfoCard
+              title="País/Estado"
+              label="example@email.com"
+              content={`${validateUndefined(user.country) || "País"}${
                 user.country === "Brasil" && user.state
                   ? `/${validateUndefined(user.state)}`
                   : ""
               }`}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                user.yearsOfExperience ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {user.yearsOfExperience
-                ? `${parseInt(
-                    user.yearsOfExperience < 30 ? user.yearsOfExperience : "30+"
-                  )} ${
-                    user.yearsOfExperience > 1 ? "anos" : "ano"
-                  } de experiência`
-                : "experiência que você possui"}
-            </p>
+              contentToValidate={user.country}
+            />
+            <InfoCard
+              title="Carreira"
+              label="example@email.com"
+              content={
+                user.yearsOfExperience
+                  ? `${parseInt(
+                      user.yearsOfExperience < 30
+                        ? user.yearsOfExperience
+                        : "30+"
+                    )} ${
+                      user.yearsOfExperience > 1 ? "anos" : "ano"
+                    } de experiência`
+                  : "experiência que você possui"
+              }
+              contentToValidate={user.yearsOfExperience}
+              alignRight
+            />
+            <InfoCard
+              title="Linkedin"
+              label="linkedin.com/in/example"
+              content={user.linkedin}
+            />
           </section>
         </aside>
         <aside className="flex justify-center md:justify-end md:items-start">
@@ -147,7 +149,7 @@ const Profile: NextPage = () => {
             {user.isMentor &&
               (mentor?.availability?.length ? (
                 <div className="w-[290px] m-auto">
-                  <div className="">
+                  <div className="flex flex-col gap-4">
                     {mentor.availability.map((availability, index) => (
                       <MentoringWeekCard
                         key={availability.weekDay + index}
@@ -201,7 +203,7 @@ const Profile: NextPage = () => {
                 </Button>
               )}
               <Button
-                className="mt-12"
+                className="mt-5"
                 size="regular"
                 variant="secondary"
                 onClick={() => setOpenEditProfile(!openEditProfile)}

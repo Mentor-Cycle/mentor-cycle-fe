@@ -18,6 +18,7 @@ import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
 import Spinner from "@components/Spinner";
+import { InfoCard } from "@components/InfoCard";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
@@ -100,47 +101,50 @@ const MentorProfile: NextPage = () => {
             {mentor.description ||
               "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="pt-12 pb-12 px-4 flex flex-col 2xl:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.email ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {mentor.email || "exemplo@gmail.com"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.github ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {mentor.github || "exemplo.com.br"}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.country ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {`${validateUndefined(mentor.country) || "País"}${
+          <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+            <InfoCard
+              title="E-mail"
+              label="example@email.com"
+              content={mentor.email || ""}
+            />
+            <InfoCard
+              title="Portfólio/GitHub"
+              label="exemplo.com.br"
+              content={mentor.github || ""}
+              alignRight
+            />
+            <InfoCard
+              title="País/Estado"
+              label="example@email.com"
+              content={`${validateUndefined(mentor.country) || "País"}${
                 mentor.country === "Brasil" && mentor.state
                   ? `/${validateUndefined(mentor.state)}`
                   : ""
               }`}
-            </p>
-            <p
-              className={`font-bold basis-1/2 text-secondary-02 ${
-                mentor.yearsOfExperience ? "" : "text-gray-05 text-base"
-              }`}
-            >
-              {mentor.yearsOfExperience
-                ? `${parseInt(
-                    mentor.yearsOfExperience < 30
-                      ? mentor.yearsOfExperience
-                      : "30+"
-                  )} ${
-                    mentor.yearsOfExperience > 1 ? "anos" : "ano"
-                  } de experiência`
-                : "experiência que você possui"}
-            </p>
+              contentToValidate={mentor.country}
+            />
+            <InfoCard
+              title="Carreira"
+              label="example@email.com"
+              content={
+                mentor.yearsOfExperience
+                  ? `${parseInt(
+                      mentor.yearsOfExperience < 30
+                        ? mentor.yearsOfExperience
+                        : "30+"
+                    )} ${
+                      mentor.yearsOfExperience > 1 ? "anos" : "ano"
+                    } de experiência`
+                  : "experiência que você possui"
+              }
+              contentToValidate={mentor.yearsOfExperience}
+              alignRight
+            />
+            <InfoCard
+              title="Linkedin"
+              label="linkedin.com/in/example"
+              content={mentor.linkedin || ""}
+            />
           </section>
         </aside>
         <section className="flex flex-col items-center md:items-end">
