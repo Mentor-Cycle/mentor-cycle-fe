@@ -7,6 +7,7 @@ import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
 import Modal from "@components/Modal/Modal";
+import AddToCalendar from "@components/AddToCalendar/AddToCalendar";
 import { useMutation } from "@apollo/client";
 import { UPDATE_EVENT } from "services/apollo/mutations";
 
@@ -20,6 +21,9 @@ const MentoringLinkCard = ({
   meetingLink,
   eventId,
   onCancel,
+  mentorName,
+  startDate,
+  endDate,
 }: Props) => {
   const [updatedStatus, setUpdatedStatus] = useState(status);
 
@@ -66,6 +70,12 @@ const MentoringLinkCard = ({
           </div>
         </div>
       </div>
+      <AddToCalendar
+        title={`Mentoria com ${mentorName}`}
+        description={`Link de acesso ${meetingLink}`}
+        startDate={startDate}
+        endDate={endDate}
+      />
       <div className="flex justify-center lg:w-full lg:max-w-xs items-end flex-col sm:flex-row md:flex-col">
         <a
           href={meetingLink}

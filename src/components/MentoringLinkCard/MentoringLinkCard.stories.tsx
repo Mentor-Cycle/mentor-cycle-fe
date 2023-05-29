@@ -36,6 +36,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "João Silva",
+    mentorName: "Mentor",
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString(),
+    endHour: "18:00",
     job: "Desenvolvedor Full Stack",
     status: "A confirmar",
     date: format(new Date(), "EEEE", { locale: ptBR }),

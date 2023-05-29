@@ -86,8 +86,12 @@ const Dashboard: NextPage = () => {
             avatar={displayedAvatar}
             date={formatDate(event.startDate)}
             hour={formatHour(new Date(event.startDate))}
+            endHour={formatHour(new Date(event.endDate))}
             job={displayedJobTitle || "Desenvolvedor"}
             name={displayedName}
+            mentorName={mentorInfo.firstName}
+            startDate={event.startDate}
+            endDate={event.endDate}
             status={event.status}
             meetingLink={event.meetingLink}
           />
