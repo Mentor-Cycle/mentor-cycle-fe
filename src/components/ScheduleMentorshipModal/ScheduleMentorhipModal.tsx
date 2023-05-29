@@ -239,10 +239,12 @@ export const ScheduleMentorshipModal = ({
               />
             </div>
             <div className="w-full">
-              <h3 className="mb-6 mt-8">Horários disponíveis</h3>
+              <h3 className="mb-6 mt-8 text-secondary-03">
+                Horários disponíveis
+              </h3>
               <ul className="grid grid-cols-3 xs:grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
                 {convertedDaysAndTimes?.map((time) => (
-                  <li key={time}>
+                  <li key={time} className="text-secondary-03">
                     <Chip
                       className="cursor-pointer w-[56px]"
                       size="small"

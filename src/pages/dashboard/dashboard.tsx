@@ -1,5 +1,4 @@
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import Button from "@components/Button/Button";
 import Select from "react-select";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import Spinner from "@components/Spinner/Spinner";
@@ -13,16 +12,18 @@ import {
   groupEventsByDay,
 } from "utils/dashboard-helpers";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
-import Link from "next/link";
 import { useUser } from "@hooks/useUser";
+import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
+import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
 
 const Dashboard: NextPage = () => {
-  const statusOptions = [
+  const statusOptions: { value: string; label: string }[] = [
     { value: "", label: "Filtrar" },
     { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
     { value: "CANCELLED", label: "Cancelada" },
   ];
+
   const { user } = useUser();
   const [selectedFilter, setSelectedFilter] = useState(statusOptions[2].value);
   const [eventsByDay, setEventsByDay] = useState({});
@@ -50,13 +51,17 @@ const Dashboard: NextPage = () => {
     setSelectedFilter(event.value);
   };
 
-  let hasMentorship = false;
-
   const generateCards = () => {
     const cards = data?.findEvents.map((event: any) => {
-      if (selectedFilter === "" || event.status === selectedFilter) {
-        hasMentorship = true;
+      const hasSelectedFilter = data?.findEvents?.some(
+        (event: any) => event.status === selectedFilter
+      );
 
+      if (data?.findEvents && !hasSelectedFilter && selectedFilter) {
+        return noEventsMessage({ selectedFilter, statusOptions });
+      }
+
+      if (selectedFilter === "" || event.status === selectedFilter) {
         const mentorInfo = event.participants.find(
           (participant: any) => participant.user.id === event.mentorId
         )?.user;
@@ -98,27 +103,14 @@ const Dashboard: NextPage = () => {
     if (!!cards.filter(Boolean).length) {
       return cards;
     }
-
-    return generateEmptyFeedback();
   };
 
-  const generateEmptyFeedback = () => {
-    if (selectedFilter) return;
+  if (loading)
     return (
-      <div className="min-h-[40vh] flex flex-col justify-center items-center max-w-xs m-auto gap-4">
-        <>
-          <h3 className="text-secondary-01 font-bold text-center">
-            Você não possui nenhuma mentoria agendada.
-          </h3>
-          {!user.isMentor && (
-            <Link href={"/mentors"} className="text-sm" legacyBehavior>
-              <Button>Encontre um mentor e agende uma mentoria</Button>
-            </Link>
-          )}
-        </>
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner />
       </div>
     );
-  };
   return (
     <>
       <header>
@@ -134,16 +126,16 @@ const Dashboard: NextPage = () => {
         </section>
       </header>
       <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
-        <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
-          <div>
-            <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
-              Todas as suas mentorias
-            </h1>
-            <p className="text-gray-03 text-center lg:text-left">
-              Confira abaixo as mentorias realizadas e que foram marcadas
-            </p>
-          </div>
-          {data?.findEvents?.length > 0 && !loading && (
+        {
+          <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
+            <div>
+              <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
+                Todas as suas mentorias
+              </h1>
+              <p className="text-gray-03 text-center lg:text-left">
+                Confira abaixo as mentorias realizadas e que foram marcadas
+              </p>
+            </div>
             <div className="mt-6 md:mt-0 sm:mr-2">
               <Select
                 options={statusOptions}
@@ -166,41 +158,42 @@ const Dashboard: NextPage = () => {
                 }}
               />
             </div>
-          )}
-        </div>
-        <div className="w-full max-h-[95vh] overflow-y-scroll overflow-x-hidden py-8 space-y-4 mt-4 sm:pr-2">
-          {loading ? (
-            <div className="min-h-[45vh] flex justify-center items-center">
-              <Spinner />
-            </div>
-          ) : data?.findEvents?.length > 0 && !loading ? (
-            generateCards()
-          ) : (
-            !hasMentorship && selectedFilter === "" && generateEmptyFeedback()
-          )}
-          {!hasMentorship && selectedFilter !== "" && (
-            <p className="text-danger-01 text-center">
-              Não foram encontradas mentorias com o status{" "}
-              {
-                statusOptions.find((item) => item.value === selectedFilter)
-                  ?.label
-              }
-              .
-            </p>
-          )}
+          </div>
+        }
+        <div
+          className={
+            "w-full max-h-[95vh] overflow-x-hidden py-8 space-y-4 mt-4 sm:pr-2"
+          }
+        >
+          {data?.findEvents.length > 0
+            ? generateCards()
+            : validateEmptyComponent({
+                selectedFilter,
+                statusOptions,
+                data,
+                user,
+              })}
         </div>
         <section className="mt-16">
-          {data?.findEvents?.length > 0 && !loading && (
-            <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-4">
-              Mentorias agendadas
-            </h2>
-          )}
-          <div
-            className="grid justify-items-center grid-cols-1 sm:grid-cols-2 
+          <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-4">
+            Mentorias agendadas
+          </h2>
+          {data?.findEvents.length > 0 ? (
+            <>
+              <div
+                className="grid justify-items-center grid-cols-1 sm:grid-cols-2 
           md:grid-cols-2 md:justify-items-start lg:grid-cols-3 gap-4"
-          >
-            {renderMentoringWeekCard(eventsByDay)}
-          </div>
+              >
+                {renderMentoringWeekCard(eventsByDay)}
+              </div>
+            </>
+          ) : (
+            <div className="mt-20 ">
+              <p className="text-secondary-01 font-bold text-center text-lg">
+                Não há mentorias agendadas
+              </p>
+            </div>
+          )}
         </section>
       </main>
     </>

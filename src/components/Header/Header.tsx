@@ -62,6 +62,7 @@ export default function Header() {
         jobTitle: data.me.jobTitle,
         isMentor: data.me.isMentor,
         id: data.me.id,
+        availability: data.me.availability,
         isLogged: true,
       });
     }
