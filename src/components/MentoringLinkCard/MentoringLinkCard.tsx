@@ -32,7 +32,7 @@ const MentoringLinkCard = ({
   const handleStatusCard = (status: string) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
-      Realizada: "primary",
+      Realizada: "chipCards",
       "A confirmar": "tertiary",
       Agendada: "chipCards",
       Cancelada: "chipCards",
