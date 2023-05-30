@@ -1,7 +1,11 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { IconType } from "react-icons";
 
-export type buttonVariant = "primary" | "secondary" | "terciary";
+export type buttonVariant =
+  | "primary"
+  | "secondary"
+  | "terciary"
+  | "profileCompletion";
 
 export type buttonSize = "regular" | "small";
 

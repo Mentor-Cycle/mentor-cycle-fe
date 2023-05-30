@@ -15,6 +15,9 @@ import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMen
 import { useUser } from "@hooks/useUser";
 import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
+import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
+import Button from "@components/Button";
+import Link from "next/link";
 
 const Dashboard: NextPage = () => {
   const statusOptions: { value: string; label: string }[] = [
@@ -52,15 +55,13 @@ const Dashboard: NextPage = () => {
   };
 
   const generateCards = () => {
+    const hasSelectedFilter = data?.findEvents?.some(
+      (event: any) => event.status === selectedFilter
+    );
+    if (data?.findEvents && !hasSelectedFilter && selectedFilter) {
+      return noEventsMessage({ selectedFilter, statusOptions });
+    }
     const cards = data?.findEvents.map((event: any) => {
-      const hasSelectedFilter = data?.findEvents?.some(
-        (event: any) => event.status === selectedFilter
-      );
-
-      if (data?.findEvents && !hasSelectedFilter && selectedFilter) {
-        return noEventsMessage({ selectedFilter, statusOptions });
-      }
-
       if (selectedFilter === "" || event.status === selectedFilter) {
         const mentorInfo = event.participants.find(
           (participant: any) => participant.user.id === event.mentorId
@@ -125,15 +126,21 @@ const Dashboard: NextPage = () => {
           </div>
         </section>
       </header>
-      <main className="min-h-screen px-2 sm:container mt-16 overflow-auto mb-10">
+      <main className="px-2 sm:container mt-12 overflow-auto mb-10">
+        <ProfileCompletionAlert />
         {
-          <div className="flex flex-col md:flex md:flex-row justify-between items-center pr-2">
+          <div className="flex flex-col md:flex md:flex-row justify-between items-center ">
             <div>
               <h1 className="text-4.5xl font-bold text-secondary-02 dark:text-neutral-01 text-center lg:text-left">
                 Todas as suas mentorias
               </h1>
               <p className="text-gray-03 text-center lg:text-left">
-                Confira abaixo as mentorias realizadas e que foram marcadas
+                {validateEmptyComponent({
+                  selectedFilter,
+                  statusOptions,
+                  data,
+                  user,
+                })}
               </p>
             </div>
             <div className="mt-6 md:mt-0 sm:mr-2">
@@ -162,20 +169,13 @@ const Dashboard: NextPage = () => {
         }
         <div
           className={
-            "w-full max-h-[95vh] overflow-x-hidden py-8 space-y-4 mt-4 sm:pr-2"
+            "max-h-[70vh] w-full  overflow-x-hidden  space-y-4 mt-4 sm:pr-2"
           }
         >
-          {data?.findEvents.length > 0
-            ? generateCards()
-            : validateEmptyComponent({
-                selectedFilter,
-                statusOptions,
-                data,
-                user,
-              })}
+          {data?.findEvents.length > 0 && generateCards()}
         </div>
         <section className="mt-16">
-          <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-4">
+          <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-2">
             Mentorias agendadas
           </h2>
           {data?.findEvents.length > 0 ? (
@@ -188,10 +188,26 @@ const Dashboard: NextPage = () => {
               </div>
             </>
           ) : (
-            <div className="mt-20 ">
-              <p className="text-secondary-01 font-bold text-center text-lg">
-                Não há mentorias agendadas
-              </p>
+            <div className="flex flex-col lg:flex-row">
+              <div className="w-full">
+                <p className="text-gray-02 text-base text-center md:text-start mt-2 sm:mt-0">
+                  Você ainda não possui mentorias semanais realizadas e marcadas
+                </p>
+              </div>
+              <div className="flex items-center justify-center sm:justify-end lg:justify-end lg:items-end w-full min-h-[20vh] ">
+                <div className="max-w-xs w-full">
+                  {!user?.isMentor && (
+                    <Link href={"/mentors"} className="w-full">
+                      <Button size="small">Encontrar uma mentoria</Button>
+                    </Link>
+                  )}
+                  {user?.isMentor && !user?.availability && (
+                    <Link href={"/profile"} className="w-full">
+                      <Button size="small">Criar uma agenda</Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
           )}
         </section>

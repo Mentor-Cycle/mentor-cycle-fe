@@ -51,6 +51,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       active:text-primary-04 dark:active:text-neutral-01 dark:active:bg-secondary-05 dark:active:border-neutral-01
       disabled:bg-neutral-02 disabled:text-gray-02 dark:border-transparent
         `,
+      profileCompletion: `bg-secondary-02 dark:bg-gray-05 border border-secondary-01
+      text-neutral-01
+      hover:bg-secondary-01 hover:border-secondary-01 dark:hover:bg-secondary-02
+      active:bg-secondary-04 dark:active:text-neutral-01 dark:active:bg-secondary-03 active:border-secondary-01 dark:active:border-neutral-01
+      disabled:bg-gray-02`,
     };
     return (
       <button
