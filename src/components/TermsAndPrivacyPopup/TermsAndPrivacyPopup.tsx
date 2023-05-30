@@ -15,10 +15,10 @@ const TermsAndPrivacyPopup = ({
 
   return (
     <Dialog open={open}>
-      <DialogOverlay className="fixed z-10 inset-0 bg-secondary-01 bg-opacity-50" />
+      <DialogOverlay className="fixed z-10 inset-0 bg-secondary-01 bg-opacity-50 " />
       <DialogContent
         onCloseAutoFocus={(e) => e.preventDefault()}
-        className="fixed z-20 bottom-[-10vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-neutral-01 p-6 rounded shadow-lg"
+        className="fixed z-20 bottom-[-10vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-neutral-01 p-6 rounded shadow-lg dark:bg-blackA12"
       >
         <h2 className="text-xl font-bold mb-4">
           Termos de Uso, Política de Privacidade e Cookies
@@ -46,7 +46,7 @@ const TermsAndPrivacyPopup = ({
         </p>
         <button
           type="button"
-          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+          className="mt-4 hover:opacity-70 bg-blue-600 text-white px-4 py-2 rounded"
           onClick={handleAgree}
         >
           Concordo

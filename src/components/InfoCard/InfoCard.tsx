@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { maskEmail } from "utils/email/maskEmail";
 
 export const InfoCard = ({
   title,
@@ -15,7 +16,7 @@ export const InfoCard = ({
 }) => {
   return (
     <article className={clsx("w-2/5", alignRight ? "ml-0 lg:ml-auto" : "")}>
-      <h2 className="text-base font-bold leading-normal text-secondary-02">
+      <h2 className="text-lg font-bold leading-normal text-secondary-02">
         {title}
       </h2>
       <span
@@ -23,7 +24,7 @@ export const InfoCard = ({
           contentToValidate || content ? "" : "text-gray-05 text-base"
         }`}
       >
-        {content || label}
+        {title.includes("mail") ? maskEmail(content) : content || label}
       </span>
     </article>
   );

@@ -164,7 +164,7 @@ export const MentorModalAvailability = ({
               className="font-bold border-none"
               variant="primary"
             >
-              Marcar mentoria
+              Criar Agenda
             </Button>
           </section>
         </section>
