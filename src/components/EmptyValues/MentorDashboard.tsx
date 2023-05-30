@@ -8,24 +8,10 @@ const MentorDashboard = ({ data }: EmptyValueProps) => {
   const { user } = useUser();
 
   return (
-    <div className="min-h-[50vh] flex flex-col justify-center items-center space-y-4">
-      {user.availability.length === 0 && (
-        <>
-          <p className="text-secondary-01 font-bold text-center text-lg max-w-sm">
-            Você ainda não criou sua agenda
-          </p>
-          <div className="max-w-sm">
-            <Link href={"/profile"}>
-              <Button size="small" className="w-full">
-                Criar Agenda
-              </Button>
-            </Link>
-          </div>
-        </>
-      )}
-      {!data.findEvents.length && user.availability.length > 0 && (
-        <p className="text-secondary-01 font-bold text-center text-lg max-w-sm">
-          Não há mentorias marcadas
+    <div className="flex flex-col">
+      {!data.findEvents?.length && (
+        <p className="text-gray-02 text-base">
+          Você ainda não possui mentorias realizadas e marcadas
         </p>
       )}
     </div>
