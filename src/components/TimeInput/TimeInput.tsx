@@ -36,7 +36,7 @@ const TimeInput: React.FC<Props> = ({ value, onChange }) => {
         >
           <MdChevronLeft className="text-secondary-02 dark:text-neutral-01" />
         </button>
-        <p className="text-center w-20 outline-none border-0 bg-transparent ">
+        <p className="text-center w-20 outline-none border-0 bg-transparent text-secondary-03">
           {`${padZero(inputHours)}:${padZero(inputMinutes)}`}
         </p>
         <button

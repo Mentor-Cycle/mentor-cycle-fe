@@ -101,9 +101,9 @@ export const MentorModalAvailability = ({
             Cada mentoria deve ser criada com esse intervalo, podendo ter vários
             horários disponíveis no mesmo dia.
           </p>
-          <section className="flex gap-4 mt-12 flex-wrap max-w-[100px] xs:max-w-[200px] sm:max-w-[450px] md:max-w-max m-auto">
+          <section className=" flex gap-4 mt-12 flex-wrap max-w-[100px] xs:max-w-[200px] sm:max-w-[450px] md:max-w-max m-auto">
             {DAYS_OF_THE_WEEK_SHORT.map((day) => (
-              <div className=" min-w-[75px] m-auto sm:m-0" key={day}>
+              <div className=" min-w-[75px] m-auto sm:m-0 " key={day}>
                 <Chip
                   className="capitalize font-normal cursor-pointer "
                   key={day}
@@ -119,9 +119,9 @@ export const MentorModalAvailability = ({
           </section>
           <section className="flex flex-col sm:flex-row items-center  justify-between md:justify-center mt-14 gap-4 sm:gap-8 dark:text-neutral-02">
             <div>
-              <p>Horário</p>
+              <p className="text-secondary-03">Horário</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 ">
               <TimeInput value={selectedStart} onChange={setSelectedStart} />
               <TimeInput value={selectedEnd} onChange={setSelectedEnd} />
             </div>
@@ -144,7 +144,7 @@ export const MentorModalAvailability = ({
                 className="flex flex-col xs:flex-row xs:space-x-4 items-center mt-2 m-auto"
               >
                 <article className="">
-                  <p>{slot.weekDay}</p>
+                  <p className="text-secondary-03 font-bold">{slot.weekDay}</p>
                 </article>
                 <article className="text-secondary-01 dark:text-neutral-02">
                   {slot.startHour} até {slot.endHour}

@@ -16,7 +16,6 @@ import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import MobileNavBar from "@components/NavBar/MobileNavBar";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -62,6 +61,7 @@ export default function Header() {
         jobTitle: data.me.jobTitle,
         isMentor: data.me.isMentor,
         id: data.me.id,
+        availability: data.me.availability,
         isLogged: true,
       });
     }
@@ -133,7 +133,7 @@ export default function Header() {
                 <span className="hidden lg:inline-block">Home</span>
               </Link>
             </li>
-            <li className={linkStyle}>
+            {/* <li className={linkStyle}>
               <button
                 className={itemsMenuStyle}
                 onClick={() => {
@@ -144,7 +144,7 @@ export default function Header() {
                 <MdNotifications size={24} />
                 <span className="hidden lg:inline-block">Notificações</span>
               </button>
-            </li>
+            </li> */}
             <li className={linkStyle}>
               <Link className={itemsMenuStyle} href="/mentors">
                 <BsFillPeopleFill size={24} />
