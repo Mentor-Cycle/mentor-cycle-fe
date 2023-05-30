@@ -43,7 +43,7 @@ const ProfileCompletionAlert = (props: Props) => {
               className="mr-4 text-gray-05 dark:text-neutral-04 mb-2 sm:mb-0"
             />
             <span className="text-center sm:text-start px-2 my-2 text-sm md:text-base">
-              Complete seu perfil e deixe ele mais bla bla bla
+              Complete seu perfil e deixe ele mais interessante
             </span>
           </div>
           <div className="max-w-[250px] w-full">
