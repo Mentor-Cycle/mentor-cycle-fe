@@ -1,6 +1,6 @@
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import React from "react";
 
 type AccordionProps = {
   type?: "single" | "multiple";
@@ -35,33 +35,36 @@ const AccordionItemWrapper: React.FC<AccordionItemProps> = ({
   expandedText,
   children,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = React.useState(false);
 
-  const handleToggle = () => setIsOpen((value) => !value);
-
+  const handleToggle = () => {
+    setExpanded((prevExpanded) => !prevExpanded);
+  };
   return (
     <Accordion.Item
       value={value}
-      className={`mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b  border-2 border-gray-02 rounded-lg
+      className={`mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b  border rounded-lg
         }`}
     >
       <Accordion.Trigger
+        className="text-secondary-01 dark:text-neutral-01 hover:opacity-80 hover:cursor-pointer dark:hover:bg-secondary-01 group flex flex-1 items-center justify-between text-2xl font-semibold leading-none outline-none w-full h-[80px] px-8 relative transition-transform"
         onClick={handleToggle}
-        className="text-neutral-01 hover:opacity-80 hover:cursor-pointer hover:bg-secondary-01 group flex flex-1 items-center justify-between text-sm sm:text-2xl font-semibold leading-none outline-none w-full h-[80px] px-2 sm:px-8 relative transition-transform"
       >
         {expandedText}
         <ChevronDownIcon
           width={22}
           height={22}
-          className={`text-neutral-01 transform ${
-            isOpen ? "rotate-180" : "rotate-0"
-          } absolute top-1/2 right-4 sm:right-8 -translate-y-1/2 transition-transform`}
+          className={`dark:text-neutral-01 transform ${
+            expanded ? "rotate-180" : "rotate-0"
+          } absolute top-1/2 right-8 -translate-y-1/2 text-secondary-03 transition-transform`}
           aria-hidden
         />
       </Accordion.Trigger>
-      <Accordion.Content className="text-neutral-01 bg-secondary-03 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]">
-        <div className="py-[15px] px-5">{children}</div>
-      </Accordion.Content>
+      {expanded && (
+        <Accordion.Content className="text-secondary-05 dark:text-neutral-01 bg-neutral-03 dark:bg-secondary-03 overflow-hidden text-[15px] max-w-[100ch] text-start">
+          <div className="py-[15px] px-5">{children}</div>
+        </Accordion.Content>
+      )}
     </Accordion.Item>
   );
 };

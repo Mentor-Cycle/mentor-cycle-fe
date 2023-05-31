@@ -12,8 +12,7 @@ export const PUBLIC_ROUTES = [
 export const ROUTES_WITHOUT_HEADER = [
   "/signin",
   "/request-change-password",
-  "/",
-  "/landing-page",
+  "/profile",
 ];
 export const DAYS_OF_THE_WEEK_SHORT = [
   "Domingo",

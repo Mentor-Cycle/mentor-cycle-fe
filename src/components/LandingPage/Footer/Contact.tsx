@@ -1,18 +1,8 @@
 const Contact = () => {
   return (
-    <section className="flex flex-col xs justify-center xs:justify-start items-center">
-      <h4 className="text-2xl font-bold mb-6 text-neutral-01 text-center xs:text-start">
-        Contatos
-      </h4>
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.linkedin.com/company/mentor-cycle"
-      >
-        <span className="text-gray-01 hover:text-gray-02">
-          Organização no Linkedin
-        </span>
-      </a>
+    <section>
+      <h4 className="text-2xl font-bold mb-6">Contatos</h4>
+      <span>https://www.linkedin.com/company/mentor-cycle</span>
     </section>
   );
 };
