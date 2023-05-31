@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
   const showHeader = !ROUTES_WITHOUT_HEADER.includes(router.pathname);
   return (
-    <ThemeProvider enableSystem={true} attribute="class">
+    <ThemeProvider enableSystem={true} defaultTheme="dark" attribute="class">
       <ApolloProvider client={client}>
         <UserContext.Provider value={userContextValue}>
           {showHeader && <Header />}
