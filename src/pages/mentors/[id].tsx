@@ -160,9 +160,7 @@ const MentorProfile: NextPage = () => {
                       <MentoringWeekCard
                         key={availability.weekDay + index}
                         day={availability.weekDay}
-                        description={
-                          "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet."
-                        }
+                        description={"Horários disponíveis:"}
                         chips={availability.slots.map((slot) => (
                           <Chip key={slot} variant="chipCards">
                             {slot}
@@ -192,6 +190,9 @@ const MentorProfile: NextPage = () => {
             ) : (
               <Button
                 className="mt-12"
+                disabled={Boolean(
+                  !data?.findMentorAvailability.availability.length
+                )}
                 size="regular"
                 variant="primary"
                 onClick={() => setOpenModal(true)}
