@@ -20,7 +20,7 @@ Para entender melhor o projeto, você pode assistir esse vídeo que mostra uma v
 
 Antes de tudo precisamos ter as seguintes ferramentas instaladas na sua máquina:
 
-- [Node.js](https://nodejs.org/en/)
+- [Node.js](https://nodejs.org/en/) (Nosso projeto utiliza Yarn, use-o para uma melhor experiência)
 - [Git](https://git-scm.com/)
 - [Visual Studio Code](https://code.visualstudio.com/) ou similar
   <br>
