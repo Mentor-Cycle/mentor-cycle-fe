@@ -49,10 +49,14 @@ O objetivo do Fork é criar uma cópia do repositório na sua conta do GitHub, p
 
 `git clone https://github.com/seu_nome_de_usuario/mentor-cycle-fe.git`<br>
 
-4 Com repositório na sua máquina, basta você abri-lo com seu editor de código favorito, em seguida executar o comando:<br>
+4. Com repositório na sua máquina, basta você abri-lo com seu editor de código favorito, em seguida executar o comando:<br>
 
 ```bash
 yarn install
+```
+- é necessário criar um arquivo .env na raiz do projeto e adicionar o seguinte código la dentro:
+```bash
+NEXT_PUBLIC_BACKEND_URL=https://mentor-cycle-be-dev-160e.up.railway.app
 ```
 
 Isso fará com que o gerenciador de pacotes do node, baixe todas as dependências necessárias para rodar, finalizado a instalação rode o comando:<br>
