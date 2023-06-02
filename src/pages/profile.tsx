@@ -15,11 +15,13 @@ import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 import { InfoCard } from "@components/InfoCard";
+import { useRouter } from "next/router";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const { mentor, loading, refetch } = useMentorProfile(user.id as string);
 
@@ -30,6 +32,16 @@ const Profile: NextPage = () => {
       learnerId: user.id,
     },
   });
+
+  useEffect(() => {
+    if (router.query.edit) {
+      setOpenEditProfile(true);
+    }
+    if (router.query.availability) {
+      setOpenModalAvailability(true);
+    }
+    window.history.replaceState(null, "", "/profile");
+  }, [router.query]);
 
   useEffect(() => {
     if (classes) {
