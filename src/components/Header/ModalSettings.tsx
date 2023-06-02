@@ -19,6 +19,8 @@ import {
 } from "services/apollo/mutations";
 import Dropzone from "@components/Dropzone/Dropzone";
 import { useTheme } from "next-themes";
+import clsx from "clsx";
+import { createStringRequirements } from "utils/regex";
 
 interface ModalSettingsProps {
   firstName: string;
@@ -48,7 +50,13 @@ const ModalSettings = ({
   });
   const [deactivateAccount] = useMutation(DELETE_ACCOUNT);
 
-  const optionsTheme = [{ value: "soon", label: "Em breve" }];
+  const passwordRequirements = createStringRequirements({
+    minLength: 6,
+    includeNumber: true,
+    includeLowercase: true,
+    includeUppercase: false,
+    includeSpecial: false,
+  });
 
   const optionsPerfil = [
     { value: "mentor", label: "Mentor" },
@@ -213,16 +221,15 @@ const ModalSettings = ({
         <div className=" px-16">
           <main className="flex flex-col items-center">
             <div className="flex flex-col gap-6 items-center border-b border-b-gray-01 pb-16 ">
-              <h1 className="text-success-01 text-5xl text-center">
+              <h1 className="text-secondary-02 text-5xl text-center">
                 Seus dados foram alterados com sucesso!!!
               </h1>
-              <span className="text-gray-04 ">
-                Você será direcionado a home
-              </span>
             </div>
             <div className="flex flex-col py-16">
-              <strong>{firstName}.</strong>
-              <span className="text-center">
+              <strong className="text-secondary-02 dark:text-gray-01">
+                {firstName}.
+              </strong>
+              <span className="text-center text-success-01 dark:text-success-02">
                 Seus dados foram alterados com sucesso
               </span>
             </div>
@@ -303,7 +310,10 @@ const ModalSettings = ({
                   />
                 </div>
               </div>
-              <Button className="mt-32" variant="secondary">
+              <Button
+                className={clsx(currentStep === 2 && "hidden")}
+                variant="secondary"
+              >
                 Salvar alterações
               </Button>
             </div>
@@ -319,12 +329,14 @@ const ModalSettings = ({
                     type="password"
                     name="newPassword"
                     label="Senha"
+                    pattern={passwordRequirements.toString().slice(1, -1)}
                     placeholder="**************"
                   />
                   <Input
                     type="password"
                     name="newPasswordConfirm"
                     label="Confirmar senha"
+                    pattern={passwordRequirements.toString().slice(1, -1)}
                     placeholder="**************"
                   />
                   <div className="flex flex-col gap-6">
@@ -336,11 +348,7 @@ const ModalSettings = ({
                       Deletar conta
                     </button>
                   </div>
-                  <Button
-                    className="mt-20"
-                    variant="secondary"
-                    isLoading={loading}
-                  >
+                  <Button type="submit" variant="secondary" isLoading={loading}>
                     Salvar alterações
                   </Button>
                 </div>
