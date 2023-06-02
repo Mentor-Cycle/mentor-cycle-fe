@@ -5,7 +5,7 @@ export type buttonVariant =
   | "primary"
   | "secondary"
   | "terciary"
-  | "profileCompletion";
+  | "primary_black";
 
 export type buttonSize = "regular" | "small";
 

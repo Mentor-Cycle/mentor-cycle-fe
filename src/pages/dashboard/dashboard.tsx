@@ -18,6 +18,8 @@ import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
 import Button from "@components/Button";
 import Link from "next/link";
+import { InfoPopUp } from "@components/InfoPopUp";
+import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
   const statusOptions: { value: string; label: string }[] = [
@@ -27,6 +29,7 @@ const Dashboard: NextPage = () => {
     { value: "CANCELLED", label: "Cancelada" },
   ];
 
+  const router = useRouter();
   const { user } = useUser();
   const [selectedFilter, setSelectedFilter] = useState(statusOptions[2].value);
   const [eventsByDay, setEventsByDay] = useState({});
@@ -127,6 +130,16 @@ const Dashboard: NextPage = () => {
         </section>
       </header>
       <main className="px-2 sm:container mt-12 overflow-auto mb-10">
+        {user.isMentor && (!user.availability || !user.availability.length) && (
+          <InfoPopUp
+            description="Cadastre sua disponibilidade para começar a mentorar"
+            buttonName="Criar Agenda"
+            variant="primary_black"
+            onButtonClick={() => {
+              router.push("/profile?availability=true");
+            }}
+          />
+        )}
         <ProfileCompletionAlert />
         {
           <div className="flex flex-col md:flex md:flex-row justify-between items-center ">
