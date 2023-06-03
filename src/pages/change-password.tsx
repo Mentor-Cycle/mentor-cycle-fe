@@ -53,7 +53,7 @@ const ChangePassword = () => {
         formRef.current?.reset();
         setsucessChangePassword(true);
         setTimeout(() => {
-          router.push("/");
+          router.push("/signin");
         }, 5000);
       } catch (er) {
         toast.error("Não foi possível alterar sua senha");
@@ -85,7 +85,7 @@ const ChangePassword = () => {
     <div className="flex flex-col gap-[81px] items-center mt-20">
       {sucessChangePassword ? (
         <div className=" w-full px-40">
-          <Link href={{ pathname: "/" }}>
+          <Link href={{ pathname: "/signin" }}>
             <span className="flex items-center self-start gap-2">
               <TbArrowLeft /> Voltar a área de login
             </span>
@@ -143,7 +143,7 @@ const ChangePassword = () => {
               Senha: mínimo 6 caracteres números e letras.
             </p>
             <div className="flex gap-4 mt-9 w-full ">
-              <Link href={{ pathname: "/" }} className="w-full">
+              <Link href={{ pathname: "/signin" }} className="w-full">
                 <Button variant="secondary" className="">
                   Cancelar
                 </Button>

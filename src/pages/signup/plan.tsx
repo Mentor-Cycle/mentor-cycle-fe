@@ -50,7 +50,7 @@ const Plan = () => {
           />
         </div>
         <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
-          <Link href="/" legacyBehavior>
+          <Link href="/signin" legacyBehavior>
             <Button variant="secondary" className="order-last sm:order-first">
               Voltar
             </Button>
