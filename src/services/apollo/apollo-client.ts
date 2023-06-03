@@ -13,6 +13,7 @@ const excludedPaths = [
   "terms",
   "privacy-policy",
   "change-password",
+  "/landing-page",
 ];
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
