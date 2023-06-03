@@ -5,11 +5,14 @@ import CardInstructionSection from "./CardInstructionSection";
 
 const InstructionsSection = () => {
   return (
-    <section className="container my-40">
-      <h2 className="font-bold text-4.5xl text-center" id="como-funciona">
+    <section className="container py-20 xs:py-40">
+      <h2
+        className="font-bold  text-2xl text-center md:text-4.5xl text-neutral-01"
+        id="como-funciona"
+      >
         Como funciona
       </h2>
-      <div className="flex justify-between items-center mt-12">
+      <div className="flex flex-col 2xl:flex-row justify-between items-center mt-12 gap-4 2xl:gap-0">
         <CardInstructionSection
           text="Faça seu cadastro hoje mesmo e de forma gratuita"
           title="Cadastre"

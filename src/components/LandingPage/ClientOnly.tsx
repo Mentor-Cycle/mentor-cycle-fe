@@ -11,7 +11,10 @@ const ClientOnly: React.FC<OnlyClientProps> = ({ children }) => {
     setHasMounted(true);
   }, []);
 
-  return <>{hasMounted && children}</>;
+  if (!hasMounted) {
+    return null;
+  }
+  return <>{children}</>;
 };
 
 export default ClientOnly;
