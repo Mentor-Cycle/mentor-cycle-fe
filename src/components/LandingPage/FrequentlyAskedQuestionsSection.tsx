@@ -2,10 +2,12 @@ import { AccordionItemWrapper, AccordionWrapper } from "./AccordionComponent";
 
 const FrequentlyAskedQuestionsSection = () => {
   return (
-    <section className="container my-40">
-      <h3 className="font-bold text-4.5xl">Perguntas frequentes</h3>
+    <section className="px-2 xs:container py-20 xs:py-40  min-h-[600px]">
+      <h3 className="font-bold text-2xl text-center sm:text-start sm:text-4.5xl text-neutral-01">
+        Perguntas frequentes
+      </h3>
       <div className="mt-12">
-        <AccordionWrapper type="single" collapsible>
+        <AccordionWrapper type="multiple" collapsible={true}>
           <AccordionItemWrapper value="item-1" expandedText="É gratuito?">
             Sim, é totalmente gratuito. Nossos mentores são voluntários e você
             não terá nenhum custo. Porém, fique atendo aos nossos termos e

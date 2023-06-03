@@ -89,7 +89,7 @@ export default function Header() {
     await signOutUser();
     setUser(initialValue);
     localStorage.removeItem("user");
-    window.location.href = "/";
+    window.location.href = "/signin";
   };
 
   const menuClickActions = {
@@ -111,7 +111,7 @@ export default function Header() {
 
   const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
 
-  const userIsLogged = isLogged ? "/dashboard" : "/";
+  const userIsLogged = isLogged ? "/dashboard" : "/signin";
 
   const setDarkMode = async () => {
     setIsToogle(!isToggle);
