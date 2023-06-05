@@ -9,6 +9,7 @@ import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { GET_MENTORS } from "services/apollo/queries";
+import { IMentor } from "types/mentor.types";
 import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";
 
@@ -24,22 +25,24 @@ interface Filter {
   pageNumber: number;
   period: null | string;
   skills: string | null;
-  mentors: [];
+  mentors: IMentor[];
 }
 
+const mentorsInitialState: Filter = {
+  firstName: "",
+  lastName: "",
+  orderBy: "firstName",
+  order: "asc",
+  skip: 0,
+  pageSize: PAGE_SIZE,
+  pageNumber: 1,
+  period: null,
+  skills: null,
+  mentors: [],
+};
+
 const Mentors: NextPage = () => {
-  const [filter, setFilter] = useState<Filter>({
-    firstName: "",
-    lastName: "",
-    orderBy: "firstName",
-    order: "asc",
-    skip: 0,
-    pageSize: PAGE_SIZE,
-    pageNumber: 1,
-    period: null,
-    skills: null,
-    mentors: [],
-  });
+  const [filter, setFilter] = useState<Filter>(mentorsInitialState);
 
   const {
     orderBy,
@@ -170,34 +173,20 @@ const Mentors: NextPage = () => {
               className="min-h-screen overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-auto items-center sm:items-start justify-center sm:justify-between gap-4 mt-8 justify-items-center"
             >
               {mentors.length > 0 ? (
-                mentors.map(
-                  (
-                    {
-                      chips,
-                      id,
-                      image,
-                      description,
-                      jobTitle,
-                      location,
-                      firstName,
-                      lastName,
-                    },
-                    index
-                  ) => (
-                    <CardProfile
-                      id={id}
-                      key={index}
-                      chips={chips}
-                      description={description}
-                      image={image}
-                      jobTitle={user.jobtitle || jobTitle}
-                      location={location}
-                      name={firstName}
-                      lastName={lastName}
-                      isCurrentMentor={user.isLogged && user.id === id}
-                    />
-                  )
-                )
+                mentors.map((mentor, index) => (
+                  <CardProfile
+                    id={mentor.id}
+                    key={index}
+                    chips={mentor.chips}
+                    description={mentor.description}
+                    image={mentor.image}
+                    jobTitle={user.jobtitle || mentor.jobTitle}
+                    location={mentor.location}
+                    name={mentor.firstName}
+                    lastName={mentor.lastName}
+                    isCurrentMentor={user.isLogged && user.id === mentor.id}
+                  />
+                ))
               ) : (
                 <p className="text-gray-03 text-center mt-8 w-full col-start-2">
                   Nenhum mentor encontrado
