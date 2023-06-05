@@ -41,6 +41,9 @@ const Dashboard: NextPage = () => {
       learnerId: !user.isMentor ? user.id : null,
     },
   });
+
+  console.log("data? ", data);
+
   useEffect(() => {
     refetch();
     if (!loading && !error && data) {

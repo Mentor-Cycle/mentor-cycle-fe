@@ -2,13 +2,18 @@ import { useMutation } from "@apollo/client";
 import Spinner from "@components/Spinner";
 import { useUser } from "@hooks/useUser";
 import { useTheme } from "next-themes";
+import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { UPDATE_USER_PHOTO } from "services/apollo/mutations";
 import { GET_ME } from "services/apollo/queries";
 import Swal from "sweetalert2";
 
-const Dropzone = ({ setIsModalOpen }: any) => {
+interface IDropzone {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const Dropzone = ({ setIsModalOpen }: IDropzone) => {
   const [uploadImage, { loading }] = useMutation(UPDATE_USER_PHOTO, {
     refetchQueries: [GET_ME],
   });
