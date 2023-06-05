@@ -13,7 +13,7 @@ export type ChipVariant =
 
 export type ChipProps = {
   variant?: ChipVariant;
-  children: any;
+  children: React.ReactNode;
   className?: string;
   size?: string;
   onClick?: () => void;
