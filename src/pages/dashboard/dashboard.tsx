@@ -56,6 +56,8 @@ const Dashboard: NextPage = () => {
   });
   if (errorEvents?.error) console.log("errorEvents", errorEvents);
 
+  console.log("data? ", data);
+
   useEffect(() => {
     refetchEvents();
     if (!loadingEvents && !errorEvents && events) {
