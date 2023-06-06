@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
@@ -18,6 +18,8 @@ import { queriesIndex } from "services/apollo/queries/queries.index";
 import { toast } from "react-toastify";
 import { useLazyTypedQuery } from "@hooks/useTypedQuery";
 import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
+import { GET_ME_querySchema } from "services/apollo/queries/queries.validation";
+import { GET_ME } from "services/apollo/queries";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -37,10 +39,12 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
-  if (error?.error) console.log("error", error);
-
   const [signOutUser] = useMutation(LOGOUT_USER);
+
+  const [me, { data: rawData, error }] = useLazyQuery(GET_ME);
+  const parsedData = GET_ME_querySchema.safeParse(rawData);
+  const { data } = parsedData.success ? parsedData.data : { data: undefined };
+
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
   const [itemsMenu] = useState({ text: "", action: "" });
