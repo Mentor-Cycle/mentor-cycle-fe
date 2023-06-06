@@ -1,0 +1,11 @@
+export { default as HeaderLP } from "@components/LandingPage/Header/HeaderLP";
+export { default as HeroSection } from "@components/LandingPage/HeroSection";
+export { default as CareerMentorsSection } from "@components/LandingPage/CareerMentorsSection";
+export { default as InstructionsSection } from "@components/LandingPage/InstructionsSection";
+export { default as AboutMentorsSection } from "@components/LandingPage/AboutMentorsSection";
+export { default as FrequentlyAskedQuestionsSection } from "@components/LandingPage/FrequentlyAskedQuestionsSection";
+export { default as SocialMediasSection } from "@components/LandingPage/Footer/SocialMediasSection";
+export { default as About } from "@components/LandingPage/Footer/About";
+export { default as Contact } from "@components/LandingPage/Footer/Contact";
+export { default as FAQ } from "@components/LandingPage/Footer/FAQ";
+export { default as PartnershipsSection } from "@components/LandingPage/PartnershipsSection";
