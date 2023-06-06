@@ -1,15 +1,17 @@
 import { NextPage } from "next";
-import HeaderLP from "@components/LandingPage/Header/HeaderLP";
-import HeroSection from "@components/LandingPage/HeroSection";
-import CareerMentorsSection from "@components/LandingPage/CareerMentorsSection";
-import InstructionsSection from "@components/LandingPage/InstructionsSection";
-import AboutMentorsSection from "@components/LandingPage/AboutMentorsSection";
-import FrequentlyAskedQuestionsSection from "@components/LandingPage/FrequentlyAskedQuestionsSection";
-import SocialMediasSection from "@components/LandingPage/Footer/SocialMediasSection";
-import About from "@components/LandingPage/Footer/About";
-import Contact from "@components/LandingPage/Footer/Contact";
-import FAQ from "@components/LandingPage/Footer/FAQ";
-import PartnershipsSection from "@components/LandingPage/PartnershipsSection";
+import {
+  About,
+  AboutMentorsSection,
+  CareerMentorsSection,
+  Contact,
+  FAQ,
+  FrequentlyAskedQuestionsSection,
+  HeaderLP,
+  HeroSection,
+  InstructionsSection,
+  PartnershipsSection,
+  SocialMediasSection,
+} from "@components/LandingPage";
 
 const LandingPage: NextPage = () => {
   return (
