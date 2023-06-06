@@ -19,13 +19,21 @@ const SocialMediasSection = () => {
         Mentor Cycle - conectando mentes em busca de sucesso.
       </p>
       <div className="flex mt-8 gap-[38px] justify-center mb-10 xs:mb-0 lg:justify-start items-center">
-        <a href={"https://discord.gg/WRD3uT3JaC"}>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href={"https://discord.gg/WRD3uT3JaC"}
+        >
           <BsDiscord
             size={24}
             className="hover:opacity-70 hover:cursor-pointer text-neutral-02"
           />
         </a>
-        <a href="https://www.linkedin.com/company/mentor-cycle/mycompany/">
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.linkedin.com/company/mentor-cycle/mycompany/"
+        >
           <TiSocialLinkedinCircular
             size={30}
             className="hover:opacity-70 hover:cursor-pointer text-neutral-02"
