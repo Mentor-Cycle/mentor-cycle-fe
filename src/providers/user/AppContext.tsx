@@ -1,26 +1,12 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { IUserSession } from "types/user.types";
 
-export type User = {
-  jobTitle?: string;
-  skills?: string[];
-  firstName?: string;
-  lastName?: string;
-  photoUrl?: string;
-  email?: string;
-  isMentor?: boolean;
-  id?: string;
-  isLogged?: boolean;
-  availability?: [];
-  github?: string;
-  linkedin?: string;
-  yearsOfExperience: number;
-  biography?: string;
-  description: string;
-  country: string;
-  state: string;
-};
+export interface IUserContext {
+  user: IUserSession;
+  setUser: Dispatch<SetStateAction<IUserSession>>;
+}
 
-export const initialValue: User = {
+export const initialValue: IUserSession = {
   firstName: "",
   lastName: "",
   photoUrl: "",
@@ -40,4 +26,6 @@ export const initialValue: User = {
   state: "",
 };
 
-export const UserContext = React.createContext<any>({});
+export const UserContext = React.createContext<IUserContext>(
+  {} as IUserContext
+);

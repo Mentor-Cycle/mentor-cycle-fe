@@ -16,6 +16,7 @@ import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import { GET_ME_querySchema } from "services/apollo/queries/queries.validation";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -36,7 +37,9 @@ export default function Header() {
   const [showModal, setShowModal] = useState<string>();
 
   const [signOutUser] = useMutation(LOGOUT_USER);
-  const [me, { data }] = useLazyQuery(GET_ME);
+  const [me, { data: rawData }] = useLazyQuery(GET_ME);
+  const parsedData = GET_ME_querySchema.safeParse(rawData);
+  const { data } = parsedData.success ? parsedData.data : { data: undefined };
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
 
