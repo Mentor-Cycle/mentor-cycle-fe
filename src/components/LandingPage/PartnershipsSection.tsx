@@ -12,6 +12,8 @@ const PartnershipsSection = () => {
         </h2>
         <div className="flex justify-center items-center mt-20">
           <a
+            target="_blank"
+            rel="noreferrer"
             href="https://www.soujunior.tech/"
             className="opacity-70 hover:opacity-100 transition"
           >
