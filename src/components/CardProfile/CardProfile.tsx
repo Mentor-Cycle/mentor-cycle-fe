@@ -91,11 +91,13 @@ const CardProfile = ({
             expandedSkills ? "flex-wrap" : "flex-nowrap"
           )}
         >
-          {visibleChips?.map((chip, index) => {
+          {visibleChips?.map((chip) => {
             return (
-              <Chip variant="chipCardsMentors" key={`${chip}-chip-${name}`}>
-                {/* {chip} */}
-                TESTETESTETESTETESTETESTETESTE
+              <Chip
+                variant="chipCardsMentors"
+                key={`${chip.children}-chip-${name}`}
+              >
+                {chip.children}
               </Chip>
             );
           })}

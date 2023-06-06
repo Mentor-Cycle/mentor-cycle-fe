@@ -1,4 +1,4 @@
-import { ChipProps } from "@components/Chip/Chip.types";
+import { ChipProps, ChipVariant } from "@components/Chip/Chip.types";
 import { StaticImageData } from "next/image";
 
 type SizeCard = "Medium" | "Large";
