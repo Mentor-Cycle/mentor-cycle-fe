@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { HTMLAttributes } from "react";
 
 export type ChipVariant =
   | "primary"
@@ -11,10 +11,12 @@ export type ChipVariant =
   | "chipCards"
   | "chipCardsMentors";
 
-export type ChipProps = {
+export interface ChipProps {
+  children: string;
   variant?: ChipVariant;
-  children: React.ReactNode;
-  className?: string;
-  size?: string;
-  onClick?: () => void;
-};
+  size?: "small" | "auto" | undefined;
+}
+
+export interface ChipElementProps
+  extends Omit<HTMLAttributes<HTMLSpanElement>, "children">,
+    ChipProps {}

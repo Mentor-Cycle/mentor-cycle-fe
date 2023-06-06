@@ -1,15 +1,15 @@
+import React from "react";
 import clsx from "clsx";
-import { ChipProps } from "./Chip.types";
+import { ChipElementProps, ChipVariant } from "./Chip.types";
 
 const Chip = ({
   variant = "quartenary",
   children,
   className,
   size,
-  onClick,
   ...props
-}: ChipProps) => {
-  const variantClasses = {
+}: ChipElementProps) => {
+  const variantClasses: Record<ChipVariant, string> = {
     primary: `bg-neutral-02 text-secondary-01 dark:bg-neutral-02 dark:text-secondary-01  `,
     primary_dark: `text-neutral-01 bg-gray-03 dark:bg-secondary-01 dark:text-neutral-01  `,
     secondary: `bg-primary-02 text-neutral-01 text-xs`,
@@ -28,7 +28,6 @@ const Chip = ({
         variantClasses[variant],
         className
       )}
-      onClick={onClick}
       {...props}
     >
       {children}
