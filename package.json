@@ -57,7 +57,8 @@
     "react-select": "5.7.2",
     "react-toastify": "^9.1.2",
     "sweetalert2": "^11.7.3",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^9.0.4",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

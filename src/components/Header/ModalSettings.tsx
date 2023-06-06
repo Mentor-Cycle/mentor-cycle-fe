@@ -7,7 +7,7 @@ import Select from "react-select";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
@@ -21,13 +21,11 @@ import Dropzone from "@components/Dropzone/Dropzone";
 import { useTheme } from "next-themes";
 import clsx from "clsx";
 import { createStringRequirements } from "utils/regex";
+import { IUserSession } from "types/user.types";
 
-interface ModalSettingsProps {
-  firstName: string;
-  email: string;
-  id: string;
-  lastName: string;
-  setIsModalOpen: any;
+interface ModalSettingsProps
+  extends Pick<IUserSession, "email" | "firstName" | "lastName" | "id"> {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const ModalSettings = ({
@@ -154,7 +152,7 @@ const ModalSettings = ({
           setIsModalOpen(false);
           toast.info("A sua conta foi desativada");
           localStorage.removeItem("form-data");
-          setUser({});
+          setUser({} as IUserSession);
           await logOutUser();
         } catch (error) {
           toast.error(
@@ -269,7 +267,7 @@ const ModalSettings = ({
                   <Input
                     name="lastName"
                     label="Sobrenome"
-                    defaultValue={lastName}
+                    defaultValue={lastName ?? ""}
                   />
                   <Input
                     name="email"
