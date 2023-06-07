@@ -51,6 +51,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-email": "1.7.15",
+    "react-hook-form": "^7.44.3",
     "react-icons": "^4.7.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-input-mask": "^2.0.4",

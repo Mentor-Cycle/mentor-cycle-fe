@@ -23,6 +23,7 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
+  console.log("dashboard");
   const statusOptions: { value: string; label: string }[] = [
     { value: "", label: "Filtrar" },
     { value: "DONE", label: "Realizada" },
@@ -41,8 +42,6 @@ const Dashboard: NextPage = () => {
       learnerId: !user.isMentor ? user.id : null,
     },
   });
-
-  console.log("data? ", data);
 
   useEffect(() => {
     refetch();
@@ -123,7 +122,7 @@ const Dashboard: NextPage = () => {
   if (loading)
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <Spinner />
+        {/* <Spinner /> */}
       </div>
     );
   return (

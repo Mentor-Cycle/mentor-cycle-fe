@@ -11940,6 +11940,11 @@ react-email@1.7.15:
     shelljs "0.8.5"
     tree-node-cli "1.6.0"
 
+react-hook-form@^7.44.3:
+  version "7.44.3"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.44.3.tgz"
+  integrity sha512-/tHId6p2ViAka1wECMw8FEPn/oz/w226zehHrJyQ1oIzCBNMIJCaj6ZkQcv+MjDxYh9MWR7RQic7Qqwe4a5nkw==
+
 react-icons@^4.7.1:
   version "4.8.0"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.8.0.tgz"

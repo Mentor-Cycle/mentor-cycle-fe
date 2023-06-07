@@ -6,4 +6,4 @@ export type MultiSelectProps = {
 export type MultiSelectOptions = {
   value: string;
   label: string;
-}[];
+};

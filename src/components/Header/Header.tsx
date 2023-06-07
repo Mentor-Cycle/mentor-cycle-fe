@@ -37,9 +37,13 @@ export default function Header() {
   const [showModal, setShowModal] = useState<string>();
 
   const [signOutUser] = useMutation(LOGOUT_USER);
-  const [me, { data: rawData }] = useLazyQuery(GET_ME);
-  const parsedData = GET_ME_querySchema.safeParse(rawData);
-  const { data } = parsedData.success ? parsedData.data : { data: undefined };
+  const [me, { data: rawData, loading }] = useLazyQuery(GET_ME);
+  const parsedData =
+    !loading && rawData ? GET_ME_querySchema.safeParse(rawData) : null;
+  if (parsedData && !parsedData?.success) {
+    throw parsedData.error;
+  }
+  const data = parsedData?.success ? parsedData.data : null;
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
 
@@ -68,7 +72,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [data, user.isLogged, me, router, setUser]);
+  }, [rawData, user.isLogged, me, router, setUser]);
 
   const menuOptions: Array<{
     text: string;

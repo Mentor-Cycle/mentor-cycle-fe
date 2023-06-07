@@ -11,7 +11,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
   const { loading, data } = useQuery(GET_SKILLS);
 
-  function handleAddNewSkill(selectOptions: MultiSelectOptions) {
+  function handleAddNewSkill(selectOptions: MultiSelectOptions[]) {
     const uniqueSkill = selectOptions.map((option) => option.value);
     const updatedFormData = { ...formData, [name]: uniqueSkill };
 
@@ -49,7 +49,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         name={name}
         defaultValue={defaultValue}
         onChange={(newValue) =>
-          handleAddNewSkill(newValue as MultiSelectOptions)
+          handleAddNewSkill(newValue as MultiSelectOptions[])
         }
         options={options}
         onKeyDown={(e) => {
