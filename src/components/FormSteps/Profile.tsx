@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Input from "@components/Input";
 import clsx from "clsx";
 import { createStringRequirements } from "utils/regex";
 import useForm from "@hooks/useForm";
-import { useEffect, useState } from "react";
 
 const Profile = () => {
   const { updateForm, formData, setIsAllowedToGoNext } = useForm();
@@ -19,12 +19,17 @@ const Profile = () => {
 
   const handlePasswordChange = (event: any) => {
     updateForm(event);
-    setPasswordsDoNotMatch(formData.password !== formData.repeatPassword);
+    const doPasswordsMatch = formData.password === event.target.value;
+    setPasswordsDoNotMatch(!doPasswordsMatch);
+    setIsAllowedToGoNext(doPasswordsMatch);
   };
 
   useEffect(() => {
     if (password === repeatPassword) {
       setIsAllowedToGoNext(true);
+      setPasswordsDoNotMatch(false);
+    } else {
+      setIsAllowedToGoNext(false);
     }
   }, [repeatPassword]);
 
@@ -74,7 +79,7 @@ const Profile = () => {
           />
           <p
             className={clsx(
-              `block text-xs text-secondary-01 italic  transition-all duration-700`
+              `block text-xs text-secondary-01 italic transition-all duration-700`
             )}
           >
             Senha: mínimo 6 caracteres números e letras.
@@ -86,7 +91,7 @@ const Profile = () => {
             name="repeatPassword"
             placeholder="**********************"
             type="password"
-            value={formData.repeatPassword}
+            value={repeatPassword}
             onChange={handlePasswordChange}
             defaultValue={repeatPassword}
             pattern={formData.password}
