@@ -1,7 +1,6 @@
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import Select from "react-select";
 import MentoringLinkCard from "@components/MentoringLinkCard";
-import Spinner from "@components/Spinner/Spinner";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -23,7 +22,6 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
-  console.log("dashboard");
   const statusOptions: { value: string; label: string }[] = [
     { value: "", label: "Filtrar" },
     { value: "DONE", label: "Realizada" },

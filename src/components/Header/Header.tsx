@@ -5,18 +5,17 @@ import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
 import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
-import { MdNotifications } from "react-icons/md";
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/queries";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { GET_ME_querySchema } from "services/apollo/queries/queries.validation";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { useLazyTypedQuery } from "@hooks/useLazyTypedQuery";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -36,16 +35,12 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
+  const [me, { data, isLoading, error }] = useLazyTypedQuery("GET_ME");
+
   const [signOutUser] = useMutation(LOGOUT_USER);
-  const [me, { data: rawData, loading }] = useLazyQuery(GET_ME);
-  const parsedData =
-    !loading && rawData ? GET_ME_querySchema.safeParse(rawData) : null;
-  if (parsedData && !parsedData?.success) {
-    throw parsedData.error;
-  }
-  const data = parsedData?.success ? parsedData.data : null;
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
+  const [itemsMenu] = useState({ text: "", action: "" });
 
   useEffect(() => {
     if (!user.isLogged) {
@@ -72,7 +67,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [rawData, user.isLogged, me, router, setUser]);
+  }, [data, user.isLogged, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
@@ -84,7 +79,14 @@ export default function Header() {
     { text: "Sair", action: "logout" },
   ];
 
-  const [itemsMenu] = useState({ text: "", action: "" });
+  if (isLoading) {
+    return null;
+  }
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
 
   const logOutUser = () => async () => {
     await signOutUser();
