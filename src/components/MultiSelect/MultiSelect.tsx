@@ -2,14 +2,13 @@ import Select from "react-select";
 import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
 import { ActionType } from "providers/form";
-import { useQuery } from "@apollo/client";
-import { GET_SKILLS } from "services/apollo/queries";
 import useLocalStorage from "@hooks/useLocalStorage";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();
   const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
-  const { loading, data } = useQuery(GET_SKILLS);
+  const { isLoading, data } = useTypedQuery("GET_SKILLS");
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions[]) {
     const uniqueSkill = selectOptions.map((option) => option.value);
@@ -43,7 +42,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         *
       </span>
       <Select
-        isLoading={loading}
+        isLoading={isLoading}
         required
         isMulti
         name={name}

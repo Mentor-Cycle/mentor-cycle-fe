@@ -25,6 +25,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import { GET_SKILLS_querySchema } from "services/apollo/queries/queries.validation";
 import { IUserSession } from "types/user.types";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 
 interface ILabelValue {
   label: string;
@@ -37,12 +38,9 @@ const EditProfile = ({
 }: EditProfileProps) => {
   const { user: userCurrent, setUser } = useUser();
   const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
-  const { data: skillsListResponse, loading: loadingSkillsListResponse } =
-    useQuery(GET_SKILLS);
-  const skillsList =
-    !loadingSkillsListResponse && skillsListResponse
-      ? GET_SKILLS_querySchema.parse(skillsListResponse).findAllSkills
-      : null;
+
+  const { data, isLoading, error } = useTypedQuery("GET_SKILLS");
+  const options = data ? data.findAllSkills.map((opt) => opt.name) : [];
 
   const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA, {
     refetchQueries: [GET_MENTORS, GET_ME],
@@ -319,7 +317,7 @@ const EditProfile = ({
             <SelectSkillsInput
               label="Especialização"
               state={[selectedSkills, setSelectedSkills]}
-              options={skillsList?.map((skill) => skill.name) ?? []}
+              options={options}
             />
           </div>
           <Button
