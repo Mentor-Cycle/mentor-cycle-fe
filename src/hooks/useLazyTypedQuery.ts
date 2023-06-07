@@ -3,7 +3,9 @@ import { z } from "zod";
 import {
   ApolloError,
   LazyQueryExecFunction,
+  OperationVariables,
   useLazyQuery,
+  useQuery,
 } from "@apollo/client";
 import { InferedType, ValidationKeys } from "types/typed-queries";
 import { queriesIndex } from "services/apollo/queries/queries.index";
