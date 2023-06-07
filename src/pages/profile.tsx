@@ -42,17 +42,17 @@ const Profile: NextPage = () => {
       setEventsByDay(eventsByDay);
     }
   }, [classes, user.id, user.isMentor]);
+
   if (loading || loadingClasses)
     return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-      </>
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner />
+      </div>
     );
 
   const handleOpenModalAvailability = () =>
     setOpenModalAvailability(!openModalAvailability);
+
   return (
     <>
       <header>
@@ -154,7 +154,7 @@ const Profile: NextPage = () => {
                         key={availability.weekDay + index}
                         day={availability.weekDay}
                         description="Horários disponíveis:"
-                        chips={availability.slots.map((slot) => (
+                        chips={availability.slots.map(slot => (
                           <Chip key={slot} variant="chipCards">
                             {slot}
                           </Chip>

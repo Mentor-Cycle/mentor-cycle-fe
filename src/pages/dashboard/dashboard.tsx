@@ -54,9 +54,6 @@ const Dashboard: NextPage = () => {
       mentorId: user.isMentor ? user.id : null,
     },
   });
-  if (errorEvents?.error) console.log("errorEvents", errorEvents);
-
-  console.log("data? ", data);
 
   useEffect(() => {
     refetchEvents();

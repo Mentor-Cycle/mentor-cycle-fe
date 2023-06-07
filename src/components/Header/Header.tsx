@@ -41,9 +41,13 @@ export default function Header() {
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 
-  const [me, { data: rawData, error }] = useLazyQuery(GET_ME);
-  const parsedData = GET_ME_querySchema.safeParse(rawData);
-  const { data } = parsedData.success ? parsedData.data : { data: undefined };
+  const [me, { data: rawData, error, loading }] = useLazyQuery(GET_ME);
+  const parsedData =
+    !loading && rawData ? GET_ME_querySchema.safeParse(rawData) : null;
+  if (parsedData && !parsedData?.success) {
+    throw parsedData.error;
+  }
+  const data = parsedData?.success ? parsedData.data : null;
 
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
