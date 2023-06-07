@@ -5,25 +5,20 @@ import { GET_SKILLS } from "services/apollo/queries";
 import { useUser } from "@hooks/useUser";
 
 type SkillsEditProfileProps = MultiSelectProps & {
-  uniqueSkill: MultiSelectOptions;
-  onSelectedSkills: (skills: MultiSelectOptions) => void;
+  uniqueSkill?: MultiSelectOptions[];
+  onSelectedSkills: (skills: MultiSelectOptions[]) => void;
 };
 
 const SkillsEditProfile = ({
   label,
+  uniqueSkill,
   onSelectedSkills,
 }: SkillsEditProfileProps) => {
   const { loading, data } = useQuery(GET_SKILLS);
-  const { user } = useUser();
 
   const options = data?.findAllSkills?.map(({ name }: { name: string }) => ({
     value: name,
     label: name,
-  }));
-
-  const defaultValue = user?.skills.map((skill: string) => ({
-    label: skill,
-    value: skill,
   }));
 
   return (
@@ -37,10 +32,10 @@ const SkillsEditProfile = ({
         isLoading={loading}
         isMulti
         onChange={(newValue) =>
-          onSelectedSkills(newValue as MultiSelectOptions)
+          onSelectedSkills(newValue as MultiSelectOptions[])
         }
         options={options}
-        defaultValue={defaultValue}
+        defaultValue={uniqueSkill}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();

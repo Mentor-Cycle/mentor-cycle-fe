@@ -1,6 +1,7 @@
 import Select from "react-select";
 import { City, Country, State } from "@hooks/useFetch.types";
 import clsx from "clsx";
+import React, { HTMLAttributes } from "react";
 
 const SelectLocation = ({
   options,

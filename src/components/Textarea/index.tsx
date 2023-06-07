@@ -1,2 +1,2 @@
 export { default } from "./Textarea";
-export type { TextareaProps } from "./Textarea.types";
+export type { ITextarea } from "./Textarea.types";

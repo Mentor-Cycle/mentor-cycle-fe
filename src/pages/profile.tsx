@@ -54,18 +54,17 @@ const Profile: NextPage = () => {
       setEventsByDay(eventsByDay);
     }
   }, [classes, user.id, user.isMentor]);
+
   if (loading || loadingClasses)
     return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-        ;
-      </>
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner />
+      </div>
     );
 
   const handleOpenModalAvailability = () =>
     setOpenModalAvailability(!openModalAvailability);
+
   return (
     <>
       <header>

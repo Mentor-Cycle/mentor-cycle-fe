@@ -1,4 +1,5 @@
 import { availabilitySchema, userSchema } from "schemas";
+import { skillsSchema } from "schemas/skills";
 import { z } from "zod";
 
 export const GET_ME_queryUserSchema = userSchema
@@ -21,17 +22,26 @@ export const GET_ME_queryUserSchema = userSchema
   })
   .merge(
     z.object({
-      availability: z.array(
-        availabilitySchema.pick({
-          startHour: true,
-          weekDay: true,
-        })
-      ),
+      availability: z
+        .array(
+          availabilitySchema.pick({
+            startHour: true,
+            weekDay: true,
+          })
+        )
+        .nullable(),
     })
   );
 
+export const GET_SKILLS_querySkillsSchema = skillsSchema.pick({
+  __typename: true,
+  name: true,
+});
+
 export const GET_ME_querySchema = z.object({
-  data: z.object({
-    me: GET_ME_queryUserSchema,
-  }),
+  me: GET_ME_queryUserSchema,
+});
+
+export const GET_SKILLS_querySchema = z.object({
+  findAllSkills: z.array(GET_SKILLS_querySkillsSchema),
 });
