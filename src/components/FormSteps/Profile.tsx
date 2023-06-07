@@ -9,6 +9,7 @@ const Profile = () => {
   const { updateForm, formData, setIsAllowedToGoNext } = useForm();
   const { firstName, lastName, email, password, repeatPassword } = formData;
   const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
+
   const passwordRequirements = createStringRequirements({
     minLength: 6,
     includeNumber: true,
