@@ -1,5 +1,3 @@
-import { useQuery } from "@apollo/client";
-import Button from "@components/Button";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
 import validateEmptyComponent, {
@@ -12,10 +10,8 @@ import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMen
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import { useQuery } from "@apollo/client";
 import { GET_EVENTS } from "services/apollo/queries";
 import {
   formatDate,
