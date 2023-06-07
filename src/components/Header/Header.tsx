@@ -7,16 +7,15 @@ import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { queriesIndex } from "services/apollo/queries/queries.index";
 import { toast } from "react-toastify";
-import { useLazyTypedQuery } from "@hooks/useTypedQuery";
+import { useLazyTypedQuery } from "@hooks/useLazyTypedQuery";
 import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
 import { GET_ME_querySchema } from "services/apollo/queries/queries.validation";
 import { GET_ME } from "services/apollo/queries";
@@ -39,15 +38,9 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [signOutUser] = useMutation(LOGOUT_USER);
+  const [me, { data, isLoading, error }] = useLazyTypedQuery("GET_ME");
 
-  const [me, { data: rawData, error, loading }] = useLazyQuery(GET_ME);
-  const parsedData =
-    !loading && rawData ? GET_ME_querySchema.safeParse(rawData) : null;
-  if (parsedData && !parsedData?.success) {
-    throw parsedData.error;
-  }
-  const data = parsedData?.success ? parsedData.data : null;
+  const [signOutUser] = useMutation(LOGOUT_USER);
 
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
@@ -81,7 +74,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [me, data, user.isLogged, router, setUser]);
+  }, [data, user.isLogged, me, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
