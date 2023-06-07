@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import Button from "@components/Button";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
 import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
@@ -5,9 +7,14 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
+import Spinner from "@components/Spinner/Spinner";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Select from "react-select";
+import { GET_EVENTS } from "services/apollo/queries";
 import {
   formatDate,
   formatHour,
@@ -19,11 +26,7 @@ import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay, IStatusOption } from "types/dashboard.types";
 import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
 import { z } from "zod";
-import { useRouter } from "next/router";
 import { SingleValue } from "react-select";
-import Select from "react-select";
-import Link from "next/link";
-import Button from "@components/Button/Button";
 
 const Dashboard: NextPage = () => {
   const statusOptions: IStatusOption[] = [
@@ -62,12 +65,7 @@ const Dashboard: NextPage = () => {
 
       const eventsByDay = groupEventsByDay(filteredEvents);
 
-      // This removes duplicated records on output
-      // Maybe this function is not necessary since data is now validated
-      // on input. If that's the case, remove it.
-      const uniqueEventsByDay = filterByUniqueEvents(eventsByDay);
-
-      setEventsByDay(uniqueEventsByDay);
+      setEventsByDay(eventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events, loadingEvents, errorEvents]);
