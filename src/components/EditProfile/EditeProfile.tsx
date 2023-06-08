@@ -182,14 +182,12 @@ const EditProfile = ({
               type="text"
               name="firstName"
               label="Nome"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
               defaultValue={firstName}
             />
             <Input
               type="text"
               name="lastName"
               label="Sobrenome"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
               defaultValue={lastName}
             />
           </div>
@@ -198,7 +196,6 @@ const EditProfile = ({
               type="text"
               name="jobTitle"
               label="Profissão"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
               defaultValue={jobTitle}
             />
             <Textarea name="biography" label="Bio" defaultValue={biography} />
