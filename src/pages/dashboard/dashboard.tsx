@@ -1,25 +1,25 @@
-import DashboardCardProfile from "@components/DashboardCardProfile";
-import Select from "react-select";
-import MentoringLinkCard from "@components/MentoringLinkCard";
-import Spinner from "@components/Spinner/Spinner";
-import { NextPage } from "next";
-import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
+import Button from "@components/Button";
+import DashboardCardProfile from "@components/DashboardCardProfile";
+import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
+import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
+import { InfoPopUp } from "@components/InfoPopUp";
+import MentoringLinkCard from "@components/MentoringLinkCard";
+import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
+import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
+import Spinner from "@components/Spinner/Spinner";
+import { useUser } from "@hooks/useUser";
+import { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Select from "react-select";
 import { GET_EVENTS } from "services/apollo/queries";
 import {
   formatDate,
   formatHour,
   groupEventsByDay,
 } from "utils/dashboard-helpers";
-import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
-import { useUser } from "@hooks/useUser";
-import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
-import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
-import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
-import Button from "@components/Button";
-import Link from "next/link";
-import { InfoPopUp } from "@components/InfoPopUp";
-import { useRouter } from "next/router";
 
 const Dashboard: NextPage = () => {
   const statusOptions: { value: string; label: string }[] = [
@@ -194,8 +194,8 @@ const Dashboard: NextPage = () => {
           {data?.findEvents.length > 0 ? (
             <>
               <div
-                className="grid justify-items-center grid-cols-1 sm:grid-cols-2 
-          md:grid-cols-2 md:justify-items-start lg:grid-cols-3 gap-4"
+                className="grid justify-items-start grid-cols-1 sm:grid-cols-2 
+        md:grid-cols-2 md:justify-items-start lg:grid-cols-3 gap-4"
               >
                 {renderMentoringWeekCard(eventsByDay)}
               </div>
@@ -207,7 +207,7 @@ const Dashboard: NextPage = () => {
                   Você ainda não possui mentorias semanais realizadas e marcadas
                 </p>
               </div>
-              <div className="flex items-center justify-center sm:justify-end lg:justify-end lg:items-end w-full min-h-[20vh] ">
+              <div className="flex items-center justify-center sm:justify-start lg:justify-end lg:items-end w-full min-h-[20vh] ">
                 <div className="max-w-xs w-full">
                   {!user?.isMentor && (
                     <Link href={"/mentors"} className="w-full">
