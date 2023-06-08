@@ -142,7 +142,7 @@ const Profile: NextPage = () => {
         </aside>
         <aside className="flex justify-center md:justify-end md:items-start">
           <div className="max-w-[290px]">
-            <h2 className="text-3xl font-bold mb-12 text-secondary-02 text-center ">
+            <h2 className="text-2xl font-bold mb-12 text-secondary-02 text-center sm:text-start ">
               Agenda {user.isMentor ? "do Mentor" : "de Mentorias"}
             </h2>
             {user.isMentor &&
