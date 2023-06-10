@@ -26,6 +26,7 @@ export const useFetch = (): IUseFetch => {
         }
 
         const countries = await res.json();
+
         return countries.map(({ id: { M49 }, nome }: any) => ({
           value: nome,
           label: nome,
