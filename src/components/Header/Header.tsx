@@ -118,8 +118,9 @@ export default function Header() {
     const theme = resolvedTheme === "dark" ? "light" : "dark";
     try {
       setTheme(theme);
+      setIsToogle(theme === "dark");
     } catch (error) {
-      console.error("Erro ao definir o tema:", error);
+      console.error("Error ao definir o tema:", error);
     }
   };
 
