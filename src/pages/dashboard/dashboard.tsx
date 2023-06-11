@@ -31,7 +31,7 @@ import { z } from "zod";
 
 const Dashboard: NextPage = () => {
   const statusOptions: IStatusOption[] = [
-    { value: "", label: "Filtrar" },
+    { value: "", label: "Todas" },
     { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
     { value: "CANCELLED", label: "Cancelada" },
