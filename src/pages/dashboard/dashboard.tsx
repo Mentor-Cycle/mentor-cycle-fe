@@ -23,7 +23,7 @@ import {
 
 const Dashboard: NextPage = () => {
   const statusOptions: { value: string; label: string }[] = [
-    { value: "", label: "Filtrar" },
+    { value: "", label: "Todas" },
     { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
     { value: "CANCELLED", label: "Cancelada" },
