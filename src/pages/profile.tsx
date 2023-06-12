@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import EditProfile from "@components/EditProfile/EditeProfile";
+import EditProfile from "@components/EditProfile/EditProfile";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
@@ -123,7 +123,7 @@ const Profile: NextPage = () => {
                 user.yearsOfExperience
                   ? `${parseInt(
                       user.yearsOfExperience < 30
-                        ? user.yearsOfExperience
+                        ? String(user.yearsOfExperience)
                         : "30+"
                     )} ${
                       user.yearsOfExperience > 1 ? "anos" : "ano"
