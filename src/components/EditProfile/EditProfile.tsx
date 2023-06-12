@@ -4,33 +4,27 @@ import Input from "@components/Input";
 import Modal from "@components/Modal";
 import Textarea from "@components/Textarea/Textarea";
 import { useUser } from "@hooks/useUser";
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
-import { EditProfileProps, IEditProfileFormData } from "./EditProfile.types";
+import {
+  EditProfileProps,
+  IEditProfileFormData,
+  ILocationInterface,
+} from "./EditProfile.types";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { SingleValue } from "react-select";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
-import SkillsEditProfile from "@components/MultiSelect/SkillsEditProfile";
-import { MultiSelectOptions } from "@components/MultiSelect/MultiSelect.types";
 import { GET_ME, GET_MENTORS, GET_SKILLS } from "services/apollo/queries";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
-import { GET_SKILLS_querySchema } from "services/apollo/queries/queries.validation";
-import { IUserSession } from "types/user.types";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import {
+  IEditProfileSubmitData,
+  editProfileFormSchema,
+} from "@components/EditProfile/EditProfile.form";
+import { z } from "zod";
 import { useTypedQuery } from "@hooks/useTypedQuery";
-
-interface ILabelValue {
-  label: string;
-  value: string;
-}
 
 const EditProfile = ({
   openEditProfile,
@@ -38,115 +32,48 @@ const EditProfile = ({
 }: EditProfileProps) => {
   const { user: userCurrent, setUser } = useUser();
   const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
+  const { data: skills } = useTypedQuery(api.GET_SKILLS);
 
-  const { data, isLoading, error } = useTypedQuery("GET_SKILLS");
-  const options = data ? data.findAllSkills.map((opt) => opt.name) : [];
+  const options = skills ? skills?.findAllSkills.map((opt) => opt.name) : [];
 
-  const [updateUser, { loading }] = useMutation(USER_UPDATE_DATA, {
-    refetchQueries: [GET_MENTORS, GET_ME],
-  });
+  const [updateUser, { loading }] = useMutation<{}, IEditProfileSubmitData>(
+    USER_UPDATE_DATA,
+    {
+      refetchQueries: [GET_MENTORS, GET_ME],
+    }
+  );
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
   const [selectedCountry, setSelectedCountry] =
-    useState<SingleValue<ILabelValue>>(null);
+    useState<ILocationInterface | null>(null);
   const [selectedStates, setSelectedStates] =
-    useState<SingleValue<ILabelValue>>(null);
+    useState<ILocationInterface | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const { getCountries, getStates } = useFetch();
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const fetchedCountries = await getCountries();
-      setCountries(fetchedCountries);
-    };
-    const fetchStates = async () => {
-      if (selectedCountry?.value === "Brasil") {
-        const fetchedStates = await getStates();
-        setStates(fetchedStates);
-      } else {
-        setSelectedStates(null);
-      }
-    };
-    fetchCountries();
-    fetchStates();
+    getCountries().then(setCountries);
+
+    if (selectedCountry?.value === "Brasil") {
+      getStates().then(setStates);
+    } else {
+      setSelectedStates(null);
+    }
   }, [getCountries, getStates, selectedCountry]);
 
-  // async function handleSubmitXXX(e: FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-
-  //   const formElement = e.target as HTMLFormElement;
-  //   const formData = new FormData(formElement);
-
-  //   const {
-  //     firstName: newFirstName,
-  //     lastName: newLastName,
-  //     jobTitle: newJobTitle,
-  //     biography: newBiography,
-  //     description: newDescription,
-  //     email: newEmail,
-  //     github: newGithub,
-  //     linkedin: newLinkedin,
-  //     yearsOfExperience: newYearsOfExperience,
-  //   } = Object.fromEntries(formData.entries());
-
-  //   try {
-  //     const updatedUser = {
-  //       firstName: newFirstName || firstName,
-  //       email: newEmail || email,
-  //       biography: newBiography || biography,
-  //       lastName: newLastName || lastName,
-  //       github: newGithub || github,
-  //       linkedin: newLinkedin || linkedin,
-  //       description: newDescription || description,
-  //       jobTitle: newJobTitle || jobTitle,
-  //       country: selectedCountry ? selectedCountry.value : country,
-  //       state: selectedStates ? selectedStates.label : "",
-  //       skills: selectedSkills.map(skill => skill.value),
-  //       yearsOfExperience: isNaN(parseFloat(newYearsOfExperience.toString()))
-  //         ? yearsOfExperience
-  //         : parseFloat(newYearsOfExperience.toString()),
-  //       id,
-  //     };
-
-  //     const { data } = await updateUser({
-  //       variables: updatedUser,
-  //     });
-
-  //     if (data) {
-  //       // setUser({
-  //       //   ...user,
-  //       //   ...updatedUser,
-  //       // });
-  //       toast.success("Alterações realizadas com sucesso!");
-  //       setOpenEditProfile(false);
-  //     }
-  //   } catch (error) {
-  //     handleErrors(error);
-  //   }
-  // }
+  useEffect(() => {
+    if (userCurrent.skills) setSelectedSkills(userCurrent.skills);
+  }, [userCurrent.skills]);
 
   const submitHandler: SubmitHandler<IEditProfileFormData> = async (form) => {
-    const parsedForm: IEditProfileFormData = {
-      ...form,
-      yearsOfExperience: Number(form.yearsOfExperience),
-    };
-
     try {
-      const updatedUser: IEditProfileFormData = {
-        firstName: parsedForm.firstName || userCurrent.firstName,
-        email: parsedForm.email || userCurrent.email,
-        biography: parsedForm.biography || userCurrent.biography,
-        lastName: parsedForm.lastName || userCurrent.lastName,
-        github: parsedForm.github || userCurrent.github,
-        linkedin: parsedForm.linkedin || userCurrent.linkedin,
-        description: parsedForm.description || userCurrent.description,
-        jobTitle: parsedForm.jobTitle || userCurrent.jobTitle,
+      const updatedUser = editProfileFormSchema.parse({
+        ...form,
         country: selectedCountry?.label || userCurrent.country,
         state: selectedStates?.label || userCurrent.state,
-        skills: selectedSkills || userCurrent.skills,
-        yearsOfExperience: parsedForm.yearsOfExperience,
+        skills: selectedSkills,
         id: userCurrent.id,
-      };
+      });
 
       const { data } = await updateUser({
         variables: updatedUser,
@@ -157,15 +84,22 @@ const EditProfile = ({
           ...userCurrent,
           ...updatedUser,
         });
+
         toast.success("Alterações realizadas com sucesso!");
         setOpenEditProfile(false);
+        reset();
       }
     } catch (error) {
       handleErrors(error);
     }
   };
 
-  const handleErrors = (error: any) => {
+  const handleErrors = (error: unknown) => {
+    if (error instanceof z.ZodError) {
+      const [issue] = error.issues;
+      return toast.error(issue.message);
+    }
+
     const errorMessages: Record<string, string> = {
       "Unique constraint failed on the fields: (`email`)":
         "Este email já possui cadastro",
@@ -186,31 +120,11 @@ const EditProfile = ({
     }
   };
 
-  const handleCountryChange = (
-    name: string,
-    newValue: SingleValue<{ label: string; value: string }>
-  ) => {
-    setSelectedCountry(newValue);
-  };
-  const handleStatesChange = (
-    name: string,
-    newValue: SingleValue<{ label: string; value: string }>
-  ) => {
-    setSelectedStates(newValue);
-  };
-
   const handleLocationChange =
-    (setState: Dispatch<SetStateAction<SingleValue<ILabelValue>>>) =>
-    ({ value, label }: ILabelValue) => {
+    (setState: Dispatch<SetStateAction<ILocationInterface | null>>) =>
+    ({ value, label }: ILocationInterface) => {
       setState({ label, value });
     };
-
-  const uniqueSkill = userCurrent.skills
-    ? userCurrent.skills.map((skill: string) => ({
-        label: skill,
-        value: skill,
-      }))
-    : [];
 
   return (
     <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>

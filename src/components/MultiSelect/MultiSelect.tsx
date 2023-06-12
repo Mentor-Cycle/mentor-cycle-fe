@@ -3,12 +3,16 @@ import useForm from "@hooks/useForm";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
 import { ActionType } from "providers/form";
 import useLocalStorage from "@hooks/useLocalStorage";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 
 const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();
   const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
-  const { isLoading, data } = useTypedQuery("GET_SKILLS");
+
+  const { loading: loadingSkills, data: skills } = useTypedQuery(
+    api.GET_SKILLS
+  );
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions[]) {
     const uniqueSkill = selectOptions.map((option) => option.value);
@@ -30,7 +34,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
     value: skill,
   }));
 
-  const options = data?.findAllSkills?.map(({ name }: { name: string }) => ({
+  const options = skills?.findAllSkills?.map(({ name }: { name: string }) => ({
     value: name,
     label: name,
   }));
@@ -42,7 +46,7 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
         *
       </span>
       <Select
-        isLoading={isLoading}
+        isLoading={loadingSkills}
         required
         isMulti
         name={name}

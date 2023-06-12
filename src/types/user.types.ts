@@ -1,10 +1,5 @@
 import { z } from "zod";
-import { userSchema } from "schemas";
-import { GET_ME_queryUserSchema } from "services/apollo/queries/queries.validation";
+import { userSchema, userSessionSchema } from "schemas";
 
-export type IUserResponse = z.infer<typeof GET_ME_queryUserSchema>;
 export type IUser = z.infer<typeof userSchema>;
-
-export interface IUserSession extends IUserResponse {
-  isLogged: boolean;
-}
+export type IUserSession = z.infer<typeof userSessionSchema>;
