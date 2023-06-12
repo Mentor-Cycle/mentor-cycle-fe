@@ -9,13 +9,15 @@ import {
   saveAvailabilityInMemory,
 } from "./helpers/saveAvailability";
 import { MdClose } from "react-icons/md";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { PERSIST_AVAILABILITY } from "services/apollo/mutations";
 import { useUser } from "@hooks/useUser";
 import { toast } from "react-toastify";
 import { SuccessfullyCreated } from "./SuccessullyCreated";
 import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { MentorAvailability } from "@components/ScheduleMentorshipModal/types";
+import { queriesIndex } from "services/apollo/queries/queries.index";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 
 export const MentorModalAvailability = ({
   open,
@@ -35,7 +37,8 @@ export const MentorModalAvailability = ({
   const [selectedStart, setSelectedStart] = useState<string>("12:00");
   const [selectedEnd, setSelectedEnd] = useState<string>("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
-  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
+
+  const { data } = useTypedQuery(queriesIndex.GET_AVAILABILITIES, {
     variables: {
       mentorId: user?.id || "",
     },

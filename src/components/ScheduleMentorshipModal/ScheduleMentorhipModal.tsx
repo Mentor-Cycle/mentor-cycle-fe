@@ -15,6 +15,9 @@ import { MentorAvailability } from "./types";
 import { useUser } from "@hooks/useUser";
 import { CREATE_EVENT, UPDATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
+import { IResponse_GET_AVAILABILITY } from "services/apollo/queries/queries.types";
+import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -71,6 +74,15 @@ export const ScheduleMentorshipModal = ({
       variant: "secondary",
     },
   };
+
+  const { data, refetch: refetchAvailabilities } = useTypedQuery(
+    api.GET_AVAILABILITIES,
+    {
+      variables: {
+        mentorId: mentor.id,
+      },
+    }
+  );
 
   const [currentStep, setCurrentStep] = useState(1);
   const handleSteps = async () => {
@@ -129,17 +141,8 @@ export const ScheduleMentorshipModal = ({
     }
   };
 
-  const { data, refetch: refetchAvailabilities } = useQuery<MentorAvailability>(
-    GET_AVAILABILITIES,
-    {
-      variables: {
-        mentorId: mentor.id,
-      },
-    }
-  );
-
   const convertAvailabilitiyDays = useCallback(
-    (data: MentorAvailability) => {
+    (data: IResponse_GET_AVAILABILITY) => {
       data.findMentorAvailability.availability.forEach((item) => {
         const [startDate, startTime] = item.startDate.split("T");
         const [_, endTime] = item.endDate.split("T");

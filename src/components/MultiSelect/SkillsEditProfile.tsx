@@ -1,6 +1,7 @@
 import Select from "react-select";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
 import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 type SkillsEditProfileProps = MultiSelectProps & {
   uniqueSkill?: MultiSelectOptions[];
@@ -12,12 +13,15 @@ const SkillsEditProfile = ({
   uniqueSkill,
   onSelectedSkills,
 }: SkillsEditProfileProps) => {
-  const { isLoading, data } = useTypedQuery("GET_SKILLS");
+  const { loading: loadingSkills, data: skills } = useTypedQuery(
+    api.GET_SKILLS
+  );
 
-  const options = data?.findAllSkills?.map(({ name }: { name: string }) => ({
-    value: name,
-    label: name,
-  }));
+  const options =
+    skills?.findAllSkills.map(({ name }) => ({
+      value: name,
+      label: name,
+    })) ?? [];
 
   return (
     <label htmlFor={"skills"} className="text-secondary-01 font-semibold">
@@ -27,7 +31,7 @@ const SkillsEditProfile = ({
       </span>
       <Select
         name="skills"
-        isLoading={isLoading}
+        isLoading={loadingSkills}
         isMulti
         onChange={(newValue) =>
           onSelectedSkills(newValue as MultiSelectOptions[])

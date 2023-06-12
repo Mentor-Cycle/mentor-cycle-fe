@@ -1,6 +1,7 @@
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import React from "react";
 import Select from "react-select";
-import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 export interface SelectSkillsProps {
   placeholder: string;
@@ -11,7 +12,7 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   placeholder,
   setSelectedSkills,
 }) => {
-  const { data, isLoading, error } = useTypedQuery("GET_SKILLS");
+  const { data, loading, error } = useTypedQuery(api.GET_SKILLS);
   const options = [
     { value: null, label: "Todas" },
     ...(data?.findAllSkills.map(({ name }: { name: string }) => ({
@@ -23,9 +24,9 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   return (
     <Select
       placeholder={error ? "Especialidade" : placeholder}
-      isDisabled={isLoading}
-      isLoading={isLoading}
-      onChange={(selected) => setSelectedSkills(selected.value)}
+      isDisabled={loading}
+      isLoading={loading}
+      onChange={(selected) => setSelectedSkills(selected?.value ?? "")}
       options={options}
       unstyled
       classNames={{

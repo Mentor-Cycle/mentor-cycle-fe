@@ -10,7 +10,7 @@ export const useMentorProfile = (id: string) => {
     variables: { id },
   });
 
-  const [mentor, setMentor] = useState<User>({});
+  const [mentor, setMentor] = useState<User>({} as User);
 
   useEffect(() => {
     if (data) {
@@ -52,7 +52,7 @@ export const useMentorProfile = (id: string) => {
 };
 
 export type User = {
-  id?: string;
+  id: string;
   firstName?: string;
   lastName?: string;
   country?: string;

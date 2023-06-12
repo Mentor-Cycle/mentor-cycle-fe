@@ -14,8 +14,10 @@ import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { useTypedQuery } from "@hooks/useTypedQuery";
-import { useLazyTypedQuery } from "@hooks/useLazyTypedQuery";
+import { queriesIndex } from "services/apollo/queries/queries.index";
+import { toast } from "react-toastify";
+import { useLazyTypedQuery } from "@hooks/useTypedQuery";
+import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -35,7 +37,7 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, isLoading, error }] = useLazyTypedQuery("GET_ME");
+  const [me, { data, loading, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
 
   const [signOutUser] = useMutation(LOGOUT_USER);
   const { setTheme, resolvedTheme } = useTheme();
@@ -67,7 +69,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [data, user.isLogged, router, setUser]);
+  }, [me, data, user.isLogged, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
@@ -78,15 +80,6 @@ export default function Header() {
     { text: "Configurações", action: "settings" },
     { text: "Sair", action: "logout" },
   ];
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (error) {
-    console.error(error);
-    return null;
-  }
 
   const logOutUser = () => async () => {
     await signOutUser();
@@ -125,6 +118,21 @@ export default function Header() {
       console.error("Erro ao definir o tema:", error);
     }
   };
+
+  const errorMessages: Record<ErrorTypedFetchTypes, string> = {
+    EXPECT_VARIABLES:
+      "Erro: A consulta que você está fazendo necessita de variáveis.",
+    FETCHING_API_RESPONSE_DATA: "Erro ao fazer a busca dos dados.",
+    PARSING_API_RESPONSE_DATA:
+      "Erro: A resposta do servidor está diferente do esperado.",
+    PARSING_VARIABLES:
+      "Erro: As as variáveis providas não satisfazem o schema esperado.",
+    UNEXPECTED: "Erro inesperado.",
+  };
+
+  if (error) {
+    toast.error(errorMessages[error.type]);
+  }
 
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">
