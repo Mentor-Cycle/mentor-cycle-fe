@@ -1,6 +1,5 @@
 import { IEditProfileSubmitData } from "@components/EditProfile/EditProfile.form";
 import { Dispatch, SetStateAction } from "react";
-import { SingleValue } from "react-select";
 
 export interface EditProfileProps {
   openEditProfile: boolean;

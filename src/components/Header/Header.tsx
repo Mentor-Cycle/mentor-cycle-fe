@@ -38,7 +38,7 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, isLoading, error }] = useLazyTypedQuery("GET_ME");
+  const [me, { data, loading, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 
@@ -74,7 +74,7 @@ export default function Header() {
         isLogged: true,
       });
     }
-  }, [data, user.isLogged, me, router, setUser]);
+  }, [me, data, user.isLogged, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
@@ -137,7 +137,6 @@ export default function Header() {
   };
 
   if (error) {
-    console.error(error);
     toast.error(errorMessages[error.type]);
   }
 
