@@ -264,13 +264,13 @@ export const ScheduleMentorshipModal = ({
         )}
         {currentStep === 2 && (
           <>
-            <div className="min-w-[280px]">
+            <div className="w-full min-w-[280px] lg:w-[448px] md:w-[448px] sm:w-[361px]">
               <hr className="text-gray-02 w-full mt-16" />
               <h2 className="mt-16 font-bold text-2xl text-secondary-02">
                 Mentoria de 30 minutos
               </h2>
               <p className="mt-6 text-secondary-02">
-                <span className="font-bold text-secondary-02">Horário:</span>{" "}
+                <span className="font-bold">Horário:</span>{" "}
                 {selectedStartTime.replace(":", "h")} até as{" "}
                 {selectedEndTime.replace(":", "h")}
               </p>
