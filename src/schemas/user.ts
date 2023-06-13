@@ -1,4 +1,7 @@
-import { availabilitySchema } from "schemas/availability";
+import {
+  availabilityAPISchema,
+  availabilitySchema,
+} from "schemas/availability";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -32,41 +35,68 @@ export const userSchema = z.object({
   isMentor: z.boolean(),
   status: z.string(),
   availability: z.array(availabilitySchema),
+});
+
+export const userAPISchema = z.object({
+  id: userSchema.shape.id,
+  email: userSchema.shape.email,
+  password: userSchema.shape.password.nullable(),
+  active: userSchema.shape.active.nullable(),
+  firstName: userSchema.shape.firstName,
+  lastName: userSchema.shape.lastName.nullable(),
+  photoUrl: userSchema.shape.photoUrl.or(z.literal("")).nullable(),
+  yearsOfExperience: userSchema.shape.yearsOfExperience.nullable(),
+  isEmailVerified: userSchema.shape.isEmailVerified,
+  isTermsAccepted: userSchema.shape.isTermsAccepted,
+  onBoardingCompleted: userSchema.shape.onBoardingCompleted,
+  createdAt: userSchema.shape.createdAt,
+  updatedAt: userSchema.shape.updatedAt,
+  googleId: userSchema.shape.googleId.nullable(),
+  facebookId: userSchema.shape.facebookId.nullable(),
+  birthDate: userSchema.shape.birthDate,
+  country: userSchema.shape.country,
+  state: userSchema.shape.state,
+  city: userSchema.shape.city,
+  skills: userSchema.shape.skills.nullable(),
+  linkedin: userSchema.shape.linkedin.or(z.literal("")).nullable(),
+  github: userSchema.shape.github.or(z.literal("")).nullable(),
+  website: userSchema.shape.website.or(z.literal("")).nullable(),
+  jobTitle: userSchema.shape.jobTitle.nullable(),
+  jobCompany: userSchema.shape.jobCompany.nullable(),
+  biography: userSchema.shape.biography.nullable(),
+  description: userSchema.shape.description,
+  isMentor: userSchema.shape.isMentor.nullable(),
+  status: userSchema.shape.status.nullable(),
+  availability: z.array(availabilityAPISchema).nullable(),
   __typename: z.literal("User"),
 });
 
-export const userSessionSchema = userSchema
-  .omit({
-    password: true,
-    active: true,
-    isEmailVerified: true,
-    isTermsAccepted: true,
-    onBoardingCompleted: true,
-    createdAt: true,
-    updatedAt: true,
-    googleId: true,
-    facebookId: true,
-    birthDate: true,
-    city: true,
-    status: true,
-    website: true,
-    jobCompany: true,
-    __typename: true,
+export const userSessionSchema = userAPISchema
+  .pick({
+    id: true,
+    firstName: true,
+    lastName: true,
+    photoUrl: true,
+    email: true,
+    jobTitle: true,
+    isMentor: true,
+    skills: true,
+    biography: true,
+    yearsOfExperience: true,
+    country: true,
+    description: true,
+    github: true,
+    linkedin: true,
+    state: true,
   })
-  .merge(
-    z.object({
-      photoUrl: z.union([userSchema.shape.lastName.nullable(), z.literal("")]),
-      isLogged: z.boolean(),
-      jobTitle: userSchema.shape.jobTitle.nullable(),
-      biography: userSchema.shape.biography.nullable(),
-      yearsOfExperience: userSchema.shape.yearsOfExperience.nullable(),
-      availability: z
-        .array(
-          z.object({
-            weekDay: availabilitySchema.shape.weekDay,
-            startHour: availabilitySchema.shape.startHour,
-          })
-        )
-        .nullable(),
-    })
-  );
+  .extend({
+    isLogged: z.boolean(),
+    availability: z
+      .array(
+        availabilityAPISchema.pick({
+          startHour: true,
+          weekDay: true,
+        })
+      )
+      .nullable(),
+  });

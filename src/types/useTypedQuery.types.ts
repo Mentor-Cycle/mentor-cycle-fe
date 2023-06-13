@@ -15,8 +15,9 @@ export type FetchConfig<
 
 export type HookResponse<TData, TVariables extends OperationVariables> = Omit<
   QueryResult<TData, TVariables>,
-  "error"
+  "error" | "data"
 > & {
+  data: TData | null;
   error: IErrorTypedFetch<TError<TData>> | null;
 };
 
