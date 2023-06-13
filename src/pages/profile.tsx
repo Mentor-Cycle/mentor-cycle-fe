@@ -23,7 +23,7 @@ const Profile: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  const { mentor, loading, refetch } = useMentorProfile(user.id as string);
+  const { mentor, loading, refetch, error } = useMentorProfile(user.id);
 
   const [eventsByDay, setEventsByDay] = useState({});
 
@@ -32,6 +32,8 @@ const Profile: NextPage = () => {
       learnerId: user.id,
     },
   });
+
+  console.log("classes? ", classes);
 
   useEffect(() => {
     if (router.query.edit) {
@@ -115,7 +117,7 @@ const Profile: NextPage = () => {
             <InfoCard
               title="Portfólio/GitHub"
               label="exemplo.com.br"
-              content={user.github}
+              content={user.github ?? ""}
               alignRight
             />
             <InfoCard
@@ -148,7 +150,7 @@ const Profile: NextPage = () => {
             <InfoCard
               title="Linkedin"
               label="linkedin.com/in/example"
-              content={user.linkedin}
+              content={user.linkedin ?? ""}
             />
           </section>
         </aside>

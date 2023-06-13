@@ -131,6 +131,7 @@ export default function Header() {
   };
 
   if (error) {
+    console.error(error);
     toast.error(errorMessages[error.type]);
   }
 

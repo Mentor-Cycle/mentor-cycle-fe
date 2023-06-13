@@ -6,36 +6,33 @@ import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { validateUndefined } from "utils/nullable/validateUndefined";
-import { useQuery } from "@apollo/client";
-import {
-  AvailabilitySlots,
-  MentorAvailability,
-} from "@components/ScheduleMentorshipModal/types";
-import { GET_AVAILABILITIES } from "services/apollo/queries";
+import { AvailabilitySlots } from "@components/ScheduleMentorshipModal/types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
 import Spinner from "@components/Spinner";
 import { InfoCard } from "@components/InfoCard";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { user } = useUser();
-  const { id } = router.query;
-  const { mentor, loading } = useMentorProfile(id as string);
+  const id = router.query.id as string | undefined;
+  const { mentor, loading } = useMentorProfile(id ?? "");
 
-  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
+  const { data } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
-      mentorId: id,
+      mentorId: id ?? "",
     },
   });
 
   const availabilitiesByWeekDay =
-    data?.findMentorAvailability.availability.reduce(
+    data?.findMentorAvailability.availability?.reduce(
       (acc: AvailabilitySlots, availability) => {
+        console.log({ acc, availability });
         const weekDayNumber = availability.weekDay;
         const startDate = parseISO(availability.startDate);
         const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
@@ -66,9 +63,9 @@ const MentorProfile: NextPage = () => {
         <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
           <div className="flex justify-start container ">
             <DashboardCardProfile
-              avatar={mentor.photoUrl || "/imgCard.png"}
-              job={mentor.jobTitle || ""}
-              name={`${mentor.firstName} ${mentor.lastName}`}
+              avatar={mentor?.photoUrl || "/imgCard.png"}
+              job={mentor?.jobTitle || ""}
+              name={mentor ? `${mentor.firstName} ${mentor.lastName}` : ""}
               skills={mentor?.skills || []}
             />
           </div>
@@ -81,69 +78,69 @@ const MentorProfile: NextPage = () => {
           </h2>
           <p
             className={`text-base w-full ${
-              mentor.biography
+              mentor?.biography
                 ? "text-secondary-05 overflow-hidden break-words"
                 : "text-gray-05"
             }`}
           >
-            {mentor.biography || "Complete seu sobre mim"}
+            {mentor?.biography || "Complete seu sobre mim"}
           </p>
           <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02 mt-12">
             Experiência profissional
           </h2>
           <p
             className={`text-base w-full mb-12 ${
-              mentor.description
+              mentor?.description
                 ? "text-secondary-05 overflow-hidden break-words"
                 : "text-gray-05"
             }`}
           >
-            {mentor.description ||
+            {mentor?.description ||
               "Escreva suas principais experiências profissionais"}
           </p>
           <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
               title="E-mail"
               label="example@email.com"
-              content={mentor.email || ""}
+              content={mentor?.email || ""}
             />
             <InfoCard
               title="Portfólio/GitHub"
               label="exemplo.com.br"
-              content={mentor.github || ""}
+              content={mentor?.github || ""}
               alignRight
             />
             <InfoCard
               title="País/Estado"
               label="example@email.com"
-              content={`${validateUndefined(mentor.country) || "País"}${
-                mentor.country === "Brasil" && mentor.state
-                  ? `/${validateUndefined(mentor.state)}`
+              content={`${validateUndefined(mentor?.country) || "País"}${
+                mentor?.country === "Brasil" && mentor?.state
+                  ? `/${validateUndefined(mentor?.state)}`
                   : ""
               }`}
-              contentToValidate={mentor.country}
+              contentToValidate={mentor?.country}
             />
             <InfoCard
               title="Carreira"
               label="example@email.com"
               content={
-                mentor.yearsOfExperience
+                mentor?.yearsOfExperience
                   ? `${parseInt(
-                      mentor.yearsOfExperience < 30
-                        ? mentor.yearsOfExperience
+                      mentor?.yearsOfExperience < 30
+                        ? mentor.yearsOfExperience.toString()
                         : "30+"
                     )} ${
-                      mentor.yearsOfExperience > 1 ? "anos" : "ano"
+                      mentor?.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
                   : "experiência que você possui"
               }
-              contentToValidate={mentor.yearsOfExperience}
+              contentToValidate={mentor?.yearsOfExperience}
               alignRight
             />
             <InfoCard
               title="Linkedin"
               label="linkedin.com/in/example"
-              content={mentor.linkedin || ""}
+              content={mentor?.linkedin || ""}
             />
           </section>
         </aside>
@@ -152,7 +149,7 @@ const MentorProfile: NextPage = () => {
             <h2 className="text-2xl text-center md:text-start font-bold mb-12 text-secondary-02">
               Agenda de mentorias
             </h2>
-            {data?.findMentorAvailability.availability.length ? (
+            {data?.findMentorAvailability.availability?.length ? (
               <div className="flex flex-col gap-4">
                 {availabilitiesByWeekDay &&
                   Object.values(availabilitiesByWeekDay).map(
@@ -177,7 +174,7 @@ const MentorProfile: NextPage = () => {
                 </p>
               </div>
             )}
-            <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
+            {/* <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} /> */}
             {user.isMentor ? (
               <>
                 <div className="max-w-xs mt-4">
@@ -191,7 +188,7 @@ const MentorProfile: NextPage = () => {
               <Button
                 className="mt-12"
                 disabled={Boolean(
-                  !data?.findMentorAvailability.availability.length
+                  !data?.findMentorAvailability.availability?.length
                 )}
                 size="regular"
                 variant="primary"
