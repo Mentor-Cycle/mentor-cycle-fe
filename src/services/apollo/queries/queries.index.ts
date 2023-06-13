@@ -1,14 +1,17 @@
 import {
   GET_AVAILABILITIES,
   GET_ME,
+  GET_MENTOR_BY_ID,
   GET_SKILLS,
 } from "services/apollo/queries/queries";
 import {
   GET_AVAILABILITIES_queryResponseSchema,
   GET_AVAILABILITIES_variablesSchema,
-} from "services/apollo/queries/queries-properties/GET_AVAILABILITIES";
-import { GET_ME_queryResponseSchema } from "services/apollo/queries/queries-properties/GET_ME";
-import { GET_SKILLS_queryResponseSchema } from "services/apollo/queries/queries-properties/GET_SKILLS";
+  GET_MENTOR_BY_ID_queryResponseSchema,
+  GET_MENTOR_BY_ID_variablesSchema,
+  GET_ME_queryResponseSchema,
+  GET_SKILLS_queryResponseSchema,
+} from "services/apollo/queries/queries-properties";
 
 export const queriesIndex = {
   GET_ME: {
@@ -25,5 +28,10 @@ export const queriesIndex = {
     schema: GET_AVAILABILITIES_queryResponseSchema,
     query: GET_AVAILABILITIES,
     variables: GET_AVAILABILITIES_variablesSchema,
+  },
+  GET_MENTOR_BY_ID: {
+    schema: GET_MENTOR_BY_ID_queryResponseSchema,
+    query: GET_MENTOR_BY_ID,
+    variables: GET_MENTOR_BY_ID_variablesSchema,
   },
 };
