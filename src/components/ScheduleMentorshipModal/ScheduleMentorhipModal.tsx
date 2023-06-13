@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { IResponse_GET_AVAILABILITY } from "services/apollo/queries/queries.types";
 import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { TGET_AVAILABILITIES_queryResponseSchema } from "services/apollo/queries/queries-properties";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -25,24 +26,30 @@ export const ScheduleMentorshipModal = ({
   setOpen: (open: boolean) => void;
 }) => {
   const router = useRouter();
-  const { id } = router.query;
-  const [selectedStartTime, setSelectedStartTime] = useState<string>("");
-  const [selectedEndTime, setSelectedEndTime] = useState<string>("");
-  const [availableDays, setAvailableDays] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [daySelected, setDaySelected] = useState<string>("");
-  const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
-    {}
-  );
-  const [convertedDaysAndTimes, setConvertedDaysAndTimes] = useState<string[]>(
-    []
-  );
+  // const id = router.query.id as string | undefined;
+  // const query = router.query;
+  // const [selectedStartTime, setSelectedStartTime] = useState<string>("");
+  // const [selectedEndTime, setSelectedEndTime] = useState<string>("");
+  // const [availableDays, setAvailableDays] = useState<string[]>([]);
+  // const [selectedDate, setSelectedDate] = useState<Date>();
+  // const [daySelected, setDaySelected] = useState<string>("");
+  // const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
+  //   {}
+  // );
+  // const [convertedDaysAndTimes, setConvertedDaysAndTimes] = useState<string[]>(
+  //   []
+  // );
 
-  const [times, setTimes] = useState<string[]>([]);
+  // const [times, setTimes] = useState<string[]>([]);
 
-  const [rangeTime, setRangeTime] = useState<string[][]>([]);
+  // const [rangeTime, setRangeTime] = useState<string[][]>([]);
 
-  const { mentor, loading, error, refetch } = useMentorProfile(id as string);
+  // const { mentor, loading, error, refetch } = useMentorProfile(id as string);
+
+  useEffect(() => console.log(router), [router]);
+
+  return null;
+
   const { user } = useUser();
   const [createEvent, { loading: eventLoading, error: eventError }] =
     useMutation(CREATE_EVENT);
@@ -111,7 +118,8 @@ export const ScheduleMentorshipModal = ({
   };
 
   const convertAvailabilitiyDays = useCallback(
-    (data: IResponse_GET_AVAILABILITY) => {
+    (data: TGET_AVAILABILITIES_queryResponseSchema) => {
+      if (!data.findMentorAvailability.availability) return;
       data.findMentorAvailability.availability.forEach((item) => {
         const [startDate, startTime] = item.startDate.split("T");
         const [_, endTime] = item.endDate.split("T");
