@@ -56,11 +56,15 @@ export function useLazyTypedQuery<
         type: "FETCHING_API_RESPONSE_DATA",
       });
       setLoading(false);
+      if (options?.onError) options.onError(error);
     },
     onCompleted: (unparsedData) => {
       schema
         .parseAsync(unparsedData)
-        .then(setData)
+        .then((parsedData) => {
+          setData(parsedData);
+          if (options?.onCompleted) options.onCompleted(parsedData);
+        })
         .catch((error) =>
           setError({
             error,

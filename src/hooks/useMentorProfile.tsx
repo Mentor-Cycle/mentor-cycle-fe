@@ -1,43 +1,50 @@
-import { useQuery } from "@apollo/client";
+import { IMentor } from "@hooks/useMentorProfile.types";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { DAYS_OF_THE_WEEK } from "config/constants";
 import { format, parse } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { useEffect, useState } from "react";
-import { GET_MENTOR_BY_ID } from "services/apollo/queries";
+import { useEffect, useMemo, useState } from "react";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+
+type TGroupedAvailability = IMentor["availability"];
 
 export const useMentorProfile = (id: string) => {
-  const { data, loading, error, refetch, client } = useQuery(GET_MENTOR_BY_ID, {
-    variables: { id },
-  });
+  const [mentor, setMentor] = useState<IMentor | null>(null);
 
-  const [mentor, setMentor] = useState<User>({} as User);
+  const { data, loading, error, refetch, client } = useTypedQuery(
+    api.GET_MENTOR_BY_ID,
+    {
+      variables: { id },
+      skip: !id,
+    }
+  );
 
   useEffect(() => {
     if (data) {
       const { availability: apiAvailability, ...fetchedMentor } =
-        data.findOneMentor as { availability: AvailabilityApi[] } & User;
+        data.findOneMentor;
       if (!apiAvailability) return;
-      const groupedAvailability: Availability[] = [];
-      (apiAvailability as AvailabilityApi[]).forEach(
-        ({ weekDay, startHour }) => {
-          const weekDayName = DAYS_OF_THE_WEEK[weekDay];
-          const existentAvailability = groupedAvailability.find(
-            (item) => item.weekDay === weekDayName
-          );
+      const groupedAvailability: TGroupedAvailability = [];
+      apiAvailability.forEach(({ weekDay, startHour }) => {
+        const weekDayName = DAYS_OF_THE_WEEK[+weekDay];
+        const existentAvailability = groupedAvailability.find(
+          (item) => item.weekDay === weekDayName
+        );
 
-          const parsedStartHour = parse(startHour, "H:m", new Date());
-          const formattedStartHour = format(parsedStartHour, "HH'h'mm", {
-            locale: ptBR,
-          });
-          if (existentAvailability) {
-            return existentAvailability.slots.push(formattedStartHour);
-          }
-          groupedAvailability.push({
-            weekDay: weekDayName,
-            slots: [formattedStartHour],
-          });
+        const parsedStartHour = parse(startHour.toString(), "H:m", new Date());
+        const formattedStartHour = format(parsedStartHour, "HH'h'mm", {
+          locale: ptBR,
+        });
+
+        if (existentAvailability) {
+          return existentAvailability.slots.push(formattedStartHour);
         }
-      );
+        groupedAvailability.push({
+          weekDay: weekDayName,
+          slots: [formattedStartHour],
+        });
+      });
+      console.log({ apiAvailability, groupedAvailability });
       setMentor({ ...fetchedMentor, availability: groupedAvailability });
     }
   }, [data]);
@@ -49,33 +56,4 @@ export const useMentorProfile = (id: string) => {
     refetch,
     client,
   };
-};
-
-export type User = {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  country?: string;
-  state?: string;
-  skills?: string[];
-  description?: string;
-  linkedin?: string;
-  availability?: Availability[];
-  photoUrl?: string;
-  jobTitle?: string;
-  jobCompany?: string;
-  biography?: string;
-  email?: string;
-  github?: string;
-  yearsOfExperience?: any;
-};
-
-type AvailabilityApi = {
-  weekDay: number;
-  startHour: string;
-};
-
-export type Availability = {
-  weekDay: string;
-  slots: string[];
 };

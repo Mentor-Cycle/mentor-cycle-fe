@@ -26,7 +26,7 @@ export function useTypedQuery<
   type TVariables = ExtractDataType<TVariablesSchema & {}>;
 
   const [data, setData] = useState<TData | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<IErrorTypedFetch<TError<TData>> | null>(
     null
   );
@@ -59,29 +59,43 @@ export function useTypedQuery<
         type: "FETCHING_API_RESPONSE_DATA",
       });
       setLoading(false);
+      if (options?.onError) options.onError(error);
     },
     onCompleted: (unparsedData) => {
       schema
         .parseAsync(unparsedData)
-        .then(setData)
-        .catch((error) =>
+        .then((parsedData) => {
+          setData(parsedData);
+          if (options?.onCompleted) options.onCompleted(parsedData);
+        })
+        .catch((error) => {
           setError({
             error,
             type: "PARSING_API_RESPONSE_DATA",
-          })
-        )
+          });
+          if (options?.onCompleted) options.onCompleted(unparsedData);
+        })
         .finally(() => setLoading(false));
     },
   });
 
   useEffect(() => {
-    if (!parsedVariables.success) {
+    if (!options || !options.variables) {
+      setError({
+        error: "You must provide variables to this query.",
+        type: "EXPECT_VARIABLES",
+      });
+      setLoading(false);
+    } else if (!parsedVariables.success) {
       setError({
         error: (parsedVariables as SafeParseError<TVariables>).error,
         type: "PARSING_VARIABLES",
       });
+      setLoading(false);
     }
-  }, [parsedVariables]);
+  }, [parsedVariables.success]);
 
   return { data, error, loading, ...rest };
 }
+
+// useEffect(() => console.log(error), [error]);
