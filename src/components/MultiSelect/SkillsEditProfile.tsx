@@ -13,9 +13,12 @@ const SkillsEditProfile = ({
   uniqueSkill,
   onSelectedSkills,
 }: SkillsEditProfileProps) => {
-  const { loading: loadingSkills, data: skills } = useTypedQuery(
-    api.GET_SKILLS
-  );
+  const {
+    loading: loadingSkills,
+    data: skills,
+    error,
+  } = useTypedQuery(api.GET_SKILLS);
+  if (error?.error) console.log("error", error);
 
   const options =
     skills?.findAllSkills.map(({ name }) => ({

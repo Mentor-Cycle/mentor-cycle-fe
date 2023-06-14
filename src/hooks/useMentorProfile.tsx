@@ -18,6 +18,7 @@ export const useMentorProfile = (id: string) => {
       skip: !id,
     }
   );
+  if (error?.error) console.log("error", error);
 
   useEffect(() => {
     if (data) {
@@ -44,7 +45,6 @@ export const useMentorProfile = (id: string) => {
           slots: [formattedStartHour],
         });
       });
-      console.log({ apiAvailability, groupedAvailability });
       setMentor({ ...fetchedMentor, availability: groupedAvailability });
     }
   }, [data]);

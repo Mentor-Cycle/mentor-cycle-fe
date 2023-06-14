@@ -38,11 +38,12 @@ export const MentorModalAvailability = ({
   const [selectedEnd, setSelectedEnd] = useState<string>("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
 
-  const { data } = useTypedQuery(queriesIndex.GET_AVAILABILITIES, {
+  const { data, error } = useTypedQuery(queriesIndex.GET_AVAILABILITIES, {
     variables: {
       mentorId: user?.id || "",
     },
   });
+  if (error?.error) console.log("error", error);
 
   const handleSaveAvailability = () => {
     saveAvailabilityInMemory(
