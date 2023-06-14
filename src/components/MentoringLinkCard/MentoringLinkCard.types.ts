@@ -1,5 +1,5 @@
 export type Props = {
-  avatar?: string;
+  avatar?: string | null | undefined;
   name: string;
   id?: string;
   job: string;

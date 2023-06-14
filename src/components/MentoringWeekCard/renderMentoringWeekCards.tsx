@@ -4,23 +4,16 @@ import {
   convertWeekDayNameToNumber,
   formatHour,
 } from "utils/dashboard-helpers";
-import { ChipVariant } from "@components/Chip/Chip.types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { IStatusDisplay } from "types/dashboard.types";
+import { Events } from "@components/MentoringWeekCard/MentoringWeekCard.types";
+import { OptionStatus } from "schemas/create_event_output";
 
-interface Event {
-  id: string;
-  status: "PENDING" | "CANCELLED" | "DONE" | "CONFIRMED";
-  startDate: string;
-}
-
-export const renderMentoringWeekCard = (eventsByDay: {
-  [key: string]: { events: Event[] };
-}) => {
-  const statusDisplay: Record<
-    "PENDING" | "CANCELLED" | "DONE" | "CONFIRMED",
-    { label: string; variant: ChipVariant }
-  > = {
+export const renderMentoringWeekCard = (
+  eventsByDay: Record<string, Events>
+) => {
+  const statusDisplay: Record<OptionStatus, IStatusDisplay> = {
     PENDING: { label: "Agendado", variant: "chipCards" },
     CANCELLED: { label: "Cancelada", variant: "chipCards" },
     DONE: { label: "Realizada", variant: "secondary" },
@@ -28,7 +21,7 @@ export const renderMentoringWeekCard = (eventsByDay: {
   };
 
   return Object.entries(eventsByDay)
-    .map(([date, events]: [string, { events: Event[] }], index: number) => {
+    .map(([date, events], index) => {
       const data = parseISO(date);
       const dayWeek = format(data, "EEEE", { locale: ptBR });
       return (
@@ -38,7 +31,7 @@ export const renderMentoringWeekCard = (eventsByDay: {
           description={`Você tem ${
             events.events.length
           } mentoria(s) marcada(s) para o dia ${format(data, "dd/MM/yyyy")}`}
-          chips={events.events.map((event: Event) => (
+          chips={events.events.map((event) => (
             <>
               <Chip
                 key={`variant_${event.id}`}
@@ -56,8 +49,8 @@ export const renderMentoringWeekCard = (eventsByDay: {
       );
     })
     .sort((a, b) => {
-      const weekDayA = convertWeekDayNameToNumber(a.props.day);
-      const weekDayB = convertWeekDayNameToNumber(b.props.day);
+      const weekDayA = convertWeekDayNameToNumber(a.props.day as string);
+      const weekDayB = convertWeekDayNameToNumber(b.props.day as string);
       return weekDayA > weekDayB ? 1 : -1;
     })
     .slice(0, 6);

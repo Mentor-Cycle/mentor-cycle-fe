@@ -45,8 +45,8 @@ export const GET_EVENTS_queryResponseSchema = z
 
 export const GET_EVENTS_variablesSchema = z
   .object({
-    learnerId: userSchema.shape.id,
-    mentorId: userSchema.shape.id.optional(),
+    learnerId: userSchema.shape.id.nullable(),
+    mentorId: userSchema.shape.id.nullish(),
   })
   .strict();
 
