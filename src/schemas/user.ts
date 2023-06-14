@@ -37,39 +37,41 @@ export const userSchema = z.object({
   availability: z.array(availabilitySchema),
 });
 
-export const userAPISchema = z.object({
-  id: userSchema.shape.id,
-  email: userSchema.shape.email,
-  password: userSchema.shape.password.nullable(),
-  active: userSchema.shape.active.nullable(),
-  firstName: userSchema.shape.firstName,
-  lastName: userSchema.shape.lastName.nullable(),
-  photoUrl: userSchema.shape.photoUrl.or(z.literal("")).nullable(),
-  yearsOfExperience: userSchema.shape.yearsOfExperience.nullable(),
-  isEmailVerified: userSchema.shape.isEmailVerified,
-  isTermsAccepted: userSchema.shape.isTermsAccepted,
-  onBoardingCompleted: userSchema.shape.onBoardingCompleted,
-  createdAt: userSchema.shape.createdAt,
-  updatedAt: userSchema.shape.updatedAt,
-  googleId: userSchema.shape.googleId.nullable(),
-  facebookId: userSchema.shape.facebookId.nullable(),
-  birthDate: userSchema.shape.birthDate,
-  country: userSchema.shape.country,
-  state: userSchema.shape.state,
-  city: userSchema.shape.city,
-  skills: userSchema.shape.skills.nullable(),
-  linkedin: userSchema.shape.linkedin.or(z.literal("")).nullable(),
-  github: userSchema.shape.github.or(z.literal("")).nullable(),
-  website: userSchema.shape.website.or(z.literal("")).nullable(),
-  jobTitle: userSchema.shape.jobTitle.nullable(),
-  jobCompany: userSchema.shape.jobCompany.nullable(),
-  biography: userSchema.shape.biography.nullable(),
-  description: userSchema.shape.description,
-  isMentor: userSchema.shape.isMentor.nullable(),
-  status: userSchema.shape.status.nullable(),
-  availability: z.array(availabilityAPISchema).nullable(),
-  __typename: z.literal("User"),
-});
+export const userAPISchema = z
+  .object({
+    id: userSchema.shape.id,
+    email: userSchema.shape.email,
+    password: userSchema.shape.password.nullable(),
+    active: userSchema.shape.active.nullable(),
+    firstName: userSchema.shape.firstName,
+    lastName: userSchema.shape.lastName.nullable(),
+    photoUrl: userSchema.shape.photoUrl.or(z.literal("")).nullable(),
+    yearsOfExperience: userSchema.shape.yearsOfExperience.nullable(),
+    isEmailVerified: userSchema.shape.isEmailVerified,
+    isTermsAccepted: userSchema.shape.isTermsAccepted,
+    onBoardingCompleted: userSchema.shape.onBoardingCompleted,
+    createdAt: userSchema.shape.createdAt,
+    updatedAt: userSchema.shape.updatedAt,
+    googleId: userSchema.shape.googleId.nullable(),
+    facebookId: userSchema.shape.facebookId.nullable(),
+    birthDate: userSchema.shape.birthDate,
+    country: userSchema.shape.country,
+    state: userSchema.shape.state,
+    city: userSchema.shape.city,
+    skills: userSchema.shape.skills.nullable(),
+    linkedin: userSchema.shape.linkedin.or(z.literal("")).nullable(),
+    github: userSchema.shape.github.or(z.literal("")).nullable(),
+    website: userSchema.shape.website.or(z.literal("")).nullable(),
+    jobTitle: userSchema.shape.jobTitle.nullable(),
+    jobCompany: userSchema.shape.jobCompany.nullable(),
+    biography: userSchema.shape.biography.nullable(),
+    description: userSchema.shape.description,
+    isMentor: userSchema.shape.isMentor.nullable(),
+    status: userSchema.shape.status.nullable(),
+    availability: z.array(availabilityAPISchema).nullable(),
+    __typename: z.literal("User"),
+  })
+  .strict();
 
 export const userSessionSchema = userAPISchema
   .pick({
@@ -99,4 +101,5 @@ export const userSessionSchema = userAPISchema
         })
       )
       .nullable(),
-  });
+  })
+  .strict();

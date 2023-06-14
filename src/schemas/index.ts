@@ -1,3 +1,4 @@
 export * from "./user";
-export * from "./skills";
+export * from "./skill";
 export * from "./availability";
+export * from "./event";

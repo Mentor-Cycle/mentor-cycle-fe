@@ -72,6 +72,7 @@ export function useTypedQuery<
           setError({
             error,
             type: "PARSING_API_RESPONSE_DATA",
+            response_data: unparsedData,
           });
           if (options?.onCompleted) options.onCompleted(unparsedData);
         })
@@ -80,7 +81,7 @@ export function useTypedQuery<
   });
 
   useEffect(() => {
-    if (!options || !options.variables) {
+    if (variablesSchema && (!options || !options.variables)) {
       setError({
         error: "You must provide variables to this query.",
         type: "EXPECT_VARIABLES",
@@ -95,7 +96,7 @@ export function useTypedQuery<
     }
   }, [parsedVariables.success]);
 
+  // useEffect(() => console.log("error", error), [error]);
+
   return { data, error, loading, ...rest };
 }
-
-// useEffect(() => console.log(error), [error]);

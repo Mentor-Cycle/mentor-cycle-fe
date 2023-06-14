@@ -18,6 +18,7 @@ export const GET_ME_queryDataSchema = userAPISchema
     github: true,
     linkedin: true,
     state: true,
+    __typename: true,
   })
   .extend({
     availability: z
@@ -28,11 +29,14 @@ export const GET_ME_queryDataSchema = userAPISchema
         })
       )
       .nullable(),
-  });
+  })
+  .strict();
 
-export const GET_ME_queryResponseSchema = z.object({
-  me: GET_ME_queryDataSchema,
-});
+export const GET_ME_queryResponseSchema = z
+  .object({
+    me: GET_ME_queryDataSchema,
+  })
+  .strict();
 
 /**
  * Types

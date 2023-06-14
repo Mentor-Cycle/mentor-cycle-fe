@@ -26,6 +26,7 @@ export type TError<TData> = unknown | z.ZodError<TData> | ApolloError;
 export interface IErrorTypedFetch<TError> {
   error: TError;
   type: ErrorTypedFetchTypes;
+  response_data?: Record<string, any> | Array<Record<string, any>>;
 }
 
 export type ErrorTypedFetchTypes =

@@ -9,6 +9,7 @@ export const GET_AVAILABILITIES_queryDataSchema = userAPISchema
   .pick({
     firstName: true,
     lastName: true,
+    __typename: true,
   })
   .extend({
     availability: z
@@ -20,6 +21,7 @@ export const GET_AVAILABILITIES_queryDataSchema = userAPISchema
           endHour: true,
           startDate: true,
           endDate: true,
+          __typename: true,
         })
       )
       .nullable(),

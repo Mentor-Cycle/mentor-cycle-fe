@@ -18,6 +18,7 @@ export const GET_MENTOR_BY_ID_queryDataSchema = userAPISchema
     github: true,
     linkedin: true,
     yearsOfExperience: true,
+    __typename: true,
   })
   .extend({
     availability: z
