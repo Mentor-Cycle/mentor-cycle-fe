@@ -95,9 +95,11 @@ export const userSessionSchema = userAPISchema
     isLogged: z.boolean(),
     availability: z
       .array(
-        availabilityAPISchema.pick({
-          startHour: true,
-          weekDay: true,
+        z.object({
+          startHour: availabilityAPISchema.shape.startHour,
+          weekDay: availabilityAPISchema.shape.weekDay,
+          endHour: availabilityAPISchema.shape.endHour.optional(),
+          active: availabilityAPISchema.shape.active.optional(),
         })
       )
       .nullable(),

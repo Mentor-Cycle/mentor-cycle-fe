@@ -26,6 +26,7 @@ export const GET_ME_queryDataSchema = userAPISchema
         availabilityAPISchema.pick({
           startHour: true,
           weekDay: true,
+          __typename: true,
         })
       )
       .nullable(),
