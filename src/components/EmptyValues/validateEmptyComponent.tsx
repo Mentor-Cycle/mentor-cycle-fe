@@ -2,7 +2,7 @@ import { IUserSession } from "types/user.types";
 import MentorDashboard from "./MentorDashboard";
 import StudentDashboard from "./StudentDashboard";
 import { TGET_EVENTS_queryResponseSchema as IEvents } from "services/apollo/queries/queries-properties";
-import { IStatusOption } from "pages/dashboard/dashboard";
+import { IStatusOption } from "types/dashboard.types";
 
 export type EmptyValueProps = {
   user?: IUserSession | undefined;

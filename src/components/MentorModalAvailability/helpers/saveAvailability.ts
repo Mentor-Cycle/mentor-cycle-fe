@@ -1,17 +1,14 @@
+import { AvailabilitySlot } from "@components/MentorModalAvailability/MentorModalAvailability.types";
+import { TWeekday_Short } from "config/constants";
 import { parse, max, min, format } from "date-fns";
-
-export type AvailabilitySlot = {
-  weekDay: string;
-  startHour: string;
-  endHour: string;
-};
+import { Dispatch, SetStateAction } from "react";
 
 export const saveAvailabilityInMemory = (
-  selectedDay: string,
+  selectedDay: TWeekday_Short,
   selectedStart: string,
   selectedEnd: string,
   availability: AvailabilitySlot[],
-  setAvailability: (availability: AvailabilitySlot[]) => void
+  setAvailability: Dispatch<SetStateAction<AvailabilitySlot[]>>
 ) => {
   if (selectedStart === selectedEnd) return;
 

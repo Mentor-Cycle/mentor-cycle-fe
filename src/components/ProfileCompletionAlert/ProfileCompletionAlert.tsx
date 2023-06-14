@@ -1,12 +1,13 @@
 import { InfoPopUp } from "@components/InfoPopUp";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
+import { IUserSession } from "types/user.types";
 
 const ProfileCompletionAlert = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  const REQUIRED_FIELDS = [
+  const REQUIRED_FIELDS: (keyof IUserSession)[] = [
     "firstName",
     "lastName",
     "photoUrl",

@@ -180,7 +180,7 @@ const Mentors: NextPage = () => {
                     chips={mentor.chips}
                     description={mentor.description}
                     image={mentor.image}
-                    jobTitle={user.jobtitle || mentor.jobTitle}
+                    jobTitle={user.jobTitle || mentor.jobTitle}
                     location={mentor.location}
                     name={mentor.firstName}
                     lastName={mentor.lastName}

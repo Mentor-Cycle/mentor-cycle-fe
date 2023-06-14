@@ -22,11 +22,9 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import { useRouter } from "next/router";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import {
-  IStatusOption,
-  OptionStatus,
-  optionStatusSchema,
-} from "types/dashboard.types";
+import { IStatusOption } from "types/dashboard.types";
+import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
+import { z } from "zod";
 
 const Dashboard: NextPage = () => {
   const statusOptions: IStatusOption[] = [
@@ -38,7 +36,7 @@ const Dashboard: NextPage = () => {
 
   const router = useRouter();
   const { user } = useUser();
-  const [selectedFilter, setSelectedFilter] = useState<OptionStatus>(
+  const [selectedFilter, setSelectedFilter] = useState<OptionStatus | "">(
     statusOptions[2].value
   );
   const [eventsByDay, setEventsByDay] = useState({});
@@ -76,7 +74,9 @@ const Dashboard: NextPage = () => {
   }, [events, loadingEvents, errorEvents]);
 
   const handleFilterChange = (event: any) => {
-    const eventValueParse = optionStatusSchema.safeParse(event.value);
+    const eventValueParse = eventStatusSchema
+      .or(z.literal(""))
+      .safeParse(event.value);
     if (!eventValueParse.success) return;
     const newSelectedFilter = eventValueParse.data;
     setSelectedFilter(newSelectedFilter);
