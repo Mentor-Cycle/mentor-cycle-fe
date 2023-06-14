@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { TGET_EVENTS_queryDataSchema as IEvents } from "services/apollo/queries/queries-properties";
+import { IGroupEventsByDay } from "types/dashboard.types";
 
 export const formatDate = (date: any) => {
   return format(new Date(date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
@@ -23,14 +25,14 @@ export const convertWeekDayNameToNumber = (day: string) => {
   return weekDays[day];
 };
 
-export const groupEventsByDay = (events: any[]) => {
-  return events.reduce((acc, event) => {
+export const groupEventsByDay = (events: IEvents[]): IGroupEventsByDay => {
+  return events.reduce((eventsGroupedByDay, event) => {
     const date = new Date(event.startDate);
 
     const dateKey = format(date, "yyyy-MM-dd");
 
-    if (!acc[dateKey]) {
-      acc[dateKey] = {
+    if (!eventsGroupedByDay[dateKey]) {
+      eventsGroupedByDay[dateKey] = {
         date: new Date(date).toLocaleString("pt-BR", {
           weekday: "long",
           timeZone: "America/Sao_Paulo",
@@ -38,12 +40,12 @@ export const groupEventsByDay = (events: any[]) => {
         events: [],
       };
     }
-    acc[dateKey].events.push(event);
+    eventsGroupedByDay[dateKey].events.push(event);
     // Ordenar os eventos por horário
-    acc[dateKey].events.sort(
-      (a: any, b: any) =>
+    eventsGroupedByDay[dateKey].events.sort(
+      (a, b) =>
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
-    return acc;
-  }, {});
+    return eventsGroupedByDay;
+  }, {} as IGroupEventsByDay);
 };

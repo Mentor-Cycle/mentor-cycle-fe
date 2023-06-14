@@ -1,15 +1,14 @@
+import { IUserSession } from "types/user.types";
 import MentorDashboard from "./MentorDashboard";
 import StudentDashboard from "./StudentDashboard";
-
-type User = {
-  isMentor: boolean;
-};
+import { TGET_EVENTS_queryResponseSchema as IEvents } from "services/apollo/queries/queries-properties";
+import { IStatusOption } from "pages/dashboard/dashboard";
 
 export type EmptyValueProps = {
-  user?: User;
-  statusOptions: { value: string; label: string }[];
+  user?: IUserSession | undefined;
+  statusOptions: IStatusOption[];
   selectedFilter: string;
-  data?: any;
+  data?: IEvents | null | undefined;
 };
 
 const validateEmptyComponent = ({

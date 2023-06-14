@@ -19,9 +19,16 @@ import Button from "@components/Button";
 import Link from "next/link";
 import { InfoPopUp } from "@components/InfoPopUp";
 import { useRouter } from "next/router";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import {
+  IStatusOption,
+  OptionStatus,
+  optionStatusSchema,
+} from "types/dashboard.types";
 
 const Dashboard: NextPage = () => {
-  const statusOptions: { value: string; label: string }[] = [
+  const statusOptions: IStatusOption[] = [
     { value: "", label: "Filtrar" },
     { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
@@ -30,50 +37,60 @@ const Dashboard: NextPage = () => {
 
   const router = useRouter();
   const { user } = useUser();
-  const [selectedFilter, setSelectedFilter] = useState(statusOptions[2].value);
+  const [selectedFilter, setSelectedFilter] = useState<OptionStatus>(
+    statusOptions[2].value
+  );
   const [eventsByDay, setEventsByDay] = useState({});
 
-  const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
+  const {
+    data: events,
+    loading: loadingEvents,
+    error: errorEvents,
+    refetch: refetchEvents,
+  } = useTypedQuery(api.GET_EVENTS, {
     variables: {
-      mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
+      mentorId: user.isMentor ? user.id : null,
     },
   });
 
   useEffect(() => {
-    refetch();
-    if (!loading && !error && data) {
-      const events = data?.findEvents || [];
-      const filteredEvents = events.filter((mentor: { mentorId: string }) => {
-        return (mentor.mentorId !== user.id && !user.isMentor) || user.isMentor;
+    refetchEvents();
+    if (!loadingEvents && !errorEvents && events) {
+      const foundEvents = events.findEvents;
+      const filteredEvents = foundEvents.filter((mentor) => {
+        return user.isMentor || (mentor.mentorId !== user.id && !user.isMentor);
       });
       const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, loading, error]);
+  }, [events, loadingEvents, errorEvents]);
 
   const handleFilterChange = (event: any) => {
-    setSelectedFilter(event.value);
+    const eventValueParse = optionStatusSchema.safeParse(event.value);
+    if (!eventValueParse.success) return;
+    const newSelectedFilter = eventValueParse.data;
+    setSelectedFilter(newSelectedFilter);
   };
 
   const generateCards = () => {
-    const hasSelectedFilter = data?.findEvents?.some(
-      (event: any) => event.status === selectedFilter
-    );
-    if (data?.findEvents && !hasSelectedFilter && selectedFilter) {
+    const hasSelectedFilter =
+      events?.findEvents?.some((event) => event.status === selectedFilter) ??
+      false;
+    if (events?.findEvents && !hasSelectedFilter && selectedFilter) {
       return noEventsMessage({ selectedFilter, statusOptions });
     }
-    const cards = data?.findEvents.map((event: any) => {
+    const cards = events?.findEvents.map((event) => {
       if (selectedFilter === "" || event.status === selectedFilter) {
         const mentorInfo = event.participants.find(
-          (participant: any) => participant.user.id === event.mentorId
+          (participant) => participant.user.id === event.mentorId
         )?.user;
         const learnerInfo = event.participants.find(
-          (participant: any) => participant.user.id !== event.mentorId
+          (participant) => participant.user.id !== event.mentorId
         )?.user;
 
-        if (!user.isMentor && mentorInfo.id === user.id) return;
+        if (!user.isMentor && mentorInfo?.id === user.id) return;
 
         const displayedName = user.isMentor
           ? `${learnerInfo?.firstName} ${learnerInfo?.lastName}`
@@ -90,7 +107,7 @@ const Dashboard: NextPage = () => {
         return (
           <MentoringLinkCard
             key={event.id}
-            onCancel={refetch}
+            onCancel={refetchEvents}
             eventId={event.id}
             avatar={displayedAvatar}
             date={formatDate(event.startDate)}
@@ -104,12 +121,12 @@ const Dashboard: NextPage = () => {
       }
     });
 
-    if (!!cards.filter(Boolean).length) {
+    if (cards && !!cards.filter(Boolean).length) {
       return cards;
     }
   };
 
-  if (loading)
+  if (loadingEvents)
     return (
       <div className="min-h-screen flex justify-center items-center">
         {/* <Spinner /> */}
@@ -151,7 +168,7 @@ const Dashboard: NextPage = () => {
                 {validateEmptyComponent({
                   selectedFilter,
                   statusOptions,
-                  data,
+                  data: events,
                   user,
                 })}
               </p>
@@ -185,13 +202,13 @@ const Dashboard: NextPage = () => {
             "max-h-[70vh] w-full  overflow-x-hidden  space-y-4 mt-4 sm:pr-2"
           }
         >
-          {data?.findEvents.length > 0 && generateCards()}
+          {events && events.findEvents.length > 0 && generateCards()}
         </div>
         <section className="mt-16">
           <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-2">
             Mentorias agendadas
           </h2>
-          {data?.findEvents.length > 0 ? (
+          {events && events.findEvents.length > 0 ? (
             <>
               <div
                 className="grid justify-items-center grid-cols-1 sm:grid-cols-2 

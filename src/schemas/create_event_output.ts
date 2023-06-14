@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { participantInfoAPISchema } from "schemas/participant_info";
 
+export const eventStatusSchema = z.union([
+  z.literal("DONE"),
+  z.literal("PENDING"),
+  z.literal("CONFIRMED"),
+  z.literal("CANCELLED"),
+]);
+
 export const createEventOutputSchema = z
   .object({
     id: z.string(),
     mentorId: z.string(),
     participants: z.array(participantInfoAPISchema),
-    status: z.string(),
+    status: eventStatusSchema,
     startDate: z.string(),
     endDate: z.string(),
     active: z.boolean(),
@@ -27,3 +34,5 @@ export const createEventOutputAPISchema = z
     __typename: z.literal("CreateEventOutput"),
   })
   .strict();
+
+export type OptionStatus = z.infer<typeof eventStatusSchema>;
