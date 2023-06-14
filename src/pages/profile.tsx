@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
@@ -31,7 +30,10 @@ const Profile: NextPage = () => {
     loading: loadingMentor,
     refetch: refetchMentor,
     error: mentorError,
-  } = useMentorProfile(user.id);
+  } = useMentorProfile(user.id, {
+    skip: !user.isMentor,
+  });
+  if (mentorError?.error) console.error("mentorError", mentorError);
 
   const {
     data: classes,
@@ -173,7 +175,7 @@ const Profile: NextPage = () => {
                     {mentor.availability.map((availability, index) => (
                       <MentoringWeekCard
                         key={availability.weekDay + index}
-                        day={availability.weekDay}
+                        day={availability.weekDay.toString()}
                         description="Horários disponíveis:"
                         chips={availability.slots.map((slot) => (
                           <Chip key={slot} variant="chipCards">
