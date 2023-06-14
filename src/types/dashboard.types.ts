@@ -14,7 +14,7 @@ export type IGroupEventsByDay = Pretify<
 >;
 
 export type IStatusOption = {
-  value: OptionStatus;
+  value: OptionStatus | "";
   label: string;
 };
 

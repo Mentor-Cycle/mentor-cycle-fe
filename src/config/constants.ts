@@ -18,7 +18,7 @@ export const DAYS_OF_THE_WEEK_SHORT = [
   "Quinta",
   "Sexta",
   "Sábado",
-];
+] as const;
 
 export const DAYS_OF_THE_WEEK = [
   "Domingo",
@@ -28,6 +28,7 @@ export const DAYS_OF_THE_WEEK = [
   "Quinta-feira",
   "Sexta-feira",
   "Sábado",
-];
+] as const;
 
-export type DAY_OF_WEEK = (typeof DAYS_OF_THE_WEEK)[number];
+export type TWeekday_Short = (typeof DAYS_OF_THE_WEEK_SHORT)[number];
+export type TWeekday = (typeof DAYS_OF_THE_WEEK)[number];
