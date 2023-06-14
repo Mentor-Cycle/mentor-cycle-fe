@@ -1,4 +1,4 @@
-import { IStatusOption } from "pages/dashboard/dashboard";
+import { IStatusOption } from "types/dashboard.types";
 
 type NoEventsType = {
   selectedFilter: string;

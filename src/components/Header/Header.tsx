@@ -38,6 +38,7 @@ export default function Header() {
   const [showModal, setShowModal] = useState<string>();
 
   const [me, { data, loading, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
+  if (error?.error) console.log("error", error);
 
   const [signOutUser] = useMutation(LOGOUT_USER);
   const { setTheme, resolvedTheme } = useTheme();
@@ -65,7 +66,10 @@ export default function Header() {
         jobTitle: data.me.jobTitle,
         isMentor: data.me.isMentor,
         id: data.me.id,
-        availability: data.me.availability,
+        availability:
+          data.me.availability?.map(
+            ({ __typename, ...availability }) => availability
+          ) ?? null,
         isLogged: true,
       });
     }
