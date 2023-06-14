@@ -26,33 +26,36 @@ export const ScheduleMentorshipModal = ({
   setOpen: (open: boolean) => void;
 }) => {
   const router = useRouter();
-  // const id = router.query.id as string | undefined;
-  // const query = router.query;
-  // const [selectedStartTime, setSelectedStartTime] = useState<string>("");
-  // const [selectedEndTime, setSelectedEndTime] = useState<string>("");
-  // const [availableDays, setAvailableDays] = useState<string[]>([]);
-  // const [selectedDate, setSelectedDate] = useState<Date>();
-  // const [daySelected, setDaySelected] = useState<string>("");
-  // const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
-  //   {}
-  // );
-  // const [convertedDaysAndTimes, setConvertedDaysAndTimes] = useState<string[]>(
-  //   []
-  // );
+  const id = router.query.id as string | undefined;
+  const query = router.query;
+  const [selectedStartTime, setSelectedStartTime] = useState<string>("");
+  const [selectedEndTime, setSelectedEndTime] = useState<string>("");
+  const [availableDays, setAvailableDays] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [daySelected, setDaySelected] = useState<string>("");
+  const [daysAndTimes, setDaysAndTimes] = useState<Record<string, string[]>>(
+    {}
+  );
+  const [convertedDaysAndTimes, setConvertedDaysAndTimes] = useState<string[]>(
+    []
+  );
 
-  // const [times, setTimes] = useState<string[]>([]);
+  const [times, setTimes] = useState<string[]>([]);
 
-  // const [rangeTime, setRangeTime] = useState<string[][]>([]);
+  const [rangeTime, setRangeTime] = useState<string[][]>([]);
 
-  // const { mentor, loading, error, refetch } = useMentorProfile(id as string);
-
-  useEffect(() => console.log(router), [router]);
-
-  return null;
+  const {
+    mentor,
+    loading: loadingMentor,
+    error: errorMentor,
+    refetch,
+  } = useMentorProfile(id as string);
+  if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   const { user } = useUser();
-  const [createEvent, { loading: eventLoading, error: eventError }] =
+  const [createEvent, { loading: eventLoading, error: errorEvent }] =
     useMutation(CREATE_EVENT);
+  if (errorEvent) console.log("errorEvent", errorEvent);
 
   const stepButtons: {
     [key: number]: {
@@ -74,18 +77,21 @@ export const ScheduleMentorshipModal = ({
     },
   };
 
-  const { data, refetch: refetchAvailabilities } = useTypedQuery(
-    api.GET_AVAILABILITIES,
-    {
-      variables: {
-        mentorId: mentor.id,
-      },
-    }
-  );
+  const {
+    data: availabilities,
+    refetch: refetchAvailabitities,
+    error: errorAvailabilities,
+  } = useTypedQuery(api.GET_AVAILABILITIES, {
+    variables: {
+      mentorId: mentor?.id ?? "",
+    },
+  });
+  if (errorAvailabilities?.error)
+    console.log("errorAvailabilities", errorAvailabilities);
 
   const [currentStep, setCurrentStep] = useState(1);
   const handleSteps = async () => {
-    await refetchAvailabilities();
+    await refetchAvailabitities();
     if (currentStep === 3) {
       resetStates();
       return setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
@@ -104,7 +110,7 @@ export const ScheduleMentorshipModal = ({
         status: "CONFIRMED",
       };
       await createEvent({ variables: { event: payload } });
-      if (eventError) {
+      if (errorEvent) {
         return toast.error("Erro ao criar evento");
       }
       resetStates(false, false);
@@ -163,7 +169,7 @@ export const ScheduleMentorshipModal = ({
     if (close) {
       setOpen(false);
     }
-    await refetchAvailabilities();
+    await refetchAvailabitities();
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -180,12 +186,12 @@ export const ScheduleMentorshipModal = ({
   };
 
   useEffect(() => {
-    if (data) {
-      convertAvailabilitiyDays(data);
+    if (availabilities) {
+      convertAvailabilitiyDays(availabilities);
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, data, daysAndTimes]);
+  }, [convertAvailabilitiyDays, availabilities, daysAndTimes]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
@@ -205,7 +211,7 @@ export const ScheduleMentorshipModal = ({
     setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
   }, [daySelected, daysAndTimes]);
 
-  if (loading)
+  if (loadingMentor)
     return (
       <>
         <div className="min-h-screen flex justify-center items-center">
@@ -221,16 +227,22 @@ export const ScheduleMentorshipModal = ({
           <>
             <div className="rounded-lg flex w-full justify-center items-center">
               <Image
-                src={mentor.photoUrl || "/imgCard.png"}
+                src={mentor?.photoUrl || "/imgCard.png"}
                 alt="avatar profile"
                 width={98}
                 height={98}
                 className="rounded-lg"
               />
             </div>
-            <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
-              Mentoria com {mentor.firstName} {mentor.lastName}
-            </h2>
+            {mentor ? (
+              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                Mentoria com {mentor.firstName} {mentor.lastName}
+              </h2>
+            ) : (
+              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                Carregando...
+              </h2>
+            )}
             <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
               Escolha um dia para visualizar os horários disponíveis para marcar
               sua mentoria
@@ -298,10 +310,17 @@ export const ScheduleMentorshipModal = ({
             <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
               Mentoria agendada!
             </h2>
-            <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-              Sua mentoria foi agendada no seu calendário e do(a){" "}
-              {mentor.firstName} {mentor.lastName}
-            </p>
+            {mentor ? (
+              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                Sua mentoria foi agendada no seu calendário e do(a){" "}
+                {mentor.firstName} {mentor.lastName}
+              </p>
+            ) : (
+              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                Sua mentoria foi agendada no seu calendário e do(a){" "}
+                Carregando...
+              </p>
+            )}
           </>
         )}
         <div className="mt-11 min-w-[183px]">
@@ -311,7 +330,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loading || eventLoading}
+            isLoading={loadingMentor || eventLoading}
           >
             {stepButtons[currentStep].text}
           </Button>
