@@ -13,6 +13,8 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   setSelectedSkills,
 }) => {
   const { data, loading, error } = useTypedQuery(api.GET_SKILLS);
+  if (error?.error) console.log("error", error);
+
   const options = [
     { value: null, label: "Todas" },
     ...(data?.findAllSkills.map(({ name }: { name: string }) => ({

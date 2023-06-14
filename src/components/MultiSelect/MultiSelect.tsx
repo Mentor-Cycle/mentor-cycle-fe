@@ -10,9 +10,12 @@ const MultiSelect = ({ name, label }: MultiSelectProps) => {
   const { dispatch, formData } = useForm();
   const [formStorage, setFormStorage] = useLocalStorage("form-data", formData);
 
-  const { loading: loadingSkills, data: skills } = useTypedQuery(
-    api.GET_SKILLS
-  );
+  const {
+    loading: loadingSkills,
+    data: skills,
+    error: errorSkills,
+  } = useTypedQuery(api.GET_SKILLS);
+  if (errorSkills?.error) console.log("errorSkills", errorSkills);
 
   function handleAddNewSkill(selectOptions: MultiSelectOptions[]) {
     const uniqueSkill = selectOptions.map((option) => option.value);

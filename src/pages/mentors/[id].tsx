@@ -15,24 +15,26 @@ import Spinner from "@components/Spinner";
 import { InfoCard } from "@components/InfoCard";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { user } = useUser();
   const id = router.query.id as string | undefined;
-  const { mentor, loading } = useMentorProfile(id ?? "");
+  const { mentor, loading, error: mentorError } = useMentorProfile(id ?? "");
+  if (mentorError) console.log(mentorError);
 
-  const { data } = useTypedQuery(api.GET_AVAILABILITIES, {
+  const { data, error } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
       mentorId: id ?? "",
     },
   });
+  if (error?.error) console.log("error", error);
 
   const availabilitiesByWeekDay =
     data?.findMentorAvailability.availability?.reduce(
       (acc: AvailabilitySlots, availability) => {
-        console.log({ acc, availability });
         const weekDayNumber = availability.weekDay;
         const startDate = parseISO(availability.startDate);
         const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
@@ -174,7 +176,7 @@ const MentorProfile: NextPage = () => {
                 </p>
               </div>
             )}
-            {/* <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} /> */}
+            <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
             {user.isMentor ? (
               <>
                 <div className="max-w-xs mt-4">

@@ -32,7 +32,8 @@ const EditProfile = ({
 }: EditProfileProps) => {
   const { user: userCurrent, setUser } = useUser();
   const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
-  const { data: skills } = useTypedQuery(api.GET_SKILLS);
+  const { data: skills, error } = useTypedQuery(api.GET_SKILLS);
+  if (error?.error) console.log("error", error);
 
   const options = skills ? skills?.findAllSkills.map((opt) => opt.name) : [];
 

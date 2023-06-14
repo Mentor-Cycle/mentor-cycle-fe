@@ -16,6 +16,8 @@ import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 import { InfoCard } from "@components/InfoCard";
 import { useRouter } from "next/router";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
@@ -23,17 +25,25 @@ const Profile: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  const { mentor, loading, refetch, error } = useMentorProfile(user.id);
+  const {
+    mentor,
+    loading: loadingMentor,
+    refetch: refetchMentor,
+    error: mentorError,
+  } = useMentorProfile(user.id);
 
   const [eventsByDay, setEventsByDay] = useState({});
 
-  const { data: classes, loading: loadingClasses } = useQuery(GET_EVENTS, {
+  const {
+    data: classes,
+    loading: loadingClasses,
+    error: classesError,
+  } = useTypedQuery(api.GET_EVENTS, {
     variables: {
       learnerId: user.id,
     },
   });
-
-  console.log("classes? ", classes);
+  if (classesError?.error) console.log("classesError", classesError);
 
   useEffect(() => {
     if (router.query.edit) {
@@ -47,17 +57,15 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (classes) {
-      const filteredEvents = classes.findEvents.filter(
-        (mentor: { mentorId: string }) => {
-          return mentor.mentorId !== user.id && !user.isMentor;
-        }
-      );
+      const filteredEvents = classes.findEvents.filter((mentor) => {
+        return mentor.mentorId !== user.id && !user.isMentor;
+      });
       const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
   }, [classes, user.id, user.isMentor]);
 
-  if (loading || loadingClasses)
+  if (loadingMentor || loadingClasses)
     return (
       <div className="min-h-screen flex justify-center items-center">
         <Spinner />
@@ -184,9 +192,9 @@ const Profile: NextPage = () => {
                   </p>
                 </div>
               ))}
-            {!user.isMentor && (
+            {!user.isMentor && classes?.findEvents && (
               <div className="flex flex-col gap-4">
-                {classes?.findEvents.length > 0 && !loading ? (
+                {classes.findEvents.length > 0 && !loadingMentor ? (
                   renderMentoringWeekCard(eventsByDay)
                 ) : (
                   <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
@@ -200,7 +208,7 @@ const Profile: NextPage = () => {
             <MentorModalAvailability
               open={openModalAvailability}
               setOpen={setOpenModalAvailability}
-              refetchMentorProfile={refetch}
+              refetchMentorProfile={refetchMentor}
             />
             <div className="max-w-[300px] m-auto">
               {user.isMentor && (
