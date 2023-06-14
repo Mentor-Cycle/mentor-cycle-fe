@@ -96,6 +96,12 @@ export function useTypedQuery<
     }
   }, [parsedVariables.success]);
 
+  useEffect(() => {
+    if (options?.skip) {
+      setLoading(false);
+    }
+  }, [options?.skip]);
+
   // useEffect(() => console.log("error", error), [error]);
 
   return { data, error, loading, ...rest };
