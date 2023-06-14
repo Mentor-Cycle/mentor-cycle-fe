@@ -12,15 +12,17 @@ export const availabilitySchema = z.object({
   active: z.boolean(),
 });
 
-export const availabilityAPISchema = z.object({
-  id: availabilitySchema.shape.mentorId,
-  mentorId: availabilitySchema.shape.mentorId,
-  weekDay: z.coerce.string(),
-  startHour: availabilitySchema.shape.startHour,
-  startDate: availabilitySchema.shape.startDate,
-  period: availabilitySchema.shape.period,
-  endHour: availabilitySchema.shape.endHour,
-  endDate: availabilitySchema.shape.endDate,
-  active: availabilitySchema.shape.active,
-  __typename: z.literal("Availability"),
-});
+export const availabilityAPISchema = z
+  .object({
+    id: availabilitySchema.shape.mentorId,
+    mentorId: availabilitySchema.shape.mentorId,
+    weekDay: availabilitySchema.shape.weekDay,
+    startHour: availabilitySchema.shape.startHour,
+    startDate: availabilitySchema.shape.startDate,
+    period: availabilitySchema.shape.period,
+    endHour: availabilitySchema.shape.endHour,
+    endDate: availabilitySchema.shape.endDate,
+    active: availabilitySchema.shape.active,
+    __typename: z.literal("Availability"),
+  })
+  .strict();

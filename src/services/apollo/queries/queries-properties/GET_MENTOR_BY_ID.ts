@@ -26,6 +26,7 @@ export const GET_MENTOR_BY_ID_queryDataSchema = userAPISchema
         availabilityAPISchema.pick({
           weekDay: true,
           startHour: true,
+          __typename: true,
         })
       )
       .nullable(),
