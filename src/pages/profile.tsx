@@ -21,29 +21,47 @@ const Profile: NextPage = () => {
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { user } = useUser();
 
-  const { mentor, loading, refetch } = useMentorProfile(user.id as string);
+  const {
+    mentor,
+    loading: loadingMentor,
+    refetch: refetchMentor,
+    error: mentorError,
+  } = useMentorProfile(user.id);
 
   const [eventsByDay, setEventsByDay] = useState({});
 
-  const { data: classes, loading: loadingClasses } = useQuery(GET_EVENTS, {
+  const {
+    data: classes,
+    loading: loadingClasses,
+    error: classesError,
+  } = useTypedQuery(api.GET_EVENTS, {
     variables: {
       learnerId: user.id,
     },
   });
+  if (classesError?.error) console.log("classesError", classesError);
+
+  useEffect(() => {
+    if (router.query.edit) {
+      setOpenEditProfile(true);
+    }
+    if (router.query.availability) {
+      setOpenModalAvailability(true);
+    }
+    window.history.replaceState(null, "", "/profile");
+  }, [router.query]);
 
   useEffect(() => {
     if (classes) {
-      const filteredEvents = classes.findEvents.filter(
-        (mentor: { mentorId: string }) => {
-          return mentor.mentorId !== user.id && !user.isMentor;
-        }
-      );
+      const filteredEvents = classes.findEvents.filter((mentor) => {
+        return mentor.mentorId !== user.id && !user.isMentor;
+      });
       const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
   }, [classes, user.id, user.isMentor]);
 
-  if (loading || loadingClasses)
+  if (loadingMentor || loadingClasses)
     return (
       <div className="min-h-screen flex justify-center items-center">
         <Spinner />
@@ -154,7 +172,7 @@ const Profile: NextPage = () => {
                         key={availability.weekDay + index}
                         day={availability.weekDay}
                         description="Horários disponíveis:"
-                        chips={availability.slots.map(slot => (
+                        chips={availability.slots.map((slot) => (
                           <Chip key={slot} variant="chipCards">
                             {slot}
                           </Chip>
@@ -170,9 +188,9 @@ const Profile: NextPage = () => {
                   </p>
                 </div>
               ))}
-            {!user.isMentor && (
+            {!user.isMentor && classes?.findEvents && (
               <div className="flex flex-col gap-4">
-                {classes?.findEvents.length > 0 && !loading ? (
+                {classes.findEvents.length > 0 && !loadingMentor ? (
                   renderMentoringWeekCard(eventsByDay)
                 ) : (
                   <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
@@ -186,7 +204,7 @@ const Profile: NextPage = () => {
             <MentorModalAvailability
               open={openModalAvailability}
               setOpen={setOpenModalAvailability}
-              refetchMentorProfile={refetch}
+              refetchMentorProfile={refetchMentor}
             />
             <div className="max-w-[300px] m-auto">
               {user.isMentor && (

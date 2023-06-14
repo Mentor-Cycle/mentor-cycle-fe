@@ -30,6 +30,7 @@ export const useMentorProfile = (
       skip: !id || options?.skip,
     }
   );
+  if (error?.error) console.log("error", error);
 
   useEffect(() => {
     if (data) {
