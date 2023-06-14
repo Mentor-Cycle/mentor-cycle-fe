@@ -11,14 +11,15 @@ import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { GET_EVENTS } from "services/apollo/queries";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 import { InfoCard } from "@components/InfoCard";
+import { IGroupEventsByDay } from "types/dashboard.types";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
+  const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
   const { user } = useUser();
 
   const {
@@ -27,8 +28,6 @@ const Profile: NextPage = () => {
     refetch: refetchMentor,
     error: mentorError,
   } = useMentorProfile(user.id);
-
-  const [eventsByDay, setEventsByDay] = useState({});
 
   const {
     data: classes,
@@ -69,7 +68,7 @@ const Profile: NextPage = () => {
     );
 
   const handleOpenModalAvailability = () =>
-    setOpenModalAvailability(!openModalAvailability);
+    setOpenModalAvailability((isOpen) => !isOpen);
 
   return (
     <>
@@ -79,7 +78,7 @@ const Profile: NextPage = () => {
             <DashboardCardProfile
               avatar={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
-              name={`${user.firstName} ${user.lastName}`}
+              name={`${user.firstName} ${user.lastName ?? ""}`}
               skills={user?.skills || []}
             />
           </div>
@@ -139,11 +138,11 @@ const Profile: NextPage = () => {
               label="example@email.com"
               content={
                 user.yearsOfExperience
-                  ? `${parseInt(
+                  ? `${
                       user.yearsOfExperience < 30
-                        ? String(user.yearsOfExperience)
+                        ? user.yearsOfExperience
                         : "30+"
-                    )} ${
+                    } ${
                       user.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
                   : "experiência que você possui"
@@ -223,7 +222,7 @@ const Profile: NextPage = () => {
                 className="mt-5"
                 size="regular"
                 variant="secondary"
-                onClick={() => setOpenEditProfile(!openEditProfile)}
+                onClick={() => setOpenEditProfile((isOpen) => !isOpen)}
               >
                 Editar Perfil
               </Button>
