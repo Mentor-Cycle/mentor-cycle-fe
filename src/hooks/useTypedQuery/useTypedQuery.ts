@@ -87,7 +87,7 @@ export function useTypedQuery<
         type: "EXPECT_VARIABLES",
       });
       setLoading(false);
-    } else if (!parsedVariables.success) {
+    } else if (!parsedVariables.success && !options?.skip) {
       setError({
         error: (parsedVariables as SafeParseError<TVariables>).error,
         type: "PARSING_VARIABLES",

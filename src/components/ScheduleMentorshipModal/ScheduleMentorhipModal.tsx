@@ -26,7 +26,7 @@ export const ScheduleMentorshipModal = ({
   setOpen: (open: boolean) => void;
 }) => {
   const router = useRouter();
-  const id = router.query.id as string | undefined;
+  const id = router.query.id;
   const query = router.query;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
   const [selectedEndTime, setSelectedEndTime] = useState<string>("");
@@ -49,7 +49,9 @@ export const ScheduleMentorshipModal = ({
     loading: loadingMentor,
     error: errorMentor,
     refetch,
-  } = useMentorProfile(id as string);
+  } = useMentorProfile(id as string, {
+    skip: !id,
+  });
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   const { user } = useUser();
@@ -83,8 +85,9 @@ export const ScheduleMentorshipModal = ({
     error: errorAvailabilities,
   } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
-      mentorId: mentor?.id ?? "",
+      mentorId: mentor?.id as string,
     },
+    skip: !mentor?.id,
   });
   if (errorAvailabilities?.error)
     console.log("errorAvailabilities", errorAvailabilities);
