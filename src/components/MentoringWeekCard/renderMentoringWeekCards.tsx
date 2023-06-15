@@ -9,6 +9,7 @@ import { ptBR } from "date-fns/locale";
 import { IStatusDisplay } from "types/dashboard.types";
 import { Events } from "@components/MentoringWeekCard/MentoringWeekCard.types";
 import { OptionStatus } from "schemas/create_event_output";
+import { TWeekday_Lowercase } from "config/constants";
 
 export const renderMentoringWeekCard = (
   eventsByDay: Record<string, Events>
@@ -23,7 +24,9 @@ export const renderMentoringWeekCard = (
   return Object.entries(eventsByDay)
     .map(([date, events], index) => {
       const data = parseISO(date);
-      const dayWeek = format(data, "EEEE", { locale: ptBR });
+      const dayWeek = format(data, "EEEE", {
+        locale: ptBR,
+      }) as TWeekday_Lowercase;
       return (
         <MentoringWeekCard
           key={index + date}
@@ -49,8 +52,12 @@ export const renderMentoringWeekCard = (
       );
     })
     .sort((a, b) => {
-      const weekDayA = convertWeekDayNameToNumber(a.props.day as string);
-      const weekDayB = convertWeekDayNameToNumber(b.props.day as string);
+      const weekDayA = convertWeekDayNameToNumber(
+        a.props.day as TWeekday_Lowercase
+      );
+      const weekDayB = convertWeekDayNameToNumber(
+        b.props.day as TWeekday_Lowercase
+      );
       return weekDayA > weekDayB ? 1 : -1;
     })
     .slice(0, 6);

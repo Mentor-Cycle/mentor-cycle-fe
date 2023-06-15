@@ -57,6 +57,8 @@ const Profile: NextPage = () => {
   }, [router.query]);
 
   useEffect(() => {
+    // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
+
     if (classes) {
       const filteredEvents = classes.findEvents.filter((mentor) => {
         return mentor.mentorId !== user.id && !user.isMentor;
@@ -85,7 +87,7 @@ const Profile: NextPage = () => {
               avatar={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
               name={`${user.firstName} ${user.lastName ?? ""}`}
-              skills={user?.skills || []}
+              skills={user?.skills}
             />
           </div>
         </section>
@@ -114,8 +116,9 @@ const Profile: NextPage = () => {
                 : "text-gray-05"
             }`}
           >
-            {user.description ||
-              "Escreva suas principais experiências profissionais"}
+            {user.description.length
+              ? user.description
+              : "Escreva suas principais experiências profissionais"}
           </p>
           <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
@@ -172,18 +175,20 @@ const Profile: NextPage = () => {
               (mentor?.availability?.length ? (
                 <div className="w-[290px] m-auto">
                   <div className="flex flex-col gap-4">
-                    {mentor.availability.map((availability, index) => (
-                      <MentoringWeekCard
-                        key={availability.weekDay + index}
-                        day={availability.weekDay.toString()}
-                        description="Horários disponíveis:"
-                        chips={availability.slots.map((slot) => (
-                          <Chip key={slot} variant="chipCards">
-                            {slot}
-                          </Chip>
-                        ))}
-                      />
-                    ))}
+                    {mentor.availability.map((availability, index) => {
+                      return (
+                        <MentoringWeekCard
+                          key={availability.weekDay + index}
+                          day={availability.weekDay}
+                          description="Horários disponíveis:"
+                          chips={availability.slots.map((slot) => (
+                            <Chip key={slot} variant="chipCards">
+                              {slot}
+                            </Chip>
+                          ))}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -195,7 +200,7 @@ const Profile: NextPage = () => {
               ))}
             {!user.isMentor && classes?.findEvents && (
               <div className="flex flex-col gap-4">
-                {classes.findEvents.length > 0 && !loadingMentor ? (
+                {classes.findEvents.length && !loadingMentor ? (
                   renderMentoringWeekCard(eventsByDay)
                 ) : (
                   <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
