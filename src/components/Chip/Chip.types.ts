@@ -17,6 +17,5 @@ export interface ChipProps {
   size?: "small" | "auto" | undefined;
 }
 
-export interface ChipElementProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, "children">,
-    ChipProps {}
+export type ChipElementProps = ChipProps &
+  Omit<HTMLAttributes<HTMLSpanElement>, "children">;
