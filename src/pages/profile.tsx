@@ -13,6 +13,9 @@ import { useEffect, useState } from "react";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 import { InfoCard } from "@components/InfoCard";
+import { useRouter } from "next/router";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay } from "types/dashboard.types";
 
 const Profile: NextPage = () => {
@@ -20,6 +23,7 @@ const Profile: NextPage = () => {
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
   const { user } = useUser();
+  const router = useRouter();
 
   const {
     mentor,
@@ -53,6 +57,8 @@ const Profile: NextPage = () => {
   }, [router.query]);
 
   useEffect(() => {
+    // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
+
     if (classes) {
       const filteredEvents = classes.findEvents.filter((mentor) => {
         return mentor.mentorId !== user.id && !user.isMentor;
@@ -78,10 +84,10 @@ const Profile: NextPage = () => {
         <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
           <div className="flex justify-start container ">
             <DashboardCardProfile
-              avatar={user.photoUrl || "/imgCard.png"}
+              avatarUrl={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
               name={`${user.firstName} ${user.lastName ?? ""}`}
-              skills={user?.skills || []}
+              skills={user?.skills}
             />
           </div>
         </section>
@@ -110,8 +116,9 @@ const Profile: NextPage = () => {
                 : "text-gray-05"
             }`}
           >
-            {user.description ||
-              "Escreva suas principais experiências profissionais"}
+            {user.description.length
+              ? user.description
+              : "Escreva suas principais experiências profissionais"}
           </p>
           <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
@@ -122,7 +129,7 @@ const Profile: NextPage = () => {
             <InfoCard
               title="Portfólio/GitHub"
               label="exemplo.com.br"
-              content={user.github}
+              content={user.github ?? ""}
               alignRight
             />
             <InfoCard
@@ -155,31 +162,33 @@ const Profile: NextPage = () => {
             <InfoCard
               title="Linkedin"
               label="linkedin.com/in/example"
-              content={user.linkedin}
+              content={user.linkedin ?? ""}
             />
           </section>
         </aside>
         <aside className="flex justify-center md:justify-end md:items-start">
           <div className="max-w-[290px]">
-            <h2 className="text-2xl font-bold mb-12 text-secondary-02 text-center sm:text-start ">
+            <h2 className="text-3xl font-bold mb-12 text-secondary-02 text-center ">
               Agenda {user.isMentor ? "do Mentor" : "de Mentorias"}
             </h2>
             {user.isMentor &&
               (mentor?.availability?.length ? (
                 <div className="w-[290px] m-auto">
                   <div className="flex flex-col gap-4">
-                    {mentor.availability.map((availability, index) => (
-                      <MentoringWeekCard
-                        key={availability.weekDay + index}
-                        day={availability.weekDay.toString()}
-                        description="Horários disponíveis:"
-                        chips={availability.slots.map((slot) => (
-                          <Chip key={slot} variant="chipCards">
-                            {slot}
-                          </Chip>
-                        ))}
-                      />
-                    ))}
+                    {mentor.availability.map((availability, index) => {
+                      return (
+                        <MentoringWeekCard
+                          key={availability.weekDay + index}
+                          day={availability.weekDay}
+                          description="Horários disponíveis:"
+                          chips={availability.slots.map((slot) => (
+                            <Chip key={slot} variant="chipCards">
+                              {slot}
+                            </Chip>
+                          ))}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -191,7 +200,7 @@ const Profile: NextPage = () => {
               ))}
             {!user.isMentor && classes?.findEvents && (
               <div className="flex flex-col gap-4">
-                {classes.findEvents.length > 0 && !loadingMentor ? (
+                {classes.findEvents.length && !loadingMentor ? (
                   renderMentoringWeekCard(eventsByDay)
                 ) : (
                   <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
