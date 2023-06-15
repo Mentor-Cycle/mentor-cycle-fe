@@ -3,11 +3,12 @@ import MentorDashboard from "./MentorDashboard";
 import StudentDashboard from "./StudentDashboard";
 import { TGET_EVENTS_queryResponseSchema as IEvents } from "services/apollo/queries/queries-properties";
 import { IStatusOption } from "types/dashboard.types";
+import { OptionStatus } from "schemas/create_event_output";
 
 export type EmptyValueProps = {
   user?: IUserSession | undefined;
   statusOptions: IStatusOption[];
-  selectedFilter: string;
+  selectedFilter: OptionStatus | "";
   data?: IEvents | null | undefined;
 };
 

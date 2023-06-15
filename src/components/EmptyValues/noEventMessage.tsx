@@ -1,7 +1,8 @@
+import { OptionStatus } from "schemas/create_event_output";
 import { IStatusOption } from "types/dashboard.types";
 
 type NoEventsType = {
-  selectedFilter: string;
+  selectedFilter: OptionStatus | "";
   statusOptions: IStatusOption[];
 };
 

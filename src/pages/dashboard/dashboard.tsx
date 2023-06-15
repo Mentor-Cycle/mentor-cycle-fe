@@ -1,5 +1,5 @@
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import Select from "react-select";
+import Select, { ActionMeta, SingleValue } from "react-select";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import { useRouter } from "next/router";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { IStatusOption } from "types/dashboard.types";
+import { IGroupEventsByDay, IStatusOption } from "types/dashboard.types";
 import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
 import { z } from "zod";
 
@@ -38,7 +38,7 @@ const Dashboard: NextPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<OptionStatus | "">(
     statusOptions[2].value
   );
-  const [eventsByDay, setEventsByDay] = useState({});
+  const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
 
   const {
     data: events,
@@ -51,6 +51,7 @@ const Dashboard: NextPage = () => {
       mentorId: user.isMentor ? user.id : null,
     },
   });
+  if (errorEvents?.error) console.log("errorEvents", errorEvents);
 
   useEffect(() => {
     refetchEvents();
@@ -65,10 +66,10 @@ const Dashboard: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events, loadingEvents, errorEvents]);
 
-  const handleFilterChange = (event: any) => {
+  const handleFilterChange = (newValue: SingleValue<IStatusOption>) => {
     const eventValueParse = eventStatusSchema
       .or(z.literal(""))
-      .safeParse(event.value);
+      .safeParse(newValue?.value);
     if (!eventValueParse.success) return;
     const newSelectedFilter = eventValueParse.data;
     setSelectedFilter(newSelectedFilter);
@@ -100,28 +101,30 @@ const Dashboard: NextPage = () => {
           ? learnerInfo?.jobTitle
           : mentorInfo?.jobTitle;
 
-        const displayedAvatar = user.isMentor
+        const displayedAvatarUrl = user.isMentor
           ? learnerInfo?.photoUrl
           : mentorInfo?.photoUrl;
 
         return (
           <MentoringLinkCard
             key={event.id}
-            onCancel={refetchEvents}
-            eventId={event.id}
-            avatar={displayedAvatar}
+            avatarUrl={displayedAvatarUrl}
+            name={displayedName}
+            job={displayedJobTitle || "Desenvolvedor"}
             date={formatDate(event.startDate)}
             hour={formatHour(new Date(event.startDate))}
-            job={displayedJobTitle || "Desenvolvedor"}
-            name={displayedName}
             status={event.status}
             meetingLink={event.meetingLink}
+            eventId={event.id}
+            onCancel={refetchEvents}
           />
         );
       }
     });
 
-    if (cards && !!cards.filter(Boolean).length) {
+    const hasValidCards = cards && !!cards.filter(Boolean).length;
+
+    if (hasValidCards) {
       return cards;
     }
   };
