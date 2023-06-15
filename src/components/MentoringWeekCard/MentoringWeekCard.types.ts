@@ -1,7 +1,8 @@
+import { TWeekday, TWeekday_Lowercase } from "config/constants";
 import { OptionStatus } from "schemas/create_event_output";
 
 export type Props = {
-  day: string;
+  day: TWeekday_Lowercase | TWeekday;
   description: string;
   chips: JSX.Element[];
 };

@@ -1,3 +1,5 @@
+import { TWeekday_Lowercase } from "config/constants";
+
 type Availability = {
   active: boolean;
   weekDay: number;
@@ -17,5 +19,5 @@ export type MentorAvailability = {
 
 export type AvailabilitySlots = Record<
   string,
-  { weekDay: string; slots: string[] }
+  { weekDay: TWeekday_Lowercase; slots: string[] }
 >;

@@ -1,3 +1,4 @@
+import { TWeekday_Lowercase } from "config/constants";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { TGET_EVENTS_queryDataSchema as IEvents } from "services/apollo/queries/queries-properties";
@@ -11,8 +12,8 @@ export const formatHour = (date: any) => {
   return format(new Date(date), "HH'h'mm", { locale: ptBR });
 };
 
-export const convertWeekDayNameToNumber = (day: string) => {
-  const weekDays: Record<string, number> = {
+export const convertWeekDayNameToNumber = (day: TWeekday_Lowercase) => {
+  const weekDays: Record<TWeekday_Lowercase, number> = {
     "segunda-feira": 1,
     "terça-feira": 2,
     "quarta-feira": 3,
