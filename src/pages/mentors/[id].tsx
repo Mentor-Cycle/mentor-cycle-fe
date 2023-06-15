@@ -16,40 +16,41 @@ import { InfoCard } from "@components/InfoCard";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
+import { TWeekday_Lowercase } from "config/constants";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { user } = useUser();
-  const id = router.query.id as string | undefined;
-  const { mentor, loading, error: mentorError } = useMentorProfile(id ?? "");
+  const id = router.query.id as string;
+  const { mentor, loading, error: mentorError } = useMentorProfile(id);
   if (mentorError) console.log(mentorError);
 
   const { data, error } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
-      mentorId: id ?? "",
+      mentorId: id,
     },
+    skip: !id,
   });
   if (error?.error) console.log("error", error);
 
   const availabilitiesByWeekDay =
-    data?.findMentorAvailability.availability?.reduce(
-      (acc: AvailabilitySlots, availability) => {
-        const weekDayNumber = availability.weekDay;
-        const startDate = parseISO(availability.startDate);
-        const formattedWeekDay = format(startDate, "EEEE", { locale: ptBR });
+    data?.findMentorAvailability.availability?.reduce((acc, availability) => {
+      const weekDayNumber = availability.weekDay;
+      const startDate = parseISO(availability.startDate);
+      const formattedWeekDay = format(startDate, "EEEE", {
+        locale: ptBR,
+      }) as TWeekday_Lowercase;
 
-        if (!acc[weekDayNumber]) {
-          acc[weekDayNumber] = {
-            weekDay: formattedWeekDay,
-            slots: [],
-          };
-        }
-        acc[weekDayNumber].slots.push(`${availability.startHour}`);
-        return acc;
-      },
-      {}
-    );
+      if (!acc[weekDayNumber]) {
+        acc[weekDayNumber] = {
+          weekDay: formattedWeekDay,
+          slots: [],
+        };
+      }
+      acc[weekDayNumber].slots.push(`${availability.startHour}`);
+      return acc;
+    }, {} as AvailabilitySlots);
 
   if (loading) {
     return (
