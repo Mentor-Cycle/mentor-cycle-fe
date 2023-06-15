@@ -4,11 +4,11 @@ import ptBR from "date-fns/locale/pt-BR";
 import { TGET_EVENTS_queryDataSchema as IEvents } from "services/apollo/queries/queries-properties";
 import { IGroupEventsByDay } from "types/dashboard.types";
 
-export const formatDate = (date: any) => {
+export const formatDate = (date: Date | string) => {
   return format(new Date(date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
 };
 
-export const formatHour = (date: any) => {
+export const formatHour = (date: Date | string) => {
   return format(new Date(date), "HH'h'mm", { locale: ptBR });
 };
 

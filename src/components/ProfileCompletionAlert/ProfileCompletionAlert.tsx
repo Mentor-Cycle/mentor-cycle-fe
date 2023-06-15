@@ -32,21 +32,15 @@ const ProfileCompletionAlert = () => {
 
   const isProfileCompleted = !thereAreFieldsToFill;
 
-  return (
-    <>
-      {!isProfileCompleted ? (
-        <InfoPopUp
-          description="Complete seu perfil e deixe ele mais interessante"
-          buttonName="Completar perfil"
-          variant="primary_black"
-          onButtonClick={() => {
-            router.push("/profile?edit=true");
-          }}
-        />
-      ) : (
-        <></>
-      )}
-    </>
+  return isProfileCompleted ? null : (
+    <InfoPopUp
+      description="Complete seu perfil e deixe ele mais interessante"
+      buttonName="Completar perfil"
+      variant="primary_black"
+      onButtonClick={() => {
+        router.push("/profile?edit=true");
+      }}
+    />
   );
 };
 
