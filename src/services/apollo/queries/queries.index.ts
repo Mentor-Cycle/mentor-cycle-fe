@@ -4,6 +4,7 @@ import {
   GET_ME,
   GET_MENTOR_BY_ID,
   GET_SKILLS,
+  GET_MENTORS,
 } from "services/apollo/queries/queries";
 import {
   GET_AVAILABILITIES_queryResponseSchema,
@@ -14,6 +15,8 @@ import {
   GET_SKILLS_queryResponseSchema,
   GET_EVENTS_queryResponseSchema,
   GET_EVENTS_variablesSchema,
+  GET_MENTORS_queryResponseSchema,
+  GET_MENTORS_variablesSchema,
 } from "services/apollo/queries/queries-properties";
 
 export const queriesIndex = {
@@ -41,5 +44,10 @@ export const queriesIndex = {
     schema: GET_EVENTS_queryResponseSchema,
     query: GET_EVENTS,
     variables: GET_EVENTS_variablesSchema,
+  },
+  GET_MENTORS: {
+    schema: GET_MENTORS_queryResponseSchema,
+    query: GET_MENTORS,
+    variables: GET_MENTORS_variablesSchema,
   },
 };

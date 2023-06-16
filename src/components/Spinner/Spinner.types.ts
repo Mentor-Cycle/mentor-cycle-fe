@@ -1,4 +1,4 @@
 export interface SpinnerProps {
-  size?: number;
-  color?: string;
+  size?: number | undefined;
+  color?: string | undefined;
 }
