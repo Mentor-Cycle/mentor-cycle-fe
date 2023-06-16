@@ -72,7 +72,7 @@ export function useTypedQuery<
           setError({
             error,
             type: "PARSING_API_RESPONSE_DATA",
-            response_data: unparsedData,
+            issue_cause: unparsedData,
           });
           if (options?.onCompleted) options.onCompleted(unparsedData);
         })
@@ -90,6 +90,7 @@ export function useTypedQuery<
     } else if (!parsedVariables.success && !options?.skip) {
       setError({
         error: (parsedVariables as SafeParseError<TVariables>).error,
+        issue_cause: options?.variables,
         type: "PARSING_VARIABLES",
       });
       setLoading(false);
