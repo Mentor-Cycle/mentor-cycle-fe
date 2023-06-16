@@ -12,23 +12,29 @@ const SelectSkills: React.FC<SelectSkillsProps> = ({
   placeholder,
   setSelectedSkills,
 }) => {
-  const { data, loading, error } = useTypedQuery(api.GET_SKILLS);
-  if (error?.error) console.log("error", error);
+  const {
+    data: skillsResponse,
+    loading: loadingSkills,
+    error: errorSkills,
+  } = useTypedQuery(api.GET_SKILLS);
+  if (errorSkills?.error) console.log("errorSkills", errorSkills);
+
+  const skills = skillsResponse?.findAllSkills ?? null;
 
   const options = [
     { value: null, label: "Todas" },
-    ...(data?.findAllSkills.map(({ name }: { name: string }) => ({
-      value: name,
-      label: name,
+    ...(skills?.map((s) => ({
+      value: s.name,
+      label: s.name,
     })) || []),
   ];
 
   return (
     <Select
-      placeholder={error ? "Especialidade" : placeholder}
-      isDisabled={loading}
-      isLoading={loading}
-      onChange={(selected) => setSelectedSkills(selected?.value ?? "")}
+      placeholder={errorSkills ? "Especialidade" : placeholder}
+      isDisabled={loadingSkills}
+      isLoading={loadingSkills}
+      onChange={(selected) => setSelectedSkills(selected?.value ?? null)}
       options={options}
       unstyled
       classNames={{
