@@ -20,22 +20,31 @@ import { TWeekday_Lowercase } from "config/constants";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
   const { user } = useUser();
   const id = router.query.id as string;
-  const { mentor, loading, error: mentorError } = useMentorProfile(id);
+  const {
+    mentor,
+    loading: loadingMentor,
+    error: mentorError,
+  } = useMentorProfile(id);
   if (mentorError) console.log(mentorError);
 
-  const { data, error } = useTypedQuery(api.GET_AVAILABILITIES, {
-    variables: {
-      mentorId: id,
-    },
-    skip: !id,
-  });
-  if (error?.error) console.log("error", error);
+  const { data: availabilitiesResponse, error: errorAvailabilities } =
+    useTypedQuery(api.GET_AVAILABILITIES, {
+      variables: {
+        mentorId: id,
+      },
+      skip: !id,
+    });
+  if (errorAvailabilities?.error)
+    console.log("errorAvailabilities", errorAvailabilities);
 
-  const availabilitiesByWeekDay =
-    data?.findMentorAvailability.availability?.reduce((acc, availability) => {
+  const availabilities =
+    availabilitiesResponse?.findMentorAvailability.availability ?? null;
+
+  const availabilitiesByWeekDay = availabilities?.reduce(
+    (acc, availability) => {
       const weekDayNumber = availability.weekDay;
       const startDate = parseISO(availability.startDate);
       const formattedWeekDay = format(startDate, "EEEE", {
@@ -50,9 +59,11 @@ const MentorProfile: NextPage = () => {
       }
       acc[weekDayNumber].slots.push(`${availability.startHour}`);
       return acc;
-    }, {} as AvailabilitySlots);
+    },
+    {} as AvailabilitySlots
+  );
 
-  if (loading) {
+  if (loadingMentor) {
     return (
       <div className="h-screen flex justify-center items-center">
         <Spinner />
@@ -66,10 +77,12 @@ const MentorProfile: NextPage = () => {
         <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
           <div className="flex justify-start container ">
             <DashboardCardProfile
-              avatar={mentor?.photoUrl || "/imgCard.png"}
+              avatarUrl={mentor?.photoUrl || "/imgCard.png"}
               job={mentor?.jobTitle || ""}
-              name={mentor ? `${mentor.firstName} ${mentor.lastName}` : ""}
-              skills={mentor?.skills || []}
+              name={
+                mentor ? `${mentor.firstName} ${mentor.lastName ?? ""}` : ""
+              }
+              skills={mentor?.skills ?? null}
             />
           </div>
         </section>
@@ -152,7 +165,7 @@ const MentorProfile: NextPage = () => {
             <h2 className="text-2xl text-center md:text-start font-bold mb-12 text-secondary-02">
               Agenda de mentorias
             </h2>
-            {data?.findMentorAvailability.availability?.length ? (
+            {availabilities?.length ? (
               <div className="flex flex-col gap-4">
                 {availabilitiesByWeekDay &&
                   Object.values(availabilitiesByWeekDay).map(
@@ -190,9 +203,7 @@ const MentorProfile: NextPage = () => {
             ) : (
               <Button
                 className="mt-12"
-                disabled={Boolean(
-                  !data?.findMentorAvailability.availability?.length
-                )}
+                disabled={Boolean(!availabilities?.length)}
                 size="regular"
                 variant="primary"
                 onClick={() => setOpenModal(true)}

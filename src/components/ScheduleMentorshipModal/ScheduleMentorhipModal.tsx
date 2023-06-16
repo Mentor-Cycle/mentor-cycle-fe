@@ -16,7 +16,8 @@ import { toast } from "react-toastify";
 import { IResponse_GET_AVAILABILITY } from "services/apollo/queries/queries.types";
 import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { TGET_AVAILABILITIES_queryResponseSchema } from "services/apollo/queries/queries-properties";
+import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
+import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -43,6 +44,7 @@ export const ScheduleMentorshipModal = ({
   const [times, setTimes] = useState<string[]>([]);
 
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const {
     mentor,
@@ -55,16 +57,11 @@ export const ScheduleMentorshipModal = ({
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   const { user } = useUser();
-  const [createEvent, { loading: eventLoading, error: errorEvent }] =
+  const [createEvent, { loading: loadingEvent, error: errorEvent }] =
     useMutation(CREATE_EVENT);
   if (errorEvent) console.log("errorEvent", errorEvent);
 
-  const stepButtons: {
-    [key: number]: {
-      text: string;
-      variant: buttonVariant;
-    };
-  } = {
+  const stepButtons: TStepButtons = {
     1: {
       text: "Continuar",
       variant: "primary",
@@ -80,19 +77,21 @@ export const ScheduleMentorshipModal = ({
   };
 
   const {
-    data: availabilities,
+    data: availabilitiesResponse,
     refetch: refetchAvailabitities,
-    error: errorAvailabilities,
+    error: errorAvailabilitiesResponse,
   } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
       mentorId: mentor?.id as string,
     },
     skip: !mentor?.id,
   });
-  if (errorAvailabilities?.error)
-    console.log("errorAvailabilities", errorAvailabilities);
+  if (errorAvailabilitiesResponse?.error)
+    console.log("errorAvailabilitiesResponse", errorAvailabilitiesResponse);
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const availabilities =
+    availabilitiesResponse?.findMentorAvailability.availability ?? null;
+
   const handleSteps = async () => {
     await refetchAvailabitities();
     if (currentStep === 3) {
@@ -127,9 +126,9 @@ export const ScheduleMentorshipModal = ({
   };
 
   const convertAvailabilitiyDays = useCallback(
-    (data: TGET_AVAILABILITIES_queryResponseSchema) => {
-      if (!data.findMentorAvailability.availability) return;
-      data.findMentorAvailability.availability.forEach((item) => {
+    (availabilities: TUserAvailability["availability"]) => {
+      if (!availabilities) return;
+      availabilities.forEach((item) => {
         const [startDate, startTime] = item.startDate.split("T");
         const [_, endTime] = item.endDate.split("T");
         const [year, month, day] = startDate.split("-");
@@ -189,12 +188,12 @@ export const ScheduleMentorshipModal = ({
   };
 
   useEffect(() => {
-    if (availabilities) {
+    if (availabilitiesResponse) {
       convertAvailabilitiyDays(availabilities);
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, availabilities, daysAndTimes]);
+  }, [convertAvailabilitiyDays, availabilitiesResponse, daysAndTimes]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
@@ -333,7 +332,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loadingMentor || eventLoading}
+            isLoading={loadingMentor || loadingEvent}
           >
             {stepButtons[currentStep].text}
           </Button>
