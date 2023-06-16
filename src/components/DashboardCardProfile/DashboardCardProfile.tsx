@@ -7,7 +7,7 @@ const DashboardCardProfile = ({
   skills,
   name,
   job,
-  avatar,
+  avatarUrl,
   className,
 }: Props) => {
   return (
@@ -19,7 +19,7 @@ const DashboardCardProfile = ({
     >
       <div className="rounded-lg overflow-hidden w-24 h-24">
         <Image
-          src={avatar || "/imgCard.png"}
+          src={avatarUrl || "/imgCard.png"}
           alt="avatar profile"
           width={98}
           height={98}

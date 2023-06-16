@@ -9,7 +9,7 @@ describe("DashboardCardProfile", () => {
     name: "Ronald Richards",
     job: "Software Engineer at Apple",
     skills: ["Frontend", "Backend", "DevOps"],
-    avatar: "/test.png",
+    avatarUrl: "/test.png",
   };
 
   it("renders name and job", () => {

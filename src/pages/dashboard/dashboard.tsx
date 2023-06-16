@@ -149,7 +149,7 @@ const Dashboard: NextPage = () => {
         <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
           <div className="flex justify-start  container ">
             <DashboardCardProfile
-              avatar={user.photoUrl || "/imgCard.png"}
+              avatarUrl={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
               name={`${user.firstName} ${user.lastName}`}
               skills={user?.skills || []}
