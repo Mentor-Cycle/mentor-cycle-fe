@@ -24,11 +24,12 @@ export const Primary: Story = {
     location: "New York, NY",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada bibendum ligula, vel tincidunt enim. ",
-    chips: [
-      { variant: "primary", children: "Backend" },
-      { variant: "primary", children: "FrontEnd" },
-      { variant: "primary", children: "FullStack" },
-    ],
+    chips: ["Backend", "FrontEnd", "FullStack"],
+    // chips: [
+    //   { variant: "primary", children: "Backend" },
+    //   { variant: "primary", children: "FrontEnd" },
+    //   { variant: "primary", children: "FullStack" },
+    // ],
     image: "https://via.placeholder.com/80",
   },
 };

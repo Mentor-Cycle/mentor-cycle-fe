@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import Chip from "@components/Chip";
 import clsx from "clsx";
 import Image from "next/image";
-import { CardProps } from "./CardProfile.types";
+import { CardProps, SizeCard } from "./CardProfile.types";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ const CardProfile = ({
   const [expandedSkills, setExpandedSkills] = useState(false);
 
   const handleExpandedSkills = () => {
-    setExpandedSkills(!expandedSkills);
+    setExpandedSkills((isExpanded) => !isExpanded);
   };
   const MAX_VISIBLE_CHIPS = 3;
   const MIN_HEIGHT = "min-h-[485px]";
@@ -32,7 +32,7 @@ const CardProfile = ({
     : chips?.slice(0, MAX_VISIBLE_CHIPS);
   const router = useRouter();
 
-  const variantSize = {
+  const variantSize: Record<SizeCard, string> = {
     Medium: "px-[24px]",
     Large: "px-11 ",
   };
@@ -93,16 +93,13 @@ const CardProfile = ({
         >
           {visibleChips?.map((chip) => {
             return (
-              <Chip
-                variant="chipCardsMentors"
-                key={`${chip.children}-chip-${name}`}
-              >
-                {chip.children}
+              <Chip variant="chipCardsMentors" key={`${chip}-chip-${name}`}>
+                {chip}
               </Chip>
             );
           })}
         </div>
-        {chips?.length > 3 && (
+        {chips && chips?.length > 3 && (
           <span
             onClick={handleExpandedSkills}
             className="flex w-full justify-end text-xs mt-2 px-2 absolute hover:opacity-80 hover:cursor-pointer max-w-[270px]"
