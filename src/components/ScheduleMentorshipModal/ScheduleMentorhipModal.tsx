@@ -121,36 +121,37 @@ export const ScheduleMentorshipModal = ({
 
           const eventsData = getEventsData?.findEvents;
 
-          // Check whether user has already created the event at exact time and day
-          let updateEventInput: { id?: string; status?: string } = {};
-          eventsData.forEach((eventData: any) => {
-            if (eventData.startDate === payload.startDate) {
-              updateEventInput = {
-                id: eventData.id,
-                status: "CONFIRMED",
-              };
-            }
-          });
+            // Check whether user has already created the event at exact time and day
+            let updateEventInput: { id?: string; status?: string } = {};
+            eventsData.forEach((eventData: any) => {
+              if (eventData.startDate === payload.startDate) {
+                updateEventInput = {
+                  id: eventData.id,
+                  status: "CONFIRMED",
+                };
+              }
+            });
 
-          if (updateEventInput.id) {
-            await updateEventStatus({ variables: { updateEventInput } });
-          } else {
-            await createEvent({ variables: { event: payload } });
+            if (updateEventInput.id) {
+              await updateEventStatus({ variables: { updateEventInput } });
+            } else {
+              await createEvent({ variables: { event: payload } });
+            }
           }
 
           resetStates(false, false);
-          break;
-      }
 
-      if (open) {
-        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-      } else {
-        setCurrentStep(1);
+          if (open) {
+            setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+          } else {
+            setCurrentStep(1);
+          }
+          
+        }
+       catch (error) {
+        console.error(error);
+        return toast.error("Erro ao criar evento");
       }
-    } catch (error) {
-      console.error(error);
-      return toast.error("Erro ao criar evento");
-    }
   };
 
   const convertAvailabilitiyDays = useCallback(
