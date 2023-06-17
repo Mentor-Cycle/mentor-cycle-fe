@@ -1,5 +1,4 @@
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { useQuery } from "@apollo/client";
 import { Select } from "@components/Select";
 import { Dispatch, SetStateAction } from "react";
 

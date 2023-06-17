@@ -15,8 +15,8 @@ import { TextPlaceholderSelect } from "@components/Select/TextPlaceholderSelect"
 interface ISelect extends HTMLAttributes<HTMLDivElement> {
   options: string[];
   state: [string[], Dispatch<SetStateAction<string[]>>];
-  textAllOptionsSelected?: string | undefined;
-  clearAllOptionButton?: boolean | undefined;
+  textAllOptionsSelected?: string;
+  clearAllOptionButton?: boolean;
 }
 
 export const Select = React.forwardRef<HTMLDivElement, ISelect>(

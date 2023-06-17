@@ -1,10 +1,8 @@
 import { OptionStatus } from "schemas/create_event_output";
-import { Dispatch, SetStateAction } from "react";
 import { ChipVariant } from "@components/Chip/Chip.types";
-import { Pretify } from "types/helpers";
 
 export type Props = {
-  avatarUrl?: string | null | undefined;
+  avatarUrl?: string | null;
   name: string;
   id?: string;
   job: string;

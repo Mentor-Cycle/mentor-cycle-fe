@@ -14,7 +14,7 @@ export type ChipVariant =
 export interface ChipProps {
   children: string;
   variant?: ChipVariant;
-  size?: "small" | "auto" | undefined;
+  size?: "small" | "auto";
 }
 
 export type ChipElementProps = ChipProps &

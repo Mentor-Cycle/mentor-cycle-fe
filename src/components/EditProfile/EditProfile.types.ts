@@ -1,5 +1,4 @@
 import { IEditProfileSubmitData } from "@components/EditProfile/EditProfile.form";
-import { MultiSelectOptions } from "@components/MultiSelect/MultiSelect.types";
 import { Dispatch, SetStateAction } from "react";
 
 export interface EditProfileProps {

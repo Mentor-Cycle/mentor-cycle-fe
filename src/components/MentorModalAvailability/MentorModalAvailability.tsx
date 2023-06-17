@@ -3,7 +3,7 @@ import Chip from "@components/Chip/Chip";
 import Modal from "@components/Modal";
 import TimeInput from "@components/TimeInput/TimeInput";
 import { DAYS_OF_THE_WEEK_SHORT, TWeekday_Short } from "config/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { saveAvailabilityInMemory } from "./helpers/saveAvailability";
 import { MdClose } from "react-icons/md";
 import { useMutation } from "@apollo/client";
