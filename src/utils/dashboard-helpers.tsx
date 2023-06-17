@@ -47,3 +47,66 @@ export const groupEventsByDay = (events: any[]) => {
     return acc;
   }, {});
 };
+
+type EVENT_TEMP = {
+  [day: string]: {
+    date: string;
+    events: {
+      id: string;
+      mentorId: string;
+      meetingLink: string;
+      participants: {
+        user: {
+          id: string;
+          firstName: string;
+          lastName: string;
+          jobTitle: string | null;
+          isMentor: boolean;
+          photoUrl: string | null;
+        }[];
+      };
+      startDate: string;
+      endDate: string;
+      status: string;
+      active: boolean;
+    }[];
+  };
+};
+
+// Remove events that has same status and same startDate
+export const filterByUniqueEvents = (dateAndEvents: EVENT_TEMP) => {
+  const filteredEvents = Object.entries(dateAndEvents).map(
+    (dateAndEventsUnit) => {
+      // Extract events from dateAndEventsUnit
+      const extractedEvents = dateAndEventsUnit[1].events;
+      const filteredExtractedEvents = extractedEvents.filter(
+        (event, index, self) => {
+          return (
+            self.findIndex(
+              (selfEvent) => selfEvent.startDate === event.startDate
+            ) === index
+          );
+        }
+      );
+
+      return {
+        [dateAndEventsUnit[0]]: {
+          ...dateAndEventsUnit[1],
+          events: filteredExtractedEvents,
+        },
+      };
+    }
+  );
+
+  let eventsResultObj: EVENT_TEMP = {};
+
+  filteredEvents.forEach((filteredEvent) => {
+    // Store the actual key name and value
+    const objKey = Object.entries(filteredEvent)[0][0];
+    const objValue = Object.entries(filteredEvent)[0][1];
+
+    eventsResultObj[objKey] = objValue;
+  });
+
+  return eventsResultObj;
+};

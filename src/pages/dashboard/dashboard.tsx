@@ -10,6 +10,7 @@ import {
   formatDate,
   formatHour,
   groupEventsByDay,
+  filterByUniqueEvents,
 } from "utils/dashboard-helpers";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import { useUser } from "@hooks/useUser";
@@ -47,8 +48,15 @@ const Dashboard: NextPage = () => {
       const filteredEvents = events.filter((mentor: { mentorId: string }) => {
         return (mentor.mentorId !== user.id && !user.isMentor) || user.isMentor;
       });
+
       const eventsByDay = groupEventsByDay(filteredEvents);
-      setEventsByDay(eventsByDay);
+
+      // This removes duplicated records on output
+      // Maybe this function is not necessary since data is now validated
+      // on input. If that's the case, remove it.
+      const uniqueEventsByDay = filterByUniqueEvents(eventsByDay);
+
+      setEventsByDay(uniqueEventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);

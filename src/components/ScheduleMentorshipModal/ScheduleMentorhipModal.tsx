@@ -13,7 +13,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_AVAILABILITIES } from "services/apollo/queries";
 import { MentorAvailability } from "./types";
 import { useUser } from "@hooks/useUser";
-import { CREATE_EVENT } from "services/apollo/mutations";
+import { CREATE_EVENT, UPDATE_EVENT } from "services/apollo/mutations";
+import { GET_EVENTS } from "services/apollo/queries";
 import { toast } from "react-toastify";
 
 export const ScheduleMentorshipModal = ({
@@ -45,6 +46,13 @@ export const ScheduleMentorshipModal = ({
   const { user } = useUser();
   const [createEvent, { loading: eventLoading, error: eventError }] =
     useMutation(CREATE_EVENT);
+  const [updateEventStatus] = useMutation(UPDATE_EVENT);
+  const { data: getEventsData, error: getEventsError } = useQuery(GET_EVENTS, {
+    variables: {
+      mentorId: user.isMentor ? user.id : null,
+      learnerId: !user.isMentor ? user.id : null,
+    },
+  });
 
   const stepButtons: {
     [key: number]: {
@@ -85,7 +93,28 @@ export const ScheduleMentorshipModal = ({
         active: true,
         status: "CONFIRMED",
       };
-      await createEvent({ variables: { event: payload } });
+
+      if (getEventsData && !getEventsError) {
+        const eventsData = getEventsData?.findEvents;
+
+        // Check whether user has already created the event at exact time and day
+        let updateEventInput: { id?: string; status?: string } = {};
+        eventsData.forEach((eventData: any) => {
+          if (eventData.startDate === payload.startDate) {
+            updateEventInput = {
+              id: eventData.id,
+              status: "CONFIRMED",
+            };
+          }
+        });
+
+        if (updateEventInput.id) {
+          await updateEventStatus({ variables: { updateEventInput } });
+        } else {
+          await createEvent({ variables: { event: payload } });
+        }
+      }
+
       if (eventError) {
         return toast.error("Erro ao criar evento");
       }
