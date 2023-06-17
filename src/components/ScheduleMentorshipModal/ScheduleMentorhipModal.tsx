@@ -96,25 +96,23 @@ export const ScheduleMentorshipModal = ({
             status: "CONFIRMED",
           };
 
-          if (getEventsData && !getEventsError) {
-            const eventsData = getEventsData?.findEvents;
+          const eventsData = getEventsData?.findEvents;
 
-            // Check whether user has already created the event at exact time and day
-            let updateEventInput: { id?: string; status?: string } = {};
-            eventsData.forEach((eventData: any) => {
-              if (eventData.startDate === payload.startDate) {
-                updateEventInput = {
-                  id: eventData.id,
-                  status: "CONFIRMED",
-                };
-              }
-            });
-
-            if (updateEventInput.id) {
-              await updateEventStatus({ variables: { updateEventInput } });
-            } else {
-              await createEvent({ variables: { event: payload } });
+          // Check whether user has already created the event at exact time and day
+          let updateEventInput: { id?: string; status?: string } = {};
+          eventsData.forEach((eventData: any) => {
+            if (eventData.startDate === payload.startDate) {
+              updateEventInput = {
+                id: eventData.id,
+                status: "CONFIRMED",
+              };
             }
+          });
+
+          if (updateEventInput.id) {
+            await updateEventStatus({ variables: { updateEventInput } });
+          } else {
+            await createEvent({ variables: { event: payload } });
           }
 
           resetStates(false, false);
