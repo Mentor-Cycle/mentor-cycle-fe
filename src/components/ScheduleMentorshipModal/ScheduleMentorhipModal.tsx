@@ -56,16 +56,15 @@ export const ScheduleMentorshipModal = ({
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   const { user } = useUser();
-  const [createEvent, { loading: eventLoading, error: errorEvent }] = useMutation(CREATE_EVENT);
+  const [createEvent, { loading: loadingEvent, error: errorEvent }] =
+    useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
-  const { data: getEventsData } = useQuery(GET_EVENTS, {
+  const { data: getEventsData, error: getEventsError } = useQuery(GET_EVENTS, {
     variables: {
       mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
     },
   });
-
-  if (errorEvent) console.log("errorEvent", errorEvent);
 
   const stepButtons: TStepButtons = {
     1: {
@@ -361,7 +360,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loadingMentor || eventLoading}
+            isLoading={loadingMentor || loadingEvent}
           >
             {stepButtons[currentStep].text}
           </Button>
