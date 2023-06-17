@@ -75,57 +75,60 @@ export const ScheduleMentorshipModal = ({
 
   const [currentStep, setCurrentStep] = useState(1);
   const handleSteps = async () => {
-    await refetchAvailabilities();
-    switch (currentStep) {
-      case 3:
-        resetStates();
-        return setConvertedDaysAndTimes([
-          ...new Set(daysAndTimes[daySelected]),
-        ]);
-      case 2:
-        const [day, month, year] = daySelected.split("/");
-        const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
-        const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
-        const payload = {
-          startDate,
-          endDate,
-          mentorId: id,
-          learnerId: user.id,
-          active: true,
-          status: "CONFIRMED",
-        };
+    try {
+      await refetchAvailabilities();
+      switch (currentStep) {
+        case 3:
+          resetStates();
+          return setConvertedDaysAndTimes([
+            ...new Set(daysAndTimes[daySelected]),
+          ]);
+        case 2:
+          const [day, month, year] = daySelected.split("/");
+          const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+          const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+          const payload = {
+            startDate,
+            endDate,
+            mentorId: id,
+            learnerId: user.id,
+            active: true,
+            status: "CONFIRMED",
+          };
 
-        if (getEventsData && !getEventsError) {
-          const eventsData = getEventsData?.findEvents;
+          if (getEventsData && !getEventsError) {
+            const eventsData = getEventsData?.findEvents;
 
-          // Check whether user has already created the event at exact time and day
-          let updateEventInput: { id?: string; status?: string } = {};
-          eventsData.forEach((eventData: any) => {
-            if (eventData.startDate === payload.startDate) {
-              updateEventInput = {
-                id: eventData.id,
-                status: "CONFIRMED",
-              };
+            // Check whether user has already created the event at exact time and day
+            let updateEventInput: { id?: string; status?: string } = {};
+            eventsData.forEach((eventData: any) => {
+              if (eventData.startDate === payload.startDate) {
+                updateEventInput = {
+                  id: eventData.id,
+                  status: "CONFIRMED",
+                };
+              }
+            });
+
+            if (updateEventInput.id) {
+              await updateEventStatus({ variables: { updateEventInput } });
+            } else {
+              await createEvent({ variables: { event: payload } });
             }
-          });
-
-          if (updateEventInput.id) {
-            await updateEventStatus({ variables: { updateEventInput } });
-          } else {
-            await createEvent({ variables: { event: payload } });
           }
-        }
 
-        if (eventError) {
-          return toast.error("Erro ao criar evento");
-        }
-        resetStates(false, false);
-      default:
-        if (open) {
-          setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-        } else {
-          setCurrentStep(1);
-        }
+          resetStates(false, false);
+          break;
+      }
+
+      if (open) {
+        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+      } else {
+        setCurrentStep(1);
+      }
+    } catch (error) {
+      console.error(error);
+      return toast.error("Erro ao criar evento");
     }
   };
 
