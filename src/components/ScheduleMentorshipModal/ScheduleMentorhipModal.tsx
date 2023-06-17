@@ -41,12 +41,11 @@ export const ScheduleMentorshipModal = ({
 
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
 
-  const { mentor, loading, error, refetch } = useMentorProfile(id as string);
+  const { mentor, loading } = useMentorProfile(id as string);
   const { user } = useUser();
-  const [createEvent, { loading: eventLoading, error: eventError }] =
-    useMutation(CREATE_EVENT);
+  const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
-  const { data: getEventsData, error: getEventsError } = useQuery(GET_EVENTS, {
+  const { data: getEventsData } = useQuery(GET_EVENTS, {
     variables: {
       mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
