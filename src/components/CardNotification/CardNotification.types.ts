@@ -6,5 +6,5 @@ export type CardNotificationProps = {
   description: string;
   alreadyViewed?: boolean;
   link?: string;
-  setShowModal?: Dispatch<SetStateAction<string | undefined>> | undefined;
+  setShowModal?: Dispatch<SetStateAction<string | undefined>>;
 };

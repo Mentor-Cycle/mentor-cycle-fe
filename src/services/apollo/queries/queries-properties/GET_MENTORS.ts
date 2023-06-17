@@ -1,4 +1,4 @@
-import { availabilitySchema, userAPISchema, userSchema } from "schemas";
+import { userAPISchema, userSchema } from "schemas";
 import { z } from "zod";
 
 export const GET_MENTORS_queryDataSchema = userAPISchema

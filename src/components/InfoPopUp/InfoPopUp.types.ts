@@ -1,5 +1,4 @@
 import { buttonVariant } from "@components/Button/Button.types";
-import { ButtonHTMLAttributes, MouseEventHandler } from "react";
 
 export type Props = {
   description: string;

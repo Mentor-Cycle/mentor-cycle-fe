@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
 import Input from "@components/Input";
 import Modal from "@components/Modal";
@@ -15,7 +15,7 @@ import {
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
-import { GET_ME, GET_MENTORS, GET_SKILLS } from "services/apollo/queries";
+import { GET_ME, GET_MENTORS } from "services/apollo/queries";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";

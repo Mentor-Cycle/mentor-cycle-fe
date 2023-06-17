@@ -37,7 +37,7 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, loading, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
+  const [me, { data, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
   if (error?.error) console.log("error", error);
 
   const [signOutUser] = useMutation(LOGOUT_USER);

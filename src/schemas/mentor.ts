@@ -1,7 +1,4 @@
-import {
-  GET_MENTORS_queryDataSchema,
-  TGET_MENTORS_queryDataSchema as IMentorAPIReponse,
-} from "services/apollo/queries/queries-properties";
+import { GET_MENTORS_queryDataSchema } from "services/apollo/queries/queries-properties";
 import { z } from "zod";
 
 export const mentorClientSchema = GET_MENTORS_queryDataSchema.pick({

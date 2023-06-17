@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
 import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
@@ -10,10 +9,7 @@ import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { IMentorClient } from "schemas/mentor";
-import {
-  TGET_MENTORS_filterSchema as TVariables,
-  TGET_MENTORS_queryDataSchema as IMentor,
-} from "services/apollo/queries/queries-properties";
+import { TGET_MENTORS_filterSchema as TVariables } from "services/apollo/queries/queries-properties";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";

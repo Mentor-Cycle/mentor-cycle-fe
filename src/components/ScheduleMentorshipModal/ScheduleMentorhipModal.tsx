@@ -13,8 +13,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { CREATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
-import { IResponse_GET_AVAILABILITY } from "services/apollo/queries/queries.types";
-import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
 import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
@@ -28,7 +27,6 @@ export const ScheduleMentorshipModal = ({
 }) => {
   const router = useRouter();
   const id = router.query.id;
-  const query = router.query;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
   const [selectedEndTime, setSelectedEndTime] = useState<string>("");
   const [availableDays, setAvailableDays] = useState<string[]>([]);
@@ -50,7 +48,6 @@ export const ScheduleMentorshipModal = ({
     mentor,
     loading: loadingMentor,
     error: errorMentor,
-    refetch,
   } = useMentorProfile(id as string, {
     skip: !id,
   });

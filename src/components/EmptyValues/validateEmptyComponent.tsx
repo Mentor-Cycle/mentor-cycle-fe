@@ -6,10 +6,10 @@ import { IStatusOption } from "types/dashboard.types";
 import { OptionStatus } from "schemas/create_event_output";
 
 export type EmptyValueProps = {
-  user?: IUserSession | undefined;
+  user?: IUserSession;
   statusOptions: IStatusOption[];
   selectedFilter: OptionStatus | "";
-  data?: IEvents | null | undefined;
+  data?: IEvents | null;
 };
 
 const validateEmptyComponent = ({
