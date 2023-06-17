@@ -16,14 +16,14 @@ export function useTypedQuery<
   queryProperties: FetchConfig<TDataSchema, TVariablesSchema>,
   options?: QueryHookOptions<
     ExtractDataType<TDataSchema>,
-    ExtractDataType<TVariablesSchema & {}> & OperationVariables
+    ExtractDataType<NonNullable<TVariablesSchema>> & OperationVariables
   >
 ): HookResponse<
   ExtractDataType<TDataSchema>,
-  ExtractDataType<TVariablesSchema & {}>
+  ExtractDataType<NonNullable<TVariablesSchema>>
 > {
   type TData = ExtractDataType<TDataSchema>;
-  type TVariables = ExtractDataType<TVariablesSchema & {}>;
+  type TVariables = ExtractDataType<NonNullable<TVariablesSchema>>;
 
   const [data, setData] = useState<TData | null>(null);
   const [loading, setLoading] = useState(true);
