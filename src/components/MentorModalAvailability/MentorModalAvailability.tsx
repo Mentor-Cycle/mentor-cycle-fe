@@ -29,7 +29,7 @@ export const MentorModalAvailability = ({
   const [selectedEnd, setSelectedEnd] = useState("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
 
-  type IFormattedClientAvailability = {} & Pick<
+  type IFormattedClientAvailability = Pick<
     IAvailabilityAPI,
     "startHour" | "endHour" | "weekDay" | "active"
   >;
