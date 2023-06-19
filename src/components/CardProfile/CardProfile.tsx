@@ -94,8 +94,7 @@ const CardProfile = ({
           {visibleChips?.map((chip) => {
             return (
               <Chip variant="chipCardsMentors" key={`${chip}-chip-${name}`}>
-                {/* {chip} */}
-                TESTETESTETESTETESTETESTETESTE
+                {chip}
               </Chip>
             );
           })}
