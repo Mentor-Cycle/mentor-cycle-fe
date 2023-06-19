@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import Button from "@components/Button";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
 import validateEmptyComponent from "@components/EmptyValues/validateEmptyComponent";
@@ -7,7 +9,9 @@ import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMen
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import Select from "react-select";
 import {
   formatDate,
   formatHour,
@@ -20,9 +24,6 @@ import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
 import { z } from "zod";
 import { useRouter } from "next/router";
 import { SingleValue } from "react-select";
-import Select from "react-select";
-import Link from "next/link";
-import Button from "@components/Button/Button";
 
 const Dashboard: NextPage = () => {
   const statusOptions: IStatusOption[] = [
