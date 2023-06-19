@@ -15,10 +15,9 @@ import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
-import { useLazyTypedQuery } from "@hooks/useLazyTypedQuery";
 import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
-import { GET_ME_querySchema } from "services/apollo/queries/queries.validation";
-import { GET_ME } from "services/apollo/queries";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { useLazyTypedQuery } from "@hooks/useTypedQuery";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -38,7 +37,7 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, loading, error }] = useLazyTypedQuery(queriesIndex.GET_ME);
+  const [me, { data, loading, error }] = useLazyTypedQuery(api.GET_ME);
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 
