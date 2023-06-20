@@ -10,11 +10,13 @@ import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_AVAILABILITIES } from "services/apollo/queries";
-import { MentorAvailability } from "./types";
 import { useUser } from "@hooks/useUser";
 import { CREATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
+import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -24,7 +26,7 @@ export const ScheduleMentorshipModal = ({
   setOpen: (open: boolean) => void;
 }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
   const [selectedEndTime, setSelectedEndTime] = useState<string>("");
   const [availableDays, setAvailableDays] = useState<string[]>([]);
@@ -40,18 +42,23 @@ export const ScheduleMentorshipModal = ({
   const [times, setTimes] = useState<string[]>([]);
 
   const [rangeTime, setRangeTime] = useState<string[][]>([]);
+  const [currentStep, setCurrentStep] = useState(1);
 
-  const { mentor, loading, error, refetch } = useMentorProfile(id as string);
+  const {
+    mentor,
+    loading: loadingMentor,
+    error: errorMentor,
+  } = useMentorProfile(id as string, {
+    skip: !id,
+  });
+  if (errorMentor?.error) console.log("errorMentor", errorMentor);
+
   const { user } = useUser();
-  const [createEvent, { loading: eventLoading, error: eventError }] =
+  const [createEvent, { loading: loadingEvent, error: errorEvent }] =
     useMutation(CREATE_EVENT);
+  if (errorEvent) console.log("errorEvent", errorEvent);
 
-  const stepButtons: {
-    [key: number]: {
-      text: string;
-      variant: buttonVariant;
-    };
-  } = {
+  const stepButtons: TStepButtons = {
     1: {
       text: "Continuar",
       variant: "primary",
@@ -65,9 +72,25 @@ export const ScheduleMentorshipModal = ({
       variant: "secondary",
     },
   };
-  const [currentStep, setCurrentStep] = useState(1);
+
+  const {
+    data: availabilitiesResponse,
+    refetch: refetchAvailabitities,
+    error: errorAvailabilitiesResponse,
+  } = useTypedQuery(api.GET_AVAILABILITIES, {
+    variables: {
+      mentorId: mentor?.id as string,
+    },
+    skip: !mentor?.id,
+  });
+  if (errorAvailabilitiesResponse?.error)
+    console.log("errorAvailabilitiesResponse", errorAvailabilitiesResponse);
+
+  const availabilities =
+    availabilitiesResponse?.findMentorAvailability.availability ?? null;
+
   const handleSteps = async () => {
-    await refetchAvailabilities();
+    await refetchAvailabitities();
     if (currentStep === 3) {
       resetStates();
       return setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
@@ -86,7 +109,7 @@ export const ScheduleMentorshipModal = ({
         status: "CONFIRMED",
       };
       await createEvent({ variables: { event: payload } });
-      if (eventError) {
+      if (errorEvent) {
         return toast.error("Erro ao criar evento");
       }
       resetStates(false, false);
@@ -98,18 +121,11 @@ export const ScheduleMentorshipModal = ({
       setCurrentStep(1);
     }
   };
-  const { data, refetch: refetchAvailabilities } = useQuery<MentorAvailability>(
-    GET_AVAILABILITIES,
-    {
-      variables: {
-        mentorId: mentor.id,
-      },
-    }
-  );
 
   const convertAvailabilitiyDays = useCallback(
-    (data: MentorAvailability) => {
-      data.findMentorAvailability.availability.forEach((item) => {
+    (availabilities: TUserAvailability["availability"]) => {
+      if (!availabilities) return;
+      availabilities.forEach((item) => {
         const [startDate, startTime] = item.startDate.split("T");
         const [_, endTime] = item.endDate.split("T");
         const [year, month, day] = startDate.split("-");
@@ -152,7 +168,7 @@ export const ScheduleMentorshipModal = ({
     if (close) {
       setOpen(false);
     }
-    await refetchAvailabilities();
+    await refetchAvailabitities();
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -169,12 +185,12 @@ export const ScheduleMentorshipModal = ({
   };
 
   useEffect(() => {
-    if (data) {
-      convertAvailabilitiyDays(data);
+    if (availabilitiesResponse) {
+      convertAvailabilitiyDays(availabilities);
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, data, daysAndTimes]);
+  }, [convertAvailabilitiyDays, availabilitiesResponse, daysAndTimes]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
@@ -194,7 +210,7 @@ export const ScheduleMentorshipModal = ({
     setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
   }, [daySelected, daysAndTimes]);
 
-  if (loading)
+  if (loadingMentor)
     return (
       <>
         <div className="min-h-screen flex justify-center items-center">
@@ -210,16 +226,22 @@ export const ScheduleMentorshipModal = ({
           <>
             <div className="rounded-lg flex w-full justify-center items-center">
               <Image
-                src={mentor.photoUrl || "/imgCard.png"}
+                src={mentor?.photoUrl || "/imgCard.png"}
                 alt="avatar profile"
                 width={98}
                 height={98}
                 className="rounded-lg"
               />
             </div>
-            <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
-              Mentoria com {mentor.firstName} {mentor.lastName}
-            </h2>
+            {mentor ? (
+              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                Mentoria com {mentor.firstName} {mentor.lastName}
+              </h2>
+            ) : (
+              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                Carregando...
+              </h2>
+            )}
             <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
               Escolha um dia para visualizar os horários disponíveis para marcar
               sua mentoria
@@ -287,10 +309,17 @@ export const ScheduleMentorshipModal = ({
             <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
               Mentoria agendada!
             </h2>
-            <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-              Sua mentoria foi agendada no seu calendário e do(a){" "}
-              {mentor.firstName} {mentor.lastName}
-            </p>
+            {mentor ? (
+              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                Sua mentoria foi agendada no seu calendário e do(a){" "}
+                {mentor.firstName} {mentor.lastName}
+              </p>
+            ) : (
+              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                Sua mentoria foi agendada no seu calendário e do(a){" "}
+                Carregando...
+              </p>
+            )}
           </>
         )}
         <div className="mt-11 min-w-[183px]">
@@ -300,7 +329,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loading || eventLoading}
+            isLoading={loadingMentor || loadingEvent}
           >
             {stepButtons[currentStep].text}
           </Button>

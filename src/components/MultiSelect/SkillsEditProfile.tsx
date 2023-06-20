@@ -1,30 +1,30 @@
 import Select from "react-select";
 import { MultiSelectOptions, MultiSelectProps } from "./MultiSelect.types";
-import { useQuery } from "@apollo/client";
-import { GET_SKILLS } from "services/apollo/queries";
-import { useUser } from "@hooks/useUser";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 
 type SkillsEditProfileProps = MultiSelectProps & {
-  uniqueSkill: MultiSelectOptions;
-  onSelectedSkills: (skills: MultiSelectOptions) => void;
+  uniqueSkill?: MultiSelectOptions[];
+  onSelectedSkills: (skills: MultiSelectOptions[]) => void;
 };
 
 const SkillsEditProfile = ({
   label,
+  uniqueSkill,
   onSelectedSkills,
 }: SkillsEditProfileProps) => {
-  const { loading, data } = useQuery(GET_SKILLS);
-  const { user } = useUser();
+  const {
+    loading: loadingSkills,
+    data: skills,
+    error,
+  } = useTypedQuery(api.GET_SKILLS);
+  if (error?.error) console.log("error", error);
 
-  const options = data?.findAllSkills?.map(({ name }: { name: string }) => ({
-    value: name,
-    label: name,
-  }));
-
-  const defaultValue = user?.skills.map((skill: string) => ({
-    label: skill,
-    value: skill,
-  }));
+  const options =
+    skills?.findAllSkills.map(({ name }) => ({
+      value: name,
+      label: name,
+    })) ?? [];
 
   return (
     <label htmlFor={"skills"} className="text-secondary-01 font-semibold">
@@ -34,13 +34,13 @@ const SkillsEditProfile = ({
       </span>
       <Select
         name="skills"
-        isLoading={loading}
+        isLoading={loadingSkills}
         isMulti
         onChange={(newValue) =>
-          onSelectedSkills(newValue as MultiSelectOptions)
+          onSelectedSkills(newValue as MultiSelectOptions[])
         }
         options={options}
-        defaultValue={defaultValue}
+        defaultValue={uniqueSkill}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();

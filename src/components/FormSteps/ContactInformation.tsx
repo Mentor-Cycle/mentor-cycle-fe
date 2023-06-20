@@ -27,8 +27,8 @@ const ContactInformation = () => {
         label="Descrição"
         name="description"
         required
-        min={2}
-        max={400}
+        minLength={2}
+        maxLength={400}
         value={description}
         onChange={updateFormTextarea}
         placeholder="Faça uma breve descrição sobre você"

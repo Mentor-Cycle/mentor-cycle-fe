@@ -14,9 +14,13 @@ const CardNotification = ({
   setShowModal,
   link,
 }: CardNotificationProps) => {
+  const handleClick = () => {
+    if (setShowModal) setShowModal("");
+  };
+
   return (
     // change approach after automatically add closing modal
-    <Link href={"/profile"} onClick={() => setShowModal("")}>
+    <Link href={"/profile"} onClick={handleClick}>
       <div
         data-testid="teste"
         className={clsx(

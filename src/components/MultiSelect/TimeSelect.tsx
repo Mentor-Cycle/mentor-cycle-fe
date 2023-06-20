@@ -1,16 +1,15 @@
+import {
+  IOptionsTimes,
+  TimeSelectProps,
+} from "@components/MultiSelect/TimeSelect.types";
 import React from "react";
 import Select from "react-select";
-
-export interface TimeSelectProps {
-  placeholder: string;
-  setSelectedTime: (value: string | null) => void;
-}
 
 const TimeSelect: React.FC<TimeSelectProps> = ({
   placeholder,
   setSelectedTime,
 }) => {
-  const optionsTimes = [
+  const optionsTimes: IOptionsTimes[] = [
     { value: null, label: "Todos" },
     { value: "MORNING", label: "Manhã" },
     { value: "AFTERNOON", label: "Tarde" },

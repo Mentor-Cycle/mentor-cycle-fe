@@ -1,7 +1,6 @@
-import { ChipProps } from "@components/Chip/Chip.types";
-import { StaticImageData } from "next/image";
+import { IMentorClient } from "schemas/mentor";
 
-type SizeCard = "Medium" | "Large";
+export type SizeCard = "Medium" | "Large";
 
 export interface CardProps {
   id: string;
@@ -9,8 +8,9 @@ export interface CardProps {
   jobTitle: string;
   location: string;
   description: string;
-  image: string | StaticImageData;
-  chips: ChipProps[];
+  image: string | IMentorClient["image"];
+  // chips: ChipProps[];
+  chips: string[] | null;
   lastName: string;
   variant?: SizeCard;
   isCurrentMentor?: boolean;

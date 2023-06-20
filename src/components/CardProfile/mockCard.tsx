@@ -11,9 +11,10 @@ export const cardMock: CardProps[] = [
     description:
       "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum id quis ad qu minim sss ss... ",
     image: cardImage,
-    chips: [
-      { variant: "primary", children: "Backend" },
-      { variant: "primary", children: "FrontEnd" },
-    ],
+    chips: ["Backend", "FrontEnd"],
+    // chips: [
+    //   { variant: "primary", children: "Backend" },
+    //   { variant: "primary", children: "FrontEnd" },
+    // ],
   },
 ];

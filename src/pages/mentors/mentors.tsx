@@ -1,45 +1,41 @@
-import { useQuery } from "@apollo/client";
 import CardProfile from "@components/CardProfile";
 import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import Spinner from "@components/Spinner";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { GET_MENTORS } from "services/apollo/queries";
+import { IMentorClient } from "schemas/mentor";
+import { TGET_MENTORS_filterSchema as TVariables } from "services/apollo/queries/queries-properties";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useDebounce } from "use-debounce";
 import { formatMentorCardData } from "utils/utilsMentorPage";
 
 const PAGE_SIZE = 9;
 
-interface Filter {
-  firstName: string;
+export type Filter = Omit<TVariables, "limit" | "take"> & {
   lastName: string;
-  orderBy: string;
-  order: string;
-  skip: number;
-  pageSize: number;
-  pageNumber: number;
-  period: null | string;
-  skills: string | null;
-  mentors: [];
-}
+  mentors: IMentorClient[];
+};
+
+const mentorsInitialState: Filter = {
+  firstName: "",
+  lastName: "",
+  orderBy: "firstName",
+  order: "asc",
+  skip: 0,
+  pageSize: PAGE_SIZE,
+  pageNumber: 1,
+  period: null,
+  skills: null,
+  mentors: [],
+};
 
 const Mentors: NextPage = () => {
-  const [filter, setFilter] = useState<Filter>({
-    firstName: "",
-    lastName: "",
-    orderBy: "firstName",
-    order: "asc",
-    skip: 0,
-    pageSize: PAGE_SIZE,
-    pageNumber: 1,
-    period: null,
-    skills: null,
-    mentors: [],
-  });
+  const [filter, setFilter] = useState<Filter>(mentorsInitialState);
 
   const {
     orderBy,
@@ -56,7 +52,11 @@ const Mentors: NextPage = () => {
   const [debouncedSearchInput] = useDebounce(firstName, 1000);
   const { user } = useUser();
 
-  const { data, error, loading, refetch } = useQuery(GET_MENTORS, {
+  const {
+    error: errorMentor,
+    loading: loadingMentor,
+    refetch: refetchMentor,
+  } = useTypedQuery(api.GET_MENTORS, {
     variables: {
       firstName: debouncedSearchInput,
       skills,
@@ -67,20 +67,18 @@ const Mentors: NextPage = () => {
       pageNumber,
       period,
     },
-  });
-
-  useEffect(() => {
-    if (data) {
-      const mentors = formatMentorCardData(data.findMentors);
-      setFilter((prev) => ({
-        ...prev,
-        mentors: mentors,
+    onCompleted: (response) => {
+      const mentors = formatMentorCardData(response.findMentors);
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        mentors,
       }));
-    }
-  }, [data]);
+    },
+  });
+  if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   useEffect(() => {
-    refetch({
+    refetchMentor({
       firstName: debouncedSearchInput,
       skills,
       skip,
@@ -98,14 +96,17 @@ const Mentors: NextPage = () => {
     }));
   }, []);
 
-  const handleSkillsChange = useCallback((selectedSkills: string | null) => {
-    setFilter((prevFilter) => ({
-      ...prevFilter,
-      skills: selectedSkills,
-    }));
-  }, []);
+  const handleSkillsChange = useCallback(
+    (selectedSkills: TVariables["skills"]) => {
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        skills: selectedSkills,
+      }));
+    },
+    []
+  );
 
-  const handlePeriodChange = useCallback((selectedPeriod: string | null) => {
+  const handlePeriodChange = useCallback((selectedPeriod: Filter["period"]) => {
     setFilter((prevFilter) => ({
       ...prevFilter,
       period: selectedPeriod,
@@ -118,12 +119,14 @@ const Mentors: NextPage = () => {
     }));
   }, []);
 
-  if (error)
+  if (errorMentor) {
+    console.error(errorMentor);
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <p>{error.message}</p>
+        <p>Aconteceu um erro. Tente novamente.</p>
       </div>
     );
+  }
 
   return (
     <>
@@ -156,7 +159,7 @@ const Mentors: NextPage = () => {
             />
           </div>
         </div>
-        {loading && mentors.length === 0 ? (
+        {loadingMentor && mentors.length === 0 ? (
           <div className="min-h-screen flex justify-center items-center">
             <Spinner size={50} />
           </div>
@@ -170,34 +173,20 @@ const Mentors: NextPage = () => {
               className="min-h-screen overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-auto items-center sm:items-start justify-center sm:justify-between gap-4 mt-8 justify-items-center"
             >
               {mentors.length > 0 ? (
-                mentors.map(
-                  (
-                    {
-                      chips,
-                      id,
-                      image,
-                      description,
-                      jobTitle,
-                      location,
-                      firstName,
-                      lastName,
-                    },
-                    index
-                  ) => (
-                    <CardProfile
-                      id={id}
-                      key={index}
-                      chips={chips}
-                      description={description}
-                      image={image}
-                      jobTitle={user.jobtitle || jobTitle}
-                      location={location}
-                      name={firstName}
-                      lastName={lastName}
-                      isCurrentMentor={user.isLogged && user.id === id}
-                    />
-                  )
-                )
+                mentors.map((mentor, index) => (
+                  <CardProfile
+                    id={mentor.id}
+                    key={index}
+                    chips={mentor.chips}
+                    description={mentor.description}
+                    image={mentor.image}
+                    jobTitle={user.jobTitle || (mentor.jobTitle ?? "")}
+                    location={mentor.location}
+                    name={mentor.firstName}
+                    lastName={mentor.lastName ?? ""}
+                    isCurrentMentor={user.isLogged && user.id === mentor.id}
+                  />
+                ))
               ) : (
                 <p className="text-gray-03 text-center mt-8 w-full col-start-2">
                   Nenhum mentor encontrado

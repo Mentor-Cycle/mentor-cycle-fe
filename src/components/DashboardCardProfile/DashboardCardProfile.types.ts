@@ -2,6 +2,6 @@ export type Props = {
   name: string;
   job: string;
   skills: string[] | null;
-  avatar?: string;
+  avatarUrl: string;
   className?: string;
 };

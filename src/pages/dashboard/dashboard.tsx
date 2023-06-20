@@ -7,22 +7,26 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
-import Spinner from "@components/Spinner/Spinner";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import { GET_EVENTS } from "services/apollo/queries";
 import {
   formatDate,
   formatHour,
   groupEventsByDay,
 } from "utils/dashboard-helpers";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { IGroupEventsByDay, IStatusOption } from "types/dashboard.types";
+import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
+import { z } from "zod";
+import { useRouter } from "next/router";
+import { SingleValue } from "react-select";
 
 const Dashboard: NextPage = () => {
-  const statusOptions: { value: string; label: string }[] = [
+  const statusOptions: IStatusOption[] = [
     { value: "", label: "Todas" },
     { value: "DONE", label: "Realizada" },
     { value: "CONFIRMED", label: "Agendada" },
@@ -31,49 +35,62 @@ const Dashboard: NextPage = () => {
 
   const router = useRouter();
   const { user } = useUser();
-  const [selectedFilter, setSelectedFilter] = useState(statusOptions[2].value);
-  const [eventsByDay, setEventsByDay] = useState({});
+  const [selectedFilter, setSelectedFilter] = useState<OptionStatus | "">(
+    statusOptions[2].value
+  );
+  const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
 
-  const { data, loading, error, refetch } = useQuery(GET_EVENTS, {
+  const {
+    data: events,
+    loading: loadingEvents,
+    error: errorEvents,
+    refetch: refetchEvents,
+  } = useTypedQuery(api.GET_EVENTS, {
     variables: {
-      mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
+      mentorId: user.isMentor ? user.id : null,
     },
   });
+
   useEffect(() => {
-    refetch();
-    if (!loading && !error && data) {
-      const events = data?.findEvents || [];
-      const filteredEvents = events.filter((mentor: { mentorId: string }) => {
-        return (mentor.mentorId !== user.id && !user.isMentor) || user.isMentor;
+    refetchEvents();
+    if (!loadingEvents && !errorEvents && events) {
+      const foundEvents = events.findEvents;
+      const filteredEvents = foundEvents.filter((mentor) => {
+        return user.isMentor || (mentor.mentorId !== user.id && !user.isMentor);
       });
       const eventsByDay = groupEventsByDay(filteredEvents);
       setEventsByDay(eventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, loading, error]);
+  }, [events, loadingEvents, errorEvents]);
 
-  const handleFilterChange = (event: any) => {
-    setSelectedFilter(event.value);
+  const handleFilterChange = (newValue: SingleValue<IStatusOption>) => {
+    const eventValueParse = eventStatusSchema
+      .or(z.literal(""))
+      .safeParse(newValue?.value);
+    if (!eventValueParse.success) return;
+    const newSelectedFilter = eventValueParse.data;
+    setSelectedFilter(newSelectedFilter);
   };
 
   const generateCards = () => {
-    const hasSelectedFilter = data?.findEvents?.some(
-      (event: any) => event.status === selectedFilter
-    );
-    if (data?.findEvents && !hasSelectedFilter && selectedFilter) {
+    const hasSelectedFilter =
+      events?.findEvents?.some((event) => event.status === selectedFilter) ??
+      false;
+    if (events?.findEvents && !hasSelectedFilter && selectedFilter) {
       return noEventsMessage({ selectedFilter, statusOptions });
     }
-    const cards = data?.findEvents.map((event: any) => {
+    const cards = events?.findEvents.map((event) => {
       if (selectedFilter === "" || event.status === selectedFilter) {
         const mentorInfo = event.participants.find(
-          (participant: any) => participant.user.id === event.mentorId
+          (participant) => participant.user.id === event.mentorId
         )?.user;
         const learnerInfo = event.participants.find(
-          (participant: any) => participant.user.id !== event.mentorId
+          (participant) => participant.user.id !== event.mentorId
         )?.user;
 
-        if (!user.isMentor && mentorInfo.id === user.id) return;
+        if (!user.isMentor && mentorInfo?.id === user.id) return;
 
         const displayedName = user.isMentor
           ? `${learnerInfo?.firstName} ${learnerInfo?.lastName}`
@@ -83,36 +100,38 @@ const Dashboard: NextPage = () => {
           ? learnerInfo?.jobTitle
           : mentorInfo?.jobTitle;
 
-        const displayedAvatar = user.isMentor
+        const displayedAvatarUrl = user.isMentor
           ? learnerInfo?.photoUrl
           : mentorInfo?.photoUrl;
 
         return (
           <MentoringLinkCard
             key={event.id}
-            onCancel={refetch}
-            eventId={event.id}
-            avatar={displayedAvatar}
+            avatarUrl={displayedAvatarUrl}
+            name={displayedName}
+            job={displayedJobTitle || "Desenvolvedor"}
             date={formatDate(event.startDate)}
             hour={formatHour(new Date(event.startDate))}
-            job={displayedJobTitle || "Desenvolvedor"}
-            name={displayedName}
             status={event.status}
             meetingLink={event.meetingLink}
+            eventId={event.id}
+            onCancel={refetchEvents}
           />
         );
       }
     });
 
-    if (!!cards.filter(Boolean).length) {
+    const hasValidCards = cards && !!cards.filter(Boolean).length;
+
+    if (hasValidCards) {
       return cards;
     }
   };
 
-  if (loading)
+  if (loadingEvents)
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <Spinner />
+        {/* <Spinner /> */}
       </div>
     );
   return (
@@ -121,7 +140,7 @@ const Dashboard: NextPage = () => {
         <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
           <div className="flex justify-start  container ">
             <DashboardCardProfile
-              avatar={user.photoUrl || "/imgCard.png"}
+              avatarUrl={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
               name={`${user.firstName} ${user.lastName}`}
               skills={user?.skills || []}
@@ -151,7 +170,7 @@ const Dashboard: NextPage = () => {
                 {validateEmptyComponent({
                   selectedFilter,
                   statusOptions,
-                  data,
+                  data: events,
                   user,
                 })}
               </p>
@@ -185,13 +204,13 @@ const Dashboard: NextPage = () => {
             "max-h-[70vh] w-full  overflow-x-hidden  space-y-4 mt-4 sm:pr-2"
           }
         >
-          {data?.findEvents.length > 0 && generateCards()}
+          {events && events.findEvents.length > 0 && generateCards()}
         </div>
         <section className="mt-16">
           <h2 className="text-secondary-02 text-center md:text-start dark:text-neutral-02 font-bold text-2xl mb-2">
             Mentorias agendadas
           </h2>
-          {data?.findEvents.length > 0 ? (
+          {events && events.findEvents.length > 0 ? (
             <>
               <div
                 className="grid justify-items-start grid-cols-1 sm:grid-cols-2 
