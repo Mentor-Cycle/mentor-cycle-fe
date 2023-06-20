@@ -207,13 +207,6 @@ const EditProfile = ({
               label="Experiência"
               defaultValue={description}
             />
-            <Input
-              required
-              type="email"
-              name="email"
-              label="Email"
-              defaultValue={email}
-            />
             <SelectLocation
               onSelect={(
                 newValue: SingleValue<{

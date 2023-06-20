@@ -107,21 +107,15 @@ const Profile: NextPage = () => {
             {user.description ||
               "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            <InfoCard
-              title="E-mail"
-              label="example@email.com"
-              content={user.email}
-            />
+          <section className="pt-12 pb-12 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
               title="Portfólio/GitHub"
-              label="exemplo.com.br"
+              label="Não informado"
               content={user.github}
-              alignRight
             />
             <InfoCard
               title="País/Estado"
-              label="example@email.com"
+              label="Não informado"
               content={`${validateUndefined(user.country) || "País"}${
                 user.country === "Brasil" && user.state
                   ? `/${validateUndefined(user.state)}`
@@ -131,7 +125,7 @@ const Profile: NextPage = () => {
             />
             <InfoCard
               title="Carreira"
-              label="example@email.com"
+              label="Não informado"
               content={
                 user.yearsOfExperience
                   ? `${parseInt(
@@ -144,11 +138,10 @@ const Profile: NextPage = () => {
                   : "experiência que você possui"
               }
               contentToValidate={user.yearsOfExperience}
-              alignRight
             />
             <InfoCard
               title="Linkedin"
-              label="linkedin.com/in/example"
+              label="Não informado"
               content={user.linkedin}
             />
           </section>
