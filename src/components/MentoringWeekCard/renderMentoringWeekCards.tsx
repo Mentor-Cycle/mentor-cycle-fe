@@ -18,7 +18,7 @@ export const renderMentoringWeekCard = (
     PENDING: { label: "Agendado", variant: "chipCards" },
     CANCELLED: { label: "Cancelada", variant: "chipCards" },
     DONE: { label: "Realizada", variant: "secondary" },
-    CONFIRMED: { label: "Agendado", variant: "chipCards" },
+    CONFIRMED: { label: "Agendada", variant: "chipCards" },
   };
 
   return Object.entries(eventsByDay)
