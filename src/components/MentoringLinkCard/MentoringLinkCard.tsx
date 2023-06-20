@@ -30,10 +30,10 @@ const MentoringLinkCard = ({
   const handleStatusCard = (status: OptionStatus) => {
     const statusToVariantMap: StatusToVariantMap = {
       "Não realizada": "primary",
-      Realizada: "chipCards",
+      Realizada: "secondary",
       "A confirmar": "tertiary",
       Agendada: "chipCards",
-      Cancelada: "chipCards",
+      Cancelada: "quartenary",
     };
 
     const variant = statusToVariantMap[statusToPortugueseMap[status]];
