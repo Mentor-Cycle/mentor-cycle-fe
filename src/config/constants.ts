@@ -12,6 +12,7 @@ export const PUBLIC_ROUTES = [
 export const ROUTES_WITHOUT_HEADER = [
   "/signin",
   "/signup/register",
+  "/signup/plan",
   "/request-change-password",
   "/",
   "/landing-page",

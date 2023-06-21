@@ -125,7 +125,7 @@ const PersonalInformation = () => {
         />
         <InputBirthday
           name="birthDate"
-          label="Aniversário"
+          label="Data de Nascimento"
           placeholder="DD/MM/AAAA"
         />
       </div>
