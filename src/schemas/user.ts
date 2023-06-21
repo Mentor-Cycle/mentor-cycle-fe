@@ -29,7 +29,7 @@ export const userSchema = z.object({
   github: z.string().url(),
   website: z.string().url(),
   jobTitle: z.string(),
-  jobCompany: z.string().url(),
+  jobCompany: z.string(),
   biography: z.string(),
   description: z.string(),
   isMentor: z.boolean(),
