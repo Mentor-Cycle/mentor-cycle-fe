@@ -58,10 +58,15 @@ export const ScheduleMentorshipModal = ({
   const { user } = useUser();
   const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
-  const { data: getEventsData } = useQuery(GET_EVENTS, {
+  const {
+    data: events,
+    loading: loadingEvents,
+    error: errorEvents,
+    refetch: refetchEvents,
+  } = useTypedQuery(api.GET_EVENTS, {
     variables: {
-      mentorId: user.isMentor ? user.id : null,
       learnerId: !user.isMentor ? user.id : null,
+      mentorId: user.isMentor ? user.id : null,
     },
   });
 
@@ -118,39 +123,39 @@ export const ScheduleMentorshipModal = ({
             status: "CONFIRMED",
           };
 
-          const eventsData = getEventsData?.findEvents;
+          const eventsData = events!.findEvents;
 
-            // Check whether user has already created the event at exact time and day
-            let updateEventInput: { id?: string; status?: string } = {};
-            eventsData.forEach((eventData: any) => {
-              if (eventData.startDate === payload.startDate) {
-                updateEventInput = {
-                  id: eventData.id,
-                  status: "CONFIRMED",
-                };
-              }
-            });
-
-            if (updateEventInput.id) {
-              await updateEventStatus({ variables: { updateEventInput } });
-            } else {
-              await createEvent({ variables: { event: payload } });
+          // Check whether user has already created the event at exact time and day
+          let updateEventInput: { id?: string; status?: string } = {};
+          eventsData.forEach((eventData) => {
+            if (eventData.startDate === payload.startDate) {
+              updateEventInput = {
+                id: eventData.id,
+                status: "CONFIRMED",
+              };
             }
+          });
+
+          if (updateEventInput.id) {
+            await updateEventStatus({ variables: { updateEventInput } });
+            console.log("Event updated");
+          } else {
+            await createEvent({ variables: { event: payload } });
+            console.log("Event created");
           }
 
           resetStates(false, false);
-
-          if (open) {
-            setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-          } else {
-            setCurrentStep(1);
-          }
-          
-        }
-       catch (error) {
-        console.error(error);
-        return toast.error("Erro ao criar evento");
       }
+
+      if (open) {
+        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+      } else {
+        setCurrentStep(1);
+      }
+    } catch (error) {
+      console.error(error);
+      return toast.error("Erro ao criar evento");
+    }
   };
 
   const convertAvailabilitiyDays = useCallback(
@@ -185,7 +190,7 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = async (close: boolean = true, resetStep = true) => {
+  const resetStates = async (close = true, resetStep = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
@@ -221,7 +226,12 @@ export const ScheduleMentorshipModal = ({
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, availabilitiesResponse, daysAndTimes, availabilities]);
+  }, [
+    convertAvailabilitiyDays,
+    availabilitiesResponse,
+    daysAndTimes,
+    availabilities,
+  ]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
