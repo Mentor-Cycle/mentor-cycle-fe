@@ -95,6 +95,66 @@ export const ScheduleMentorshipModal = ({
 
   const handleSteps = async () => {
     try {
+      if (!events) {
+        throw new Error("Events is null");
+      }
+
+      if (open) {
+        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+      } else {
+        setCurrentStep(1);
+      }
+
+      await refetchAvailabilities();
+
+      switch (currentStep) {
+        case 2:
+          const [day, month, year] = daySelected.split("/");
+          const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+          const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+          const payload = {
+            startDate,
+            endDate,
+            mentorId: id,
+            learnerId: user.id,
+            active: true,
+            status: "CONFIRMED",
+          };
+
+          const eventsData = events.findEvents;
+
+          // Check whether user has already created the event at exact time and day
+          let updateEventInput: { id?: string; status?: string } = {};
+          eventsData.forEach((eventData) => {
+            if (eventData.startDate === payload.startDate) {
+              updateEventInput = {
+                id: eventData.id,
+                status: "CONFIRMED",
+              };
+            }
+          });
+
+          if (updateEventInput.id) {
+            await updateEventStatus({ variables: { updateEventInput } });
+            resetStates(false, false);
+            break;
+          }
+
+          await createEvent({ variables: { event: payload } });
+          resetStates(false, false);
+          break;
+
+        case 3:
+          resetStates();
+          return setConvertedDaysAndTimes([
+            ...new Set(daysAndTimes[daySelected]),
+          ]);
+      }
+    } catch (error) {
+      console.error(error);
+      return toast.error("Erro ao criar evento");
+    }
+    /*     try {
       await refetchAvailabilities();
       switch (currentStep) {
         case 3:
@@ -149,7 +209,7 @@ export const ScheduleMentorshipModal = ({
     } catch (error) {
       console.error(error);
       return toast.error("Erro ao criar evento");
-    }
+    } */
   };
 
   const convertAvailabilitiyDays = useCallback(
