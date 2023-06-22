@@ -3,15 +3,12 @@ import Calendar from "@components/Calendar/Calendar";
 import Image from "next/image";
 import Stepper from "@components/Stepper/Stepper";
 import { useCallback, useEffect, useState } from "react";
-import { buttonVariant } from "@components/Button/Button.types";
 import Chip from "@components/Chip";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_AVAILABILITIES, GET_EVENTS } from "services/apollo/queries";
-import { MentorAvailability } from "./types";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { CREATE_EVENT, UPDATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
@@ -58,12 +55,7 @@ export const ScheduleMentorshipModal = ({
   const { user } = useUser();
   const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
-  const {
-    data: events,
-    loading: loadingEvents,
-    error: errorEvents,
-    refetch: refetchEvents,
-  } = useTypedQuery(api.GET_EVENTS, {
+  const { data: events } = useTypedQuery(api.GET_EVENTS, {
     variables: {
       learnerId: !user.isMentor ? user.id : null,
       mentorId: user.isMentor ? user.id : null,
@@ -111,40 +103,42 @@ export const ScheduleMentorshipModal = ({
             ...new Set(daysAndTimes[daySelected]),
           ]);
         case 2:
-          const [day, month, year] = daySelected.split("/");
-          const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
-          const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
-          const payload = {
-            startDate,
-            endDate,
-            mentorId: id,
-            learnerId: user.id,
-            active: true,
-            status: "CONFIRMED",
-          };
+          if (events) {
+            const [day, month, year] = daySelected.split("/");
+            const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+            const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+            const payload = {
+              startDate,
+              endDate,
+              mentorId: id,
+              learnerId: user.id,
+              active: true,
+              status: "CONFIRMED",
+            };
 
-          const eventsData = events!.findEvents;
+            const eventsData = events.findEvents;
 
-          // Check whether user has already created the event at exact time and day
-          let updateEventInput: { id?: string; status?: string } = {};
-          eventsData.forEach((eventData) => {
-            if (eventData.startDate === payload.startDate) {
-              updateEventInput = {
-                id: eventData.id,
-                status: "CONFIRMED",
-              };
+            // Check whether user has already created the event at exact time and day
+            let updateEventInput: { id?: string; status?: string } = {};
+            eventsData.forEach((eventData) => {
+              if (eventData.startDate === payload.startDate) {
+                updateEventInput = {
+                  id: eventData.id,
+                  status: "CONFIRMED",
+                };
+              }
+            });
+
+            if (updateEventInput.id) {
+              await updateEventStatus({ variables: { updateEventInput } });
+              console.log("Event updated");
+            } else {
+              await createEvent({ variables: { event: payload } });
+              console.log("Event created");
             }
-          });
 
-          if (updateEventInput.id) {
-            await updateEventStatus({ variables: { updateEventInput } });
-            console.log("Event updated");
-          } else {
-            await createEvent({ variables: { event: payload } });
-            console.log("Event created");
+            resetStates(false, false);
           }
-
-          resetStates(false, false);
       }
 
       if (open) {

@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
@@ -7,19 +6,16 @@ import { InfoPopUp } from "@components/InfoPopUp";
 import MentoringLinkCard from "@components/MentoringLinkCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCompletionAlert";
-import Spinner from "@components/Spinner/Spinner";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import { GET_EVENTS } from "services/apollo/queries";
 import {
   formatDate,
   formatHour,
   groupEventsByDay,
-  filterByUniqueEvents,
 } from "utils/dashboard-helpers";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
