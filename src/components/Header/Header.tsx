@@ -17,7 +17,8 @@ import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { useLazyTypedQuery } from "@hooks/useTypedQuery";
+import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
+import { removeTypenameProperty } from "utils/removeTypename";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -37,43 +38,24 @@ export default function Header() {
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
-  const [me, { data, loading, error }] = useLazyTypedQuery(api.GET_ME);
+  const { loading, error: errorMe } = useTypedQuery(api.GET_ME, {
+    skip: user.isLogged,
+    onCompleted(data) {
+      const me = removeTypenameProperty(data.me);
+      setUser({
+        ...me,
+        availability: me.availability?.map(removeTypenameProperty) ?? null,
+        isLogged: true,
+      });
+    },
+  });
+  if (errorMe?.error) console.log("errorMe", errorMe);
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 
   const { setTheme, resolvedTheme } = useTheme();
   const [isToggle, setIsToogle] = useState(true);
   const [itemsMenu] = useState({ text: "", action: "" });
-
-  useEffect(() => {
-    if (!user.isLogged) {
-      me();
-    }
-    if (data) {
-      setUser({
-        firstName: data.me.firstName,
-        lastName: data.me.lastName,
-        photoUrl: data.me.photoUrl,
-        biography: data.me.biography,
-        description: data.me.description,
-        country: data.me.country,
-        state: data.me.state,
-        yearsOfExperience: data.me.yearsOfExperience,
-        skills: data.me.skills,
-        github: data.me.github,
-        linkedin: data.me.linkedin,
-        email: data.me.email,
-        jobTitle: data.me.jobTitle,
-        isMentor: data.me.isMentor,
-        id: data.me.id,
-        availability:
-          data.me.availability?.map(
-            ({ __typename, ...availability }) => availability
-          ) ?? null,
-        isLogged: true,
-      });
-    }
-  }, [me, data, user.isLogged, router, setUser]);
 
   const menuOptions: Array<{
     text: string;
@@ -123,21 +105,6 @@ export default function Header() {
       console.error("Error ao definir o tema:", error);
     }
   };
-
-  const errorMessages: Record<ErrorTypedFetchTypes, string> = {
-    EXPECT_VARIABLES:
-      "Erro: A consulta que você está fazendo necessita de variáveis.",
-    FETCHING_API_RESPONSE_DATA: "Erro ao fazer a busca dos dados.",
-    PARSING_API_RESPONSE_DATA:
-      "Erro: A resposta do servidor está diferente do esperado.",
-    PARSING_VARIABLES:
-      "Erro: As as variáveis providas não satisfazem o schema esperado.",
-    UNEXPECTED: "Erro inesperado.",
-  };
-
-  if (error) {
-    toast.error(errorMessages[error.type]);
-  }
 
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">

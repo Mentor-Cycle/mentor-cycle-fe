@@ -118,7 +118,7 @@ const FormSteps: React.FC = () => {
         <Button
           className={clsx(
             currentStep === 1 ? "hidden" : "",
-            "order-last sm:order-first max-w-[328px]"
+            "order-last sm:order-first"
           )}
           variant="secondary"
           onClick={() => updateCurrentStep((currentStep || 2) - 1)}
@@ -129,7 +129,7 @@ const FormSteps: React.FC = () => {
           tabIndex={2}
           className={clsx(
             currentStep === 1 ? "" : "hidden",
-            "order-last sm:order-first max-w-[328px]"
+            "order-last sm:order-first"
           )}
           variant="secondary"
           onClick={() => router.push("/signup/plan")}
@@ -138,7 +138,7 @@ const FormSteps: React.FC = () => {
         </Button>
         <Button
           tabIndex={0}
-          className={clsx("max-w-[328px]", "order-first sm:order-last")}
+          className={clsx("", "order-first sm:order-last")}
           isLoading={isSubmitting}
           onClick={() => {
             if (currentStep === 3) {
