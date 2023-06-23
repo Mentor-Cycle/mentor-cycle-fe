@@ -1,38 +1,14 @@
 import Button from "@components/Button";
 import ProfileCardToggle from "@components/ProfileCardToggle";
-import useForm from "@hooks/useForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Providers } from "pages/signup/_providers";
-import { ActionType } from "providers/form";
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React from "react";
 
-const Plan = () => {
-  const { dispatch, formData, setFormStorage, formStorage } = useForm();
-  const [isMentor, setIsMentor] = useState(false);
+const PlanPage = () => {
   const router = useRouter();
-  const { watch } = useFormContext();
-
-  const value = watch("value");
-  console.log(value);
-
-  const handleIsMentor = (isMentor: boolean) => {
-    setIsMentor(isMentor);
-  };
 
   const handleNext = () => {
-    dispatch({
-      type: ActionType.UPDATE_FORM_DATA,
-      payload: {
-        ...formData,
-        isMentor,
-      },
-    });
-    setFormStorage({
-      ...formStorage,
-      isMentor,
-    });
     router.replace({
       pathname: "/signup/register",
     });
@@ -51,10 +27,7 @@ const Plan = () => {
             </p>
           </div>
           <div className="mb-32">
-            <ProfileCardToggle
-              handleIsMentor={handleIsMentor}
-              isMentor={isMentor}
-            />
+            <ProfileCardToggle />
           </div>
           <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
             <Link href="/signin" legacyBehavior>
@@ -70,4 +43,10 @@ const Plan = () => {
   );
 };
 
-export default Plan;
+export default function Plan() {
+  return (
+    <Providers>
+      <PlanPage />
+    </Providers>
+  );
+}
