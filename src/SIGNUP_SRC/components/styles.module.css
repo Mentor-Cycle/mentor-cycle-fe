@@ -1,0 +1,14 @@
+.dropAnimation {
+  animation-name: drop;
+  animation-timing-function: ease-in-out;
+  animation-duration: 600ms;
+  /* animation-direction: normal; */
+  animation-fill-mode: backwards;
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
