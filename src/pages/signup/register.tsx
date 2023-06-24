@@ -9,6 +9,7 @@ import { IFormValues } from "SIGNUP_SRC/types";
 import { Providers } from "pages/signup/_providers";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useRouter } from "next/router";
+import { Location } from "SIGNUP_SRC/steps/Location";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword"],
@@ -93,7 +94,10 @@ const RegisterPage = () => {
             onSubmit={handleSubmit(submitHandler)}
             className="w-full m-auto lg:m-0 mb-24 lg:max-w-none max-w-[48rem]"
           >
-            <div className="space-y-2 mb-3">{step === 0 && <Personal />}</div>
+            <div className="space-y-2 mb-3">
+              {step === 0 && <Personal />}
+              {step === 1 && <Location />}
+            </div>
             <div className="flex gap-2">
               <button
                 type="button"

@@ -19,7 +19,7 @@ a {
 
 @layer base {
   body {
-    @apply dark:bg-secondary-03 bg-neutral-03;
+    @apply dark:bg-secondary-03 bg-neutral-03 overflow-y-scroll;
   }
   h1,
   h2,
