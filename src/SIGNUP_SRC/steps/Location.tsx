@@ -15,7 +15,6 @@ import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import React, { useId, useState } from "react";
-import Select from "react-select";
 import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 import { ReactSelectInterface } from "types/react-select";

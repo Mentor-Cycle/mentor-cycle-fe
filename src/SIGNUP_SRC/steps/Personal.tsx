@@ -2,7 +2,8 @@ import { Input } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { useFormContext } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { errorAnimation } from "SIGNUP_SRC/components/Input.animations";
+import { errorAnimation } from "SIGNUP_SRC/components/Input/Input.animations";
+import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 
 export const Personal = () => {
   const {
@@ -15,7 +16,7 @@ export const Personal = () => {
 
   return (
     <>
-      <div className="flex gap-2">
+      <MultipleInputsContainer>
         <Input
           {...register("firstName")}
           errorMessage={errors.firstName?.message}
@@ -29,7 +30,7 @@ export const Personal = () => {
           label="Sobrenome:"
           placeholder="Hawkins"
         />
-      </div>
+      </MultipleInputsContainer>
       <Input
         {...register("email")}
         errorMessage={errors.email?.message}
@@ -37,7 +38,7 @@ export const Personal = () => {
         label="E-mail:"
         placeholder="guyhawkins@mail.com"
       />
-      <div className="flex gap-2">
+      <MultipleInputsContainer>
         <Input
           {...register("password")}
           type="password"
@@ -50,7 +51,7 @@ export const Personal = () => {
           label="Confirmar senha:"
           placeholder="*********"
         />
-      </div>
+      </MultipleInputsContainer>
       <AnimatePresence initial={false}>
         {passwordErrors && (
           <motion.p
