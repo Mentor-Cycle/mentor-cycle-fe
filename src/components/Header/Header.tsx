@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
@@ -14,11 +14,10 @@ import ModalNotifications from "./ModalNotifications";
 import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { toast } from "react-toastify";
-import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { removeTypenameProperty } from "utils/removeTypename";
+import { AppProvider } from "contexts/AppContext";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -191,13 +190,15 @@ export default function Header() {
         {showModal === "settings" && (
           <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
             {
-              <ModalSettings
-                setIsModalOpen={setIsModalOpen}
-                firstName={firstName}
-                email={email}
-                id={id}
-                lastName={lastName}
-              />
+              <AppProvider>
+                <ModalSettings
+                  setIsModalOpen={setIsModalOpen}
+                  firstName={firstName}
+                  email={email}
+                  id={id}
+                  lastName={lastName}
+                />
+              </AppProvider>
             }
           </Modal>
         )}
