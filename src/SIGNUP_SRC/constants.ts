@@ -4,7 +4,7 @@ export const defaultValues: IFormValues = {
   birthDate: "",
   cities: [],
   city: "",
-  country: "",
+  country: "Brasil",
   description: "",
   email: "",
   firstName: "",
