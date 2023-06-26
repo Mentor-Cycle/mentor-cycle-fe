@@ -14,8 +14,8 @@ export const SelectInput = React.forwardRef<HTMLDivElement, ISelectInput>(
           "flex flex-wrap gap-2 pr-16 items-center cursor-pointer w-full rounded-lg shadow-md" +
           _cn
         }
-        ref={ref}
         {...rest}
+        ref={ref}
       >
         {children}
       </div>
