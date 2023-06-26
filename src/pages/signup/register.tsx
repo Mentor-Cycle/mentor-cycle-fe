@@ -6,10 +6,12 @@ import StepperVertical from "@components/StepperVertical";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
 import { Personal } from "SIGNUP_SRC/steps/Personal";
 import { IFormValues } from "SIGNUP_SRC/types";
-import { Providers } from "pages/signup/_providers";
+import Providers from "pages/signup/_providers";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useRouter } from "next/router";
 import { Location } from "SIGNUP_SRC/steps/Location";
+import { Professional } from "SIGNUP_SRC/steps/Professional";
+import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword"],
@@ -18,31 +20,34 @@ export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
 };
 
 const RegisterPage = () => {
-  const { step, setStep } = useMultistepForm();
+  const router = useRouter();
+  const { formCurrentStep, setFormCurrentStep } = useMultistepForm();
   const {
     handleSubmit,
     trigger,
     formState: { errors },
   } = useFormContext<IFormValues>();
-  const isInFirstStep = step === 0;
-  const isInLastStep = step === 2;
-  const router = useRouter();
 
-  const hasErrors = Object.keys(errors).length;
-  if (hasErrors) console.log("Errors", errors);
+  const isInFirstStep = formCurrentStep === 0;
+  const isInLastStep = formCurrentStep === 2;
 
-  const shouldGoForward = !validationPerStep[step].some(
-    (field) => field in errors
+  const formHasErrors = Object.keys(errors).length;
+  if (formHasErrors) console.log("FormErrors", errors);
+
+  const atLeastOneValidationFailed = validationPerStep[formCurrentStep].some(
+    (fieldInThisStep) => fieldInThisStep in errors
   );
 
+  const shouldGoForward = !atLeastOneValidationFailed;
+
   const handleActionButton = async () => {
-    if (isInLastStep) return;
-    const allValidations = validationPerStep[step].map((field) =>
+    const allStepValidations = validationPerStep[formCurrentStep].map((field) =>
       trigger(field)
     );
-    const allFieldsValidated = await Promise.all(allValidations);
-    const allValidationsPassed = allFieldsValidated.every(Boolean);
-    if (allValidationsPassed) return setStep((currentStep) => currentStep + 1);
+    const allStepValidationsResult = await Promise.all(allStepValidations);
+    const allValidationsPassed = allStepValidationsResult.every(Boolean);
+    if (allValidationsPassed)
+      return setFormCurrentStep((currentStep) => currentStep + 1);
   };
 
   const handleGoBackButton = () => {
@@ -51,7 +56,7 @@ const RegisterPage = () => {
         pathname: "/signup/plan",
       });
     }
-    setStep((currentStep) => currentStep - 1);
+    setFormCurrentStep((currentStep) => currentStep - 1);
   };
 
   const submitHandler: SubmitHandler<IFormValues> = (formData) => {
@@ -64,7 +69,7 @@ const RegisterPage = () => {
         <CenteredContainer className="flex items-center justify-between px-8 sm:px-12">
           <Stepper
             steps={[1, 2, 3]}
-            currentStep={1 + step}
+            currentStep={1 + formCurrentStep}
             className="hidden sm:block"
             size="regular"
           />
@@ -86,7 +91,7 @@ const RegisterPage = () => {
               Preencha os campos para criar a sua conta e acessar a plataforma!
             </p>
             <StepperVertical
-              currentStep={1 + step}
+              currentStep={1 + formCurrentStep}
               className="hidden lg:block"
             />
           </aside>
@@ -95,13 +100,14 @@ const RegisterPage = () => {
             className="w-full m-auto lg:m-0 mb-24 lg:max-w-none max-w-[48rem]"
           >
             <div className="space-y-2 mb-3">
-              {step === 0 && <Personal />}
-              {step === 1 && <Location />}
+              {formCurrentStep === 0 && <Personal />}
+              {formCurrentStep === 1 && <Location />}
+              {formCurrentStep === 2 && <Professional />}
             </div>
-            <div className="flex gap-2">
+            <MultipleInputsContainer>
               <button
                 type="button"
-                className="my-1 px-3 min-h-[3rem] rounded-lg text-neutral-02 focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 basis-0 min-w-0 grow bg-secondary-01 border border-gray-03 font-medium"
+                className="sm:order-none order-1 my-1 px-3 min-h-[3rem] rounded-lg text-neutral-02 focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 basis-0 min-w-0 grow bg-secondary-01 border border-gray-03 font-medium"
                 onClick={handleGoBackButton}
                 tabIndex={30}
               >
@@ -116,7 +122,7 @@ const RegisterPage = () => {
               >
                 {isInLastStep ? "Enviar" : "Próximo"}
               </button>
-            </div>
+            </MultipleInputsContainer>
           </form>
         </CenteredContainer>
       </section>

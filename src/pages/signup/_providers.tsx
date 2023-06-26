@@ -11,18 +11,22 @@ interface Props {
   children: JSX.Element;
 }
 
-export const Providers = ({ children }: Props) => {
-  const [step, setStep] = useState(0);
+const Providers = ({ children }: Props) => {
+  const [formCurrentStep, setFormCurrentStep] = useState(0);
 
   const methods = useForm<IFormValues>({
     defaultValues,
     mode: "onTouched",
-    resolver: zodResolver(signupFormSchema),
+    // resolver: zodResolver(signupFormSchema),
   });
 
   return (
-    <MultistepFormContext.Provider value={{ step, setStep }}>
+    <MultistepFormContext.Provider
+      value={{ formCurrentStep, setFormCurrentStep }}
+    >
       <FormProvider {...methods}>{children}</FormProvider>
     </MultistepFormContext.Provider>
   );
 };
+
+export default Providers;
