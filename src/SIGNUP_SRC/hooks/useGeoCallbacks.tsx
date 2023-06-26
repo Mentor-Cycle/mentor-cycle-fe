@@ -11,15 +11,13 @@ const schemas = {
 
 type SchemasType = typeof schemas;
 type OnSuccessCallbackType = {
-  [K in keyof SchemasType]: (data: z.infer<SchemasType[K]> | null) => void;
+  [K in keyof SchemasType]: (data: z.infer<SchemasType[K]>) => void;
 };
 type OnErrorCallbackType = {
-  [K in keyof SchemasType]: (
-    data: {
-      error: unknown;
-      issue_cause?: z.infer<SchemasType[K]> | null;
-    } | null
-  ) => void;
+  [K in keyof SchemasType]: (data: {
+    error: unknown;
+    issue_cause?: z.infer<SchemasType[K]> | null;
+  }) => void;
 };
 
 export function useGeoCallbacks<T extends keyof SchemasType>(
@@ -36,9 +34,7 @@ export function useGeoCallbacks<T extends keyof SchemasType>(
       try {
         const data = schema.parse(unparsedData);
         if (onSuccess) onSuccess(data);
-        if (onError) onError(null);
       } catch (error) {
-        if (onSuccess) onSuccess(null);
         if (onError) {
           onError({
             error,
@@ -47,7 +43,6 @@ export function useGeoCallbacks<T extends keyof SchemasType>(
         }
       }
     } catch (error) {
-      if (onSuccess) onSuccess(null);
       if (onError)
         onError({
           error,
