@@ -1,8 +1,6 @@
-import { Input } from "SIGNUP_SRC/components/Input";
+import { Input, InputErrorMessage } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { useFormContext } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
-import { errorAnimation } from "SIGNUP_SRC/components/Input/Input.animations";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 
 export const Personal = () => {
@@ -52,17 +50,7 @@ export const Personal = () => {
           placeholder="*********"
         />
       </MultipleInputsContainer>
-      <AnimatePresence initial={false}>
-        {passwordErrors && (
-          <motion.p
-            className="mt-2 relative text-sm text-red-400 bg-primary-04/50 text-primary-02 p-2 leading-none rounded-lg"
-            {...errorAnimation()}
-            style={{ color: "rgb(228 61 61)" }}
-          >
-            {passwordErrors}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      <InputErrorMessage errorMessage={passwordErrors} />
     </>
   );
 };

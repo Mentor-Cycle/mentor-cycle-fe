@@ -33,7 +33,7 @@ export const Input = React.forwardRef<HTMLInputElement, IInput>(
 
     return (
       <InputWrapper grow={grow}>
-        <InputLabel label={label} />
+        <InputLabel label={label} htmlFor={inputId} />
         <Component
           id={inputId}
           type={type}

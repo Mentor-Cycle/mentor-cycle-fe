@@ -13,6 +13,7 @@ export type ControllerRenderProps = {
 };
 
 interface CountrySelectorProps {
+  id: string;
   countriesOptions: ReactSelectInterface[] | null;
   field: ControllerRenderProps;
 }
@@ -36,6 +37,7 @@ export function CountrySelector(props: CountrySelectorProps) {
 
   return (
     <Select
+      id={props.id}
       options={props.countriesOptions ?? []}
       autoFocus
       unstyled

@@ -26,9 +26,11 @@ export const Location = () => {
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
   const skillsId = useId();
+  const countryId = useId();
+  const birthDateId = useId();
 
   useGeoCallbacks("paises", setCountries, console.error);
-  useGeoCallbacks("estados", setStates, console.error);
+  // useGeoCallbacks("estados", setStates, console.error);
 
   const {
     register,
@@ -56,16 +58,20 @@ export const Location = () => {
   const country = watch("country");
   console.log("Country", country);
 
+  const state = watch("state");
+  console.log("State", state);
+
   return (
     <>
       <MultipleInputsContainer>
         <InputWrapper grow={1}>
-          <InputLabel label="País:" />
+          <InputLabel label="País:" htmlFor={countryId} />
           <Controller
             name="country"
             control={control}
             render={({ field }) => (
               <CountrySelector
+                id={countryId}
                 field={field}
                 countriesOptions={countriesOptions}
               />
@@ -89,12 +95,13 @@ export const Location = () => {
         />
 
         <InputWrapper grow={1}>
-          <InputLabel label="Data de Nascimento:" />
+          <InputLabel label="Data de Nascimento:" htmlFor={birthDateId} />
           <Controller
             name="birthDate"
             control={control}
             render={({ field: { value, ...rest } }) => (
               <DateInput
+                id={birthDateId}
                 valueIsNumericString
                 format="##/##/####"
                 mask="_"
@@ -110,7 +117,7 @@ export const Location = () => {
       </MultipleInputsContainer>
 
       <InputWrapper grow={1}>
-        <InputLabel label="Especializações:" />
+        <InputLabel label="Especializações:" htmlFor={skillsId} />
         <Controller
           name="skills"
           control={control}
