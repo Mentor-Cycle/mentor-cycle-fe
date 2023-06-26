@@ -32,6 +32,10 @@ a {
 }
 
 @layer components {
+  .input-sign {
+    @apply my-1 p-3 min-h-[3rem] rounded-lg text-neutral-02 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 bg-secondary-04 border border-gray-05;
+  }
+
   .input-invalid {
     @apply invalid:border-danger-01 invalid:focus:ring-1 invalid:focus:ring-danger-01 invalid:text-danger-01 invalid:placeholder:text-danger-01 dark:invalid:placeholder:text-danger-01;
   }
