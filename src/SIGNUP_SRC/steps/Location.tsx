@@ -6,38 +6,41 @@ import {
 } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
-import {
-  InputAttributes,
-  PatternFormat,
-  PatternFormatProps,
-} from "react-number-format";
+import { InputAttributes, PatternFormat, PatternFormatProps } from "react-number-format";
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import React, { useId, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 import { ReactSelectInterface } from "types/react-select";
 import { CountrySelector } from "SIGNUP_SRC/steps/components/CountrySelector";
 import { IPaisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
 import { IEstadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
+import { StateSelector } from "SIGNUP_SRC/steps/components/StateSelector";
 
 export const Location = () => {
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
+
   const skillsId = useId();
   const countryId = useId();
+  const stateId = useId();
   const birthDateId = useId();
 
   useGeoCallbacks("paises", setCountries, console.error);
-  // useGeoCallbacks("estados", setStates, console.error);
+  useGeoCallbacks("estados", setStates, console.error);
 
   const {
     register,
     control,
     formState: { errors },
     watch,
+    setValue,
   } = useFormContext<IFormValues>();
+
+  const country = watch("country");
+  const isInBrazil = country === "Brasil";
 
   const { data: skillsResponse, error: errorSkillsResponse } = useTypedQuery(
     api.GET_SKILLS
@@ -46,20 +49,27 @@ export const Location = () => {
     console.log("errorSkillsResponse", errorSkillsResponse);
   }
 
-  const skillsOptions =
-    skillsResponse?.findAllSkills.map((skill) => skill.name) ?? null;
+  const skillsOptions = skillsResponse?.findAllSkills.map((skill) => skill.name) ?? null;
 
-  const countriesOptions: ReactSelectInterface[] | null =
-    countries?.map(({ nome }) => ({
+  const countriesOptions: ReactSelectInterface[] | undefined = countries?.map(
+    ({ nome }) => ({
       value: nome,
       label: nome,
-    })) ?? null;
+    })
+  );
 
-  const country = watch("country");
-  console.log("Country", country);
+  const statesOptions: ReactSelectInterface[] | undefined = states?.map(
+    ({ nome, sigla }) => ({
+      value: sigla,
+      label: nome,
+    })
+  );
 
-  const state = watch("state");
-  console.log("State", state);
+  useEffect(() => {
+    if (country !== "Brasil") {
+      setValue("state", "");
+    }
+  }, [country]);
 
   return (
     <>
@@ -73,18 +83,30 @@ export const Location = () => {
               <CountrySelector
                 id={countryId}
                 field={field}
-                countriesOptions={countriesOptions}
+                options={countriesOptions ?? null}
               />
             )}
           />
           <InputErrorMessage errorMessage={errors.country?.message} />
         </InputWrapper>
-        <Input
-          {...register("state")}
-          errorMessage={errors.state?.message}
-          label="Estado:"
-          placeholder="SP"
-        />
+
+        <InputWrapper grow={1} disabled={!isInBrazil}>
+          <InputLabel label="Estados:" htmlFor={stateId} disabled={!isInBrazil} />
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <StateSelector
+                id={stateId}
+                field={field}
+                options={statesOptions ?? null}
+                disabled={!isInBrazil}
+                placeholder="Selecione um estado"
+              />
+            )}
+          />
+          <InputErrorMessage errorMessage={errors.state?.message} />
+        </InputWrapper>
       </MultipleInputsContainer>
       <MultipleInputsContainer>
         <Input
