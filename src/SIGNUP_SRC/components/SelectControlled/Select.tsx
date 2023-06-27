@@ -67,13 +67,13 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
 
   return (
     <div
-      className="relative font-normal text-neutral-02 focus:outline-red-500 my-1"
+      className="relative font-normal text-neutral-02 focus:outline-red-500"
       ref={SelectRef}
     >
       <input type="hidden" ref={fieldRef} />
       <SelectInput
         className={
-          "px-3 py-[11px] min-h-[3.125rem] bg-secondary-04 border border-gray-05" + _cn
+          "px-3 py-2.5 min-h-[3.125rem] bg-secondary-04 border border-gray-05" + _cn
         }
         onClick={handleClickSelect}
         ref={ref}
