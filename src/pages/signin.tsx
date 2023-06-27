@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { GrLinkedinOption } from "react-icons/gr";
+import { GrLinkedinOption, GrGithub } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import { GET_IS_USER_LOGGED } from "services/apollo/queries";
@@ -175,6 +175,15 @@ const SignIn: NextPage = () => {
             {/*   <Button.Icon icon={FcGoogle} /> */}
             {/*   Entrar com Google */}
             {/* </Button> */}
+            <Button
+              onClick={() => handleStrategyLogin("/auth/github")}
+              size="small"
+              variant="terciary"
+              className="mb-4"
+            >
+              <Button.Icon icon={GrGithub} className="text-[#000]" />
+              Entrar com Github
+            </Button>
             <Button
               onClick={() => handleStrategyLogin("/auth/linkedin")}
               size="small"
