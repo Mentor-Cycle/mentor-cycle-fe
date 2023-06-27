@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
 import { useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
-import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
@@ -17,7 +16,7 @@ import dynamic from "next/dynamic";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { removeTypenameProperty } from "utils/removeTypename";
-import { AppProvider } from "contexts/AppContext";
+import Modal from "@components/Modal/Modal";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -33,7 +32,7 @@ const DynamicThemedImage = dynamic(
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
 
@@ -79,6 +78,7 @@ export default function Header() {
     settings: () => {
       setShowModal("settings");
       setToggleMenuProfile(false);
+      setIsModalOpen(true);
     },
     logout: logOutUser(),
   };
@@ -189,17 +189,14 @@ export default function Header() {
         )}
         {showModal === "settings" && (
           <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
-            {
-              <AppProvider>
-                <ModalSettings
-                  setIsModalOpen={setIsModalOpen}
-                  firstName={firstName}
-                  email={email}
-                  id={id}
-                  lastName={lastName}
-                />
-              </AppProvider>
-            }
+            <ModalSettings
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              firstName={firstName}
+              email={email}
+              id={id}
+              lastName={lastName}
+            />
           </Modal>
         )}
       </div>

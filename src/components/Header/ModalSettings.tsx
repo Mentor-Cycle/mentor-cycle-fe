@@ -25,6 +25,7 @@ import { IUserSession } from "types/user.types";
 
 interface ModalSettingsProps
   extends Pick<IUserSession, "email" | "firstName" | "lastName" | "id"> {
+  isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
