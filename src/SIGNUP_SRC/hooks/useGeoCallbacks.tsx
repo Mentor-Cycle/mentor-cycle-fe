@@ -48,7 +48,7 @@ export function useGeoCallbacks<T extends keyof SchemasType>(
           error,
         });
     }
-  }, [locationType, schema, onSuccess, onError]);
+  }, []);
 
   useEffect(() => {
     fetchData();
