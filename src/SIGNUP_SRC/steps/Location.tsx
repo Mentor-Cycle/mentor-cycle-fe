@@ -10,67 +10,43 @@ import { InputAttributes, PatternFormat, PatternFormatProps } from "react-number
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import React, { useEffect, useId, useState } from "react";
+import React, { useId, useState } from "react";
 import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
-import { ReactSelectInterface } from "types/react-select";
-import { CountrySelector } from "SIGNUP_SRC/steps/components/CountrySelector";
 import { IPaisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
 import { IEstadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
-import { StateSelector } from "SIGNUP_SRC/steps/components/StateSelector";
 import { FormSelect } from "SIGNUP_SRC/steps/components/FormSelect/component";
+import { logError } from "SIGNUP_SRC/helpers/logError";
+import { useCountriesFactory } from "SIGNUP_SRC/steps/hooks/useCountriesFactory";
 
 export const Location = () => {
+  const methods = useFormContext<IFormValues>();
+
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = methods;
+
+  const { data: skillsResponse, error: errorSkillsResponse } = useTypedQuery(
+    api.GET_SKILLS
+  );
+  logError({ errorSkillsResponse });
+
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
+
+  useGeoCallbacks("paises", setCountries, console.error);
+  useGeoCallbacks("estados", setStates, console.error);
+
+  const Countries = useCountriesFactory(countries, methods);
 
   const skillsId = useId();
   const countryId = useId();
   const stateId = useId();
   const birthDateId = useId();
 
-  useGeoCallbacks("paises", setCountries, console.error);
-  useGeoCallbacks("estados", setStates, console.error);
-
-  const {
-    register,
-    control,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useFormContext<IFormValues>();
-
-  const country = watch("country");
-  const isInBrazil = country === "Brasil";
-
-  const { data: skillsResponse, error: errorSkillsResponse } = useTypedQuery(
-    api.GET_SKILLS
-  );
-  if (errorSkillsResponse?.error) {
-    console.log("errorSkillsResponse", errorSkillsResponse);
-  }
-
   const skillsOptions = skillsResponse?.findAllSkills.map((skill) => skill.name) ?? null;
-
-  const countriesOptions: ReactSelectInterface[] | undefined = countries?.map(
-    ({ nome }) => ({
-      value: nome,
-      label: nome,
-    })
-  );
-
-  const statesOptions: ReactSelectInterface[] | undefined = states?.map(
-    ({ nome, sigla }) => ({
-      value: sigla,
-      label: nome,
-    })
-  );
-
-  useEffect(() => {
-    if (country !== "Brasil") {
-      setValue("state", "");
-    }
-  }, [country]);
 
   return (
     <>
@@ -84,7 +60,7 @@ export const Location = () => {
               <FormSelect
                 id={countryId}
                 field={field}
-                options={countriesOptions ?? null}
+                options={Countries.options ?? null}
                 placeholder="Selecione um país"
                 defaultValue="Brasil"
               />
@@ -93,8 +69,12 @@ export const Location = () => {
           <InputErrorMessage errorMessage={errors.country?.message} />
         </InputWrapper>
 
-        <InputWrapper grow={1} disabled={!isInBrazil}>
-          <InputLabel label="Estados:" htmlFor={stateId} disabled={!isInBrazil} />
+        <InputWrapper grow={1} disabled={!Countries.isInBrazil}>
+          <InputLabel
+            label="Estados:"
+            htmlFor={stateId}
+            disabled={!Countries.isInBrazil}
+          />
           <Controller
             name="state"
             control={control}
@@ -102,8 +82,8 @@ export const Location = () => {
               <FormSelect
                 id={stateId}
                 field={field}
-                options={statesOptions ?? null}
-                disabled={!isInBrazil}
+                options={states}
+                disabled={!Countries.isInBrazil}
                 placeholder="Selecione um estado"
               />
             )}
