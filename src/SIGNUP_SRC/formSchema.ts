@@ -1,3 +1,4 @@
+import { statesObject } from "SIGNUP_SRC/constants";
 import { userSchema } from "schemas";
 import { z } from "zod";
 
@@ -21,8 +22,6 @@ export const signupFormSchema = z
     github: userSchema.shape.github,
     description: userSchema.shape.description,
     isMentor: userSchema.shape.isMentor,
-    cities: z.array(z.string()),
-    states: z.array(z.string()),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.repeatPassword)
@@ -31,4 +30,13 @@ export const signupFormSchema = z
         path: ["repeatPassword"],
         message: "As senhas não coincidem.",
       });
+  })
+  .transform((obj) => {
+    const foundState = statesObject.find(({ label }) => obj.state === label);
+    const newState = foundState?.value ?? obj.state;
+
+    return {
+      ...obj,
+      state: newState,
+    };
   });
