@@ -18,6 +18,7 @@ import { CountrySelector } from "SIGNUP_SRC/steps/components/CountrySelector";
 import { IPaisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
 import { IEstadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
 import { StateSelector } from "SIGNUP_SRC/steps/components/StateSelector";
+import { FormSelect } from "SIGNUP_SRC/steps/components/FormSelect/component";
 
 export const Location = () => {
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
@@ -80,10 +81,12 @@ export const Location = () => {
             name="country"
             control={control}
             render={({ field }) => (
-              <CountrySelector
+              <FormSelect
                 id={countryId}
                 field={field}
                 options={countriesOptions ?? null}
+                placeholder="Selecione um país"
+                defaultValue="Brasil"
               />
             )}
           />
@@ -96,7 +99,7 @@ export const Location = () => {
             name="state"
             control={control}
             render={({ field }) => (
-              <StateSelector
+              <FormSelect
                 id={stateId}
                 field={field}
                 options={statesOptions ?? null}
