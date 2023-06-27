@@ -19,6 +19,7 @@ import { ErrorTypedFetchTypes } from "types/useTypedQuery.types";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useLazyTypedQuery, useTypedQuery } from "@hooks/useTypedQuery";
 import { removeTypenameProperty } from "utils/removeTypename";
+import { MdNotifications } from "react-icons/md";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -44,6 +45,7 @@ export default function Header() {
       const me = removeTypenameProperty(data.me);
       setUser({
         ...me,
+        notifications: me.notifications ?? null,
         availability: me.availability?.map(removeTypenameProperty) ?? null,
         isLogged: true,
       });
@@ -122,7 +124,13 @@ export default function Header() {
                 <span className="hidden lg:inline-block">Home</span>
               </Link>
             </li>
-            {/* <li className={linkStyle}>
+            <li className={linkStyle}>
+              <Link className={itemsMenuStyle} href="/mentors">
+                <BsFillPeopleFill size={24} />
+                <span className="hidden lg:inline-block">Mentores</span>
+              </Link>
+            </li>
+            <li className={linkStyle}>
               <button
                 className={itemsMenuStyle}
                 onClick={() => {
@@ -133,12 +141,6 @@ export default function Header() {
                 <MdNotifications size={24} />
                 <span className="hidden lg:inline-block">Notificações</span>
               </button>
-            </li> */}
-            <li className={linkStyle}>
-              <Link className={itemsMenuStyle} href="/mentors">
-                <BsFillPeopleFill size={24} />
-                <span className="hidden lg:inline-block">Mentores</span>
-              </Link>
             </li>
             <li className={clsx(linkStyle)}>
               <div className="flex justify-center items-center">

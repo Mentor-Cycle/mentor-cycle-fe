@@ -1,4 +1,8 @@
-import { availabilityAPISchema, userAPISchema } from "schemas";
+import {
+  availabilityAPISchema,
+  notificationAPISchema,
+  userAPISchema,
+} from "schemas";
 import { z } from "zod";
 
 export const GET_ME_queryDataSchema = userAPISchema
@@ -26,6 +30,16 @@ export const GET_ME_queryDataSchema = userAPISchema
         availabilityAPISchema.pick({
           startHour: true,
           weekDay: true,
+          __typename: true,
+        })
+      )
+      .nullable(),
+    notifications: z
+      .array(
+        notificationAPISchema.pick({
+          data: true,
+          read: true,
+          id: true,
           __typename: true,
         })
       )
