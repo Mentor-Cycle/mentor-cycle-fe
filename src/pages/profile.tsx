@@ -23,6 +23,7 @@ const Profile: NextPage = () => {
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
   const { user } = useUser();
+  const router = useRouter();
 
   const {
     mentor,
@@ -53,7 +54,7 @@ const Profile: NextPage = () => {
       setOpenModalAvailability(true);
     }
     window.history.replaceState(null, "", "/profile");
-  }, [router.query]);
+  }, [router.query.availability, router.query.edit]);
 
   useEffect(() => {
     // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
