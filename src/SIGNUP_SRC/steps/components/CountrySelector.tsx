@@ -14,7 +14,7 @@ export type ControllerRenderProps = {
 
 interface CountrySelectorProps {
   id: string;
-  countriesOptions: ReactSelectInterface[] | null;
+  options: ReactSelectInterface[] | null;
   field: ControllerRenderProps;
 }
 
@@ -38,7 +38,7 @@ export function CountrySelector(props: CountrySelectorProps) {
   return (
     <Select
       id={props.id}
-      options={props.countriesOptions ?? []}
+      options={props.options ?? []}
       autoFocus
       unstyled
       value={actualValue}
@@ -70,8 +70,7 @@ export function CountrySelector(props: CountrySelectorProps) {
       classNames={{
         container: () => "input-sign",
         menu: () => "input-sign",
-        option: () =>
-          "py-2 px-4 hover:bg-secondary-02 rounded-lg hover:cursor-pointer",
+        option: () => "py-2 px-4 hover:bg-secondary-02 rounded-lg hover:cursor-pointer",
       }}
     />
   );

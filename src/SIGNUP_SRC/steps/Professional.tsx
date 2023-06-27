@@ -35,7 +35,7 @@ export const Professional = () => {
       <InputWrapper grow={1}>
         <InputLabel label="Descrição:" htmlFor={descriptionId} />
         <Controller
-          name="skills"
+          name="description"
           control={control}
           render={({ field }) => {
             return (
