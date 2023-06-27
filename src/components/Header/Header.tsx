@@ -17,6 +17,7 @@ import { removeTypenameProperty } from "utils/removeTypename";
 import { MdNotifications } from "react-icons/md";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { logError } from "SIGNUP_SRC/helpers/logError";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -48,7 +49,7 @@ export default function Header() {
       });
     },
   });
-  if (errorMe?.error) console.log("errorMe", errorMe);
+  logError({ errorMe });
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 
