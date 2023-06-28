@@ -1,5 +1,5 @@
 import {
-  States,
+  StatesAPI,
   StatesFactoryMethods,
 } from "SIGNUP_SRC/steps/factories/useStatesFactory/types";
 import { IFormValues } from "SIGNUP_SRC/types";
@@ -9,7 +9,7 @@ import { useGeoStates } from "SIGNUP_SRC/hooks/useGeoStates";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 
 export function useStatesFactory(
-  states: States,
+  states: StatesAPI,
   useFormMethods: UseFormReturn<IFormValues>,
   options?: IUseGeoStates | undefined
 ): StatesFactoryMethods {
