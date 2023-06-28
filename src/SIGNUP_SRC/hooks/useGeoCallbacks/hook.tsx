@@ -11,12 +11,11 @@ import { useCallback, useEffect } from "react";
 
 export function useGeoCallbacks<T extends keyof SchemasType>(
   locationType: T,
-  onSuccess: OnSuccessCallbackType[T],
-  onError?: OnErrorCallbackType[T],
-  params?: UseGeoParams
+  params?: UseGeoParams<T>
 ) {
   const schema = schemas[locationType];
-  const hasValidStateName = params?.stateName.length;
+  const hasValidStateName = params?.stateName?.length;
+  const { onError, onSuccess } = params ?? {};
 
   const fetchData = useCallback(async () => {
     if (locationType === "estados") {

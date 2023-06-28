@@ -22,6 +22,8 @@ export type OnErrorCallbackType = {
   }) => void;
 };
 
-export type UseGeoParams = {
-  stateName: string;
+export type UseGeoParams<T extends keyof SchemasType> = {
+  stateName?: string;
+  onSuccess?: OnSuccessCallbackType[T];
+  onError?: OnErrorCallbackType[T];
 };
