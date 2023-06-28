@@ -1,25 +1,12 @@
 import { statesObject } from "SIGNUP_SRC/constants";
-import { estadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
-import { paisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
+import {
+  SchemasType,
+  OnSuccessCallbackType,
+  OnErrorCallbackType,
+  schemas,
+} from "SIGNUP_SRC/hooks/useGeoCallbacks/types";
 import { IBGE_PLACES_API_URL } from "config/constants";
 import { useCallback, useEffect } from "react";
-import { z } from "zod";
-
-const schemas = {
-  estados: estadosIBGESchema,
-  paises: paisesIBGESchema,
-};
-
-type SchemasType = typeof schemas;
-type OnSuccessCallbackType = {
-  [K in keyof SchemasType]: (data: z.infer<SchemasType[K]>) => void;
-};
-type OnErrorCallbackType = {
-  [K in keyof SchemasType]: (data: {
-    error: unknown;
-    issue_cause?: z.infer<SchemasType[K]> | null;
-  }) => void;
-};
 
 export function useGeoCallbacks<T extends keyof SchemasType>(
   locationType: T,
