@@ -1,26 +1,33 @@
 import { statesObject } from "SIGNUP_SRC/constants";
+import { getURL } from "SIGNUP_SRC/hooks/useGeoCallbacks/helpers";
 import {
   SchemasType,
   OnSuccessCallbackType,
   OnErrorCallbackType,
   schemas,
+  UseGeoParams,
 } from "SIGNUP_SRC/hooks/useGeoCallbacks/types";
-import { IBGE_PLACES_API_URL } from "config/constants";
 import { useCallback, useEffect } from "react";
 
 export function useGeoCallbacks<T extends keyof SchemasType>(
   locationType: T,
   onSuccess: OnSuccessCallbackType[T],
-  onError?: OnErrorCallbackType[T]
+  onError?: OnErrorCallbackType[T],
+  params?: UseGeoParams
 ) {
   const schema = schemas[locationType];
+  const hasValidStateName = params?.stateName.length;
 
   const fetchData = useCallback(async () => {
     if (locationType === "estados") {
       if (onSuccess) onSuccess(statesObject);
     } else {
       try {
-        const res = await fetch(`${IBGE_PLACES_API_URL}/${locationType}`);
+        if (locationType === "cidades" && !hasValidStateName) {
+          if (onSuccess) return onSuccess(null);
+        }
+        const URL = getURL(locationType, params);
+        const res = await fetch(URL);
         const unparsedData = await res.json();
         try {
           const data = schema.parse(unparsedData);
@@ -40,9 +47,9 @@ export function useGeoCallbacks<T extends keyof SchemasType>(
           });
       }
     }
-  }, []);
+  }, [params?.stateName]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, params?.stateName]);
 }
