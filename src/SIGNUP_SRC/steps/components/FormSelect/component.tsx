@@ -20,7 +20,7 @@ export function FormSelect(props: IFormSelect) {
       : props.defaultValue;
   const selectValue = createReactSelectInterface(props.field.value);
 
-  // null ativa o placeholder, string vazia não
+  // falsy ativa o placeholder, string vazia não é falsy
   const value = hasValidValue ? selectValue : null;
 
   return (
@@ -59,7 +59,7 @@ export function FormSelect(props: IFormSelect) {
       }}
       classNames={{
         container: ({ isDisabled }) =>
-          `input-sign ${
+          `input-sign focus-within:outline-1 focus-within:outline-gray-03 focus-within:outline-offset-2 ${
             isDisabled ? "bg-secondary-02 text-gray-02 border-secondary-01" : ""
           }`,
         menu: () => "input-sign",
