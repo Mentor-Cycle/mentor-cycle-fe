@@ -44,9 +44,9 @@ export const Location = () => {
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
   const [cities, setCities] = useState<ICidadesIBGESchema | null>(null);
 
-  useGeoCallbacks("paises", setCountries, console.error);
-  useGeoCallbacks("estados", setStates, console.error);
-  useGeoCallbacks("cidades", setCities, console.error, { stateName: stateName });
+  useGeoCallbacks("paises", { onSuccess: setCountries });
+  useGeoCallbacks("estados", { onSuccess: setStates });
+  useGeoCallbacks("cidades", { onSuccess: setCities, stateName });
 
   const Country = useCountriesFactory(countries, methods);
   const State = useStatesFactory(states, methods, geoStatesOptions);
@@ -102,11 +102,14 @@ export const Location = () => {
       </MultipleInputsContainer>
       <MultipleInputsContainer>
         {/* Cidades */}
-        <InputWrapper grow={1} disabled={!Country.isInBrazil}>
+        <InputWrapper
+          grow={1}
+          disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
+        >
           <InputLabel
             label="Cidade:"
             htmlFor={City.inputId}
-            disabled={!Country.isInBrazil}
+            disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
           />
           <Controller
             name="city"
@@ -116,7 +119,7 @@ export const Location = () => {
                 id={City.inputId}
                 field={field}
                 options={City.options}
-                disabled={!Country.isInBrazil}
+                disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
                 placeholder="Selecione uma cidade"
               />
             )}

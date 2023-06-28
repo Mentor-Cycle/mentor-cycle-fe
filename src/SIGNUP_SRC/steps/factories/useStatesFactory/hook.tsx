@@ -14,15 +14,18 @@ export function useStatesFactory(
   options?: IUseGeoStates | undefined
 ): StatesFactoryMethods {
   const { states: processedStates } = useGeoStates(states, options);
-  const { formState } = useFormMethods;
+  const { formState, watch } = useFormMethods;
   const { errors: fsErrors } = formState;
   const errors = fsErrors.state?.message;
 
+  const state = watch("state");
+  const userAlreadyChooseState = state !== "";
   const inputId = useId();
 
   return {
     inputId,
     errors,
     options: processedStates,
+    userAlreadyChooseState,
   };
 }
