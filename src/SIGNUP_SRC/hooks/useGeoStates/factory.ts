@@ -1,7 +1,7 @@
-import { limitStates, orderStates } from "SIGNUP_SRC/hooks/useGeoStates/methods";
+import { limit, order } from "SIGNUP_SRC/hooks/methods";
 import { IUseGeoStates, States } from "SIGNUP_SRC/hooks/useGeoStates/types";
 
-type GetStatesResponse = { newStates: States };
+type GetStatesResponse = { newStates: States | null };
 
 export function createGeoStates(
   initialStates: States,
@@ -12,11 +12,11 @@ export function createGeoStates(
   if (!options) return { newStates };
 
   if (options.limit) {
-    newStates = limitStates(newStates, options.limit);
+    newStates = limit(newStates, options.limit);
   }
 
   if (options.order) {
-    newStates = orderStates(newStates, options.order);
+    newStates = order(newStates, options.order);
   }
 
   return { newStates };
