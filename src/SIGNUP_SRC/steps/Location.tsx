@@ -72,6 +72,7 @@ export const Location = () => {
                 id={Country.inputId}
                 field={field}
                 options={Country.options ?? null}
+                noOptionsMessage="Nenhum país encontrado."
                 placeholder="Selecione um país"
                 defaultValue="Brasil"
               />
@@ -96,6 +97,7 @@ export const Location = () => {
                 field={field}
                 options={State.options}
                 disabled={userIsNotInBrazil}
+                noOptionsMessage="Nenhum estado encontrado."
                 placeholder="Selecione um estado"
               />
             )}
@@ -120,6 +122,7 @@ export const Location = () => {
                 field={field}
                 options={City.options}
                 disabled={userIsNotInBrazil || userHasNotChosenStateYet}
+                noOptionsMessage="Nenhuma cidade encontrada."
                 placeholder="Selecione uma cidade"
               />
             )}

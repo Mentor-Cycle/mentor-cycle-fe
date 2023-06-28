@@ -20,4 +20,5 @@ export interface IFormSelect {
   defaultValue?: string | ReactSelectInterface;
   disabled?: boolean;
   placeholder?: string;
+  noOptionsMessage?: string;
 }
