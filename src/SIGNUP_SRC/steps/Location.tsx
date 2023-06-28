@@ -18,8 +18,14 @@ import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFact
 import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
 import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
+import { ICidadesIBGESchema } from "SIGNUP_SRC/schemas/cidades";
+import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
+import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 
 const geoStatesOptions: IUseGeoStates = {
+  order: "ascending",
+};
+const useCitiesOptions: IUseGeoCities = {
   order: "ascending",
 };
 
@@ -27,19 +33,24 @@ export const Location = () => {
   const methods = useFormContext<IFormValues>();
 
   const {
-    register,
     control,
     formState: { errors },
+    watch,
   } = methods;
+
+  const stateName = watch("state");
 
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
+  const [cities, setCities] = useState<ICidadesIBGESchema | null>(null);
 
   useGeoCallbacks("paises", setCountries, console.error);
   useGeoCallbacks("estados", setStates, console.error);
+  useGeoCallbacks("cidades", setCities, console.error, { stateName: stateName });
 
   const Country = useCountriesFactory(countries, methods);
   const State = useStatesFactory(states, methods, geoStatesOptions);
+  const City = useCitiesFactory(cities, methods, useCitiesOptions);
   const Skills = useSkillsFactory(methods);
 
   const birthDateId = useId();
@@ -90,12 +101,28 @@ export const Location = () => {
         </InputWrapper>
       </MultipleInputsContainer>
       <MultipleInputsContainer>
-        <Input
-          {...register("city")}
-          errorMessage={errors.city?.message}
-          label="Cidade:"
-          placeholder="Campinas"
-        />
+        {/* Cidades */}
+        <InputWrapper grow={1} disabled={!Country.isInBrazil}>
+          <InputLabel
+            label="Cidade:"
+            htmlFor={City.inputId}
+            disabled={!Country.isInBrazil}
+          />
+          <Controller
+            name="city"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                id={City.inputId}
+                field={field}
+                options={City.options}
+                disabled={!Country.isInBrazil}
+                placeholder="Selecione uma cidade"
+              />
+            )}
+          />
+          <InputErrorMessage errorMessage={City.errors} />
+        </InputWrapper>
 
         <InputWrapper grow={1}>
           <InputLabel label="Data de Nascimento:" htmlFor={birthDateId} />
