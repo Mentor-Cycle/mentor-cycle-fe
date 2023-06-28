@@ -55,6 +55,9 @@ export const Location = () => {
 
   const birthDateId = useId();
 
+  const userIsNotInBrazil = !Country.isInBrazil;
+  const userHasNotChosenStateYet = !State.userAlreadyChooseState;
+
   return (
     <>
       <MultipleInputsContainer>
@@ -78,11 +81,11 @@ export const Location = () => {
         </InputWrapper>
 
         {/* Estados */}
-        <InputWrapper grow={1} disabled={!Country.isInBrazil}>
+        <InputWrapper grow={1} disabled={userIsNotInBrazil}>
           <InputLabel
             label="Estados:"
             htmlFor={State.inputId}
-            disabled={!Country.isInBrazil}
+            disabled={userIsNotInBrazil}
           />
           <Controller
             name="state"
@@ -92,7 +95,7 @@ export const Location = () => {
                 id={State.inputId}
                 field={field}
                 options={State.options}
-                disabled={!Country.isInBrazil}
+                disabled={userIsNotInBrazil}
                 placeholder="Selecione um estado"
               />
             )}
@@ -102,14 +105,11 @@ export const Location = () => {
       </MultipleInputsContainer>
       <MultipleInputsContainer>
         {/* Cidades */}
-        <InputWrapper
-          grow={1}
-          disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
-        >
+        <InputWrapper grow={1} disabled={userIsNotInBrazil || userHasNotChosenStateYet}>
           <InputLabel
             label="Cidade:"
             htmlFor={City.inputId}
-            disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
+            disabled={userIsNotInBrazil || userHasNotChosenStateYet}
           />
           <Controller
             name="city"
@@ -119,7 +119,7 @@ export const Location = () => {
                 id={City.inputId}
                 field={field}
                 options={City.options}
-                disabled={!Country.isInBrazil || !State.userAlreadyChooseState}
+                disabled={userIsNotInBrazil || userHasNotChosenStateYet}
                 placeholder="Selecione uma cidade"
               />
             )}

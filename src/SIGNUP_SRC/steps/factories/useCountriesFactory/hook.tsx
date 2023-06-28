@@ -26,6 +26,7 @@ export function useCountriesFactory(
   useEffect(() => {
     if (actualCountry !== "Brasil") {
       setValue("state", "");
+      setValue("city", "");
     }
   }, [actualCountry]);
 
