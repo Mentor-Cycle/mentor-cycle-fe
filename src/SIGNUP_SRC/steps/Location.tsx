@@ -8,16 +8,20 @@ import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
 import { InputAttributes, PatternFormat, PatternFormatProps } from "react-number-format";
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
-import { useTypedQuery } from "@hooks/useTypedQuery";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import React, { useId, useState } from "react";
 import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 import { IPaisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
 import { IEstadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
 import { FormSelect } from "SIGNUP_SRC/steps/components/FormSelect/component";
-import { logError } from "SIGNUP_SRC/helpers/logError";
-import { useCountriesFactory } from "SIGNUP_SRC/steps/hooks/useCountriesFactory";
+import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
+import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
+import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
+import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
+
+const geoStatesOptions: IUseGeoStates = {
+  order: "ascending",
+};
 
 export const Location = () => {
   const methods = useFormContext<IFormValues>();
@@ -28,67 +32,61 @@ export const Location = () => {
     formState: { errors },
   } = methods;
 
-  const { data: skillsResponse, error: errorSkillsResponse } = useTypedQuery(
-    api.GET_SKILLS
-  );
-  logError({ errorSkillsResponse });
-
   const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
   const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
 
   useGeoCallbacks("paises", setCountries, console.error);
   useGeoCallbacks("estados", setStates, console.error);
 
-  const Countries = useCountriesFactory(countries, methods);
+  const Country = useCountriesFactory(countries, methods);
+  const State = useStatesFactory(states, methods, geoStatesOptions);
+  const Skills = useSkillsFactory(methods);
 
-  const skillsId = useId();
-  const countryId = useId();
-  const stateId = useId();
   const birthDateId = useId();
-
-  const skillsOptions = skillsResponse?.findAllSkills.map((skill) => skill.name) ?? null;
 
   return (
     <>
       <MultipleInputsContainer>
+        {/* Países */}
         <InputWrapper grow={1}>
-          <InputLabel label="País:" htmlFor={countryId} />
+          <InputLabel label="País:" htmlFor={Country.inputId} />
           <Controller
             name="country"
             control={control}
             render={({ field }) => (
               <FormSelect
-                id={countryId}
+                id={Country.inputId}
                 field={field}
-                options={Countries.options ?? null}
+                options={Country.options ?? null}
                 placeholder="Selecione um país"
                 defaultValue="Brasil"
               />
             )}
           />
-          <InputErrorMessage errorMessage={errors.country?.message} />
+          <InputErrorMessage errorMessage={Country.errors} />
         </InputWrapper>
 
-        <InputWrapper grow={1} disabled={!Countries.isInBrazil}>
+        {/* Estados */}
+        <InputWrapper grow={1} disabled={!Country.isInBrazil}>
           <InputLabel
             label="Estados:"
-            htmlFor={stateId}
-            disabled={!Countries.isInBrazil}
+            htmlFor={State.inputId}
+            disabled={!Country.isInBrazil}
           />
           <Controller
             name="state"
             control={control}
             render={({ field }) => (
               <FormSelect
-                id={stateId}
+                id={State.inputId}
                 field={field}
-                options={states}
-                disabled={!Countries.isInBrazil}
+                options={State.options}
+                disabled={!Country.isInBrazil}
                 placeholder="Selecione um estado"
               />
             )}
           />
-          <InputErrorMessage errorMessage={errors.state?.message} />
+          <InputErrorMessage errorMessage={State.errors} />
         </InputWrapper>
       </MultipleInputsContainer>
       <MultipleInputsContainer>
@@ -122,15 +120,15 @@ export const Location = () => {
       </MultipleInputsContainer>
 
       <InputWrapper grow={1}>
-        <InputLabel label="Especializações:" htmlFor={skillsId} />
+        <InputLabel label="Especializações:" htmlFor={Skills.inputId} />
         <Controller
           name="skills"
           control={control}
           render={({ field }) => {
             return (
               <MultiSelect
-                id={skillsId}
-                options={skillsOptions}
+                id={Skills.inputId}
+                options={Skills.options}
                 tabIndex={20}
                 className="input-sign"
                 {...field}
@@ -139,7 +137,7 @@ export const Location = () => {
             );
           }}
         />
-        <InputErrorMessage errorMessage={errors.skills?.message} />
+        <InputErrorMessage errorMessage={Skills.errors} />
       </InputWrapper>
     </>
   );
