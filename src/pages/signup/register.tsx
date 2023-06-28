@@ -12,11 +12,13 @@ import { useRouter } from "next/router";
 import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
+import { FormButton } from "SIGNUP_SRC/components/FormButton/component";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword"],
   1: ["country", "state", "city", "birthDate", "skills"],
-  2: ["linkedin", "github", "description"],
+  2: [],
+  3: ["linkedin", "github", "description"],
 };
 
 const RegisterPage = () => {
@@ -29,7 +31,7 @@ const RegisterPage = () => {
   } = useFormContext<IFormValues>();
 
   const isInFirstStep = formCurrentStep === 0;
-  const isInLastStep = formCurrentStep === 2;
+  const isInLastStep = formCurrentStep === 3;
 
   const formHasErrors = Object.keys(errors).length;
   if (formHasErrors) console.log("FormErrors", errors);
@@ -41,13 +43,14 @@ const RegisterPage = () => {
   const shouldGoForward = !atLeastOneValidationFailed;
 
   const handleActionButton = async () => {
+    if (isInLastStep) return;
+    console.log("handleActionButton");
     const allStepValidations = validationPerStep[formCurrentStep].map((field) =>
       trigger(field)
     );
     const allStepValidationsResult = await Promise.all(allStepValidations);
     const allValidationsPassed = allStepValidationsResult.every(Boolean);
-    if (allValidationsPassed)
-      return setFormCurrentStep((currentStep) => currentStep + 1);
+    if (allValidationsPassed) return setFormCurrentStep((currentStep) => currentStep + 1);
   };
 
   const handleGoBackButton = () => {
@@ -60,6 +63,7 @@ const RegisterPage = () => {
   };
 
   const submitHandler: SubmitHandler<IFormValues> = (formData) => {
+    console.log("submitHandler");
     console.log(formData);
   };
 
@@ -102,26 +106,37 @@ const RegisterPage = () => {
             <div className="space-y-2 mb-3">
               {formCurrentStep === 0 && <Personal />}
               {formCurrentStep === 1 && <Location />}
-              {formCurrentStep === 2 && <Professional />}
+              {formCurrentStep === 2 && <>GoNext</>}
+              {formCurrentStep === 3 && <Professional />}
             </div>
             <MultipleInputsContainer>
-              <button
-                type="button"
-                className="sm:order-none order-1 my-1 px-3 min-h-[3rem] rounded-lg text-neutral-02 focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 basis-0 min-w-0 grow bg-secondary-01 border border-gray-03 font-medium"
+              <FormButton
+                className="sm:order-none order-1 focus:outline-gray-03 bg-secondary-01 border border-gray-03"
                 onClick={handleGoBackButton}
                 tabIndex={30}
               >
                 Voltar
-              </button>
-              <button
-                type={isInLastStep ? "submit" : "button"}
-                className="my-1 px-3 min-h-[3rem] rounded-lg text-neutral-02 focus:outline-1 focus:outline-primary-02 focus:outline-offset-2 bg-primary-03 disabled:bg-primary-04 basis-0 min-w-0 grow font-medium"
-                onClick={() => !isInLastStep && handleActionButton()}
-                disabled={!shouldGoForward}
-                tabIndex={25}
-              >
-                {isInLastStep ? "Enviar" : "Próximo"}
-              </button>
+              </FormButton>
+
+              {isInLastStep && (
+                <FormButton
+                  type="submit"
+                  className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
+                  disabled={!shouldGoForward}
+                >
+                  Enviar
+                </FormButton>
+              )}
+              {!isInLastStep && (
+                <FormButton
+                  className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
+                  onClick={() => !isInLastStep && handleActionButton()}
+                  disabled={!shouldGoForward}
+                  tabIndex={25}
+                >
+                  Próximo
+                </FormButton>
+              )}
             </MultipleInputsContainer>
           </form>
         </CenteredContainer>

@@ -21,9 +21,7 @@ const Providers = ({ children }: Props) => {
   });
 
   return (
-    <MultistepFormContext.Provider
-      value={{ formCurrentStep, setFormCurrentStep }}
-    >
+    <MultistepFormContext.Provider value={{ formCurrentStep, setFormCurrentStep }}>
       <FormProvider {...methods}>{children}</FormProvider>
     </MultistepFormContext.Provider>
   );
