@@ -6,7 +6,6 @@ import {
 } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
-import { InputAttributes, PatternFormat, PatternFormatProps } from "react-number-format";
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import React, { useId, useState } from "react";
 import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
@@ -21,6 +20,7 @@ import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { ICidadesIBGESchema } from "SIGNUP_SRC/schemas/cidades";
 import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
+import { DateInput } from "SIGNUP_SRC/steps/components/DateInput";
 
 const geoStatesOptions: IUseGeoStates = {
   order: "ascending",
@@ -169,24 +169,3 @@ export const Location = () => {
     </>
   );
 };
-
-export interface IDateInput extends PatternFormatProps<InputAttributes> {}
-
-export const DateInput = React.forwardRef<HTMLInputElement, IDateInput>(
-  function DateInputComponent({ className, format, ...rest }, ref) {
-    const _cn = className ? ` ${className}` : "";
-
-    return (
-      <>
-        <input type="hidden" ref={ref} />
-        <PatternFormat
-          valueIsNumericString
-          format="##/##/####"
-          mask="_"
-          className={"" + _cn}
-          {...rest}
-        />
-      </>
-    );
-  }
-);
