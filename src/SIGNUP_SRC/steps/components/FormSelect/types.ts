@@ -21,4 +21,5 @@ export interface IFormSelect {
   disabled?: boolean;
   placeholder?: string;
   noOptionsMessage?: string;
+  isLoading?: boolean;
 }

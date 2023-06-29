@@ -1,11 +1,12 @@
-import { useClickOutside } from "@hooks/useClickOutside";
-import React, { useRef, useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { createReactSelectInterface } from "SIGNUP_SRC/helpers/createReactSelectInterface";
 import {
   IFormSelect,
   OnChangeHandler,
 } from "SIGNUP_SRC/steps/components/FormSelect/types";
+import { motion } from "framer-motion";
+import { animation } from "SIGNUP_SRC/steps/components/FormSelect/animation";
 
 export function FormSelect(props: IFormSelect) {
   const hasValidValue = props.field.value.length;
@@ -23,6 +24,10 @@ export function FormSelect(props: IFormSelect) {
 
   // falsy ativa o placeholder, string vazia não é falsy
   const value = hasValidValue ? selectValue : null;
+
+  if (props.isLoading) {
+    return <motion.div {...animation()} className="input-sign skeleton-wave" />;
+  }
 
   return (
     <Select
