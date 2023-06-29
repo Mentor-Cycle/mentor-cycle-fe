@@ -46,6 +46,7 @@
     "date-fns": "^2.29.3",
     "framer-motion": "^10.12.17",
     "graphql": "^16.6.0",
+    "moment": "^2.29.4",
     "next": "13.1.6",
     "next-themes": "^0.2.1",
     "react": "18.2.0",

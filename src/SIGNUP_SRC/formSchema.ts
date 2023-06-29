@@ -1,4 +1,5 @@
 import { statesObject } from "SIGNUP_SRC/constants";
+import { birthDateSchema } from "SIGNUP_SRC/schema.helpers";
 import { userSchema } from "schemas";
 import { z } from "zod";
 
@@ -16,7 +17,7 @@ export const signupFormSchema = z
     state: userSchema.shape.state,
     country: userSchema.shape.country,
     city: userSchema.shape.city,
-    birthDate: z.string(),
+    birthDate: birthDateSchema,
     skills: userSchema.shape.skills,
     linkedin: userSchema.shape.linkedin,
     github: userSchema.shape.github,
