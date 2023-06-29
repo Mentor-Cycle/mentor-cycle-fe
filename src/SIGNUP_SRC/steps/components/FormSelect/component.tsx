@@ -8,9 +8,6 @@ import {
 } from "SIGNUP_SRC/steps/components/FormSelect/types";
 
 export function FormSelect(props: IFormSelect) {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const wrapperDivRef = useRef<HTMLDivElement | null>(null);
-
   const hasValidValue = props.field.value.length;
 
   const handleOnChange: OnChangeHandler = (newValue) => {
@@ -27,58 +24,49 @@ export function FormSelect(props: IFormSelect) {
   // falsy ativa o placeholder, string vazia não é falsy
   const value = hasValidValue ? selectValue : null;
 
-  useClickOutside(wrapperDivRef, () => setMenuIsOpen(false));
-
   return (
-    <div
-      ref={wrapperDivRef}
-      className="cursor-pointer"
-      onClick={() => !props.disabled && setMenuIsOpen((isOpen) => !isOpen)}
-    >
-      <Select
-        id={props.id}
-        options={props.options ?? []}
-        autoFocus
-        menuIsOpen={menuIsOpen}
-        unstyled
-        noOptionsMessage={() => props.noOptionsMessage}
-        isDisabled={props.disabled}
-        placeholder={props.placeholder}
-        defaultValue={defaultValue}
-        value={value}
-        onChange={handleOnChange}
-        onBlur={props.field.onBlur}
-        styles={{
-          control: (base) => ({
+    <Select
+      id={props.id}
+      options={props.options ?? []}
+      autoFocus
+      unstyled
+      noOptionsMessage={() => props.noOptionsMessage}
+      isDisabled={props.disabled}
+      placeholder={props.placeholder}
+      defaultValue={defaultValue}
+      value={value}
+      onChange={handleOnChange}
+      onBlur={props.field.onBlur}
+      styles={{
+        control: (base) => ({
+          ...base,
+          minHeight: "unset",
+          cursor: "pointer",
+        }),
+        menu: (base) => {
+          return {
             ...base,
-            minHeight: "unset",
-            cursor: "pointer",
-          }),
-          menu: (base) => {
-            return {
-              ...base,
-              left: "-1px",
-              right: "-1px",
-              transform: "translateY(-0.5rem)",
-              borderRadius: "0 0 0.5rem 0.5rem",
-              borderTop: "none",
-              width: "unset",
-            };
-          },
-          menuList: (base) => ({
-            ...base,
-            maxHeight: "18rem",
-          }),
-        }}
-        classNames={{
-          container: ({ isDisabled }) =>
-            `input-sign focus-within:outline-1 focus-within:outline-gray-03 focus-within:outline-offset-2 ${
-              isDisabled ? "bg-secondary-02 text-gray-02 border-secondary-01" : ""
-            }`,
-          menu: () => "input-sign",
-          option: () => "py-2 px-4 hover:bg-secondary-02 rounded-lg hover:cursor-pointer",
-        }}
-      />
-    </div>
+            left: "-1px",
+            right: "-1px",
+            transform: "translateY(-0.5rem)",
+            borderRadius: "0 0 0.5rem 0.5rem",
+            borderTop: "none",
+            width: "unset",
+          };
+        },
+        menuList: (base) => ({
+          ...base,
+          maxHeight: "18rem",
+        }),
+      }}
+      classNames={{
+        container: ({ isDisabled }) =>
+          `input-sign focus-within:outline-1 focus-within:outline-gray-03 focus-within:outline-offset-2 ${
+            isDisabled ? "bg-secondary-02 text-gray-02 border-secondary-01" : ""
+          }`,
+        menu: () => "input-sign",
+        option: () => "py-2 px-4 hover:bg-secondary-02 rounded-lg hover:cursor-pointer",
+      }}
+    />
   );
 }
