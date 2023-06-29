@@ -4,7 +4,7 @@ import {
 } from "SIGNUP_SRC/steps/factories/useStatesFactory/types";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { UseFormReturn } from "react-hook-form";
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import { useGeoStates } from "SIGNUP_SRC/hooks/useGeoStates";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 
@@ -14,13 +14,17 @@ export function useStatesFactory(
   options?: IUseGeoStates | undefined
 ): StatesFactoryMethods {
   const { states: processedStates } = useGeoStates(states, options);
-  const { formState, watch } = useFormMethods;
+  const { formState, watch, setValue } = useFormMethods;
   const { errors: fsErrors } = formState;
   const errors = fsErrors.state?.message;
 
   const state = watch("state");
   const userAlreadyChooseState = state !== "";
   const inputId = useId();
+
+  useEffect(() => {
+    setValue("city", "");
+  }, [state]);
 
   return {
     inputId,
