@@ -26,7 +26,18 @@ export function FormSelect(props: IFormSelect) {
   const value = hasValidValue ? selectValue : null;
 
   if (props.isLoading) {
-    return <motion.div {...animation()} className="input-sign skeleton-wave" />;
+    return (
+      <motion.div {...animation()} className="input-sign skeleton-wave">
+        <p
+          className="leading-6 text-sm"
+          style={{
+            color: "#989898", // gray-02
+          }}
+        >
+          Carregando...
+        </p>
+      </motion.div>
+    );
   }
 
   return (
