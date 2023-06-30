@@ -20,7 +20,7 @@ export function InputSkeleton({ children, animation, ...rest }: InputSkeletonPro
     <Input.Container asChild className={twMerge("skeleton-wave", rest.className)}>
       <motion.div {...rest} {...animationProps}>
         <p
-          className={twMerge("leading-6 text-sm", rest.textClasses)}
+          className={twMerge("text-sm", rest.textClasses, "leading-6")}
           style={{
             color: "#989898", // gray-02
           }}

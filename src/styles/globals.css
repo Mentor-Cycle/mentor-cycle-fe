@@ -33,7 +33,7 @@ a {
 
 @layer components {
   .input-sign {
-    @apply p-3 min-h-[3rem] rounded-lg text-neutral-02 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 bg-secondary-04 border border-gray-05;
+    @apply p-3 min-h-[3rem] rounded-lg text-neutral-02 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 bg-secondary-04 border border-gray-05 placeholder:text-gray-03;
   }
 
   .input-invalid {

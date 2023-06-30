@@ -72,6 +72,7 @@ export function FormSelect(props: IFormSelect) {
           }`,
         menu: () => "input-sign",
         option: () => "py-2 px-4 hover:bg-secondary-02 rounded-lg hover:cursor-pointer",
+        placeholder: () => "text-gray-03",
       }}
     />
   );

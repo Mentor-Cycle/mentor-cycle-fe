@@ -102,7 +102,12 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
             </SelectedOption>
           ))
         ) : (
-          <TextPlaceholderSelect className="text-neutral-400 leading-none">
+          <TextPlaceholderSelect
+            className="leading-none"
+            style={{
+              color: "#7C7C7C", // gray-03
+            }}
+          >
             Selecione uma especialização
           </TextPlaceholderSelect>
         )}
@@ -115,31 +120,33 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
       </SelectInput>
       {isShowingOptionsModal ? (
         <ModalSelectOptions className="p-4 bg-secondary-04 border border-gray-05 border-t-0 z-10">
-          {!showingOptions ? (
-            <ModalTextAllOptionsSelected
-              className="pr-2 pl-4 italic text-sm"
-              style={{ color: "#CECECE" }} // gray-01
-            >
-              Carregando...
-            </ModalTextAllOptionsSelected>
-          ) : showingOptions.length === 0 ? (
-            <ModalTextAllOptionsSelected
-              className="pr-2 pl-4 italic text-sm"
-              style={{ color: "#CECECE" }} // gray-01
-            >
-              {textAllOptionsSelected ?? "Todas opções foram selecionadas."}
-            </ModalTextAllOptionsSelected>
-          ) : (
-            showingOptions.map((option) => (
-              <ModalOption
-                key={option}
-                onClick={handleChooseOption(option)}
-                className="py-2 px-4 hover:bg-secondary-02 rounded-lg"
+          <div className="max-h-[11rem] overflow-y-auto flex flex-col">
+            {!showingOptions ? (
+              <ModalTextAllOptionsSelected
+                className="pr-2 pl-4 italic text-sm"
+                style={{ color: "#CECECE" }} // gray-01
               >
-                <span className="select-none">{option}</span>
-              </ModalOption>
-            ))
-          )}
+                Carregando...
+              </ModalTextAllOptionsSelected>
+            ) : showingOptions.length === 0 ? (
+              <ModalTextAllOptionsSelected
+                className="pr-2 pl-4 italic text-sm"
+                style={{ color: "#CECECE" }} // gray-01
+              >
+                {textAllOptionsSelected ?? "Todas opções foram selecionadas."}
+              </ModalTextAllOptionsSelected>
+            ) : (
+              showingOptions.map((option) => (
+                <ModalOption
+                  key={option}
+                  onClick={handleChooseOption(option)}
+                  className="py-2 px-4 hover:bg-secondary-02 rounded-lg"
+                >
+                  <span className="select-none">{option}</span>
+                </ModalOption>
+              ))
+            )}
+          </div>
         </ModalSelectOptions>
       ) : null}
     </div>
