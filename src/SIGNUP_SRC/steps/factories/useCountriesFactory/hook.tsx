@@ -1,3 +1,4 @@
+import { useGeoFetches } from "SIGNUP_SRC/hooks/useGeoFetches";
 import {
   Countries,
   CountriesFactoryMethods,
@@ -7,13 +8,14 @@ import { useEffect, useId } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 export function useCountriesFactory(
-  countries: Countries,
   useFormMethods: UseFormReturn<IFormValues>
 ): CountriesFactoryMethods {
   const { watch, setValue, formState } = useFormMethods;
   const { errors: fsErrors } = formState;
   const errors = fsErrors.country?.message;
   const inputId = useId();
+
+  const { data: countries, isLoading } = useGeoFetches("paises");
 
   const options = countries?.map((country) => ({
     label: country.nome,
@@ -35,5 +37,6 @@ export function useCountriesFactory(
     inputId,
     isInBrazil,
     errors,
+    isLoading,
   };
 }
