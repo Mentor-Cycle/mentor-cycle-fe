@@ -1,57 +1,35 @@
-import {
-  Input,
-  InputErrorMessage,
-  InputLabel,
-  InputWrapper,
-} from "SIGNUP_SRC/components/Input";
+import { InputErrorMessage, InputLabel, InputWrapper } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import React, { useId, useState } from "react";
-import { useGeoCallbacks } from "SIGNUP_SRC/hooks/useGeoCallbacks";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
-import { IPaisesIBGESchema } from "SIGNUP_SRC/schemas/paises";
-import { IEstadosIBGESchema } from "SIGNUP_SRC/schemas/estados";
 import { FormSelect } from "SIGNUP_SRC/steps/components/FormSelect/component";
-import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
-import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
-import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
-import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
-import { ICidadesIBGESchema } from "SIGNUP_SRC/schemas/cidades";
-import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
-import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { DateInput } from "SIGNUP_SRC/steps/components/DateInput";
+import { CountriesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCountriesFactory/types";
+import { StatesFactoryMethods } from "SIGNUP_SRC/steps/factories/useStatesFactory/types";
+import { CitiesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCitiesFactory/types";
+import { SkillsFactoryMethods } from "SIGNUP_SRC/steps/factories/useSkillsFactory/types";
 
-const geoStatesOptions: IUseGeoStates = {
-  order: "ascending",
-};
-const useCitiesOptions: IUseGeoCities = {
-  order: "ascending",
-};
+export interface LocationProps {
+  countryFactory: CountriesFactoryMethods;
+  stateFactory: StatesFactoryMethods;
+  cityFactory: CitiesFactoryMethods;
+  skillsFactory: SkillsFactoryMethods;
+}
 
-export const Location = () => {
+export const Location = (props: LocationProps) => {
   const methods = useFormContext<IFormValues>();
 
   const {
     control,
     formState: { errors },
-    watch,
   } = methods;
 
-  const stateName = watch("state");
-
-  const [countries, setCountries] = useState<IPaisesIBGESchema | null>(null);
-  const [states, setStates] = useState<IEstadosIBGESchema | null>(null);
-  const [cities, setCities] = useState<ICidadesIBGESchema | null>(null);
-
-  useGeoCallbacks("paises", { onSuccess: setCountries });
-  useGeoCallbacks("estados", { onSuccess: setStates });
-  useGeoCallbacks("cidades", { onSuccess: setCities, stateName });
-
-  const Country = useCountriesFactory(countries, methods);
-  const State = useStatesFactory(states, methods, geoStatesOptions);
-  const City = useCitiesFactory(cities, methods, useCitiesOptions);
-  const Skills = useSkillsFactory(methods);
+  const Country = props.countryFactory;
+  const State = props.stateFactory;
+  const City = props.cityFactory;
+  const Skills = props.skillsFactory;
 
   const birthDateId = useId();
 
@@ -71,6 +49,7 @@ export const Location = () => {
               <FormSelect
                 id={Country.inputId}
                 field={field}
+                isLoading={Country.isLoading}
                 options={Country.options ?? null}
                 noOptionsMessage="Nenhum país encontrado."
                 placeholder="Selecione um país"
@@ -120,6 +99,7 @@ export const Location = () => {
               <FormSelect
                 id={City.inputId}
                 field={field}
+                isLoading={City.isLoading}
                 options={City.options}
                 disabled={userIsNotInBrazil || userHasNotChosenStateYet}
                 noOptionsMessage="Nenhuma cidade encontrada."

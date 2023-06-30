@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { CenteredContainer } from "@components/CenteredContainer";
-import FormSteps from "@components/FormSteps";
 import Stepper from "@components/Stepper/Stepper";
 import StepperVertical from "@components/StepperVertical";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
@@ -13,25 +12,44 @@ import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
 import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
 import { FormButton } from "SIGNUP_SRC/components/FormButton/component";
+import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
+import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
+import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
+import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
+import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
+import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword"],
   1: ["country", "state", "city", "birthDate", "skills"],
-  2: [],
-  3: ["linkedin", "github", "description"],
+  2: ["linkedin", "github", "description"],
+};
+
+const geoStatesOptions: IUseGeoStates = {
+  order: "ascending",
+};
+const geoCitiesOptions: IUseGeoCities = {
+  order: "ascending",
 };
 
 const RegisterPage = () => {
   const router = useRouter();
   const { formCurrentStep, setFormCurrentStep } = useMultistepForm();
+  const methods = useFormContext<IFormValues>();
+
   const {
     handleSubmit,
     trigger,
     formState: { errors },
-  } = useFormContext<IFormValues>();
+  } = methods;
 
   const isInFirstStep = formCurrentStep === 0;
-  const isInLastStep = formCurrentStep === 3;
+  const isInLastStep = formCurrentStep === 2;
+
+  const Country = useCountriesFactory(methods);
+  const State = useStatesFactory(methods, geoStatesOptions);
+  const City = useCitiesFactory(methods, geoCitiesOptions);
+  const Skills = useSkillsFactory(methods);
 
   const formHasErrors = Object.keys(errors).length;
   if (formHasErrors) console.log("FormErrors", errors);
@@ -43,8 +61,6 @@ const RegisterPage = () => {
   const shouldGoForward = !atLeastOneValidationFailed;
 
   const handleActionButton = async () => {
-    if (isInLastStep) return;
-    console.log("handleActionButton");
     const allStepValidations = validationPerStep[formCurrentStep].map((field) =>
       trigger(field)
     );
@@ -105,9 +121,15 @@ const RegisterPage = () => {
           >
             <div className="space-y-2 mb-3">
               {formCurrentStep === 0 && <Personal />}
-              {formCurrentStep === 1 && <Location />}
-              {formCurrentStep === 2 && <>GoNext</>}
-              {formCurrentStep === 3 && <Professional />}
+              {formCurrentStep === 1 && (
+                <Location
+                  cityFactory={City}
+                  countryFactory={Country}
+                  skillsFactory={Skills}
+                  stateFactory={State}
+                />
+              )}
+              {formCurrentStep === 2 && <Professional />}
             </div>
             <MultipleInputsContainer>
               <FormButton
