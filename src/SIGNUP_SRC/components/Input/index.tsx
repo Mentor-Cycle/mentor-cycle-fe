@@ -7,12 +7,14 @@ import { DateInput } from "SIGNUP_SRC/steps/components/DateInput";
 import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import { InputContainer } from "SIGNUP_SRC/components/Input/InputContainer";
 import { InputSkeleton } from "SIGNUP_SRC/components/Input/InputSkeleton";
+import { InputStringAction } from "SIGNUP_SRC/components/Input/InputStringAction";
 
 export const Input = {
   Error: InputErrorMessage,
   Label: InputLabel,
   Root: InputWrapper,
   String: InputString,
+  StringAction: InputStringAction,
   Select: FormSelect,
   Date: DateInput,
   MultiSelect: MultiSelect,

@@ -2,14 +2,27 @@ import { IFormValues } from "SIGNUP_SRC/types";
 import { useFormContext } from "react-hook-form";
 import { Input } from "SIGNUP_SRC/components/Input";
 import { Form } from "SIGNUP_SRC/components/Form";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { Dispatch, SetStateAction, useState } from "react";
+import { IconsProps } from "SIGNUP_SRC/components/Input/InputStringAction";
 
 export const Personal = () => {
   const {
     register,
     formState: { errors },
   } = useFormContext<IFormValues>();
+  const [seeingPassword, setSeeingPassword] = useState(false);
+  const [seeingRepeatPassword, setSeeingRepeatPassword] = useState(false);
 
   const passwordErrors = errors.password?.message ?? errors.repeatPassword?.message;
+
+  const handlePasswordAction = (setState: Dispatch<SetStateAction<boolean>>) => () => {
+    setState((status) => !status);
+  };
+
+  const passwordType = seeingPassword ? "text" : "password";
+  const repeatPasswordType = seeingRepeatPassword ? "text" : "password";
+  const seePasswordIcons = [AiOutlineEye, AiOutlineEyeInvisible] as IconsProps;
 
   return (
     <>
@@ -39,18 +52,24 @@ export const Personal = () => {
         required
       />
       <Form.MultipleInRow>
-        <Input.String
+        <Input.StringAction
           {...register("password")}
-          type="password"
           label="Senha:"
           placeholder="*********"
+          type={passwordType}
+          icons={seePasswordIcons}
+          active={seeingPassword}
+          onAction={handlePasswordAction(setSeeingPassword)}
           required
         />
-        <Input.String
+        <Input.StringAction
           {...register("repeatPassword")}
-          type="password"
           label="Confirmar senha:"
           placeholder="*********"
+          type={repeatPasswordType}
+          icons={seePasswordIcons}
+          active={seeingRepeatPassword}
+          onAction={handlePasswordAction(setSeeingRepeatPassword)}
           required
         />
       </Form.MultipleInRow>
