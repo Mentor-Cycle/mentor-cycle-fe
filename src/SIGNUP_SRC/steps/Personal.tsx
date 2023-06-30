@@ -9,8 +9,7 @@ export const Personal = () => {
     formState: { errors },
   } = useFormContext<IFormValues>();
 
-  const passwordErrors =
-    errors.password?.message ?? errors.repeatPassword?.message;
+  const passwordErrors = errors.password?.message ?? errors.repeatPassword?.message;
 
   return (
     <>
@@ -21,12 +20,14 @@ export const Personal = () => {
           label="Nome:"
           placeholder="Guy"
           autoFocus
+          required
         />
         <Input
           {...register("lastName")}
           errorMessage={errors.lastName?.message}
           label="Sobrenome:"
           placeholder="Hawkins"
+          required
         />
       </MultipleInputsContainer>
       <Input
@@ -35,6 +36,7 @@ export const Personal = () => {
         type="email"
         label="E-mail:"
         placeholder="guyhawkins@mail.com"
+        required
       />
       <MultipleInputsContainer>
         <Input
@@ -42,12 +44,14 @@ export const Personal = () => {
           type="password"
           label="Senha:"
           placeholder="*********"
+          required
         />
         <Input
           {...register("repeatPassword")}
           type="password"
           label="Confirmar senha:"
           placeholder="*********"
+          required
         />
       </MultipleInputsContainer>
       <InputErrorMessage errorMessage={passwordErrors} />

@@ -41,7 +41,7 @@ export const Location = (props: LocationProps) => {
       <MultipleInputsContainer>
         {/* Países */}
         <InputWrapper grow={1}>
-          <InputLabel label="País:" htmlFor={Country.inputId} />
+          <InputLabel label="País:" htmlFor={Country.inputId} required />
           <Controller
             name="country"
             control={control}
@@ -133,7 +133,7 @@ export const Location = (props: LocationProps) => {
       </MultipleInputsContainer>
 
       <InputWrapper grow={1}>
-        <InputLabel label="Especializações:" htmlFor={Skills.inputId} />
+        <InputLabel label="Especializações:" htmlFor={Skills.inputId} required />
         <Controller
           name="skills"
           control={control}

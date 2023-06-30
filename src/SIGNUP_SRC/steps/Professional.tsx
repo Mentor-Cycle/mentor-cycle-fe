@@ -33,7 +33,7 @@ export const Professional = () => {
       />
 
       <InputWrapper grow={1}>
-        <InputLabel label="Descrição:" htmlFor={descriptionId} />
+        <InputLabel label="Descrição:" htmlFor={descriptionId} required />
         <Controller
           name="description"
           control={control}
