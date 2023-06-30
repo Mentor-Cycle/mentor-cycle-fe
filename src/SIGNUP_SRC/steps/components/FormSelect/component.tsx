@@ -6,7 +6,8 @@ import {
   OnChangeHandler,
 } from "SIGNUP_SRC/steps/components/FormSelect/types";
 import { motion } from "framer-motion";
-import { animation } from "SIGNUP_SRC/steps/components/FormSelect/animation";
+import { skeletonDefaultAnimation } from "SIGNUP_SRC/steps/components/default-animations/Skeleton";
+import { Input } from "SIGNUP_SRC/components/Input";
 
 export function FormSelect(props: IFormSelect) {
   const hasValidValue = props.field.value.length;
@@ -26,18 +27,7 @@ export function FormSelect(props: IFormSelect) {
   const value = hasValidValue ? selectValue : null;
 
   if (props.isLoading) {
-    return (
-      <motion.div {...animation()} className="input-sign skeleton-wave">
-        <p
-          className="leading-6 text-sm"
-          style={{
-            color: "#989898", // gray-02
-          }}
-        >
-          Carregando...
-        </p>
-      </motion.div>
-    );
+    return <Input.Skeleton />;
   }
 
   return (

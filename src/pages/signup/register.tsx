@@ -10,14 +10,13 @@ import { SubmitHandler, useFormContext } from "react-hook-form";
 import { useRouter } from "next/router";
 import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
-import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
-import { FormButton } from "SIGNUP_SRC/components/FormButton/component";
 import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
 import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
 import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
 import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
+import { Form } from "SIGNUP_SRC/components/Form";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword"],
@@ -131,35 +130,35 @@ const RegisterPage = () => {
               )}
               {formCurrentStep === 2 && <Professional />}
             </div>
-            <MultipleInputsContainer>
-              <FormButton
+            <Form.MultipleInRow>
+              <Form.Button
                 className="sm:order-none order-1 focus:outline-gray-03 bg-secondary-01 border border-gray-03"
                 onClick={handleGoBackButton}
                 tabIndex={30}
               >
                 Voltar
-              </FormButton>
+              </Form.Button>
 
               {isInLastStep && (
-                <FormButton
+                <Form.Button
                   type="submit"
                   className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
                   disabled={!shouldGoForward}
                 >
                   Enviar
-                </FormButton>
+                </Form.Button>
               )}
               {!isInLastStep && (
-                <FormButton
+                <Form.Button
                   className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
                   onClick={() => !isInLastStep && handleActionButton()}
                   disabled={!shouldGoForward}
                   tabIndex={25}
                 >
                   Próximo
-                </FormButton>
+                </Form.Button>
               )}
-            </MultipleInputsContainer>
+            </Form.MultipleInRow>
           </form>
         </CenteredContainer>
       </section>

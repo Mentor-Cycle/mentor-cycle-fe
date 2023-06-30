@@ -1,15 +1,12 @@
-import { InputErrorMessage, InputLabel, InputWrapper } from "SIGNUP_SRC/components/Input";
+import { Input } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
-import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
-import React, { useId, useState } from "react";
-import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
-import { FormSelect } from "SIGNUP_SRC/steps/components/FormSelect/component";
-import { DateInput } from "SIGNUP_SRC/steps/components/DateInput";
+import React, { useId } from "react";
 import { CountriesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCountriesFactory/types";
 import { StatesFactoryMethods } from "SIGNUP_SRC/steps/factories/useStatesFactory/types";
 import { CitiesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCitiesFactory/types";
 import { SkillsFactoryMethods } from "SIGNUP_SRC/steps/factories/useSkillsFactory/types";
+import { Form } from "SIGNUP_SRC/components/Form";
 
 export interface LocationProps {
   countryFactory: CountriesFactoryMethods;
@@ -38,15 +35,15 @@ export const Location = (props: LocationProps) => {
 
   return (
     <>
-      <MultipleInputsContainer>
+      <Form.MultipleInRow>
         {/* Países */}
-        <InputWrapper grow={1}>
-          <InputLabel label="País:" htmlFor={Country.inputId} required />
+        <Input.Root grow={1}>
+          <Input.Label label="País:" htmlFor={Country.inputId} required />
           <Controller
             name="country"
             control={control}
             render={({ field }) => (
-              <FormSelect
+              <Input.Select
                 id={Country.inputId}
                 field={field}
                 isLoading={Country.isLoading}
@@ -57,12 +54,12 @@ export const Location = (props: LocationProps) => {
               />
             )}
           />
-          <InputErrorMessage errorMessage={Country.errors} />
-        </InputWrapper>
+          <Input.Error errorMessage={Country.errors} />
+        </Input.Root>
 
         {/* Estados */}
-        <InputWrapper grow={1} disabled={userIsNotInBrazil}>
-          <InputLabel
+        <Input.Root grow={1} disabled={userIsNotInBrazil}>
+          <Input.Label
             label="Estados:"
             htmlFor={State.inputId}
             disabled={userIsNotInBrazil}
@@ -71,7 +68,7 @@ export const Location = (props: LocationProps) => {
             name="state"
             control={control}
             render={({ field }) => (
-              <FormSelect
+              <Input.Select
                 id={State.inputId}
                 field={field}
                 options={State.options}
@@ -81,13 +78,13 @@ export const Location = (props: LocationProps) => {
               />
             )}
           />
-          <InputErrorMessage errorMessage={State.errors} />
-        </InputWrapper>
-      </MultipleInputsContainer>
-      <MultipleInputsContainer>
+          <Input.Error errorMessage={State.errors} />
+        </Input.Root>
+      </Form.MultipleInRow>
+      <Form.MultipleInRow>
         {/* Cidades */}
-        <InputWrapper grow={1} disabled={userIsNotInBrazil || userHasNotChosenStateYet}>
-          <InputLabel
+        <Input.Root grow={1} disabled={userIsNotInBrazil || userHasNotChosenStateYet}>
+          <Input.Label
             label="Cidade:"
             htmlFor={City.inputId}
             disabled={userIsNotInBrazil || userHasNotChosenStateYet}
@@ -96,7 +93,7 @@ export const Location = (props: LocationProps) => {
             name="city"
             control={control}
             render={({ field }) => (
-              <FormSelect
+              <Input.Select
                 id={City.inputId}
                 field={field}
                 isLoading={City.isLoading}
@@ -107,16 +104,16 @@ export const Location = (props: LocationProps) => {
               />
             )}
           />
-          <InputErrorMessage errorMessage={City.errors} />
-        </InputWrapper>
+          <Input.Error errorMessage={City.errors} />
+        </Input.Root>
 
-        <InputWrapper grow={1}>
-          <InputLabel label="Data de Nascimento:" htmlFor={birthDateId} />
+        <Input.Root grow={1}>
+          <Input.Label label="Data de Nascimento:" htmlFor={birthDateId} />
           <Controller
             name="birthDate"
             control={control}
             render={({ field: { value, ...rest } }) => (
-              <DateInput
+              <Input.Date
                 id={birthDateId}
                 valueIsNumericString
                 format="##/##/####"
@@ -128,21 +125,22 @@ export const Location = (props: LocationProps) => {
               />
             )}
           />
-          <InputErrorMessage errorMessage={errors.birthDate?.message} />
-        </InputWrapper>
-      </MultipleInputsContainer>
+          <Input.Error errorMessage={errors.birthDate?.message} />
+        </Input.Root>
+      </Form.MultipleInRow>
 
-      <InputWrapper grow={1}>
-        <InputLabel label="Especializações:" htmlFor={Skills.inputId} required />
+      <Input.Root grow={1}>
+        <Input.Label label="Especializações:" htmlFor={Skills.inputId} required />
         <Controller
           name="skills"
           control={control}
           render={({ field }) => {
             return (
-              <MultiSelect
+              <Input.MultiSelect
                 id={Skills.inputId}
                 options={Skills.options}
                 tabIndex={20}
+                isLoading={Skills.isLoading}
                 className="input-sign"
                 {...field}
                 ref={null}
@@ -150,8 +148,8 @@ export const Location = (props: LocationProps) => {
             );
           }}
         />
-        <InputErrorMessage errorMessage={Skills.errors} />
-      </InputWrapper>
+        <Input.Error errorMessage={Skills.errors} />
+      </Input.Root>
     </>
   );
 };

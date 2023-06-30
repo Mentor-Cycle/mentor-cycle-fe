@@ -1,7 +1,7 @@
-import { Input, InputErrorMessage } from "SIGNUP_SRC/components/Input";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { useFormContext } from "react-hook-form";
-import { MultipleInputsContainer } from "SIGNUP_SRC/components/Input/MultipleInputsContainer";
+import { Input } from "SIGNUP_SRC/components/Input";
+import { Form } from "SIGNUP_SRC/components/Form";
 
 export const Personal = () => {
   const {
@@ -13,8 +13,8 @@ export const Personal = () => {
 
   return (
     <>
-      <MultipleInputsContainer>
-        <Input
+      <Form.MultipleInRow>
+        <Input.String
           {...register("firstName")}
           errorMessage={errors.firstName?.message}
           label="Nome:"
@@ -22,15 +22,15 @@ export const Personal = () => {
           autoFocus
           required
         />
-        <Input
+        <Input.String
           {...register("lastName")}
           errorMessage={errors.lastName?.message}
           label="Sobrenome:"
           placeholder="Hawkins"
           required
         />
-      </MultipleInputsContainer>
-      <Input
+      </Form.MultipleInRow>
+      <Input.String
         {...register("email")}
         errorMessage={errors.email?.message}
         type="email"
@@ -38,23 +38,23 @@ export const Personal = () => {
         placeholder="guyhawkins@mail.com"
         required
       />
-      <MultipleInputsContainer>
-        <Input
+      <Form.MultipleInRow>
+        <Input.String
           {...register("password")}
           type="password"
           label="Senha:"
           placeholder="*********"
           required
         />
-        <Input
+        <Input.String
           {...register("repeatPassword")}
           type="password"
           label="Confirmar senha:"
           placeholder="*********"
           required
         />
-      </MultipleInputsContainer>
-      <InputErrorMessage errorMessage={passwordErrors} />
+      </Form.MultipleInRow>
+      <Input.Error errorMessage={passwordErrors} />
     </>
   );
 };

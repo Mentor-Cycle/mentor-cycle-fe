@@ -17,7 +17,7 @@ const Providers = ({ children }: Props) => {
   const methods = useForm<IFormValues>({
     defaultValues,
     mode: "onTouched",
-    // resolver: zodResolver(signupFormSchema),
+    resolver: zodResolver(signupFormSchema),
   });
 
   return (

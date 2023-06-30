@@ -13,7 +13,7 @@ export function useSkillsFactory(
   const { errors: fsErrors } = formState;
   const errors = fsErrors.skills?.message;
 
-  const { data: skillsResponse, error } = useTypedQuery(api.GET_SKILLS);
+  const { data: skillsResponse, error, loading } = useTypedQuery(api.GET_SKILLS);
   logError({ "Location/createSkillsFactory/useTypedQuery": error });
 
   const inputId = useId();
@@ -23,5 +23,6 @@ export function useSkillsFactory(
     options,
     inputId,
     errors,
+    isLoading: loading,
   };
 }

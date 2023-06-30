@@ -11,6 +11,7 @@ import { ButtonRemoveSelectedOption } from "./ButtonRemoveSelectedOption";
 import { SelectInput } from "./SelectInput";
 import { TextPlaceholderSelect } from "./TextPlaceholderSelect";
 import { ControllerRenderProps } from "react-hook-form";
+import { Input } from "SIGNUP_SRC/components/Input";
 
 interface ISelect
   extends Omit<HTMLAttributes<HTMLDivElement>, "onBlur" | "onChange" | "ref">,
@@ -19,10 +20,12 @@ interface ISelect
   textAllOptionsSelected?: string;
   clearAllOptionButton?: boolean;
   value: string[];
+  isLoading?: boolean;
 }
 
 export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectComponent(
   {
+    isLoading,
     options,
     textAllOptionsSelected,
     clearAllOptionButton,
@@ -64,6 +67,10 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
   };
 
   useClickOutside(SelectRef, () => setIsShowingOptionsModal(false));
+
+  if (isLoading) {
+    return <Input.Skeleton />;
+  }
 
   return (
     <div
