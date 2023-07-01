@@ -1,7 +1,7 @@
-import { MotionProps, Transition } from "framer-motion";
+import { MotionProps } from "framer-motion";
 
-export const skeletonDefaultAnimation = (props?: Transition): MotionProps => {
-  const { duration = 1, ...rest } = props ?? {};
+export const skeletonDefaultAnimation = (props?: { duration: number }): MotionProps => {
+  const { duration = 1 } = props ?? {};
 
   return {
     animate: {
@@ -15,7 +15,6 @@ export const skeletonDefaultAnimation = (props?: Transition): MotionProps => {
       repeatType: "reverse",
       ease: "easeInOut",
       duration,
-      ...rest,
     },
   };
 };
