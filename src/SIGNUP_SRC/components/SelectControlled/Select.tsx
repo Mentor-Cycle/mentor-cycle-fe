@@ -12,10 +12,10 @@ import { SelectInput } from "./SelectInput";
 import { TextPlaceholderSelect } from "./TextPlaceholderSelect";
 import { ControllerRenderProps } from "react-hook-form";
 import { Input } from "SIGNUP_SRC/components/Input";
+import { OverrideConflict } from "types/overrideConflictTypes";
 
 interface ISelect
-  extends Omit<HTMLAttributes<HTMLDivElement>, "onBlur" | "onChange" | "ref">,
-    ControllerRenderProps {
+  extends OverrideConflict<HTMLAttributes<HTMLDivElement>, ControllerRenderProps> {
   options?: string[] | null;
   textAllOptionsSelected?: string;
   clearAllOptionButton?: boolean;

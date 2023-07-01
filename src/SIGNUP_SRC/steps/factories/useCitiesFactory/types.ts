@@ -1,8 +1,13 @@
 import { ICidadesIBGESchema } from "SIGNUP_SRC/schemas/cidades";
 import { InputId, Errors, SelectOptions, Loading } from "SIGNUP_SRC/types/units/useGeo";
+import { Pretify } from "types/helpers";
 
 export type CitiesAPI = ICidadesIBGESchema | null;
 
-export interface CitiesFactoryMethods extends InputId, Errors, SelectOptions, Loading {
+export type CitiesFactoryMethods = Pretify<
+  InputId & Errors & SelectOptions & Loading & CustomMethods
+>;
+
+type CustomMethods = {
   stateName?: string;
-}
+};

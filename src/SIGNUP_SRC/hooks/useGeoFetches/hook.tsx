@@ -1,24 +1,11 @@
 import { whichFetchIndex } from "SIGNUP_SRC/hooks/useGeoFetches/fetchesIndex";
-import { getStateUF } from "SIGNUP_SRC/hooks/useGeoFetches/helpers";
+import {
+  FetchType,
+  FetchesParams,
+  GeoFetchesResponse,
+  WhichFetchKeys,
+} from "SIGNUP_SRC/hooks/useGeoFetches/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { z } from "zod";
-
-export type WhichFetch = typeof whichFetchIndex;
-export type WhichFetchKeys = keyof WhichFetch;
-
-export type FetchType<T extends WhichFetchKeys> = {
-  [K in WhichFetchKeys]: z.infer<WhichFetch[K]["schema"]>;
-}[T];
-
-export interface GeoFetchesResponse<T extends WhichFetchKeys> {
-  data: FetchType<T> | null;
-  isLoading: boolean;
-  error: unknown | null;
-}
-
-export interface FetchesParams {
-  stateName?: string;
-}
 
 export function useGeoFetches<T extends WhichFetchKeys>(
   fetchType: T,
@@ -31,8 +18,8 @@ export function useGeoFetches<T extends WhichFetchKeys>(
 
   const { generateURL, schema } = whichFetchIndex[fetchType];
 
-  const stateName = useMemo(() => getStateUF(params?.stateName), [params?.stateName]);
-  const URL = useMemo(() => generateURL(stateName), [stateName]);
+  const stateName = params?.stateName;
+  const URL = useMemo(() => generateURL(stateName ?? "STATE_NOT_FOUND"), [stateName]);
 
   const fetchData = useCallback(async () => {
     try {
