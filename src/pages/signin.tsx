@@ -30,9 +30,7 @@ const SignIn: NextPage = () => {
   const { setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const hasAgreedToTermsAndPrivacy = localStorage.getItem(
-      "hasAgreedToTermsAndPrivacy"
-    );
+    const hasAgreedToTermsAndPrivacy = localStorage.getItem("hasAgreedToTermsAndPrivacy");
     if (!hasAgreedToTermsAndPrivacy) {
       setTimeout(() => {
         setOpen(true);
@@ -44,9 +42,7 @@ const SignIn: NextPage = () => {
     e.preventDefault();
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { email, password, rememberMe } = Object.fromEntries(
-      formData.entries()
-    );
+    const { email, password, rememberMe } = Object.fromEntries(formData.entries());
 
     const isValid = refForm.current?.checkValidity();
 
@@ -99,8 +95,7 @@ const SignIn: NextPage = () => {
             Comece o seu aprendizado por aqui!
           </h2>
           <p className="text-neutral-01 mt-2 text-sm sm:text-base text-center md:text-left p-2 sm:p-0 2xl:text-xl">
-            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
-            dúvidas.
+            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem dúvidas.
           </p>
         </div>
         <div className="absolute hidden md:block md:bottom-3 md:-right-11">
@@ -186,7 +181,7 @@ const SignIn: NextPage = () => {
             <p className="text-primary-05 dark:text-neutral-01 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
               Não tem uma conta?{" "}
               <Link
-                href="/signup/plan"
+                href="/signup/register"
                 className="text-primary-03 dark:text-primary-01 hover:text-primary-02 dark:hover:text-primary-03"
               >
                 Se registre aqui!

@@ -22,8 +22,7 @@ const FormSteps: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean | undefined>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const { formData, currentStep, updateCurrentStep, getIsAllowedToGoNext } =
-    useForm();
+  const { formData, currentStep, updateCurrentStep, getIsAllowedToGoNext } = useForm();
   const [createUser] = useMutation(CREATE_USER);
   const router = useRouter();
 
@@ -116,10 +115,7 @@ const FormSteps: React.FC = () => {
       </div>
       <div className="flex flex-col sm:flex sm:flex-row justify-center items-center gap-4 mb-10 sm:justify-end">
         <Button
-          className={clsx(
-            currentStep === 1 ? "hidden" : "",
-            "order-last sm:order-first"
-          )}
+          className={clsx(currentStep === 1 ? "hidden" : "", "order-last sm:order-first")}
           variant="secondary"
           onClick={() => updateCurrentStep((currentStep || 2) - 1)}
         >
@@ -127,12 +123,9 @@ const FormSteps: React.FC = () => {
         </Button>
         <Button
           tabIndex={2}
-          className={clsx(
-            currentStep === 1 ? "" : "hidden",
-            "order-last sm:order-first"
-          )}
+          className={clsx(currentStep === 1 ? "" : "hidden", "order-last sm:order-first")}
           variant="secondary"
-          onClick={() => router.push("/signup/plan")}
+          onClick={() => router.push("/signup/register")}
         >
           Voltar
         </Button>
@@ -148,9 +141,7 @@ const FormSteps: React.FC = () => {
             }
           }}
           disabled={
-            !isValid ||
-            isSubmitting ||
-            (currentStep === 1 && !getIsAllowedToGoNext())
+            !isValid || isSubmitting || (currentStep === 1 && !getIsAllowedToGoNext())
           }
         >
           {currentStep === 3 ? "Finalizar" : "Próximo"}

@@ -13,6 +13,7 @@ interface Props {
 
 const Providers = ({ children }: Props) => {
   const [formCurrentStep, setFormCurrentStep] = useState(0);
+  const [isChoosingPlan, setIsChoosingPlan] = useState(true);
 
   const methods = useForm<IFormValues>({
     defaultValues,
@@ -21,7 +22,9 @@ const Providers = ({ children }: Props) => {
   });
 
   return (
-    <MultistepFormContext.Provider value={{ formCurrentStep, setFormCurrentStep }}>
+    <MultistepFormContext.Provider
+      value={{ formCurrentStep, setFormCurrentStep, isChoosingPlan, setIsChoosingPlan }}
+    >
       <FormProvider {...methods}>{children}</FormProvider>
     </MultistepFormContext.Provider>
   );

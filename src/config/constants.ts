@@ -1,9 +1,7 @@
-export const IBGE_PLACES_API_URL =
-  "https://servicodados.ibge.gov.br/api/v1/localidades";
+export const IBGE_PLACES_API_URL = "https://servicodados.ibge.gov.br/api/v1/localidades";
 
 export const PUBLIC_ROUTES = [
   "/signin",
-  "/signup/plan",
   "/signup/register",
   "/request-change-password",
   // "/mentors",
@@ -12,7 +10,6 @@ export const PUBLIC_ROUTES = [
 export const ROUTES_WITHOUT_HEADER = [
   "/signin",
   "/signup/register",
-  "/signup/plan",
   "/request-change-password",
   "/",
   "/landing-page",
