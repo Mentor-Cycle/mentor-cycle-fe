@@ -1,16 +1,15 @@
-import { statesObject } from "SIGNUP_SRC/constants";
-import { birthDateSchema } from "SIGNUP_SRC/schema.helpers";
+import {
+  birthDateSchema,
+  firstNameSchema,
+  lastNameSchema,
+} from "SIGNUP_SRC/forms/signup/validations";
 import { userSchema } from "schemas";
 import { z } from "zod";
 
 export const signupFormSchema = z
   .object({
-    firstName: userSchema.shape.firstName
-      .min(2, "Nome muito curto.")
-      .max(20, "Nome muito longo."),
-    lastName: userSchema.shape.lastName
-      .min(2, "Nome muito curto.")
-      .max(20, "Nome muito longo."),
+    firstName: firstNameSchema,
+    lastName: lastNameSchema,
     email: userSchema.shape.email,
     password: userSchema.shape.password,
     repeatPassword: userSchema.shape.password,
@@ -31,13 +30,4 @@ export const signupFormSchema = z
         path: ["repeatPassword"],
         message: "As senhas não coincidem.",
       });
-  })
-  .transform((obj) => {
-    const foundState = statesObject.find(({ label }) => obj.state === label);
-    const newState = foundState?.value ?? obj.state;
-
-    return {
-      ...obj,
-      state: newState,
-    };
   });
