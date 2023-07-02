@@ -67,16 +67,18 @@ export const Location = (props: LocationProps) => {
           <Controller
             name="state"
             control={control}
-            render={({ field }) => (
-              <Input.Select
-                id={State.inputId}
-                field={field}
-                options={State.options}
-                disabled={userIsNotInBrazil}
-                noOptionsMessage="Nenhum estado encontrado."
-                placeholder="Selecione um estado"
-              />
-            )}
+            render={({ field }) => {
+              return (
+                <Input.Select
+                  id={State.inputId}
+                  field={State.getFieldController(field)}
+                  options={State.options}
+                  disabled={userIsNotInBrazil}
+                  noOptionsMessage="Nenhum estado encontrado."
+                  placeholder="Selecione um estado"
+                />
+              );
+            }}
           />
           <Input.Error errorMessage={State.errors} />
         </Input.Root>

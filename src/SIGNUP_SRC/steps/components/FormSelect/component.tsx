@@ -5,15 +5,16 @@ import {
   IFormSelect,
   OnChangeHandler,
 } from "SIGNUP_SRC/steps/components/FormSelect/types";
-import { motion } from "framer-motion";
-import { skeletonDefaultAnimation } from "SIGNUP_SRC/steps/components/default-animations/Skeleton";
 import { Input } from "SIGNUP_SRC/components/Input";
+import { FieldPath } from "react-hook-form";
+import { IFormValues } from "SIGNUP_SRC/types";
 
-export function FormSelect(props: IFormSelect) {
-  const hasValidValue = props.field.value.length;
+export function FormSelect<T extends FieldPath<IFormValues>>(props: IFormSelect<T>) {
+  const fieldValue = props.field.value as string;
+  const hasValidValue = fieldValue.length;
 
   const handleOnChange: OnChangeHandler = (newValue) => {
-    props.field.onChange(newValue?.label ?? "");
+    props.field.onChange(newValue?.value ?? "");
     // return props.onChange(newValue);
   };
 
@@ -21,7 +22,7 @@ export function FormSelect(props: IFormSelect) {
     typeof props.defaultValue === "string"
       ? createReactSelectInterface(props.defaultValue)
       : props.defaultValue;
-  const selectValue = createReactSelectInterface(props.field.value);
+  const selectValue = createReactSelectInterface(fieldValue);
 
   // falsy ativa o placeholder, string vazia não é falsy
   const value = hasValidValue ? selectValue : null;

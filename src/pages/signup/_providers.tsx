@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { IFormValues } from "SIGNUP_SRC/types";
 import { defaultValues } from "SIGNUP_SRC/constants";
-import { signupFormSchema } from "SIGNUP_SRC/formSchema";
+import { signupFormSchema } from "SIGNUP_SRC/forms/signup";
 import { MultistepFormContext } from "SIGNUP_SRC/hooks/useMultistepForm";
 import { useState } from "react";
 
