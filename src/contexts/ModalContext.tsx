@@ -1,3 +1,4 @@
+import ModalSettings from "@components/Modal/ModalSettings";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Defina o tipo para o estado do ModalContext
@@ -51,6 +52,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <ModalContext.Provider value={contextValue}>
       {children}
+      <ModalSettings />
     </ModalContext.Provider>
   );
 };

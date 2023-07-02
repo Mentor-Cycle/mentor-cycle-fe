@@ -3,20 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
 import NavBar from "@components/NavBar/NavBar";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
 import ModalNotifications from "./ModalNotifications";
-import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { removeTypenameProperty } from "utils/removeTypename";
 import Modal from "@components/Modal/Modal";
+import { useModal } from "contexts/ModalContext";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -32,11 +32,12 @@ const DynamicThemedImage = dynamic(
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [setIsModalOpen] = useState(false);
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
   const [showModal, setShowModal] = useState<string>();
+  const { openModal } = useModal();
 
-  const { loading, error: errorMe } = useTypedQuery(api.GET_ME, {
+  const { error: errorMe } = useTypedQuery(api.GET_ME, {
     skip: user.isLogged,
     onCompleted(data) {
       const me = removeTypenameProperty(data.me);
@@ -78,7 +79,6 @@ export default function Header() {
     settings: () => {
       setShowModal("settings");
       setToggleMenuProfile(false);
-      setIsModalOpen(true);
     },
     logout: logOutUser(),
   };
@@ -90,7 +90,7 @@ export default function Header() {
     }
   };
 
-  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+  const { isLogged, firstName, photoUrl, isMentor } = user;
 
   const userIsLogged = isLogged ? "/dashboard" : "/signin";
 
@@ -104,6 +104,13 @@ export default function Header() {
       console.error("Error ao definir o tema:", error);
     }
   };
+
+  useEffect(() => {
+    if (showModal === "settings") {
+      openModal("settingsModal");
+      setShowModal("");
+    }
+  }, [showModal, openModal]);
 
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">
@@ -185,18 +192,6 @@ export default function Header() {
         {showModal === "notifications" && (
           <Modal open={true} onOpenChange={() => setShowModal("")}>
             {<ModalNotifications setShowModal={setShowModal} />}
-          </Modal>
-        )}
-        {showModal === "settings" && (
-          <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
-            <ModalSettings
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              firstName={firstName}
-              email={email}
-              id={id}
-              lastName={lastName}
-            />
           </Modal>
         )}
       </div>
