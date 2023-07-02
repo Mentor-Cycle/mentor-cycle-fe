@@ -49,3 +49,4 @@ export const groupEventsByDay = (events: IEvents[]): IGroupEventsByDay => {
     );
     return eventsGroupedByDay;
   }, {} as IGroupEventsByDay);
+};

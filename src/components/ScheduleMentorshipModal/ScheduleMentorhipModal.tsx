@@ -202,7 +202,7 @@ export const ScheduleMentorshipModal = ({
     if (close) {
       setOpen(false);
     }
-    await refetchAvailabitities();
+    await refetchAvailabilities();
   };
 
   const getDateNamePhrase = (date: Date) => {
