@@ -22,6 +22,9 @@ export const signupFormSchema = z
     github: userSchema.shape.github,
     description: userSchema.shape.description,
     isMentor: userSchema.shape.isMentor,
+    isTermsAccepted: z
+      .boolean()
+      .refine(Boolean, "Você deve aceitar os termos de serviço para prosseguir."),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.repeatPassword)

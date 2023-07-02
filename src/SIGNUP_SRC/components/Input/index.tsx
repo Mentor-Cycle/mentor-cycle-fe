@@ -8,6 +8,7 @@ import { Select as MultiSelect } from "SIGNUP_SRC/components/SelectControlled";
 import { InputContainer } from "SIGNUP_SRC/components/Input/InputContainer";
 import { InputSkeleton } from "SIGNUP_SRC/components/Input/InputSkeleton";
 import { InputStringAction } from "SIGNUP_SRC/components/Input/InputStringAction";
+import { InputCheckbox } from "SIGNUP_SRC/components/Input/InputCheckbox";
 
 export const Input = {
   Error: InputErrorMessage,
@@ -20,4 +21,5 @@ export const Input = {
   MultiSelect: MultiSelect,
   Container: InputContainer,
   Skeleton: InputSkeleton,
+  Checkbox: InputCheckbox,
 };

@@ -18,7 +18,7 @@ import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
-  0: ["firstName", "lastName", "email", "password", "repeatPassword"],
+  0: ["firstName", "lastName", "email", "password", "repeatPassword", "isTermsAccepted"],
   1: ["country", "state", "city", "birthDate", "skills"],
   2: ["linkedin", "github", "description"],
 };
@@ -31,7 +31,6 @@ const geoCitiesOptions: IUseGeoCities = {
 };
 
 export const RegisterPage = () => {
-  const router = useRouter();
   const { formCurrentStep, setFormCurrentStep, setIsChoosingPlan } = useMultistepForm();
   const methods = useFormContext<IFormValues>();
 
@@ -117,7 +116,7 @@ export const RegisterPage = () => {
             onSubmit={handleSubmit(submitHandler)}
             className="w-full m-auto lg:m-0 mb-24 lg:max-w-none max-w-[48rem]"
           >
-            <div className="space-y-2 mb-3">
+            <div className="mb-3">
               {formCurrentStep === 0 && <Personal />}
               {formCurrentStep === 1 && (
                 <Location

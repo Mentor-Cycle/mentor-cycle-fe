@@ -15,6 +15,7 @@ export const defaultValues: IFormValues = {
   repeatPassword: "",
   skills: [],
   state: "",
+  isTermsAccepted: false,
 };
 
 export const statesObject = [

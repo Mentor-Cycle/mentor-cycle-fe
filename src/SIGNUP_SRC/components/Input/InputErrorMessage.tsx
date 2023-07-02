@@ -26,7 +26,7 @@ export function InputErrorMessage({
           {...rest}
           {...animationProps}
           className={twMerge(
-            "mt-2 relative text-sm text-red-400 bg-primary-04/50 text-primary-02 p-2 leading-none rounded-lg",
+            "mt-2 relative text-sm text-red-400 bg-primary-04/50 text-primary-02 p-2 rounded-lg",
             rest.className
           )}
           style={{

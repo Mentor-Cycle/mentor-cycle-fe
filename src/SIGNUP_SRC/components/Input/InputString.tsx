@@ -9,6 +9,7 @@ interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   asChild?: boolean;
   grow?: number;
   required?: boolean;
+  rootClasses?: string;
 }
 
 export const InputString = React.forwardRef<HTMLInputElement, IInput>(
@@ -22,6 +23,7 @@ export const InputString = React.forwardRef<HTMLInputElement, IInput>(
       label,
       children,
       tabIndex = 20,
+      rootClasses,
       ...rest
     },
     ref
@@ -30,7 +32,7 @@ export const InputString = React.forwardRef<HTMLInputElement, IInput>(
     const Component = asChild ? Slot : "input";
 
     return (
-      <Input.Root grow={grow}>
+      <Input.Root grow={grow} className={rootClasses}>
         <Input.Label label={label} htmlFor={inputId} required={required} />
         <Component
           {...rest}
