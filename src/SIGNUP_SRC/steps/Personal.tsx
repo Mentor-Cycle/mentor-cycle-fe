@@ -1,20 +1,23 @@
 import { IFormValues } from "SIGNUP_SRC/types";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { Input } from "SIGNUP_SRC/components/Input";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useId, useState } from "react";
 import { IconsProps } from "SIGNUP_SRC/components/Input/InputStringAction";
 
 export const Personal = () => {
   const {
     register,
     formState: { errors },
+    control,
   } = useFormContext<IFormValues>();
   const [seeingPassword, setSeeingPassword] = useState(false);
   const [seeingRepeatPassword, setSeeingRepeatPassword] = useState(false);
 
   const passwordErrors = errors.password?.message ?? errors.repeatPassword?.message;
+
+  const checkboxId = useId();
 
   const handlePasswordAction = (setState: Dispatch<SetStateAction<boolean>>) => () => {
     setState((status) => !status);
@@ -26,7 +29,7 @@ export const Personal = () => {
 
   return (
     <>
-      <Form.MultipleInRow>
+      <Form.MultipleInRow className="my-2">
         <Input.String
           {...register("firstName")}
           errorMessage={errors.firstName?.message}
@@ -50,30 +53,55 @@ export const Personal = () => {
         label="E-mail:"
         placeholder="guyhawkins@mail.com"
         required
+        rootClasses="my-2"
       />
-      <Form.MultipleInRow>
-        <Input.StringAction
-          {...register("password")}
-          label="Senha:"
-          placeholder="*********"
-          type={passwordType}
-          icons={seePasswordIcons}
-          active={seeingPassword}
-          onAction={handlePasswordAction(setSeeingPassword)}
-          required
+      <div className="my-2">
+        <Form.MultipleInRow className="my-2">
+          <Input.StringAction
+            {...register("password")}
+            label="Senha:"
+            placeholder="*********"
+            type={passwordType}
+            icons={seePasswordIcons}
+            active={seeingPassword}
+            onAction={handlePasswordAction(setSeeingPassword)}
+            required
+          />
+          <Input.StringAction
+            {...register("repeatPassword")}
+            label="Confirmar senha:"
+            placeholder="*********"
+            type={repeatPasswordType}
+            icons={seePasswordIcons}
+            active={seeingRepeatPassword}
+            onAction={handlePasswordAction(setSeeingRepeatPassword)}
+            required
+          />
+        </Form.MultipleInRow>
+        <Input.Error errorMessage={passwordErrors} />
+      </div>
+      <div className="my-5">
+        <Controller
+          control={control}
+          name="isTermsAccepted"
+          render={({ field }) => (
+            <Input.Checkbox
+              {...field}
+              id={checkboxId}
+              tabIndex={20}
+              required
+              label={
+                <>
+                  Concordo com os <strong>Termos de Serviço</strong> e com processamento
+                  dos meus dados de acordo com o <strong>Aviso de Privacidade</strong>
+                </>
+              }
+            />
+          )}
         />
-        <Input.StringAction
-          {...register("repeatPassword")}
-          label="Confirmar senha:"
-          placeholder="*********"
-          type={repeatPasswordType}
-          icons={seePasswordIcons}
-          active={seeingRepeatPassword}
-          onAction={handlePasswordAction(setSeeingRepeatPassword)}
-          required
-        />
-      </Form.MultipleInRow>
-      <Input.Error errorMessage={passwordErrors} />
+
+        <Input.Error errorMessage={errors.isTermsAccepted?.message} />
+      </div>
     </>
   );
 };

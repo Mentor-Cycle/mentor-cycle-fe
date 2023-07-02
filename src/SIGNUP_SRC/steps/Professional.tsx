@@ -20,15 +20,17 @@ export const Professional = () => {
         label="Linkedin:"
         placeholder="https://example.com"
         autoFocus
+        rootClasses="my-2"
       />
       <Input.String
         {...register("github")}
         errorMessage={errors.github?.message}
         label="Github:"
         placeholder="https://example.com"
+        rootClasses="my-2"
       />
 
-      <Input.Root grow={1}>
+      <Input.Root grow={1} className="my-2">
         <Input.Label label="Descrição:" htmlFor={descriptionId} required />
         <Controller
           name="description"

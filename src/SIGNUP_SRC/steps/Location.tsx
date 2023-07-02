@@ -35,7 +35,7 @@ export const Location = (props: LocationProps) => {
 
   return (
     <>
-      <Form.MultipleInRow>
+      <Form.MultipleInRow className="my-2">
         {/* Países */}
         <Input.Root grow={1}>
           <Input.Label label="País:" htmlFor={Country.inputId} required />
@@ -83,7 +83,7 @@ export const Location = (props: LocationProps) => {
           <Input.Error errorMessage={State.errors} />
         </Input.Root>
       </Form.MultipleInRow>
-      <Form.MultipleInRow>
+      <Form.MultipleInRow className="my-2">
         {/* Cidades */}
         <Input.Root grow={1} disabled={userIsNotInBrazil || userHasNotChosenStateYet}>
           <Input.Label
@@ -131,7 +131,7 @@ export const Location = (props: LocationProps) => {
         </Input.Root>
       </Form.MultipleInRow>
 
-      <Input.Root grow={1}>
+      <Input.Root grow={1} className="my-2">
         <Input.Label label="Especializações:" htmlFor={Skills.inputId} required />
         <Controller
           name="skills"
