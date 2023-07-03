@@ -35,7 +35,7 @@ export const Location = (props: LocationProps) => {
 
   return (
     <>
-      <Form.MultipleInRow className="my-2">
+      <Form.MultipleInRow className="my-2.5">
         {/* Países */}
         <Input.Root grow={1}>
           <Input.Label label="País:" htmlFor={Country.inputId} required />
@@ -51,6 +51,7 @@ export const Location = (props: LocationProps) => {
                 noOptionsMessage="Nenhum país encontrado."
                 placeholder="Selecione um país"
                 defaultValue="Brasil"
+                tabIndex={20}
               />
             )}
           />
@@ -76,6 +77,7 @@ export const Location = (props: LocationProps) => {
                   disabled={userIsNotInBrazil}
                   noOptionsMessage="Nenhum estado encontrado."
                   placeholder="Selecione um estado"
+                  tabIndex={20}
                 />
               );
             }}
@@ -83,7 +85,7 @@ export const Location = (props: LocationProps) => {
           <Input.Error errorMessage={State.errors} />
         </Input.Root>
       </Form.MultipleInRow>
-      <Form.MultipleInRow className="my-2">
+      <Form.MultipleInRow className="my-2.5">
         {/* Cidades */}
         <Input.Root grow={1} disabled={userIsNotInBrazil || userHasNotChosenStateYet}>
           <Input.Label
@@ -103,6 +105,7 @@ export const Location = (props: LocationProps) => {
                 disabled={userIsNotInBrazil || userHasNotChosenStateYet}
                 noOptionsMessage="Nenhuma cidade encontrada."
                 placeholder="Selecione uma cidade"
+                tabIndex={20}
               />
             )}
           />
@@ -123,6 +126,7 @@ export const Location = (props: LocationProps) => {
                 placeholder="__/__/____"
                 defaultValue={value.replace(/\D/g, "")}
                 className="input-sign"
+                tabIndex={20}
                 {...rest}
               />
             )}
@@ -131,7 +135,7 @@ export const Location = (props: LocationProps) => {
         </Input.Root>
       </Form.MultipleInRow>
 
-      <Input.Root grow={1} className="my-2">
+      <Input.Root grow={1} className="my-2.5">
         <Input.Label label="Especializações:" htmlFor={Skills.inputId} required />
         <Controller
           name="skills"

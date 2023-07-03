@@ -35,6 +35,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
     onChange,
     value,
     className,
+    tabIndex = 20,
     ...rest
   },
   ref
@@ -75,6 +76,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
   return (
     <div
       className="relative font-normal text-neutral-02 focus:outline-red-500"
+      onBlur={onBlur}
       ref={SelectRef}
     >
       <input type="hidden" ref={fieldRef} />
@@ -84,6 +86,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
         }
         onClick={handleClickSelect}
         ref={ref}
+        tabIndex={tabIndex}
         {...rest}
       >
         {value.length ? (
@@ -114,6 +117,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
         <ButtonClearAllOptions
           onClick={handleClearAllOptions}
           className="hover:bg-secondary-02"
+          tabIndex={tabIndex + 1}
         >
           <IconTrash size={18} className="text-neutral-02" />
         </ButtonClearAllOptions>

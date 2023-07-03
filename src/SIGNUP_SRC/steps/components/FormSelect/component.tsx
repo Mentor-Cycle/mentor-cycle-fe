@@ -37,6 +37,7 @@ export function FormSelect<T extends FieldPath<IFormValues>>(props: IFormSelect<
       options={props.options ?? []}
       autoFocus
       unstyled
+      tabIndex={props.tabIndex}
       noOptionsMessage={() => props.noOptionsMessage}
       isDisabled={props.disabled}
       placeholder={props.placeholder}

@@ -14,4 +14,5 @@ export interface IFormSelect<T extends FieldPath<IFormValues>> {
   placeholder?: string;
   noOptionsMessage?: string;
   isLoading?: boolean;
+  tabIndex?: number;
 }
