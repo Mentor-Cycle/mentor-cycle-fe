@@ -16,6 +16,7 @@ import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
 import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
+import StepperSmall from "@components/Stepper/StepperSmall";
 
 export const ScheduleMentorshipModal = ({
   open,
@@ -287,7 +288,7 @@ export const ScheduleMentorshipModal = ({
             </p>
           </>
         )}
-        <Stepper size="small" steps={[1, 2, 3]} currentStep={currentStep} />
+        <StepperSmall steps={[1, 2, 3]} currentStep={currentStep} />
         {currentStep === 1 && (
           <>
             <div className="mt-10">
