@@ -1,10 +1,12 @@
 import ModalSettings from "@components/Modal/ModalSettings";
+import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Defina o tipo para o estado do ModalContext
 type ModalState = {
   editProfileModal: boolean;
   settingsModal: boolean;
+  scheduleMentorshipModal: boolean;
 };
 
 // Defina o tipo para as funções do ModalContext
@@ -26,6 +28,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [modalState, setModalState] = useState<ModalState>({
     editProfileModal: false,
     settingsModal: false,
+    scheduleMentorshipModal: false,
   });
 
   const openModal = (modalName: string) => {
@@ -53,6 +56,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     <ModalContext.Provider value={contextValue}>
       {children}
       <ModalSettings />
+      <ScheduleMentorshipModal />
     </ModalContext.Provider>
   );
 };

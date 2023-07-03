@@ -16,14 +16,10 @@ import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
 import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
+import { useModal } from "contexts/ModalContext";
 
-export const ScheduleMentorshipModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}) => {
+export const ScheduleMentorshipModal = () => {
+  const { closeModal, scheduleMentorshipModal } = useModal();
   const router = useRouter();
   const id = router.query.id;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
@@ -99,7 +95,7 @@ export const ScheduleMentorshipModal = ({
         throw new Error("Events is null");
       }
 
-      if (open) {
+      if (scheduleMentorshipModal) {
         setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
       } else {
         setCurrentStep(1);
@@ -200,7 +196,7 @@ export const ScheduleMentorshipModal = ({
       setCurrentStep(1);
     }
     if (close) {
-      setOpen(false);
+      closeModal("scheduleMentorshipModal");
     }
     await refetchAvailabilities();
   };
@@ -259,7 +255,7 @@ export const ScheduleMentorshipModal = ({
     );
 
   return (
-    <Modal open={open} onOpenChange={() => resetStates()}>
+    <Modal open={scheduleMentorshipModal} onOpenChange={() => resetStates()}>
       <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
         {currentStep === 1 && (
           <>
