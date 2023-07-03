@@ -1,22 +1,8 @@
+import ModalNotifications from "@components/Modal/ModalNotifications/ModalNotifications";
 import ModalSettings from "@components/Modal/ModalSettings";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { ModalActionTypes, ModalContextType, ModalState } from "./types";
 
-// Defina o tipo para o estado do ModalContext
-type ModalState = {
-  editProfileModal: boolean;
-  settingsModal: boolean;
-};
-
-// Defina o tipo para as funções do ModalContext
-type ModalActions = {
-  openModal: (modalName: string) => void;
-  closeModal: (modalName: string) => void;
-};
-
-// Defina o tipo para o contexto do ModalContext
-type ModalContextType = ModalState & ModalActions;
-
-// Crie o contexto do ModalContext
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({
@@ -24,8 +10,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   // Estado dos modais
   const [modalState, setModalState] = useState<ModalState>({
-    editProfileModal: false,
-    settingsModal: false,
+    [ModalActionTypes.EDIT_PROFILE_MODAL]: false,
+    [ModalActionTypes.SETTINGS_MODAL]: false,
+    [ModalActionTypes.NOTIFICATIONS_MODAL]: false,
   });
 
   const openModal = (modalName: string) => {
@@ -53,6 +40,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     <ModalContext.Provider value={contextValue}>
       {children}
       <ModalSettings />
+      <ModalNotifications />
     </ModalContext.Provider>
   );
 };
