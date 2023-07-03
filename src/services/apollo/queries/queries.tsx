@@ -123,6 +123,15 @@ export const GET_ME = gql`
         startHour
         weekDay
       }
+      notifications {
+        id
+        read
+        data {
+          title
+          description
+          imageUrl
+        }
+      }
     }
   }
 `;

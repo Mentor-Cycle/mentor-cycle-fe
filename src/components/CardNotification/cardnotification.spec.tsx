@@ -12,7 +12,7 @@ describe("CardNotification", () => {
       />
     );
 
-    const card = getByTestId("teste");
+    const card = getByTestId("card");
 
     expect(card).toBeTruthy();
     expect(card.classList.contains("bg-primary-01")).toBe(true);
@@ -28,7 +28,7 @@ describe("CardNotification", () => {
       />
     );
 
-    const card = getByTestId("teste");
+    const card = getByTestId("card");
 
     expect(card).toBeTruthy();
     expect(card.classList.contains("bg-transparent")).toBe(true);

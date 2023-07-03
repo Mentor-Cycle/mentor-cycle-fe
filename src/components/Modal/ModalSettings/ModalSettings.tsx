@@ -23,6 +23,7 @@ import { createStringRequirements } from "utils/regex";
 import { IUserSession } from "types/user.types";
 import { useModal } from "contexts/ModalContext";
 import Modal from "../Modal";
+import { ModalActionTypes } from "contexts/types";
 
 const ModalSettings = () => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
@@ -31,7 +32,7 @@ const ModalSettings = () => {
   const [signOutUser] = useMutation(LOGOUT_USER);
   const { theme } = useTheme();
   const { firstName, lastName, email, id } = user;
-  const { openModal, closeModal, settingsModal } = useModal();
+  const { openModal, closeModal, SETTINGS_MODAL } = useModal();
 
   const router = useRouter();
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
@@ -122,7 +123,7 @@ const ModalSettings = () => {
   };
 
   async function handleDeleteAccount() {
-    closeModal("settingsModal");
+    closeModal(ModalActionTypes.SETTINGS_MODAL);
     Swal.fire({
       title: "Tem certeza que deseja desativar sua conta?",
       background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
@@ -133,7 +134,7 @@ const ModalSettings = () => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        openModal("settingsModal");
+        openModal(ModalActionTypes.SETTINGS_MODAL);
         try {
           await deactivateAccount({
             variables: {
@@ -141,7 +142,6 @@ const ModalSettings = () => {
             },
           });
           setDataSucessChange(true);
-          closeModal("settingsModal");
           toast.info("A sua conta foi desativada");
           localStorage.removeItem("form-data");
           setUser({} as IUserSession);
@@ -151,16 +151,14 @@ const ModalSettings = () => {
             "Ocorreu um erro ao desativar a conta. Tente novamente mais tarde."
           );
           console.error(error);
-          closeModal("settingsModal");
         }
-      } else {
-        openModal("settingsModal");
       }
+      openModal(ModalActionTypes.SETTINGS_MODAL);
     });
   }
 
   const handleSelectedProfile = (profile: any) => {
-    closeModal("settingsModal");
+    closeModal(ModalActionTypes.SETTINGS_MODAL);
     Swal.fire({
       title: "Tem certeza que deseja mudar de perfil?",
       background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
@@ -172,10 +170,8 @@ const ModalSettings = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await switchProfile(profile);
-        openModal("settingsModal");
-      } else {
-        openModal("settingsModal");
       }
+      openModal(ModalActionTypes.SETTINGS_MODAL);
     });
   };
 
@@ -204,8 +200,8 @@ const ModalSettings = () => {
 
   return (
     <Modal
-      open={settingsModal}
-      onOpenChange={() => closeModal("settingsModal")}
+      open={SETTINGS_MODAL}
+      onOpenChange={() => closeModal(ModalActionTypes.SETTINGS_MODAL)}
     >
       <div className="flex flex-col min-w-[92vw] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
         <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">

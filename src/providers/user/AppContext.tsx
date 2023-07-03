@@ -20,6 +20,7 @@ export const initialValue: IUserSession = {
   github: "",
   linkedin: "",
   availability: [],
+  notifications: [],
   yearsOfExperience: 0,
   description: "",
   country: "",
