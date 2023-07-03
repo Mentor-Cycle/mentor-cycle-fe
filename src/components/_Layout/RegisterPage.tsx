@@ -5,8 +5,7 @@ import StepperVertical from "@components/StepperVertical";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
 import { Personal } from "SIGNUP_SRC/steps/Personal";
 import { IFormValues } from "SIGNUP_SRC/types";
-import { SubmitHandler, useFormContext } from "react-hook-form";
-import { useRouter } from "next/router";
+import { Controller, PathValue, SubmitHandler, useFormContext } from "react-hook-form";
 import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
 import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
@@ -16,6 +15,7 @@ import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
+import { TextToggle } from "SIGNUP_SRC/components/Form/TextToggle";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword", "isTermsAccepted"],
@@ -38,7 +38,12 @@ export const RegisterPage = () => {
     handleSubmit,
     trigger,
     formState: { errors },
+    control,
+    watch,
   } = methods;
+
+  const isMentor = watch("isMentor");
+  const isMentorDatatype = isMentor ? "mentor" : "mentorado";
 
   const isInFirstStep = formCurrentStep === 0;
   const isInLastStep = formCurrentStep === 2;
@@ -80,6 +85,14 @@ export const RegisterPage = () => {
     console.log(formData);
   };
 
+  const handleIsMentorToggle =
+    (onChangeHookForm: (...args: any[]) => void) =>
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const { name } = e.currentTarget;
+      const isMentor = name === "mentor";
+      onChangeHookForm(isMentor as PathValue<IFormValues, "isMentor">);
+    };
+
   return (
     <main className="flex flex-col">
       <section className="h-28 border-b border-gray-02 hidden sm:flex">
@@ -114,8 +127,44 @@ export const RegisterPage = () => {
           </aside>
           <form
             onSubmit={handleSubmit(submitHandler)}
-            className="w-full m-auto lg:m-0 mb-24 lg:max-w-none max-w-[48rem]"
+            className="relative w-full m-auto pt-12 lg:m-0 mb-24 max-w-[43rem]"
           >
+            <Controller
+              name="isMentor"
+              control={control}
+              render={({ field: { value, ...field } }) => (
+                <TextToggle.Root>
+                  <TextToggle.Label
+                    className="bg-secondary-02 border border-gray-05 whitespace-nowrap"
+                    color="#CECECE"
+                    text="Deseja participar como"
+                  />
+                  <TextToggle.OptionsContainer
+                    className="bg-secondary-04 border border-gray-05 flex-col xs:flex-row rounded-xl xs:rounded-full"
+                    optionsColor="#CECECE"
+                    optionsHoverBackgroundColor="#343434"
+                    optionSelected="#3E3E3E"
+                  >
+                    <TextToggle.Option
+                      {...field}
+                      name="mentor"
+                      option="Mentor"
+                      onClick={handleIsMentorToggle(field.onChange)}
+                      optionSelected={isMentorDatatype}
+                      className="xs:rounded-full rounded-[10px]"
+                    />
+                    <TextToggle.Option
+                      {...field}
+                      name="mentorado"
+                      option="Mentorado"
+                      onClick={handleIsMentorToggle(field.onChange)}
+                      optionSelected={isMentorDatatype}
+                      className="xs:rounded-full rounded-[10px]"
+                    />
+                  </TextToggle.OptionsContainer>
+                </TextToggle.Root>
+              )}
+            />
             <div className="mb-3">
               {formCurrentStep === 0 && <Personal />}
               {formCurrentStep === 1 && (
