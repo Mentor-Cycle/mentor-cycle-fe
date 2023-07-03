@@ -95,7 +95,7 @@ export function useTypedQuery<
       });
       setLoading(false);
     }
-  }, [parsedVariables.success]);
+  }, [options, parsedVariables, parsedVariables.success, variablesSchema]);
 
   useEffect(() => {
     if (options?.skip) {

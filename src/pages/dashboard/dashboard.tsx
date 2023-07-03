@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import Button from "@components/Button";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import { noEventsMessage } from "@components/EmptyValues/noEventMessage";
@@ -10,6 +9,7 @@ import ProfileCompletionAlert from "@components/ProfileCompletionAlert/ProfileCo
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import {
@@ -22,7 +22,6 @@ import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay, IStatusOption } from "types/dashboard.types";
 import { OptionStatus, eventStatusSchema } from "schemas/create_event_output";
 import { z } from "zod";
-import { useRouter } from "next/router";
 import { SingleValue } from "react-select";
 
 const Dashboard: NextPage = () => {
@@ -59,7 +58,9 @@ const Dashboard: NextPage = () => {
       const filteredEvents = foundEvents.filter((mentor) => {
         return user.isMentor || (mentor.mentorId !== user.id && !user.isMentor);
       });
+
       const eventsByDay = groupEventsByDay(filteredEvents);
+
       setEventsByDay(eventsByDay);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

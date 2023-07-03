@@ -54,11 +54,10 @@ const Profile: NextPage = () => {
       setOpenModalAvailability(true);
     }
     window.history.replaceState(null, "", "/profile");
-  }, [router.query]);
+  }, [router.query.availability, router.query.edit]);
 
   useEffect(() => {
     // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
-
     if (classes) {
       const filteredEvents = classes.findEvents.filter((mentor) => {
         return mentor.mentorId !== user.id && !user.isMentor;
@@ -70,9 +69,11 @@ const Profile: NextPage = () => {
 
   if (loadingMentor || loadingClasses)
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Spinner />
-      </div>
+      <>
+        <div className="min-h-screen flex justify-center items-center">
+          <Spinner />
+        </div>
+      </>
     );
 
   const handleOpenModalAvailability = () =>

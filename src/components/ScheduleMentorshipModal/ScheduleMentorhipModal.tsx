@@ -3,15 +3,14 @@ import Calendar from "@components/Calendar/Calendar";
 import Image from "next/image";
 import Stepper from "@components/Stepper/Stepper";
 import { useCallback, useEffect, useState } from "react";
-import { buttonVariant } from "@components/Button/Button.types";
 import Chip from "@components/Chip";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
-import { CREATE_EVENT } from "services/apollo/mutations";
+import { CREATE_EVENT, UPDATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
@@ -54,9 +53,14 @@ export const ScheduleMentorshipModal = ({
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
   const { user } = useUser();
-  const [createEvent, { loading: loadingEvent, error: errorEvent }] =
-    useMutation(CREATE_EVENT);
-  if (errorEvent) console.log("errorEvent", errorEvent);
+  const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
+  const [updateEventStatus] = useMutation(UPDATE_EVENT);
+  const { data: events } = useTypedQuery(api.GET_EVENTS, {
+    variables: {
+      learnerId: !user.isMentor ? user.id : null,
+      mentorId: user.isMentor ? user.id : null,
+    },
+  });
 
   const stepButtons: TStepButtons = {
     1: {
@@ -75,7 +79,7 @@ export const ScheduleMentorshipModal = ({
 
   const {
     data: availabilitiesResponse,
-    refetch: refetchAvailabitities,
+    refetch: refetchAvailabilities,
     error: errorAvailabilitiesResponse,
   } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
@@ -90,35 +94,65 @@ export const ScheduleMentorshipModal = ({
     availabilitiesResponse?.findMentorAvailability.availability ?? null;
 
   const handleSteps = async () => {
-    await refetchAvailabitities();
-    if (currentStep === 3) {
-      resetStates();
-      return setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
-    }
-
-    if (currentStep === 2) {
-      const [day, month, year] = daySelected.split("/");
-      const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
-      const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
-      const payload = {
-        startDate,
-        endDate,
-        mentorId: id,
-        learnerId: user.id,
-        active: true,
-        status: "CONFIRMED",
-      };
-      await createEvent({ variables: { event: payload } });
-      if (errorEvent) {
-        return toast.error("Erro ao criar evento");
+    try {
+      if (!events) {
+        throw new Error("Events is null");
       }
-      resetStates(false, false);
-    }
 
-    if (open) {
-      setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-    } else {
-      setCurrentStep(1);
+      if (open) {
+        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+      } else {
+        setCurrentStep(1);
+      }
+
+      await refetchAvailabilities();
+
+      switch (currentStep) {
+        case 2:
+          const [day, month, year] = daySelected.split("/");
+          const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+          const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+          const payload = {
+            startDate,
+            endDate,
+            mentorId: id,
+            learnerId: user.id,
+            active: true,
+            status: "CONFIRMED",
+          };
+
+          const eventsData = events.findEvents;
+
+          // Check whether user has already created the event at exact time and day
+          let updateEventInput: { id?: string; status?: string } = {};
+          eventsData.forEach((eventData) => {
+            if (eventData.startDate === payload.startDate) {
+              updateEventInput = {
+                id: eventData.id,
+                status: "CONFIRMED",
+              };
+            }
+          });
+
+          if (updateEventInput.id) {
+            await updateEventStatus({ variables: { updateEventInput } });
+            resetStates(false, false);
+            break;
+          }
+
+          await createEvent({ variables: { event: payload } });
+          resetStates(false, false);
+          break;
+
+        case 3:
+          resetStates();
+          return setConvertedDaysAndTimes([
+            ...new Set(daysAndTimes[daySelected]),
+          ]);
+      }
+    } catch (error) {
+      console.error(error);
+      return toast.error("Erro ao criar evento");
     }
   };
 
@@ -154,7 +188,7 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = async (close: boolean = true, resetStep = true) => {
+  const resetStates = async (close = true, resetStep = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
@@ -168,7 +202,7 @@ export const ScheduleMentorshipModal = ({
     if (close) {
       setOpen(false);
     }
-    await refetchAvailabitities();
+    await refetchAvailabilities();
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -190,7 +224,12 @@ export const ScheduleMentorshipModal = ({
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, availabilitiesResponse, daysAndTimes]);
+  }, [
+    convertAvailabilitiyDays,
+    availabilitiesResponse,
+    daysAndTimes,
+    availabilities,
+  ]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
@@ -329,7 +368,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loadingMentor || loadingEvent}
+            isLoading={loadingMentor || eventLoading}
           >
             {stepButtons[currentStep].text}
           </Button>
