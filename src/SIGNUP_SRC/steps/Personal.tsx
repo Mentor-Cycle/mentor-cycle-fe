@@ -57,16 +57,19 @@ export const Personal = () => {
       />
       <div className="my-2">
         <Form.MultipleInRow className="my-2">
-          <Input.StringAction
-            {...register("password")}
-            label="Senha:"
-            placeholder="*********"
-            type={passwordType}
-            icons={seePasswordIcons}
-            active={seeingPassword}
-            onAction={handlePasswordAction(setSeeingPassword)}
-            required
-          />
+          <Input.Root grow={1}>
+            <Input.StringAction
+              {...register("password")}
+              label="Senha:"
+              placeholder="*********"
+              type={passwordType}
+              icons={seePasswordIcons}
+              active={seeingPassword}
+              onAction={handlePasswordAction(setSeeingPassword)}
+              required
+            />
+            <Input.Error className="sm:hidden" errorMessage={errors.password?.message} />
+          </Input.Root>
           <Input.StringAction
             {...register("repeatPassword")}
             label="Confirmar senha:"
@@ -78,7 +81,11 @@ export const Personal = () => {
             required
           />
         </Form.MultipleInRow>
-        <Input.Error errorMessage={passwordErrors} />
+        <Input.Error
+          className="flex sm:hidden"
+          errorMessage={errors.repeatPassword?.message}
+        />
+        <Input.Error className="hidden sm:flex" errorMessage={passwordErrors} />
       </div>
       <div className="my-5">
         <Controller
