@@ -29,7 +29,7 @@ export const Personal = () => {
 
   return (
     <>
-      <Form.MultipleInRow className="my-2">
+      <Form.MultipleInRow className="my-2.5">
         <Input.String
           {...register("firstName")}
           errorMessage={errors.firstName?.message}
@@ -53,10 +53,10 @@ export const Personal = () => {
         label="E-mail:"
         placeholder="guyhawkins@mail.com"
         required
-        rootClasses="my-2"
+        rootClasses="my-2.5"
       />
-      <div className="my-2">
-        <Form.MultipleInRow className="my-2">
+      <div className="my-2.5">
+        <Form.MultipleInRow className="my-2.5">
           <Input.Root grow={1}>
             <Input.StringAction
               {...register("password")}
