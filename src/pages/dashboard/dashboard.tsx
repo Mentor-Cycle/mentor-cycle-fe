@@ -212,14 +212,9 @@ const Dashboard: NextPage = () => {
             Mentorias agendadas
           </h2>
           {events && events.findEvents.length > 0 ? (
-            <>
-              <div
-                className="grid justify-items-start grid-cols-1 sm:grid-cols-2 
-        md:grid-cols-2 md:justify-items-start lg:grid-cols-3 gap-4"
-              >
-                {renderMentoringWeekCard(eventsByDay)}
-              </div>
-            </>
+            <div className="flex justify-center sm:justify-start gap-4 flex-wrap">
+              {renderMentoringWeekCard(eventsByDay)}
+            </div>
           ) : (
             <div className="flex flex-col lg:flex-row">
               <div className="w-full">
