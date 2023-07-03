@@ -2,14 +2,9 @@ import React, { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { IconX } from "SIGNUP_SRC/components/SelectControlled/icons/IconX";
+import { CheckIcon } from "@components/icons/CheckIcon";
 import { OverrideConflict } from "types/overrideConflictTypes";
-import {
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  UseFormTrigger,
-  useFormContext,
-} from "react-hook-form";
+import { ControllerRenderProps, FieldPath, useFormContext } from "react-hook-form";
 import { IFormValues } from "SIGNUP_SRC/types";
 
 interface InputCheckboxProps
@@ -45,12 +40,12 @@ export const InputCheckbox = React.forwardRef<HTMLButtonElement, InputCheckboxPr
           onBlur={onBlur}
           id={id}
           className={twMerge(
-            "shrink-0 h-[22px] basis-[22px] grid place-items-center my-0.5 appearance-none rounded bg-secondary-04 border border-gray-05 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2",
+            "shrink-0 h-[22px] basis-[22px] grid place-items-center my-0.5 appearance-none rounded bg-secondary-04 border border-gray-05 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 data-[state=checked]:bg-gray-05",
             rest.className
           )}
         >
           <Checkbox.Indicator className="text-gray-01">
-            <IconX size={12} />
+            <CheckIcon size={12} />
           </Checkbox.Indicator>
         </Checkbox.Root>
         <label
