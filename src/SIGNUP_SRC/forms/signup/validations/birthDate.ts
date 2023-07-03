@@ -7,7 +7,7 @@ export const birthDateSchema = z
   .refine((stringDate) => {
     const hasTypeSomething = !!stringDate.length;
     return hasTypeSomething;
-  }, t.DATE_FILL_PROPERLY)
+  }, t.FILL_FIELD)
   .refine((stringDate) => {
     const lastChar = "_"; // from mask "__/__/____"
     const totalInputLength = 9;
