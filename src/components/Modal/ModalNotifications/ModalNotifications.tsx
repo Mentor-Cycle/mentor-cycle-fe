@@ -16,8 +16,10 @@ const ModalNotifications = () => {
     const [eventStatusInEnglish] = Object.keys(
       eventStatusToPortugueseMap
     ).filter((key) => text.includes(key));
+    if (!eventStatusInEnglish) return text;
     const eventStatusInPortuguese =
       eventStatusToPortugueseMap[eventStatusInEnglish as OptionStatus];
+    if (!eventStatusInPortuguese) return text;
     return text.replace(eventStatusInEnglish, eventStatusInPortuguese);
   };
 
