@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 interface InputErrorMessageProps
   extends Pick<HTMLAttributes<HTMLParagraphElement>, "className">,
     MotionProps {
-  errorMessage?: string | undefined;
+  errorMessage?: string;
   shouldAnimate?: boolean;
 }
 

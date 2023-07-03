@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  errorMessage?: string | undefined;
+  errorMessage?: string;
   asChild?: boolean;
   grow?: number;
   required?: boolean;

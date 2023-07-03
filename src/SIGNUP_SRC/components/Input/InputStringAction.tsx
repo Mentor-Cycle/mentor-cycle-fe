@@ -7,7 +7,7 @@ export type IconsProps = [active: ElementType, disabled?: ElementType];
 
 interface InputStringActionProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  errorMessage?: string | undefined;
+  errorMessage?: string;
   asChild?: boolean;
   grow?: number;
   required?: boolean;

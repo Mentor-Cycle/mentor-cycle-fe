@@ -3,7 +3,7 @@ import { ReactSelectInterface } from "types/react-select";
 
 export type InputId = { inputId: string };
 export type SelectOptions = { options: ReactSelectInterface[] | null };
-export type Errors = { errors?: string | undefined };
+export type Errors = { errors?: string };
 export type Loading = { isLoading: boolean };
 export type GetFieldController = {
   getFieldController: <

@@ -8,7 +8,7 @@ export function createGeoCities(
   initialCities: CitiesAPI,
   options?: IUseGeoCities
 ): GetCitiesResponse {
-  let newCities: CitiesAPI | Cities = initialCities;
+  let newCities: CitiesAPI | Cities;
 
   if (!initialCities) return { newCities: null };
   newCities = initialCities.map((city) => ({

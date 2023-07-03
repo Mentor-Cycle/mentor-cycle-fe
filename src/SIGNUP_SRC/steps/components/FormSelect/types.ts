@@ -1,4 +1,4 @@
-import { ControllerRenderProps, FieldPath, Noop, RefCallBack } from "react-hook-form";
+import { ControllerRenderProps, FieldPath } from "react-hook-form";
 import { SingleValue } from "react-select";
 import { ReactSelectInterface } from "types/react-select";
 import { IFormValues } from "SIGNUP_SRC/types";

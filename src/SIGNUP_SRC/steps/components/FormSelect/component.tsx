@@ -15,7 +15,6 @@ export function FormSelect<T extends FieldPath<IFormValues>>(props: IFormSelect<
 
   const handleOnChange: OnChangeHandler = (newValue) => {
     props.field.onChange(newValue?.value ?? "");
-    // return props.onChange(newValue);
   };
 
   const defaultValue =

@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, useEffect, useRef } from "react";
+import React, { ButtonHTMLAttributes, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface OptionProps extends ButtonHTMLAttributes<HTMLButtonElement> {

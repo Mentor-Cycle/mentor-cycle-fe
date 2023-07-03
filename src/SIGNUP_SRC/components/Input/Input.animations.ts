@@ -1,4 +1,4 @@
-import { MotionProps, Transition } from "framer-motion";
+import { MotionProps } from "framer-motion";
 
 export const errorAnimation = (props?: {
   duration: number;

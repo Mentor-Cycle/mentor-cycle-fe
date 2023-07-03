@@ -2,7 +2,6 @@ import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
 import { useId } from "react";
 import { Input } from "SIGNUP_SRC/components/Input";
-import { Form } from "SIGNUP_SRC/components/Form";
 
 export const Professional = () => {
   const descriptionId = useId();

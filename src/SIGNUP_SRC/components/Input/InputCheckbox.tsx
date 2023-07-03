@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 import * as Checkbox from "@radix-ui/react-checkbox";
-import { IconX } from "SIGNUP_SRC/components/SelectControlled/icons/IconX";
 import { CheckIcon } from "@components/icons/CheckIcon";
 import { OverrideConflict } from "types/overrideConflictTypes";
 import { ControllerRenderProps, FieldPath, useFormContext } from "react-hook-form";
@@ -27,7 +26,7 @@ export const InputCheckbox = React.forwardRef<HTMLButtonElement, InputCheckboxPr
 
     const handleOnCheckedChange = (checked: Checkbox.CheckedState) => {
       onChange(checked);
-      void trigger(name as FieldPath<IFormValues>, { shouldFocus: true });
+      trigger(name as FieldPath<IFormValues>, { shouldFocus: true });
     };
 
     return (

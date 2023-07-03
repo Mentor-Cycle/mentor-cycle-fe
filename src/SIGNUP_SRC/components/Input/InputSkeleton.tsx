@@ -1,10 +1,9 @@
 import { Input } from "SIGNUP_SRC/components/Input";
 import { skeletonDefaultAnimation } from "SIGNUP_SRC/steps/components/default-animations/Skeleton";
-import { MotionProps } from "framer-motion";
-import React, { HTMLAttributes, LabelHTMLAttributes } from "react";
+import { MotionProps, motion } from "framer-motion";
+import React, { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 import { OverrideConflict } from "types/overrideConflictTypes";
-import { motion } from "framer-motion";
 
 interface InputSkeletonProps
   extends OverrideConflict<HTMLAttributes<HTMLDivElement>, MotionProps> {

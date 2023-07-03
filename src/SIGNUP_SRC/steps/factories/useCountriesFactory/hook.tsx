@@ -1,8 +1,5 @@
 import { useGeoFetches } from "SIGNUP_SRC/hooks/useGeoFetches";
-import {
-  Countries,
-  CountriesFactoryMethods,
-} from "SIGNUP_SRC/steps/factories/useCountriesFactory/types";
+import { CountriesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCountriesFactory/types";
 import { IFormValues } from "SIGNUP_SRC/types";
 import { useEffect, useId } from "react";
 import { UseFormReturn } from "react-hook-form";
