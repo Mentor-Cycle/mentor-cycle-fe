@@ -12,6 +12,7 @@ const CardNotification = ({
   return (
     // change approach after automatically add closing modal
     <div
+      data-testid="card"
       className={clsx(
         "bg-primary-01 rounded-lg px-4 py-5 flex flex-col sm:flex-row w-full justify-center items-center ",
         {
