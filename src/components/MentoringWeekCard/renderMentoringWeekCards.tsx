@@ -35,7 +35,7 @@ export const renderMentoringWeekCard = (
             events.events.length
           } mentoria(s) marcada(s) para o dia ${format(data, "dd/MM/yyyy")}`}
           chips={events.events.map((event) => (
-            <>
+            <div key={event.id} className="flex gap-1">
               <Chip
                 key={`variant_${event.id}`}
                 variant={statusDisplay[event.status].variant}
@@ -46,7 +46,7 @@ export const renderMentoringWeekCard = (
               <Chip key={`hour_${event.id}`} variant="secondary">
                 {formatHour(new Date(event.startDate))}
               </Chip>
-            </>
+            </div>
           ))}
         />
       );

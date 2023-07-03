@@ -9,14 +9,14 @@ import NavBar from "@components/NavBar/NavBar";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
-import ModalNotifications from "./ModalNotifications";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { removeTypenameProperty } from "utils/removeTypename";
-import Modal from "@components/Modal/Modal";
+import { MdNotifications } from "react-icons/md";
 import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -32,9 +32,8 @@ const DynamicThemedImage = dynamic(
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
-  const [setIsModalOpen] = useState(false);
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
-  const [showModal, setShowModal] = useState<string>();
+  const [showModal, setShowModal] = useState<ModalActionTypes | "">();
   const { openModal } = useModal();
 
   const { error: errorMe } = useTypedQuery(api.GET_ME, {
@@ -43,6 +42,7 @@ export default function Header() {
       const me = removeTypenameProperty(data.me);
       setUser({
         ...me,
+        notifications: me.notifications ?? null,
         availability: me.availability?.map(removeTypenameProperty) ?? null,
         isLogged: true,
       });
@@ -77,7 +77,7 @@ export default function Header() {
     editprofile: () => router.push("/profile"),
     darkmode: () => setDarkMode(),
     settings: () => {
-      setShowModal("settings");
+      setShowModal(ModalActionTypes.SETTINGS_MODAL);
       setToggleMenuProfile(false);
     },
     logout: logOutUser(),
@@ -106,10 +106,8 @@ export default function Header() {
   };
 
   useEffect(() => {
-    if (showModal === "settings") {
-      openModal("settingsModal");
-      setShowModal("");
-    }
+    if (showModal) openModal(showModal);
+    setShowModal("");
   }, [showModal, openModal]);
 
   return (
@@ -128,23 +126,23 @@ export default function Header() {
                 <span className="hidden lg:inline-block">Home</span>
               </Link>
             </li>
-            {/* <li className={linkStyle}>
+            <li className={linkStyle}>
+              <Link className={itemsMenuStyle} href="/mentors">
+                <BsFillPeopleFill size={24} />
+                <span className="hidden lg:inline-block">Mentores</span>
+              </Link>
+            </li>
+            <li className={linkStyle}>
               <button
                 className={itemsMenuStyle}
                 onClick={() => {
-                  setShowModal("notifications");
+                  setShowModal(ModalActionTypes.NOTIFICATIONS_MODAL);
                   setToggleMenuProfile(false);
                 }}
               >
                 <MdNotifications size={24} />
                 <span className="hidden lg:inline-block">Notificações</span>
               </button>
-            </li> */}
-            <li className={linkStyle}>
-              <Link className={itemsMenuStyle} href="/mentors">
-                <BsFillPeopleFill size={24} />
-                <span className="hidden lg:inline-block">Mentores</span>
-              </Link>
             </li>
             <li className={clsx(linkStyle)}>
               <div className="flex justify-center items-center">
@@ -188,11 +186,6 @@ export default function Header() {
               </div>
             </li>
           </ul>
-        )}
-        {showModal === "notifications" && (
-          <Modal open={true} onOpenChange={() => setShowModal("")}>
-            {<ModalNotifications setShowModal={setShowModal} />}
-          </Modal>
         )}
       </div>
     </header>
