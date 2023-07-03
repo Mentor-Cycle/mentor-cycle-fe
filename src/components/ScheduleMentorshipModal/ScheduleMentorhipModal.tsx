@@ -331,7 +331,9 @@ export const ScheduleMentorshipModal = ({
                 Mentoria de 30 minutos
               </h2>
               <p className="mt-6 text-secondary-02">
-                <span className="font-bold text-secondary-02">Horário:</span>{" "}
+                <span className="font-bold text-secondary-02 dark:text-neutral-03">
+                  Horário:
+                </span>{" "}
                 {selectedStartTime.replace(":", "h")} até as{" "}
                 {selectedEndTime.replace(":", "h")}
               </p>
