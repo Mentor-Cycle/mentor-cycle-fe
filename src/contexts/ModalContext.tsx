@@ -1,8 +1,8 @@
 import ModalSettings from "@components/Modal/ModalSettings";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import ModalNotifications from "@components/Modal/ModalNotifications";
-import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { ModalActionTypes, ModalContextType, ModalState } from "./types";
+import ScheduleMentorshipModal from "@components/Modal/ModalScheduleMentorship";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -41,9 +41,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <ModalContext.Provider value={contextValue}>
       {children}
+      <ScheduleMentorshipModal />
       <ModalSettings />
       <ModalNotifications />
-      <ScheduleMentorshipModal />
     </ModalContext.Provider>
   );
 };

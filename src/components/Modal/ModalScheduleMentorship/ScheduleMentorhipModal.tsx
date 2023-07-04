@@ -14,12 +14,13 @@ import { toast } from "react-toastify";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
-import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
+import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/ScheduleMentorhipModal.types";
 import StepperSmall from "@components/Stepper/StepperSmall";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
 
-export const ScheduleMentorshipModal = () => {
+const ScheduleMentorshipModal = () => {
+  const { user } = useUser();
   const { closeModal, SCHEDULE_MENTORSHIP_MODAL } = useModal();
   const router = useRouter();
   const id = router.query.id;
@@ -49,7 +50,6 @@ export const ScheduleMentorshipModal = () => {
   });
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
-  const { user } = useUser();
   const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
   const { data: events } = useTypedQuery(api.GET_EVENTS, {
@@ -57,6 +57,7 @@ export const ScheduleMentorshipModal = () => {
       learnerId: !user.isMentor ? user.id : null,
       mentorId: user.isMentor ? user.id : null,
     },
+    skip: !user.isLogged,
   });
 
   const stepButtons: TStepButtons = {
@@ -376,3 +377,5 @@ export const ScheduleMentorshipModal = () => {
     </Modal>
   );
 };
+
+export default ScheduleMentorshipModal;

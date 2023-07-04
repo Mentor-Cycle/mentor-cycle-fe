@@ -7,7 +7,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import { validateUndefined } from "utils/nullable/validateUndefined";
-import { AvailabilitySlots } from "@components/ScheduleMentorshipModal/types";
+import { AvailabilitySlots } from "@components/Modal/ModalScheduleMentorship/types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
@@ -17,6 +17,7 @@ import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TWeekday_Lowercase } from "config/constants";
 import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
@@ -205,7 +206,9 @@ const MentorProfile: NextPage = () => {
                 disabled={Boolean(!availabilities?.length)}
                 size="regular"
                 variant="primary"
-                onClick={() => openModal("scheduleMentorshipModal")}
+                onClick={() =>
+                  openModal(ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL)
+                }
               >
                 Agendar mentoria
               </Button>
