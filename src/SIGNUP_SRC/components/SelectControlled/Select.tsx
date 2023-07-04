@@ -3,8 +3,6 @@ import { useClickOutside } from "./hooks/useClickOutside";
 import { IconX } from "./icons/IconX";
 import { IconTrash } from "./icons/IconTrash";
 import { ModalSelectOptions } from "./ModalSelectOptions";
-import { ModalTextAllOptionsSelected } from "./ModalTextAllOptionsSelected";
-import { ModalOption } from "./ModalOption";
 import { ButtonClearAllOptions } from "./ButtonClearAllOptions";
 import { SelectedOption } from "./SelectedOption";
 import { ButtonRemoveSelectedOption } from "./ButtonRemoveSelectedOption";

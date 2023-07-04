@@ -52,7 +52,7 @@ export const InputStringAction = React.forwardRef<
           type={type}
           id={inputId}
           className={twMerge(
-            "outline-none grow text-neutral-02 bg-secondary-04",
+            "outline-none grow min-w-0 text-neutral-02 bg-secondary-04",
             rest.className
           )}
           ref={asChild ? null : ref}
