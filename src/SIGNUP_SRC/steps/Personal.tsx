@@ -5,6 +5,7 @@ import { Form } from "SIGNUP_SRC/components/Form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Dispatch, SetStateAction, useId, useState } from "react";
 import { IconsProps } from "SIGNUP_SRC/components/Input/InputStringAction";
+import Link from "next/link";
 
 export const Personal = () => {
   const {
@@ -97,12 +98,7 @@ export const Personal = () => {
               id={checkboxId}
               tabIndex={20}
               required
-              label={
-                <>
-                  Concordo com os <strong>Termos de Serviço</strong> e com processamento
-                  dos meus dados de acordo com o <strong>Aviso de Privacidade</strong>
-                </>
-              }
+              label={<AcceptTerms />}
             />
           )}
         />
@@ -112,3 +108,18 @@ export const Personal = () => {
     </>
   );
 };
+
+export function AcceptTerms() {
+  return (
+    <>
+      Concordo com os{" "}
+      <Link href="/terms" target="_blank" className="text-primary-01 underline">
+        Termos de Serviço
+      </Link>{" "}
+      e com processamento dos meus dados de acordo com o{" "}
+      <Link href="/privacy-policy" target="_blank" className="text-primary-01 underline">
+        Aviso de Privacidade
+      </Link>
+    </>
+  );
+}

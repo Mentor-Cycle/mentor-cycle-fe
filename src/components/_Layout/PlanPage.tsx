@@ -1,5 +1,7 @@
 import Button from "@components/Button";
 import ProfileCardToggle from "@components/ProfileCardToggle";
+import { Form } from "SIGNUP_SRC/components/Form";
+import { Sign } from "SIGNUP_SRC/components/sign";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
 import Link from "next/link";
 import React from "react";
@@ -25,14 +27,12 @@ export const PlanPage = () => {
         <div className="mb-32">
           <ProfileCardToggle />
         </div>
-        <div className="flex flex-col p-2 sm:p-0 sm:flex-row justify-between gap-8 sm:gap-4 mb-40">
-          <Link href="/signin" legacyBehavior>
-            <Button variant="secondary" className="order-last sm:order-first">
-              Voltar
-            </Button>
-          </Link>
-          <Button onClick={handleNext}>Próximo</Button>
-        </div>
+        <Form.MultipleInRow className="mb-32">
+          <Sign.ButtonSecondary asChild>
+            <Link href="/signin">Voltar</Link>
+          </Sign.ButtonSecondary>
+          <Sign.ButtonPrimary onClick={handleNext} text="Próximo" />
+        </Form.MultipleInRow>
       </section>
     </main>
   );

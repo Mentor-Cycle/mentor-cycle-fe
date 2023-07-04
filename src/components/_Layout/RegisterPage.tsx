@@ -16,6 +16,7 @@ import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { TextToggle } from "SIGNUP_SRC/components/Form/TextToggle";
+import { Sign } from "SIGNUP_SRC/components/sign";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword", "isTermsAccepted"],
@@ -72,8 +73,6 @@ export const RegisterPage = () => {
   };
 
   const handleGoBackButton = () => {
-    console.log("Clickou no botão de voltar");
-
     if (isInFirstStep) {
       return setIsChoosingPlan(true);
     }
@@ -132,8 +131,9 @@ export const RegisterPage = () => {
             <Controller
               name="isMentor"
               control={control}
-              render={({ field: { value, ...field } }) => (
+              render={({ field: { value, ref, ...field } }) => (
                 <TextToggle.Root>
+                  <input type="hidden" ref={ref} />
                   <TextToggle.Label
                     className="bg-secondary-02 border border-gray-05 whitespace-nowrap"
                     color="#CECECE"
@@ -178,32 +178,20 @@ export const RegisterPage = () => {
               {formCurrentStep === 2 && <Professional />}
             </div>
             <Form.MultipleInRow>
-              <Form.Button
-                className="sm:order-none order-1 focus:outline-gray-03 bg-secondary-01 border border-gray-03"
-                onClick={handleGoBackButton}
-                tabIndex={30}
-              >
-                Voltar
-              </Form.Button>
-
+              <Sign.ButtonSecondary onClick={handleGoBackButton} text="Voltar" />
               {isInLastStep && (
-                <Form.Button
+                <Sign.ButtonPrimary
                   type="submit"
-                  className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
                   disabled={!shouldGoForward}
-                >
-                  Enviar
-                </Form.Button>
+                  text="Enviar"
+                />
               )}
               {!isInLastStep && (
-                <Form.Button
-                  className="focus:outline-primary-02 bg-primary-02 disabled:bg-primary-04"
+                <Sign.ButtonPrimary
                   onClick={() => !isInLastStep && handleActionButton()}
                   disabled={!shouldGoForward}
-                  tabIndex={25}
-                >
-                  Próximo
-                </Form.Button>
+                  text="Próximo"
+                />
               )}
             </Form.MultipleInRow>
           </form>
