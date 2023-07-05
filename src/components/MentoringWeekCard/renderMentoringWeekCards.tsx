@@ -16,8 +16,8 @@ export const renderMentoringWeekCard = (
 ) => {
   const statusDisplay: Record<OptionStatus, IStatusDisplay> = {
     PENDING: { label: "Agendado", variant: "chipCards" },
-    CANCELLED: { label: "Cancelada", variant: "chipCards" },
-    DONE: { label: "Realizada", variant: "secondary" },
+    CANCELLED: { label: "Cancelada", variant: "chipCanceled" },
+    DONE: { label: "Realizada", variant: "chipRealized" },
     CONFIRMED: { label: "Agendado", variant: "chipCards" },
   };
 

@@ -20,5 +20,13 @@ export type Props = {
 
 export type StatusToVariantMap = Record<
   string,
-  Extract<ChipVariant, "primary" | "secondary" | "tertiary" | "chipCards">
+  Extract<
+    ChipVariant,
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "chipCards"
+    | "chipCanceled"
+    | "chipRealized"
+  >
 >;
