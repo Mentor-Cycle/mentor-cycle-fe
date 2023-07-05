@@ -121,21 +121,17 @@ const Profile: NextPage = () => {
               ? user.description
               : "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            <InfoCard
-              title="E-mail"
-              label="example@email.com"
-              content={user.email}
-            />
+          <section className="text-start pt-12 pb-12 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
               title="Portfólio/GitHub"
-              label="exemplo.com.br"
+              label="Não informado"
               content={user.github ?? ""}
               alignRight
             />
             <InfoCard
+              alignRight
               title="País/Estado"
-              label="example@email.com"
+              label="Não informado"
               content={`${validateUndefined(user.country) || "País"}${
                 user.country === "Brasil" && user.state
                   ? `/${validateUndefined(user.state)}`
@@ -145,7 +141,7 @@ const Profile: NextPage = () => {
             />
             <InfoCard
               title="Carreira"
-              label="example@email.com"
+              label="Não informado"
               content={
                 user.yearsOfExperience
                   ? `${
@@ -155,15 +151,16 @@ const Profile: NextPage = () => {
                     } ${
                       user.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
-                  : "experiência que você possui"
+                  : "Não informado"
               }
               contentToValidate={user.yearsOfExperience}
               alignRight
             />
             <InfoCard
               title="Linkedin"
-              label="linkedin.com/in/example"
+              label="Não informado"
               content={user.linkedin ?? ""}
+              alignRight
             />
           </section>
         </aside>

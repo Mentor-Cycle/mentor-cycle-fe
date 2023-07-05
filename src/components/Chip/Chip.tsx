@@ -17,8 +17,10 @@ const Chip = ({
     tertiary: `text-neutral-01 bg-primary-05 `,
     quartenary: `text-neutral-01 bg-secondary-02`,
     outlined: `text-secondary-03 bg-transparent border border-secondary-03`,
-    chipCards: `dark:bg-neutral-02 dark:text-secondary-01 bg-secondary-02 text-neutral-01`,
-    chipCardsMentors: `dark:bg-secondary-01 dark:text-neutral-01 bg-secondary-01 text-neutral-01`,
+    chipCards: `dark:bg-secondary-01 dark:text-neutral-02 bg-secondary-02 text-neutral-02`,
+    chipCardsMentors: `dark:bg-secondary-01 dark:text-neutral-02 bg-secondary-02 text-neutral-02`,
+    chipCanceled: `dark:bg-gray-04 dark:text-neutral-02 bg-gray-02 text-gray-04`,
+    chipRealized: `bg-primary-02 text-neutral-01`,
   };
   return (
     <span

@@ -168,13 +168,6 @@ const EditProfile = ({
               label="Experiência"
               defaultValue={userCurrent.description ?? ""}
             />
-            <Input
-              required
-              type="email"
-              {...register("email")}
-              label="Email"
-              defaultValue={userCurrent.email}
-            />
             <SelectLocation
               onSelect={handleLocationChange(setSelectedCountry)}
               name="country"

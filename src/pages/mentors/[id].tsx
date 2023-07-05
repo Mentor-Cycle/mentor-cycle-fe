@@ -116,19 +116,14 @@ const MentorProfile: NextPage = () => {
           </p>
           <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
-              title="E-mail"
-              label="example@email.com"
-              content={mentor?.email || ""}
-            />
-            <InfoCard
               title="Portfólio/GitHub"
-              label="exemplo.com.br"
+              label="Não informado"
               content={mentor?.github || ""}
               alignRight
             />
             <InfoCard
               title="País/Estado"
-              label="example@email.com"
+              label="Não informado"
               content={`${validateUndefined(mentor?.country) || "País"}${
                 mentor?.country === "Brasil" && mentor?.state
                   ? `/${validateUndefined(mentor?.state)}`
@@ -138,7 +133,7 @@ const MentorProfile: NextPage = () => {
             />
             <InfoCard
               title="Carreira"
-              label="example@email.com"
+              label="Não informado"
               content={
                 mentor?.yearsOfExperience
                   ? `${parseInt(
@@ -148,14 +143,14 @@ const MentorProfile: NextPage = () => {
                     )} ${
                       mentor?.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
-                  : "experiência que você possui"
+                  : "Não informado"
               }
               contentToValidate={mentor?.yearsOfExperience}
               alignRight
             />
             <InfoCard
               title="Linkedin"
-              label="linkedin.com/in/example"
+              label="Não informado"
               content={mentor?.linkedin || ""}
             />
           </section>
