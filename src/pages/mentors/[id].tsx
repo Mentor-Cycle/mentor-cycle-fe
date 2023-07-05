@@ -5,9 +5,9 @@ import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { validateUndefined } from "utils/nullable/validateUndefined";
-import { AvailabilitySlots } from "@components/ScheduleMentorshipModal/types";
+import { AvailabilitySlots } from "@components/Modal/ModalScheduleMentorship/types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
@@ -15,12 +15,13 @@ import Spinner from "@components/Spinner";
 import { InfoCard } from "@components/InfoCard";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { TWeekday_Lowercase } from "config/constants";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState(false);
+  const { openModal } = useModal();
   const { user } = useUser();
   const id = router.query.id as string;
   const {
@@ -190,7 +191,6 @@ const MentorProfile: NextPage = () => {
                 </p>
               </div>
             )}
-            <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
             {user.isMentor ? (
               <>
                 <div className="max-w-xs mt-4">
@@ -206,7 +206,9 @@ const MentorProfile: NextPage = () => {
                 disabled={Boolean(!availabilities?.length)}
                 size="regular"
                 variant="primary"
-                onClick={() => setOpenModal(true)}
+                onClick={() =>
+                  openModal(ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL)
+                }
               >
                 Agendar mentoria
               </Button>

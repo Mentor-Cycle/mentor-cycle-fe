@@ -1,7 +1,6 @@
 import Modal from "@components/Modal";
 import Calendar from "@components/Calendar/Calendar";
 import Image from "next/image";
-import Stepper from "@components/Stepper/Stepper";
 import { useCallback, useEffect, useState } from "react";
 import Chip from "@components/Chip";
 import { useMentorProfile } from "@hooks/useMentorProfile";
@@ -15,16 +14,14 @@ import { toast } from "react-toastify";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
-import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
+import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/ScheduleMentorhipModal.types";
 import StepperSmall from "@components/Stepper/StepperSmall";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
-export const ScheduleMentorshipModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}) => {
+const ScheduleMentorshipModal = () => {
+  const { user } = useUser();
+  const { closeModal, SCHEDULE_MENTORSHIP_MODAL } = useModal();
   const router = useRouter();
   const id = router.query.id;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
@@ -53,7 +50,6 @@ export const ScheduleMentorshipModal = ({
   });
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
-  const { user } = useUser();
   const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
   const [updateEventStatus] = useMutation(UPDATE_EVENT);
   const { data: events } = useTypedQuery(api.GET_EVENTS, {
@@ -61,6 +57,7 @@ export const ScheduleMentorshipModal = ({
       learnerId: !user.isMentor ? user.id : null,
       mentorId: user.isMentor ? user.id : null,
     },
+    skip: !user.isLogged,
   });
 
   const stepButtons: TStepButtons = {
@@ -100,7 +97,7 @@ export const ScheduleMentorshipModal = ({
         throw new Error("Events is null");
       }
 
-      if (open) {
+      if (SCHEDULE_MENTORSHIP_MODAL) {
         setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
       } else {
         setCurrentStep(1);
@@ -201,7 +198,7 @@ export const ScheduleMentorshipModal = ({
       setCurrentStep(1);
     }
     if (close) {
-      setOpen(false);
+      closeModal(ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL);
     }
     await refetchAvailabilities();
   };
@@ -260,7 +257,7 @@ export const ScheduleMentorshipModal = ({
     );
 
   return (
-    <Modal open={open} onOpenChange={() => resetStates()}>
+    <Modal open={SCHEDULE_MENTORSHIP_MODAL} onOpenChange={() => resetStates()}>
       <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
         {currentStep === 1 && (
           <>
@@ -380,3 +377,5 @@ export const ScheduleMentorshipModal = ({
     </Modal>
   );
 };
+
+export default ScheduleMentorshipModal;
