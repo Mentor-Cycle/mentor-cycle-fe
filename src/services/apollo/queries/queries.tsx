@@ -108,6 +108,7 @@ export const GET_ME = gql`
       firstName
       lastName
       photoUrl
+      email
       jobTitle
       isMentor
       skills
