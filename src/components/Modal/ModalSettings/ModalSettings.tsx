@@ -24,6 +24,7 @@ import { IUserSession } from "types/user.types";
 import { useModal } from "contexts/ModalContext";
 import Modal from "../Modal";
 import { ModalActionTypes } from "contexts/types";
+import Dropzone from "@components/Dropzone";
 
 const ModalSettings = () => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
@@ -244,6 +245,7 @@ const ModalSettings = () => {
                     height={136}
                     className="rounded-lg"
                   />
+                  <Dropzone />
                 </div>
                 <form
                   className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
