@@ -8,10 +8,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
 import {
-  EditProfileProps,
   IEditProfileFormData,
   ILocationInterface,
-} from "./EditProfile.types";
+} from "./EditProfileModal.types";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
@@ -22,15 +21,15 @@ import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import {
   IEditProfileSubmitData,
   editProfileFormSchema,
-} from "@components/EditProfile/EditProfile.form";
+} from "@components/Modal/EditProfile/EditProfileModal.form";
 import { z } from "zod";
 import { useTypedQuery } from "@hooks/useTypedQuery";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
-const EditProfile = ({
-  openEditProfile,
-  setOpenEditProfile,
-}: EditProfileProps) => {
+const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
+  const { EDIT_PROFILE_MODAL, closeModal } = useModal();
   const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
   const { data: skills, error } = useTypedQuery(api.GET_SKILLS);
   if (error?.error) console.log("error", error);
@@ -87,7 +86,7 @@ const EditProfile = ({
         });
 
         toast.success("Alterações realizadas com sucesso!");
-        setOpenEditProfile(false);
+        closeModal(ModalActionTypes.EDIT_PROFILE_MODAL);
         reset();
       }
     } catch (error) {
@@ -128,7 +127,10 @@ const EditProfile = ({
     };
 
   return (
-    <Modal open={openEditProfile} onOpenChange={setOpenEditProfile}>
+    <Modal
+      open={EDIT_PROFILE_MODAL}
+      onOpenChange={() => closeModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
+    >
       <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
         <form
           className="max-md:w-auto md:w-[672px] text-start"
@@ -242,4 +244,4 @@ const EditProfile = ({
   );
 };
 
-export default EditProfile;
+export default EditProfileModal;

@@ -17,7 +17,7 @@ export const editProfileFormSchema = z.object({
   skills: userSchema.shape.skills,
   github: userSchema.shape.github.or(z.literal("")),
   linkedin: userSchema.shape.linkedin.or(z.literal("")),
-  email: userSchema.shape.email,
+  // email: userSchema.shape.email,
   jobTitle: userSchema.shape.jobTitle,
   yearsOfExperience: z.string().transform(Number),
   id: userSchema.shape.id,

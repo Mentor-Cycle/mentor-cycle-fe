@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import ModalNotifications from "@components/Modal/ModalNotifications";
 import { ModalActionTypes, ModalContextType, ModalState } from "./types";
 import ScheduleMentorshipModal from "@components/Modal/ModalScheduleMentorship";
+import EditProfileModal from "@components/Modal/EditProfile/EditProfileModal";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -44,6 +45,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
       <ScheduleMentorshipModal />
       <ModalSettings />
       <ModalNotifications />
+      <EditProfileModal />
     </ModalContext.Provider>
   );
 };
