@@ -1,7 +1,6 @@
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import EditProfile from "@components/EditProfile/EditProfile";
 import { InfoCard } from "@components/InfoCard";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
@@ -15,12 +14,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay } from "types/dashboard.types";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
-  const [openEditProfile, setOpenEditProfile] = useState(false);
+  const { openModal, closeModal } = useModal();
   const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
   const { user } = useUser();
   const router = useRouter();
@@ -48,13 +49,13 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (router.query.edit) {
-      setOpenEditProfile(true);
+      closeModal(ModalActionTypes.EDIT_PROFILE_MODAL);
     }
     if (router.query.availability) {
       setOpenModalAvailability(true);
     }
     window.history.replaceState(null, "", "/profile");
-  }, [router.query.availability, router.query.edit]);
+  }, [router.query.availability, router.query.edit, closeModal]);
 
   useEffect(() => {
     // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
@@ -231,7 +232,7 @@ const Profile: NextPage = () => {
                 className="mt-5"
                 size="regular"
                 variant="secondary"
-                onClick={() => setOpenEditProfile((isOpen) => !isOpen)}
+                onClick={() => openModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
               >
                 Editar Perfil
               </Button>
@@ -239,12 +240,6 @@ const Profile: NextPage = () => {
           </div>
         </aside>
       </main>
-      {
-        <EditProfile
-          openEditProfile={openEditProfile}
-          setOpenEditProfile={setOpenEditProfile}
-        />
-      }
     </>
   );
 };

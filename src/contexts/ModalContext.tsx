@@ -1,5 +1,6 @@
 import ModalNotifications from "@components/Modal/ModalNotifications";
 import ScheduleMentorshipModal from "@components/Modal/ModalScheduleMentorship";
+import EditProfileModal from "@components/Modal/EditProfile/EditProfileModal";
 import ModalSettings from "@components/Modal/ModalSettings";
 import ModalAlert from "@components/Modal/ModalAlert";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -55,6 +56,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
       <ModalSettings />
       <ModalNotifications />
       <ModalAlert />
+      <EditProfileModal />
     </ModalContext.Provider>
   );
 };

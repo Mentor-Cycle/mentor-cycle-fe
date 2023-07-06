@@ -2,18 +2,19 @@ import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
 import Input from "@components/Input";
 
+import SelectLocation from "@components/LocationSelector/SelectLocation";
 import {
   IEditProfileSubmitData,
   editProfileFormSchema,
-} from "@components/EditProfile/EditProfile.form";
-import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { Modal } from "@components/Modal/Modal";
+} from "@components/Modal/EditProfile/EditProfileModal.form";
 import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import Textarea from "@components/Textarea/Textarea";
 import { useFetch } from "@hooks/useFetch";
 import { Country, State } from "@hooks/useFetch.types";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -21,17 +22,15 @@ import { USER_UPDATE_DATA } from "services/apollo/mutations";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { z } from "zod";
+import { Modal } from "../Modal";
 import {
-  EditProfileProps,
   IEditProfileFormData,
   ILocationInterface,
-} from "./EditProfile.types";
+} from "./EditProfileModal.types";
 
-const EditProfile = ({
-  openEditProfile,
-  setOpenEditProfile,
-}: EditProfileProps) => {
+const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
+  const { EDIT_PROFILE_MODAL, closeModal } = useModal();
   const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
   const { data: skills, error } = useTypedQuery(api.GET_SKILLS);
   if (error?.error) console.log("error", error);
@@ -88,7 +87,7 @@ const EditProfile = ({
         });
 
         toast.success("Alterações realizadas com sucesso!");
-        setOpenEditProfile(false);
+        closeModal(ModalActionTypes.EDIT_PROFILE_MODAL);
         reset();
       }
     } catch (error) {
@@ -129,7 +128,10 @@ const EditProfile = ({
     };
 
   return (
-    <Modal.Root open={openEditProfile} onOpenChange={setOpenEditProfile}>
+    <Modal.Root
+      open={EDIT_PROFILE_MODAL}
+      onOpenChange={() => closeModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
+    >
       <Modal.Content>
         <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
           <form
@@ -245,4 +247,4 @@ const EditProfile = ({
   );
 };
 
-export default EditProfile;
+export default EditProfileModal;
