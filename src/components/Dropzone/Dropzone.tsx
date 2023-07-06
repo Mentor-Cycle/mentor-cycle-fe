@@ -27,6 +27,7 @@ const Dropzone = ({ setIsModalOpen }: IDropzone) => {
       customClass: {
         container: "swal-overlay",
         popup: "swal-overlay",
+        title: "!text-xl",
       },
       title: "Tem certeza que deseja mudar sua foto de perfil?",
       background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
