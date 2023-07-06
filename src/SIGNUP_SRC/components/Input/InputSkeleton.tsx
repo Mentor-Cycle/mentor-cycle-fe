@@ -21,7 +21,7 @@ export function InputSkeleton({ children, animation, ...rest }: InputSkeletonPro
         <p
           className={twMerge("text-sm", rest.textClasses, "leading-6")}
           style={{
-            color: "#989898", // gray-02
+            color: "#7c7c7c", // gray-03
           }}
         >
           {children ?? "Carregando..."}

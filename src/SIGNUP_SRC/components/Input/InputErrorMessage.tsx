@@ -26,11 +26,13 @@ export function InputErrorMessage({
           {...rest}
           {...animationProps}
           className={twMerge(
-            "mt-2 relative text-sm text-red-400 bg-primary-04/50 text-primary-02 p-2 rounded-lg",
-            rest.className
+            "mt-2 relative text-sm border border-primary-01 text-primary-02 font-medium p-2 rounded-lg",
+            rest.className,
+            "dark:bg-primary-01 dark:border-none font-normal"
           )}
           style={{
             color: "#E43D3D", // primary-02
+            // color: "#580505", // primary-05
             ..._st,
           }}
         >

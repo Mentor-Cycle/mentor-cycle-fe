@@ -12,6 +12,9 @@ import { ControllerRenderProps } from "react-hook-form";
 import { Input } from "SIGNUP_SRC/components/Input";
 import { OverrideConflict } from "types/overrideConflictTypes";
 import SelectModalContent from "SIGNUP_SRC/components/SelectControlled/SelectModalContent";
+import { twMerge } from "tailwind-merge";
+import { stSignBase, stSignGround } from "styles/input-sign";
+import { useTheme } from "next-themes";
 
 interface ISelect
   extends OverrideConflict<HTMLAttributes<HTMLDivElement>, ControllerRenderProps> {
@@ -33,18 +36,18 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
     onBlur,
     onChange,
     value,
-    className,
     tabIndex = 20,
     ...rest
   },
   ref
 ) {
-  const _cn = className ? ` ${className}` : "";
-
   const [isShowingOptionsModal, setIsShowingOptionsModal] = React.useState(false);
   const SelectRef = React.useRef<HTMLDivElement>(null);
   const showingOptions = options?.filter((opt) => !value.includes(opt)) ?? null;
   const hasSelectedAll = showingOptions?.length === 0;
+
+  const { theme } = useTheme();
+  const isLightMode = theme === "light";
 
   const handleClickSelect = () => {
     if (!hasSelectedAll) setIsShowingOptionsModal((isOpen) => !isOpen);
@@ -74,15 +77,13 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
 
   return (
     <div
-      className="relative font-normal text-neutral-02 focus:outline-red-500"
+      className="relative font-normal text-secondary-03 focus:outline-red-500"
       onBlur={onBlur}
       ref={SelectRef}
     >
       <input type="hidden" ref={fieldRef} />
       <SelectInput
-        className={
-          "px-3 py-2.5 min-h-[3.125rem] bg-secondary-04 border border-gray-05" + _cn
-        }
+        className={twMerge("", rest.className)}
         onClick={handleClickSelect}
         ref={ref}
         tabIndex={tabIndex}
@@ -92,14 +93,14 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
           value.map((selectedOption) => (
             <SelectedOption
               key={selectedOption}
-              className="py-[5px] px-4 bg-secondary-02 text-xs"
+              className="py-[5px] px-4 bg-gray-01 text-xs"
             >
               <span className="select-none">{selectedOption}</span>
               <ButtonRemoveSelectedOption
                 onClick={handleRemoveTag(selectedOption)}
-                className="hover:bg-gray-05"
+                className="hover:bg-gray-02"
               >
-                <IconX size={12} className="text-neutral-02" />
+                <IconX size={12} className="text-secondary-03" />
               </ButtonRemoveSelectedOption>
             </SelectedOption>
           ))
@@ -107,7 +108,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
           <TextPlaceholderSelect
             className="leading-none"
             style={{
-              color: "#7C7C7C", // gray-03
+              color: isLightMode ? "#7C7C7C" : "#7C7C7C", // gray-03
             }}
           >
             Selecione uma especialização
@@ -115,14 +116,14 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
         )}
         <ButtonClearAllOptions
           onClick={handleClearAllOptions}
-          className="hover:bg-secondary-02"
+          className="hover:bg-gray-01"
           tabIndex={tabIndex + 1}
         >
-          <IconTrash size={18} className="text-neutral-02" />
+          <IconTrash size={18} className="text-secondary-03" />
         </ButtonClearAllOptions>
       </SelectInput>
       {isShowingOptionsModal ? (
-        <ModalSelectOptions className="p-4 bg-secondary-04 border border-gray-05 border-t-0 z-10">
+        <ModalSelectOptions className="p-4 bg-neutral-05 border border-gray-02 border-t-0 z-10">
           <div className="max-h-[11rem] overflow-y-auto flex flex-col">
             <SelectModalContent
               handleChooseOption={handleChooseOption}

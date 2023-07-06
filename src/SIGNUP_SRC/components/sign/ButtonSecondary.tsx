@@ -12,7 +12,7 @@ export function ButtonSecondary(props: ButtonSecondaryProps) {
     <Form.Button
       {...props}
       className={twMerge(
-        "sm:order-none order-1 focus:outline-gray-04 bg-secondary-03 border border-gray-04 hover:bg-secondary-01 transition-colors duration-100",
+        "sm:order-none order-1 focus:outline-gray-02 bg-neutral-05 border border-gray-02 hover:border-primary-01 transition-colors duration-100 hover:text-primary-02 text-secondary-03",
         props.className
       )}
       tabIndex={props.tabIndex ?? 30}
@@ -21,3 +21,4 @@ export function ButtonSecondary(props: ButtonSecondaryProps) {
     </Form.Button>
   );
 }
+// "sm:order-none order-1 focus:outline-gray-02 bg-neutral-05 border border-gray-02 hover:bg-secondary-01 transition-colors duration-100",

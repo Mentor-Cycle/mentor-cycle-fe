@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes, useId } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { Input } from "SIGNUP_SRC/components/Input";
 import { twMerge } from "tailwind-merge";
+import { stSignInput } from "styles/input-sign";
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -39,7 +40,7 @@ export const InputString = React.forwardRef<HTMLInputElement, IInput>(
           tabIndex={tabIndex}
           type={type}
           id={inputId}
-          className={twMerge("input-sign", rest.className)}
+          className={twMerge(stSignInput, rest.className)}
           ref={asChild ? null : ref}
         >
           {children}

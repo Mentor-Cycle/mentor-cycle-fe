@@ -39,8 +39,9 @@ export const InputCheckbox = React.forwardRef<HTMLButtonElement, InputCheckboxPr
           onBlur={onBlur}
           id={id}
           className={twMerge(
-            "shrink-0 h-[22px] basis-[22px] grid place-items-center my-0.5 appearance-none rounded bg-secondary-04 border border-gray-05 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 data-[state=checked]:bg-gray-05",
-            rest.className
+            "shrink-0 h-[22px] basis-[22px] grid place-items-center my-0.5 appearance-none rounded bg-neutral-05 border border-gray-02 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 data-[state=checked]:bg-secondary-03 data-[state=checked]:border-secondary-03",
+            rest.className,
+            "dark:bg-neutral-05"
           )}
         >
           <Checkbox.Indicator className="text-gray-01">
@@ -51,7 +52,7 @@ export const InputCheckbox = React.forwardRef<HTMLButtonElement, InputCheckboxPr
           className="flex-1 text-sm"
           htmlFor={id}
           style={{
-            color: "#989898", // gray-02
+            color: "#7c7c7c", // gray-03
           }}
         >
           {label}

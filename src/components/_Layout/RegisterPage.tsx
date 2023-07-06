@@ -17,6 +17,8 @@ import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { TextToggle } from "SIGNUP_SRC/components/Form/TextToggle";
 import { Sign } from "SIGNUP_SRC/components/sign";
+import { twMerge } from "tailwind-merge";
+import { useTheme } from "next-themes";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword", "isTermsAccepted"],
@@ -32,6 +34,8 @@ const geoCitiesOptions: IUseGeoCities = {
 };
 
 export const RegisterPage = () => {
+  const { theme } = useTheme();
+  const isLightMode = theme === "light";
   const { formCurrentStep, setFormCurrentStep, setIsChoosingPlan } = useMultistepForm();
   const methods = useFormContext<IFormValues>();
 
@@ -94,7 +98,7 @@ export const RegisterPage = () => {
 
   return (
     <main className="flex flex-col">
-      <section className="h-28 border-b border-gray-02 hidden sm:flex">
+      <section className="h-28 border-b border-gray-03 hidden sm:flex">
         <CenteredContainer className="flex items-center justify-between px-8 sm:px-12">
           <Stepper
             steps={[1, 2, 3]}
@@ -104,7 +108,7 @@ export const RegisterPage = () => {
           />
           <div className="max-w-xs">
             <h3 className="font-bold text-xl">Status do seu registro</h3>
-            <p className="text-gray-02 text-xs w-3/4 md:block hidden">
+            <p className="text-gray-03 text-xs w-3/4 md:block hidden">
               Acompanhe em qual parte do registro você se encontra
             </p>
           </div>
@@ -135,15 +139,31 @@ export const RegisterPage = () => {
                 <TextToggle.Root>
                   <input type="hidden" ref={ref} />
                   <TextToggle.Label
-                    className="bg-secondary-02 border border-gray-05 whitespace-nowrap"
-                    color="#CECECE"
+                    className={twMerge(
+                      "bg-neutral-05 text-gray-03 border border-gray-03 whitespace-nowrap",
+                      "dark:bg-gray-03 dark:text-gray-01 dark:border-gray-03"
+                    )}
+                    color={isLightMode ? "#7c7c7c" : "#CECECE"}
                     text="Deseja participar como"
                   />
                   <TextToggle.OptionsContainer
-                    className="bg-secondary-04 border border-gray-05 flex-col xs:flex-row rounded-xl xs:rounded-full"
-                    optionsColor="#CECECE"
-                    optionsHoverBackgroundColor="#343434"
-                    optionSelected="#3E3E3E"
+                    className={twMerge(
+                      "text-secondary-02 bg-neutral-05 border border-gray-03 flex-col xs:flex-row rounded-xl xs:rounded-full",
+                      "dark:border-gray-02 dark:text-secondary-01"
+                    )}
+                    optionsColor={
+                      isLightMode
+                        ? "#212324" // secondary-02
+                        : "#CECECE" // gray-01
+                    }
+                    optionsHoverBackgroundColor={
+                      isLightMode
+                        ? "#cecece" //gray-01
+                        : "#343434" // secondary-01
+                    }
+                    optionSelected={
+                      isLightMode ? "#bcbcbc" : "#3E3E3E" // gray-05
+                    }
                   >
                     <TextToggle.Option
                       {...field}

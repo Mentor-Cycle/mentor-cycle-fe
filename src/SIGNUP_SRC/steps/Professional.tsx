@@ -2,6 +2,8 @@ import { IFormValues } from "SIGNUP_SRC/types";
 import { Controller, useFormContext } from "react-hook-form";
 import { useId } from "react";
 import { Input } from "SIGNUP_SRC/components/Input";
+import { twMerge } from "tailwind-merge";
+import { stSignInput } from "styles/input-sign";
 
 export const Professional = () => {
   const descriptionId = useId();
@@ -39,7 +41,7 @@ export const Professional = () => {
               <textarea
                 id={descriptionId}
                 tabIndex={20}
-                className="input-sign min-h-[50px] h-[150px]"
+                className={twMerge(stSignInput, "min-h-[50px] h-[150px]")}
                 placeholder="Uma breve descrição de você..."
                 {...field}
               />

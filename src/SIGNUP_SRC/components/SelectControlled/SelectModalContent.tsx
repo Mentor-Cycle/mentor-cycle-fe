@@ -1,6 +1,7 @@
 import React from "react";
 import { ModalTextAllOptionsSelected } from "./ModalTextAllOptionsSelected";
 import { ModalOption } from "./ModalOption";
+import { twMerge } from "tailwind-merge";
 
 interface SelectModalContentProps {
   showingOptions: string[] | null;
@@ -40,7 +41,10 @@ export default function SelectModalContent(props: SelectModalContentProps) {
         <ModalOption
           key={option}
           onClick={props.handleChooseOption(option)}
-          className="py-2 px-4 hover:bg-secondary-02 rounded-lg"
+          className={twMerge(
+            "py-2 px-4 hover:bg-gray-01 rounded-lg",
+            "dark:hover:bg-gray-03"
+          )}
         >
           <span className="select-none">{option}</span>
         </ModalOption>

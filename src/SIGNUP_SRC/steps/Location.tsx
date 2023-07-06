@@ -7,6 +7,8 @@ import { StatesFactoryMethods } from "SIGNUP_SRC/steps/factories/useStatesFactor
 import { CitiesFactoryMethods } from "SIGNUP_SRC/steps/factories/useCitiesFactory/types";
 import { SkillsFactoryMethods } from "SIGNUP_SRC/steps/factories/useSkillsFactory/types";
 import { Form } from "SIGNUP_SRC/components/Form";
+import { twMerge } from "tailwind-merge";
+import { stSignInput } from "styles/input-sign";
 
 export interface LocationProps {
   countryFactory: CountriesFactoryMethods;
@@ -125,7 +127,7 @@ export const Location = (props: LocationProps) => {
                 mask="_"
                 placeholder="__/__/____"
                 defaultValue={value.replace(/\D/g, "")}
-                className="input-sign"
+                className={twMerge(stSignInput)}
                 tabIndex={20}
                 {...rest}
               />
@@ -147,7 +149,7 @@ export const Location = (props: LocationProps) => {
                 options={Skills.options}
                 tabIndex={20}
                 isLoading={Skills.isLoading}
-                className="input-sign"
+                className={stSignInput}
                 {...field}
                 ref={null}
               />
