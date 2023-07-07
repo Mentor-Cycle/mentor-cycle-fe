@@ -46,7 +46,7 @@ const ScheduleMentorshipModal = () => {
     loading: loadingMentor,
     error: errorMentor,
   } = useMentorProfile(id as string, {
-    skip: !id,
+    skip: !id || !SCHEDULE_MENTORSHIP_MODAL,
   });
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
@@ -57,7 +57,7 @@ const ScheduleMentorshipModal = () => {
       learnerId: !user.isMentor ? user.id : null,
       mentorId: user.isMentor ? user.id : null,
     },
-    skip: !user.isLogged,
+    skip: !user.isLogged || !SCHEDULE_MENTORSHIP_MODAL,
   });
 
   const stepButtons: TStepButtons = {
@@ -246,15 +246,6 @@ const ScheduleMentorshipModal = () => {
   useEffect(() => {
     setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
   }, [daySelected, daysAndTimes]);
-
-  if (loadingMentor)
-    return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-      </>
-    );
 
   return (
     <Modal open={SCHEDULE_MENTORSHIP_MODAL} onOpenChange={() => resetStates()}>
