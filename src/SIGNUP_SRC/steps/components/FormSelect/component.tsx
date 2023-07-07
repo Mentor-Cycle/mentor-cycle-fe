@@ -28,14 +28,11 @@ export function FormSelect<T extends FieldPath<IFormValues>>(props: IFormSelect<
   // falsy ativa o placeholder, string vazia não é falsy
   const value = hasValidValue ? selectValue : null;
 
-  if (props.isLoading) {
-    return <Input.Skeleton />;
-  }
-
   return (
     <Select
       id={props.id}
       options={props.options ?? []}
+      isLoading={props.isLoading}
       autoFocus
       unstyled
       tabIndex={props.tabIndex}
@@ -72,16 +69,13 @@ export function FormSelect<T extends FieldPath<IFormValues>>(props: IFormSelect<
         container: ({ isDisabled }) =>
           twMerge(
             stSignInput,
-            `focus-within:outline-1 focus-within:outline-gray-03 focus-within:outline-offset-2`,
-            isDisabled ? "bg-gray-01 dark:bg-gray-03" : ""
+            `focus-within:outline-1 focus-within:outline-ring-strong focus-within:outline-offset-2`,
+            isDisabled ? "bg-back-block" : ""
           ),
         menu: () => stSignInput,
         option: () =>
-          twMerge(
-            "py-2 px-4 hover:bg-gray-01 rounded-lg hover:cursor-pointer",
-            "dark:hover:bg-gray-03"
-          ),
-        placeholder: () => "text-gray-03",
+          twMerge("py-2 px-4 hover:bg-back-shadow rounded-lg hover:cursor-pointer"),
+        placeholder: () => "text-fore-subtle",
       }}
     />
   );

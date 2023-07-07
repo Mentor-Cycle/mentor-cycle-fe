@@ -130,7 +130,7 @@ export const RegisterPage = () => {
           </aside>
           <form
             onSubmit={handleSubmit(submitHandler)}
-            className="relative w-full m-auto pt-12 lg:m-0 mb-24 max-w-[43rem]"
+            className="is-form relative form w-full m-auto pt-12 lg:m-0 mb-24 max-w-[43rem]"
           >
             <Controller
               name="isMentor"
@@ -140,30 +140,19 @@ export const RegisterPage = () => {
                   <input type="hidden" ref={ref} />
                   <TextToggle.Label
                     className={twMerge(
-                      "bg-neutral-05 text-gray-03 border border-gray-03 whitespace-nowrap",
-                      "dark:bg-gray-03 dark:text-gray-01 dark:border-gray-03"
+                      "bg-back-ground text-fore-subtle border border-ring-base whitespace-nowrap"
+                      // "dark:bg-gray-03 dark:text-gray-01 dark:border-gray-03"
                     )}
-                    color={isLightMode ? "#7c7c7c" : "#CECECE"}
                     text="Deseja participar como"
                   />
                   <TextToggle.OptionsContainer
                     className={twMerge(
-                      "text-secondary-02 bg-neutral-05 border border-gray-03 flex-col xs:flex-row rounded-xl xs:rounded-full",
-                      "dark:border-gray-02 dark:text-secondary-01"
+                      "bg-back-ground border border-ring-base flex-col xs:flex-row rounded-xl xs:rounded-full"
+                      // "dark:border-gray-02 dark:text-secondary-01"
                     )}
-                    optionsColor={
-                      isLightMode
-                        ? "#212324" // secondary-02
-                        : "#CECECE" // gray-01
-                    }
-                    optionsHoverBackgroundColor={
-                      isLightMode
-                        ? "#cecece" //gray-01
-                        : "#343434" // secondary-01
-                    }
-                    optionSelected={
-                      isLightMode ? "#bcbcbc" : "#3E3E3E" // gray-05
-                    }
+                    optionsColor="var(--fore-accent)"
+                    optionsHoverBackgroundColor="var(--back-shadow)"
+                    optionSelected="var(--middle-ground)"
                   >
                     <TextToggle.Option
                       {...field}

@@ -46,9 +46,6 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
   const showingOptions = options?.filter((opt) => !value.includes(opt)) ?? null;
   const hasSelectedAll = showingOptions?.length === 0;
 
-  const { theme } = useTheme();
-  const isLightMode = theme === "light";
-
   const handleClickSelect = () => {
     if (!hasSelectedAll) setIsShowingOptionsModal((isOpen) => !isOpen);
   };
@@ -76,11 +73,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
   }
 
   return (
-    <div
-      className="relative font-normal text-secondary-03 focus:outline-red-500"
-      onBlur={onBlur}
-      ref={SelectRef}
-    >
+    <div className="relative font-normal" onBlur={onBlur} ref={SelectRef}>
       <input type="hidden" ref={fieldRef} />
       <SelectInput
         className={twMerge("", rest.className)}
@@ -93,37 +86,35 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
           value.map((selectedOption) => (
             <SelectedOption
               key={selectedOption}
-              className="py-[5px] px-4 bg-gray-01 text-xs"
+              className="py-[5px] px-4 bg-middle-ground text-xs"
             >
               <span className="select-none">{selectedOption}</span>
               <ButtonRemoveSelectedOption
                 onClick={handleRemoveTag(selectedOption)}
-                className="hover:bg-gray-02"
+                className="hover:bg-middle-shadow"
               >
-                <IconX size={12} className="text-secondary-03" />
+                <IconX size={12} className="text-symbol" />
               </ButtonRemoveSelectedOption>
             </SelectedOption>
           ))
         ) : (
           <TextPlaceholderSelect
             className="leading-none"
-            style={{
-              color: isLightMode ? "#7C7C7C" : "#7C7C7C", // gray-03
-            }}
+            style={{ color: "var(--fore-subtle)" }}
           >
             Selecione uma especialização
           </TextPlaceholderSelect>
         )}
         <ButtonClearAllOptions
           onClick={handleClearAllOptions}
-          className="hover:bg-gray-01"
+          className="hover:bg-back-shadow"
           tabIndex={tabIndex + 1}
         >
-          <IconTrash size={18} className="text-secondary-03" />
+          <IconTrash size={18} className="text-symbol" />
         </ButtonClearAllOptions>
       </SelectInput>
       {isShowingOptionsModal ? (
-        <ModalSelectOptions className="p-4 bg-neutral-05 border border-gray-02 border-t-0 z-10">
+        <ModalSelectOptions className="p-4 bg-back-ground border border-ring-base border-t-0 z-10">
           <div className="max-h-[11rem] overflow-y-auto flex flex-col">
             <SelectModalContent
               handleChooseOption={handleChooseOption}

@@ -18,9 +18,7 @@ export function Label({ text, ...props }: LabelProps) {
         props.className
       )}
       style={{
-        color: isLightMode
-          ? "#7c7c7c" // gray-03
-          : "#CECECE", // gray-01
+        color: "var(--fore-subtle)",
       }}
     >
       {text}

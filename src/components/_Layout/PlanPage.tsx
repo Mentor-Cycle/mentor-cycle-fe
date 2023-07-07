@@ -1,4 +1,5 @@
 import Button from "@components/Button";
+import { CenteredContainer } from "@components/CenteredContainer";
 import ProfileCardToggle from "@components/ProfileCardToggle";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { Sign } from "SIGNUP_SRC/components/sign";
@@ -14,7 +15,7 @@ export const PlanPage = () => {
   };
 
   return (
-    <main className=" min-h-screen flex flex-col items-center">
+    <CenteredContainer className="min-h-screen flex flex-col items-center px-8">
       <section className="max-w-2xl mt-20">
         <div>
           <h1 className="text-primary-05 dark:text-neutral-01 text-2xl sm:text-5xl text-center">
@@ -27,13 +28,13 @@ export const PlanPage = () => {
         <div className="mb-32">
           <ProfileCardToggle />
         </div>
-        <Form.MultipleInRow className="mb-32">
+        <Form.MultipleInRow className="is-form mb-32">
           <Sign.ButtonSecondary asChild>
             <Link href="/signin">Voltar</Link>
           </Sign.ButtonSecondary>
           <Sign.ButtonPrimary onClick={handleNext} text="Próximo" />
         </Form.MultipleInRow>
       </section>
-    </main>
+    </CenteredContainer>
   );
 };

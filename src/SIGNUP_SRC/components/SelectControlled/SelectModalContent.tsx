@@ -17,7 +17,7 @@ export default function SelectModalContent(props: SelectModalContentProps) {
     return (
       <ModalTextAllOptionsSelected
         className="pr-2 pl-4 italic text-sm"
-        style={{ color: "#CECECE" }} // gray-01
+        style={{ color: "var(--fore-subtle)" }} // gray-01
       >
         Carregando...
       </ModalTextAllOptionsSelected>
@@ -28,7 +28,7 @@ export default function SelectModalContent(props: SelectModalContentProps) {
     return (
       <ModalTextAllOptionsSelected
         className="pr-2 pl-4 italic text-sm"
-        style={{ color: "#CECECE" }} // gray-01
+        style={{ color: "var(--fore-subtle)" }} // gray-01
       >
         {props.textAllOptionsSelected ?? "Todas opções foram selecionadas."}
       </ModalTextAllOptionsSelected>
@@ -42,8 +42,7 @@ export default function SelectModalContent(props: SelectModalContentProps) {
           key={option}
           onClick={props.handleChooseOption(option)}
           className={twMerge(
-            "py-2 px-4 hover:bg-gray-01 rounded-lg",
-            "dark:hover:bg-gray-03"
+            "py-2 px-4 hover:bg-back-shadow rounded-lg text-fore-ground-base"
           )}
         >
           <span className="select-none">{option}</span>

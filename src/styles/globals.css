@@ -29,97 +29,6 @@ a {
   label {
     @apply text-primary-05 dark:text-neutral-01;
   }
-
-  :root {
-    --background: var(--neutral-03);
-
-    --primary-05: #580505;
-    --primary-04: #790404;
-    --primary-03: #ba0000;
-    --primary-02: #e43d3d;
-    --primary-01: #f36b6b;
-
-    --secondary-05: #0b0c0d;
-    --secondary-04: #0c0e0f;
-    --secondary-03: #171818;
-    --secondary-02: #212324;
-    --secondary-01: #343434;
-
-    --gray-05: #3e3e3e;
-    --gray-04: #535353;
-    --gray-03: #7c7c7c;
-    --gray-02: #989898;
-    --gray-01: #cecece;
-
-    --neutral-05: #e4e4e4;
-    --neutral-04: #f3eeee;
-    --neutral-03: #f3f3f3;
-    --neutral-02: #f8f8f8;
-    --neutral-01: #fefefe;
-
-    --success-01: #237c00;
-    --success-02: #3eb80e;
-    --success-03: #e4f9da;
-
-    --danger-01: #ea172e;
-    --danger-02: #ee4b4b;
-    --danger-03: #fcd2d2;
-
-    --info-01: #1f62a5;
-    --info-02: #61aee7;
-    --info-03: #c7deef;
-
-    --waiting-01: #f8ba1b;
-    --waiting-02: #ffd234;
-
-    --link-01: #3201be;
-    --link-02: #2420f9;
-  }
-  .dark {
-    --background: var(--secondary-02);
-
-    --primary-05: #580505;
-    --primary-04: #790404;
-    --primary-03: #ba0000;
-    --primary-02: #e43d3d;
-    --primary-01: #f36b6b;
-
-    --secondary-05: #0b0c0d;
-    --secondary-04: #0c0e0f;
-    --secondary-03: #171818;
-    --secondary-02: #212324;
-    --secondary-01: #343434;
-
-    --gray-05: #3e3e3e;
-    --gray-04: #535353;
-    --gray-03: #7c7c7c;
-    --gray-02: #989898;
-    --gray-01: #cecece;
-
-    --neutral-05: #e4e4e4;
-    --neutral-04: #f3eeee;
-    --neutral-03: #f3f3f3;
-    --neutral-02: #f8f8f8;
-    --neutral-01: #fefefe;
-
-    --success-01: #237c00;
-    --success-02: #3eb80e;
-    --success-03: #e4f9da;
-
-    --danger-01: #ea172e;
-    --danger-02: #ee4b4b;
-    --danger-03: #fcd2d2;
-
-    --info-01: #1f62a5;
-    --info-02: #61aee7;
-    --info-03: #c7deef;
-
-    --waiting-01: #f8ba1b;
-    --waiting-02: #ffd234;
-
-    --link-01: #3201be;
-    --link-02: #2420f9;
-  }
 }
 
 @layer components {
@@ -170,4 +79,92 @@ a {
   background-color: #f36b6b;
   border-radius: 14px;
   border: none;
+}
+
+:root {
+  --background: var(--neutral-03);
+
+  --primary-05: #580505;
+  --primary-04: #790404;
+  --primary-03: #ba0000;
+  --primary-02: #e43d3d;
+  --primary-01: #f36b6b;
+
+  --secondary-05: #0b0c0d;
+  --secondary-04: #0c0e0f;
+  --secondary-03: #171818;
+  --secondary-02: #212324;
+  --secondary-01: #343434;
+
+  --gray-05: #3e3e3e;
+  --gray-04: #535353;
+  --gray-03: #7c7c7c;
+  --gray-02: #989898;
+  --gray-01: #cecece;
+
+  --neutral-05: #e4e4e4;
+  --neutral-04: #f3eeee;
+  --neutral-03: #f3f3f3;
+  --neutral-02: #f8f8f8;
+  --neutral-01: #fefefe;
+
+  --success-01: #237c00;
+  --success-02: #3eb80e;
+  --success-03: #e4f9da;
+
+  --danger-01: #ea172e;
+  --danger-02: #ee4b4b;
+  --danger-03: #fcd2d2;
+
+  --info-01: #1f62a5;
+  --info-02: #61aee7;
+  --info-03: #c7deef;
+
+  --waiting-01: #f8ba1b;
+  --waiting-02: #ffd234;
+
+  --link-01: #3201be;
+  --link-02: #2420f9;
+}
+
+.is-form {
+  --back-ground: rgb(249, 249, 249);
+  --back-block: rgb(227, 227, 227);
+  --back-shadow: rgb(238, 238, 238);
+  --middle-ground: rgb(227, 227, 227);
+  --middle-shadow: rgb(207, 207, 207);
+  --fore-ground-base: var(--gray-05);
+  --fore-ground-dark: var(--secondary-01);
+  --fore-shadow-base: var(--waiting-01);
+  --fore-shadow-dark: var(--waiting-02);
+  --fore-subtle: var(--gray-03);
+  --fore-accent: var(--gray-05);
+  --ring-base: var(--gray-01);
+  --ring-strong: var(--gray-02);
+  --symbol: var(--gray-03);
+
+  --error: rgb(66 15 15);
+
+  --shadow-opacity: 0.07;
+  --shadow-input: 0 10px 15px -3px rgba(0 0 0 / var(--shadow-opacity)),
+    0 4px 6px -4px rgba(0 0 0 / var(--shadow-opacity));
+}
+
+.dark .is-form {
+  --back-ground: var(--secondary-04);
+  --back-block: var(--secondary-02);
+  --back-shadow: var(--secondary-01);
+  --middle-ground: var(--gray-05);
+  --middle-shadow: var(--gray-04);
+  --fore-ground-base: var(--neutral-02);
+  --fore-ground-dark: var(--gray-02);
+  --fore-shadow-base: var(--gray-02);
+  --fore-shadow-dark: var(--gray-03);
+  --fore-subtle: var(--gray-02);
+  --fore-accent: var(--neutral-05);
+  --ring-base: var(--gray-05);
+  --ring-strong: var(--gray-05);
+  --symbol: var(--gray-02);
+
+  --error: rgb(66 15 15);
 }

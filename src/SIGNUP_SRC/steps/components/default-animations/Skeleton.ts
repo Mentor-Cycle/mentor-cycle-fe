@@ -5,10 +5,7 @@ export const skeletonDefaultAnimation = (props?: { duration: number }): MotionPr
 
   return {
     animate: {
-      backgroundColor: [
-        "#171818", // secondary 03
-        "#343434", // secondary 01
-      ],
+      backgroundColor: ["var(--back-ground)", "var(--back-shadow)"],
     },
     transition: {
       repeat: Infinity,

@@ -28,7 +28,7 @@ export function InputErrorMessage({
           className={twMerge(
             "mt-2 relative text-sm border border-primary-01 text-primary-02 font-medium p-2 rounded-lg",
             rest.className,
-            "dark:bg-primary-01 dark:border-none font-normal"
+            "dark:bg-error dark:border-none font-normal"
           )}
           style={{
             color: "#E43D3D", // primary-02

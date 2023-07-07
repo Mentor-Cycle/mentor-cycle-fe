@@ -105,6 +105,36 @@ module.exports = {
         ...violet,
         ...green,
         ...blackA,
+        error: "var(--error)",
+        back: {
+          ground: "var(--back-ground)",
+          block: "var(--back-block)",
+          shadow: "var(--back-shadow)",
+        },
+        middle: {
+          ground: "var(--middle-ground)",
+          shadow: "var(--middle-shadow)",
+        },
+        fore: {
+          ground: {
+            base: "var(--fore-ground-base)",
+            dark: "var(--fore-ground-dark)",
+          },
+          shadow: {
+            base: "var(--fore-shadow-base)",
+            dark: "var(--fore-shadow-dark)",
+          },
+          subtle: "var(--fore-subtle)",
+          accent: "var(--fore-accent)",
+        },
+        ring: {
+          base: "var(--ring-base)",
+          strong: "var(--ring-strong)",
+        },
+        symbol: "var(--symbol)",
+      },
+      boxShadow: {
+        input: "var(--shadow-input)",
       },
       keyframes: {
         slideDown: {
