@@ -1,22 +1,22 @@
+import { useMutation } from "@apollo/client";
+import NavBar from "@components/NavBar/NavBar";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { useUser } from "@hooks/useUser";
 import clsx from "clsx";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
 import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
-import NavBar from "@components/NavBar/NavBar";
-import { useMutation } from "@apollo/client";
-import { useUser } from "@hooks/useUser";
-import { LOGOUT_USER } from "services/apollo/mutations";
-import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { useTypedQuery } from "@hooks/useTypedQuery";
-import { removeTypenameProperty } from "utils/removeTypename";
 import { MdNotifications } from "react-icons/md";
-import { useModal } from "contexts/ModalContext";
-import { ModalActionTypes } from "contexts/types";
+import { LOGOUT_USER } from "services/apollo/mutations";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { removeTypenameProperty } from "utils/removeTypename";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -63,6 +63,7 @@ export default function Header() {
     { text: "Editar Perfil", action: "editprofile" },
     { text: "Dark Mode", action: "darkmode" },
     { text: "Configurações", action: "settings" },
+    { text: "Trocar Perfil", action: "logout" },
     { text: "Sair", action: "logout" },
   ];
 
