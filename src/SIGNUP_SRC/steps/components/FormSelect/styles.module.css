@@ -1,0 +1,13 @@
+.container,
+.menu {
+  background-color: theme("colors.neutral.03");
+}
+
+.container:hover > .menu {
+  background-color: theme("colors.neutral.01");
+}
+
+.isDisabled {
+  opacity: 0.5;
+  /* background-color: theme('colors.neutral.05'); */
+}

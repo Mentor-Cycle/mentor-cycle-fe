@@ -1,0 +1,3 @@
+.wrapper:has(.container:hover) > .container {
+  background-color: theme("colors.neutral.01");
+}

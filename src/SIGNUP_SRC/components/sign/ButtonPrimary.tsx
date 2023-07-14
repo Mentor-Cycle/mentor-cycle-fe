@@ -12,7 +12,7 @@ export function ButtonPrimary(props: ButtonPrimaryProps) {
     <Form.Button
       {...props}
       className={twMerge(
-        "bg-primary-02 hover:bg-primary-01 disabled:bg-primary-04 focus:outline-primary-02 transition-colors duration-100",
+        "bg-primary-03 hover:bg-primary-01 disabled:bg-gray-02 focus:outline-primary-03 transition-colors active:bg-primary-04 duration-100",
         props.className
       )}
       tabIndex={props.tabIndex ?? 25}

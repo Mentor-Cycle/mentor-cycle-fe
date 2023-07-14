@@ -28,7 +28,7 @@ export const PlanPage = () => {
         <div className="mb-32">
           <ProfileCardToggle />
         </div>
-        <Form.MultipleInRow className="is-form mb-32">
+        <Form.MultipleInRow className="mb-32">
           <Sign.ButtonSecondary asChild>
             <Link href="/signin">Voltar</Link>
           </Sign.ButtonSecondary>

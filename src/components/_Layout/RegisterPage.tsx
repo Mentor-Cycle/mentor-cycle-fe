@@ -5,7 +5,7 @@ import StepperVertical from "@components/StepperVertical";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
 import { Personal } from "SIGNUP_SRC/steps/Personal";
 import { IFormValues } from "SIGNUP_SRC/types";
-import { Controller, PathValue, SubmitHandler, useFormContext } from "react-hook-form";
+import { PathValue, SubmitHandler, useFormContext } from "react-hook-form";
 import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
 import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
@@ -15,10 +15,11 @@ import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
 import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
-import { TextToggle } from "SIGNUP_SRC/components/Form/TextToggle";
 import { Sign } from "SIGNUP_SRC/components/sign";
-import { twMerge } from "tailwind-merge";
-import { useTheme } from "next-themes";
+import { toast } from "react-toastify";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "services/apollo/mutations";
+import { useRouter } from "next/router";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
   0: ["firstName", "lastName", "email", "password", "repeatPassword", "isTermsAccepted"],
@@ -34,21 +35,19 @@ const geoCitiesOptions: IUseGeoCities = {
 };
 
 export const RegisterPage = () => {
-  const { theme } = useTheme();
-  const isLightMode = theme === "light";
   const { formCurrentStep, setFormCurrentStep, setIsChoosingPlan } = useMultistepForm();
   const methods = useFormContext<IFormValues>();
+  const [createUser] = useMutation(CREATE_USER);
+  const router = useRouter();
 
   const {
     handleSubmit,
     trigger,
-    formState: { errors },
-    control,
+    formState: { errors, isSubmitting },
     watch,
   } = methods;
 
   const isMentor = watch("isMentor");
-  const isMentorDatatype = isMentor ? "mentor" : "mentorado";
 
   const isInFirstStep = formCurrentStep === 0;
   const isInLastStep = formCurrentStep === 2;
@@ -83,18 +82,48 @@ export const RegisterPage = () => {
     setFormCurrentStep((currentStep) => currentStep - 1);
   };
 
-  const submitHandler: SubmitHandler<IFormValues> = (formData) => {
-    console.log("submitHandler");
-    console.log(formData);
+  const submitHandler: SubmitHandler<IFormValues> = async (formData) => {
+    const { repeatPassword, isTermsAccepted, ...createUserPayload } = formData;
+
+    try {
+      const response = await toast.promise(
+        createUser({
+          variables: {
+            input: createUserPayload,
+          },
+        }),
+        {
+          pending: "Aguarde um momento...",
+          success: `Usuário ${
+            formData.firstName ? formData.firstName : "MentorCycle"
+          } cadastrado com sucesso!`,
+        }
+      );
+      if (response.data.signUpUser) {
+        localStorage.removeItem("form-data");
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
   };
 
-  const handleIsMentorToggle =
-    (onChangeHookForm: (...args: any[]) => void) =>
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const { name } = e.currentTarget;
-      const isMentor = name === "mentor";
-      onChangeHookForm(isMentor as PathValue<IFormValues, "isMentor">);
+  const getErrorMessage = (error: any) => {
+    const errorMessages: Record<string, string> = {
+      description: "A descrição precisa ter no mínimo 2 caracteres",
+      email: "Este email já possui cadastro",
     };
+
+    for (const key in errorMessages) {
+      if (error.message.includes(key)) {
+        return errorMessages[key];
+      }
+    }
+
+    return error instanceof Error
+      ? error.message
+      : "Não foi possivel concluir o cadastro, tente novamente mais tarde";
+  };
 
   return (
     <main className="flex flex-col">
@@ -130,50 +159,8 @@ export const RegisterPage = () => {
           </aside>
           <form
             onSubmit={handleSubmit(submitHandler)}
-            className="is-form relative form w-full m-auto pt-12 lg:m-0 mb-24 max-w-[43rem]"
+            className="relative form w-full mx-auto pt-12 lg:mx-0 mb-24 max-w-[43rem]"
           >
-            <Controller
-              name="isMentor"
-              control={control}
-              render={({ field: { value, ref, ...field } }) => (
-                <TextToggle.Root>
-                  <input type="hidden" ref={ref} />
-                  <TextToggle.Label
-                    className={twMerge(
-                      "bg-back-ground text-fore-subtle border border-ring-base whitespace-nowrap"
-                      // "dark:bg-gray-03 dark:text-gray-01 dark:border-gray-03"
-                    )}
-                    text="Deseja participar como"
-                  />
-                  <TextToggle.OptionsContainer
-                    className={twMerge(
-                      "bg-back-ground border border-ring-base flex-col xs:flex-row rounded-xl xs:rounded-full"
-                      // "dark:border-gray-02 dark:text-secondary-01"
-                    )}
-                    optionsColor="var(--fore-accent)"
-                    optionsHoverBackgroundColor="var(--back-shadow)"
-                    optionSelected="var(--middle-ground)"
-                  >
-                    <TextToggle.Option
-                      {...field}
-                      name="mentor"
-                      option="Mentor"
-                      onClick={handleIsMentorToggle(field.onChange)}
-                      optionSelected={isMentorDatatype}
-                      className="xs:rounded-full rounded-[10px]"
-                    />
-                    <TextToggle.Option
-                      {...field}
-                      name="mentorado"
-                      option="Mentorado"
-                      onClick={handleIsMentorToggle(field.onChange)}
-                      optionSelected={isMentorDatatype}
-                      className="xs:rounded-full rounded-[10px]"
-                    />
-                  </TextToggle.OptionsContainer>
-                </TextToggle.Root>
-              )}
-            />
             <div className="mb-3">
               {formCurrentStep === 0 && <Personal />}
               {formCurrentStep === 1 && (
@@ -191,7 +178,7 @@ export const RegisterPage = () => {
               {isInLastStep && (
                 <Sign.ButtonPrimary
                   type="submit"
-                  disabled={!shouldGoForward}
+                  disabled={!shouldGoForward || isSubmitting}
                   text="Enviar"
                 />
               )}

@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ISelectInput extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -6,15 +7,13 @@ interface ISelectInput extends HTMLAttributes<HTMLDivElement> {
 
 export const SelectInput = React.forwardRef<HTMLDivElement, ISelectInput>(
   function SelecInputComponent({ children, className, ...rest }, ref) {
-    const _cn = ` ${className ?? ""}`;
-
     return (
       <div
-        className={
-          "flex flex-wrap gap-2 pr-16 items-center cursor-pointer w-full rounded-lg shadow-md" +
-          _cn
-        }
         {...rest}
+        className={twMerge(
+          "flex flex-wrap gap-2 pr-16 items-center cursor-pointer w-full rounded-lg",
+          className
+        )}
         ref={ref}
       >
         {children}

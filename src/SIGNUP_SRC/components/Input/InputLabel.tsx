@@ -14,10 +14,13 @@ export function InputLabel({ required, disabled, label, ...rest }: InputLabelPro
       data-disabled={disabled}
       data-required={required}
       className={twMerge(
-        "relative mb-1 text-sm text-gray-03 data-[disabled=true]:cursor-not-allowed w-fit data-[required=true]:after:text-primary-03 data-[required=true]:after:content-['*'] data-[required=true]:after:font-bold data-[required=true]:after:absolute data-[required=true]:after:-right-2.5",
+        "relative mb-1 text-sm text-gray-03 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 w-fit",
+        "data-[required=true]:after:text-primary-03 data-[required=true]:after:content-['*'] data-[required=true]:after:font-bold data-[required=true]:after:absolute data-[required=true]:after:-right-2.5",
         rest.className
       )}
-      style={{ color: "var(--fore-accent)" }}
+      style={{
+        color: "#171818", // secondary-03
+      }}
     >
       {label}
     </label>

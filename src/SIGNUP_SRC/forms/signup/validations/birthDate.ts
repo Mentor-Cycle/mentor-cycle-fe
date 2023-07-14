@@ -36,4 +36,8 @@ export const birthDateSchema = z
     const dateMaxTimeAgo = moment().subtract(150, "years");
     const isDateInputAfterDateMaxTimeAgo = dateInput.isAfter(dateMaxTimeAgo);
     return isDateInputAfterDateMaxTimeAgo;
-  }, t.DATE_USER_TOO_OLD);
+  }, t.DATE_USER_TOO_OLD)
+  .transform((stringDate) => {
+    const dateInput = moment(stringDate, "DD/MM/YYYY");
+    return dateInput.toISOString();
+  });
