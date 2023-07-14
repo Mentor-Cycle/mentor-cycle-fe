@@ -41,10 +41,11 @@ export const InputCheckbox = React.forwardRef<HTMLButtonElement, InputCheckboxPr
           className={twMerge(
             "shrink-0 h-[22px] basis-[22px] grid place-items-center my-0.5 appearance-none rounded outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 bg-transparent border border-gray-03",
             "data-[state=checked]:bg-neutral-05 data-[state=checked]:border-gray-03",
+            "dark:data-[state=checked]:bg-secondary-01",
             rest.className
           )}
         >
-          <Checkbox.Indicator className="text-secondary-05">
+          <Checkbox.Indicator className="text-secondary-05 dark:text-neutral-01">
             <CheckIcon size={12} />
           </Checkbox.Indicator>
         </Checkbox.Root>

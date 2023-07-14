@@ -13,7 +13,7 @@ import { Input } from "SIGNUP_SRC/components/Input";
 import { OverrideConflict } from "types/overrideConflictTypes";
 import SelectModalContent from "SIGNUP_SRC/components/SelectControlled/SelectModalContent";
 import { twMerge } from "tailwind-merge";
-import { stSignBase, stSignGround } from "styles/input-sign";
+import { stSignBase, stSignGround, stSignInput } from "styles/input-sign";
 import { useTheme } from "next-themes";
 import st from "./Select.module.css";
 
@@ -42,6 +42,9 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
   },
   ref
 ) {
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
+
   const [isShowingOptionsModal, setIsShowingOptionsModal] = React.useState(false);
   const SelectRef = React.useRef<HTMLDivElement>(null);
   const showingOptions = options?.filter((opt) => !value.includes(opt)) ?? null;
@@ -82,7 +85,12 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
       <input type="hidden" ref={fieldRef} />
       <SelectInput
         {...rest}
-        className={twMerge("", rest.className, st.container)}
+        className={twMerge(
+          stSignInput,
+          isLightTheme ? st.container : st.dark_container,
+          "pr-16",
+          rest.className
+        )}
         onClick={handleClickSelect}
         ref={ref}
         tabIndex={tabIndex}
@@ -91,14 +99,14 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
           value.map((selectedOption) => (
             <SelectedOption
               key={selectedOption}
-              className="py-[5px] px-4 bg-gray-01 text-xs"
+              className="py-[5px] px-4 bg-gray-01 dark:bg-gray-04 text-xs"
             >
               <span className="select-none">{selectedOption}</span>
               <ButtonRemoveSelectedOption
                 onClick={handleRemoveTag(selectedOption)}
                 className="hover:bg-gray-02"
               >
-                <IconX size={12} className="text-gray-05" />
+                <IconX size={12} className="text-gray-05 dark:text-neutral-01" />
               </ButtonRemoveSelectedOption>
             </SelectedOption>
           ))
@@ -112,17 +120,18 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(function SelectC
         )}
         <ButtonClearAllOptions
           onClick={handleClearAllOptions}
-          className="hover:bg-gray-01"
+          className="hover:bg-gray-01 dark:hover:bg-gray-04"
           tabIndex={tabIndex + 1}
         >
-          <IconTrash size={18} className="text-secondary-05" />
+          <IconTrash size={18} className="text-secondary-05 dark:text-neutral-01" />
         </ButtonClearAllOptions>
       </SelectInput>
       {isShowingOptionsModal ? (
         <ModalSelectOptions
           className={twMerge(
             "p-4 bg-neutral-03 border border-gray-03 border-t-0 z-10",
-            st.container
+            "dark:bg-secondary-03",
+            isLightTheme ? st.container : st.dark_container
           )}
         >
           <div className="max-h-[11rem] overflow-y-auto flex flex-col">

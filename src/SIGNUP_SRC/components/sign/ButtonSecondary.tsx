@@ -17,6 +17,8 @@ export function ButtonSecondary(props: ButtonSecondaryProps) {
         "active:text-primary-04 border active:border-primary-04",
         "bg-neutral-03",
         "sm:order-none order-1 transition-colors duration-100",
+        "dark:bg-secondary-03 dark:border-neutral-03 dark:text-neutral-03",
+        "dark:hover:bg-secondary-01",
         props.className
       )}
       tabIndex={props.tabIndex ?? 30}

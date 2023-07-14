@@ -149,7 +149,6 @@ export const Location = (props: LocationProps) => {
                 options={Skills.options}
                 tabIndex={20}
                 isLoading={Skills.isLoading}
-                className={stSignInput}
                 {...field}
                 ref={null}
               />

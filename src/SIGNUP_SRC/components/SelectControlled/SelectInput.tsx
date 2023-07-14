@@ -11,7 +11,7 @@ export const SelectInput = React.forwardRef<HTMLDivElement, ISelectInput>(
       <div
         {...rest}
         className={twMerge(
-          "flex flex-wrap gap-2 pr-16 items-center cursor-pointer w-full rounded-lg",
+          "flex flex-wrap gap-2 items-center cursor-pointer w-full rounded-lg",
           className
         )}
         ref={ref}

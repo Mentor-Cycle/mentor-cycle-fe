@@ -59,13 +59,14 @@ export const InputStringAction = React.forwardRef<
           id={inputId}
           className={twMerge(
             "placeholder:text-gray-03 outline-none grow min-w-0 text-secondary-05 bg-transparent",
+            "dark:placeholder:text-gray-03 dark:text-neutral-01",
             rest.className
           )}
           ref={asChild ? null : ref}
         >
           {children}
         </Component>
-        <div className="basis-6 h-6 rounded-lg hover:bg-gray-01 grid place-items-center cursor-pointer">
+        <div className="basis-6 h-6 rounded-lg hover:bg-gray-01 dark:hover:bg-secondary-02 grid place-items-center cursor-pointer">
           <ActionIcon onClick={onAction} className="text-gray-03 w-5 h-5" />
         </div>
       </div>

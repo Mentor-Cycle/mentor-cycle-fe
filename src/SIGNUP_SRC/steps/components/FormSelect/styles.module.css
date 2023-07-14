@@ -1,13 +1,13 @@
-.container,
-.menu {
-  background-color: theme("colors.neutral.03");
-}
-
-.container:hover > .menu {
+.wrapper:has(.container:hover) .container {
   background-color: theme("colors.neutral.01");
 }
 
+.wrapper:has(.dark_container:hover) .dark_container {
+  background-color: theme("colors.secondary.01");
+}
+
+/* prefixo .dark está sendo sobrescrito */
+
 .isDisabled {
   opacity: 0.5;
-  /* background-color: theme('colors.neutral.05'); */
 }

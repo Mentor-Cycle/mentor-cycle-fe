@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import React, { LabelHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -8,6 +9,9 @@ interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 }
 
 export function InputLabel({ required, disabled, label, ...rest }: InputLabelProps) {
+  const { theme } = useTheme();
+  const isLightMode = theme === "light";
+
   return (
     <label
       {...rest}
@@ -19,7 +23,7 @@ export function InputLabel({ required, disabled, label, ...rest }: InputLabelPro
         rest.className
       )}
       style={{
-        color: "#171818", // secondary-03
+        color: isLightMode ? "var(--secondary-03)" : "var(--neutral-01)",
       }}
     >
       {label}
