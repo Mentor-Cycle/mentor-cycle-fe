@@ -5,7 +5,7 @@ import StepperVertical from "@components/StepperVertical";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
 import { Personal } from "SIGNUP_SRC/steps/Personal";
 import { IFormValues } from "SIGNUP_SRC/types";
-import { PathValue, SubmitHandler, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { Location } from "SIGNUP_SRC/steps/Location";
 import { Professional } from "SIGNUP_SRC/steps/Professional";
 import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
@@ -16,9 +16,6 @@ import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
 import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { Sign } from "SIGNUP_SRC/components/sign";
-import { toast } from "react-toastify";
-import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "services/apollo/mutations";
 import { useRouter } from "next/router";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {
@@ -37,17 +34,12 @@ const geoCitiesOptions: IUseGeoCities = {
 export const RegisterPage = () => {
   const { formCurrentStep, setFormCurrentStep, setIsChoosingPlan } = useMultistepForm();
   const methods = useFormContext<IFormValues>();
-  const [createUser] = useMutation(CREATE_USER);
   const router = useRouter();
 
   const {
-    handleSubmit,
     trigger,
-    formState: { errors, isSubmitting },
-    watch,
+    formState: { errors },
   } = methods;
-
-  const isMentor = watch("isMentor");
 
   const isInFirstStep = formCurrentStep === 0;
   const isInLastStep = formCurrentStep === 2;
@@ -72,57 +64,17 @@ export const RegisterPage = () => {
     );
     const allStepValidationsResult = await Promise.all(allStepValidations);
     const allValidationsPassed = allStepValidationsResult.every(Boolean);
-    if (allValidationsPassed) return setFormCurrentStep((currentStep) => currentStep + 1);
+    if (allValidationsPassed) {
+      if (isInLastStep) return setIsChoosingPlan(true);
+      return setFormCurrentStep((currentStep) => currentStep + 1);
+    }
   };
 
   const handleGoBackButton = () => {
     if (isInFirstStep) {
-      return setIsChoosingPlan(true);
+      return router.push("/signin");
     }
     setFormCurrentStep((currentStep) => currentStep - 1);
-  };
-
-  const submitHandler: SubmitHandler<IFormValues> = async (formData) => {
-    const { repeatPassword, isTermsAccepted, ...createUserPayload } = formData;
-
-    try {
-      const response = await toast.promise(
-        createUser({
-          variables: {
-            input: createUserPayload,
-          },
-        }),
-        {
-          pending: "Aguarde um momento...",
-          success: `Usuário ${
-            formData.firstName ? formData.firstName : "MentorCycle"
-          } cadastrado com sucesso!`,
-        }
-      );
-      if (response.data.signUpUser) {
-        localStorage.removeItem("form-data");
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    }
-  };
-
-  const getErrorMessage = (error: any) => {
-    const errorMessages: Record<string, string> = {
-      description: "A descrição precisa ter no mínimo 2 caracteres",
-      email: "Este email já possui cadastro",
-    };
-
-    for (const key in errorMessages) {
-      if (error.message.includes(key)) {
-        return errorMessages[key];
-      }
-    }
-
-    return error instanceof Error
-      ? error.message
-      : "Não foi possivel concluir o cadastro, tente novamente mais tarde";
   };
 
   return (
@@ -157,10 +109,7 @@ export const RegisterPage = () => {
               className="hidden lg:block"
             />
           </aside>
-          <form
-            onSubmit={handleSubmit(submitHandler)}
-            className="relative form w-full mx-auto pt-12 lg:mx-0 mb-24 max-w-[43rem]"
-          >
+          <div className="relative w-full mx-auto pt-12 lg:mx-0 mb-24 max-w-[43rem]">
             <div className="mb-3">
               {formCurrentStep === 0 && <Personal />}
               {formCurrentStep === 1 && (
@@ -175,22 +124,13 @@ export const RegisterPage = () => {
             </div>
             <Form.MultipleInRow>
               <Sign.ButtonSecondary onClick={handleGoBackButton} text="Voltar" />
-              {isInLastStep && (
-                <Sign.ButtonPrimary
-                  type="submit"
-                  disabled={!shouldGoForward || isSubmitting}
-                  text="Enviar"
-                />
-              )}
-              {!isInLastStep && (
-                <Sign.ButtonPrimary
-                  onClick={() => !isInLastStep && handleActionButton()}
-                  disabled={!shouldGoForward}
-                  text="Próximo"
-                />
-              )}
+              <Sign.ButtonPrimary
+                onClick={handleActionButton}
+                disabled={!shouldGoForward}
+                text="Próximo"
+              />
             </Form.MultipleInRow>
-          </form>
+          </div>
         </CenteredContainer>
       </section>
     </main>

@@ -1,16 +1,18 @@
-import Button from "@components/Button";
 import { CenteredContainer } from "@components/CenteredContainer";
 import ProfileCardToggle from "@components/ProfileCardToggle";
 import { Form } from "SIGNUP_SRC/components/Form";
 import { Sign } from "SIGNUP_SRC/components/sign";
 import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
-import Link from "next/link";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 export const PlanPage = () => {
+  const {
+    formState: { isSubmitting },
+  } = useFormContext();
   const { setIsChoosingPlan } = useMultistepForm();
 
-  const handleNext = () => {
+  const handleGoBack = () => {
     setIsChoosingPlan(false);
   };
 
@@ -29,10 +31,8 @@ export const PlanPage = () => {
           <ProfileCardToggle />
         </div>
         <Form.MultipleInRow className="mb-32">
-          <Sign.ButtonSecondary asChild>
-            <Link href="/signin">Voltar</Link>
-          </Sign.ButtonSecondary>
-          <Sign.ButtonPrimary onClick={handleNext} text="Próximo" />
+          <Sign.ButtonSecondary onClick={handleGoBack}>Voltar</Sign.ButtonSecondary>
+          <Sign.ButtonPrimary type="submit" disabled={isSubmitting} text="Enviar" />
         </Form.MultipleInRow>
       </section>
     </CenteredContainer>
