@@ -186,7 +186,7 @@ const Mentors: NextPage = () => {
                     description={mentor.description}
                     image={mentor.image}
                     jobTitle={user.jobTitle || (mentor.jobTitle ?? "")}
-                    location={mentor.location}
+                    location={mentor.location || ""}
                     name={mentor.firstName}
                     lastName={mentor.lastName ?? ""}
                     isCurrentMentor={user.isLogged && user.id === mentor.id}
