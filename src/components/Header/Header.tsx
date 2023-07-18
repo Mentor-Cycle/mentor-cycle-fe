@@ -60,7 +60,7 @@ export default function Header() {
     text: string;
     action: keyof typeof menuClickActions;
   }> = [
-    { text: "Editar Perfil", action: "editprofile" },
+    { text: "Meu Perfil", action: "editprofile" },
     { text: "Dark Mode", action: "darkmode" },
     { text: "Configurações", action: "settings" },
     { text: "Sair", action: "logout" },
