@@ -10,16 +10,9 @@ export const mentorClientSchema = GET_MENTORS_queryDataSchema.pick({
   __typename: true,
 })
   .extend({
-    image: z.object({
-      blurDataURL: z.string().optional(),
-      blurHeight: z.number().optional(),
-      blurWidth: z.number().optional(),
-      height: z.number(),
-      width: z.number(),
-      src: z.string(),
-    }),
+    image: z.string().optional(),
     chips: z.array(z.string()).nullable(),
-    location: z.string(),
+    location: z.string().optional(),
   })
   .strict();
 
