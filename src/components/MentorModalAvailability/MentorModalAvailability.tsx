@@ -2,44 +2,37 @@ import Button from "@components/Button";
 import Chip from "@components/Chip/Chip";
 import Modal from "@components/Modal";
 import TimeInput from "@components/TimeInput/TimeInput";
-import { DAYS_OF_THE_WEEK_SHORT } from "config/constants";
-import { use, useEffect, useState } from "react";
-import {
-  AvailabilitySlot,
-  saveAvailabilityInMemory,
-} from "./helpers/saveAvailability";
+import { DAYS_OF_THE_WEEK_SHORT, TWeekday_Short } from "config/constants";
+import { useState } from "react";
+import { saveAvailabilityInMemory } from "./helpers/saveAvailability";
 import { MdClose } from "react-icons/md";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { PERSIST_AVAILABILITY } from "services/apollo/mutations";
 import { useUser } from "@hooks/useUser";
 import { toast } from "react-toastify";
 import { SuccessfullyCreated } from "./SuccessullyCreated";
-import { GET_AVAILABILITIES } from "services/apollo/queries";
-import { MentorAvailability } from "@components/ScheduleMentorshipModal/types";
+import { AvailabilitySlot, Props } from "./MentorModalAvailability.types";
+import { IAvailabilityAPI } from "types/availability.types";
 
 export const MentorModalAvailability = ({
   open,
   setOpen,
   refetchMentorProfile,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  refetchMentorProfile: any;
-}) => {
+}: Props) => {
   const { user, setUser } = useUser();
   const [persistAvailability, { loading }] = useMutation(PERSIST_AVAILABILITY);
-  const [successModal, setSuccessModal] = useState<boolean>(false);
-  const [selectedDay, setSelectedDay] = useState<string>(
+  const [successModal, setSuccessModal] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<TWeekday_Short>(
     DAYS_OF_THE_WEEK_SHORT[0]
   );
-  const [selectedStart, setSelectedStart] = useState<string>("12:00");
-  const [selectedEnd, setSelectedEnd] = useState<string>("12:30");
+  const [selectedStart, setSelectedStart] = useState("12:00");
+  const [selectedEnd, setSelectedEnd] = useState("12:30");
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
-  const { data } = useQuery<MentorAvailability>(GET_AVAILABILITIES, {
-    variables: {
-      mentorId: user?.id || "",
-    },
-  });
+
+  type IFormattedClientAvailability = Pick<
+    IAvailabilityAPI,
+    "startHour" | "endHour" | "weekDay" | "active"
+  >;
 
   const handleSaveAvailability = () => {
     saveAvailabilityInMemory(
@@ -52,11 +45,14 @@ export const MentorModalAvailability = ({
   };
 
   const handlePersistAvailability = async () => {
-    const formattedAvailability = availability.map((slot) => ({
-      ...slot,
-      weekDay: DAYS_OF_THE_WEEK_SHORT.indexOf(slot.weekDay),
-      active: true,
-    }));
+    const formattedAvailability = availability.map(
+      ({ endHour, startHour, weekDay }): IFormattedClientAvailability => ({
+        endHour,
+        startHour,
+        weekDay: DAYS_OF_THE_WEEK_SHORT.indexOf(weekDay),
+        active: true,
+      })
+    );
 
     const { errors } = await persistAvailability({
       variables: {
@@ -73,7 +69,7 @@ export const MentorModalAvailability = ({
 
     setOpen(false);
     setSuccessModal(true);
-    setUser((prev: any) => ({ ...prev, availability: formattedAvailability }));
+    setUser((prev) => ({ ...prev, availability: formattedAvailability }));
     refetchMentorProfile();
   };
 

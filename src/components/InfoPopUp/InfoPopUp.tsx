@@ -1,19 +1,13 @@
 import Button from "@components/Button";
-import { buttonVariant } from "@components/Button/Button.types";
-import Link from "next/link";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { Props } from "./InfoPopUp.types";
 
 export const InfoPopUp = ({
   description,
   buttonName,
   onButtonClick,
   variant = "primary",
-}: {
-  description: string;
-  buttonName: string;
-  variant?: buttonVariant;
-  onButtonClick?: () => void;
-}) => {
+}: Props) => {
   return (
     <div className="mb-8 border border-gray-03 dark:border-neutral-05 flex flex-col md:flex-row justify-between items-center px-8 py-6 rounded-lg">
       <div className="flex flex-col md:flex-row items-center mb-2 sm:mb-0">

@@ -1,0 +1,45 @@
+{
+  "findMentorAvailability": {
+    "firstName": "Aristeu",
+    "lastName": "Miranda Rocha",
+    "availability": [
+      {
+        "active": true,
+        "weekDay": 2,
+        "startHour": "12:00",
+        "endHour": "12:30",
+        "startDate": "2023-06-13T12:00:00",
+        "endDate": "2023-06-13T12:30:00",
+        "__typename": "Availability"
+      },
+      {
+        "active": true,
+        "weekDay": 3,
+        "startHour": "12:30",
+        "endHour": "13:00",
+        "startDate": "2023-06-07T12:30:00",
+        "endDate": "2023-06-07T13:00:00",
+        "__typename": "Availability"
+      },
+      {
+        "active": true,
+        "weekDay": 4,
+        "startHour": "12:00",
+        "endHour": "12:30",
+        "startDate": "2023-06-08T12:00:00",
+        "endDate": "2023-06-08T12:30:00",
+        "__typename": "Availability"
+      },
+      {
+        "active": true,
+        "weekDay": 4,
+        "startHour": "12:30",
+        "endHour": "13:00",
+        "startDate": "2023-06-08T12:30:00",
+        "endDate": "2023-06-08T13:00:00",
+        "__typename": "Availability"
+      }
+    ],
+    "__typename": "User"
+  }
+}

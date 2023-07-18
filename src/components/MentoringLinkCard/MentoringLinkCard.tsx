@@ -1,17 +1,15 @@
-import * as Select from "@radix-ui/react-select";
 import Image from "next/image";
 import Chip from "../../components/Chip";
 import clsx from "clsx";
 import { useState } from "react";
-import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
-import Modal from "@components/Modal/Modal";
-import { useMutation } from "@apollo/client";
-import { UPDATE_EVENT } from "services/apollo/mutations";
+import { OptionStatus } from "schemas/create_event_output";
+import { SelectComponent } from "@components/MentoringLinkCard/SelectComponent";
+import { eventStatusToPortugueseMap } from "utils/parser/eventStatusToPortuguese";
 
 const MentoringLinkCard = ({
-  avatar,
+  avatarUrl: avatar,
   name,
   job,
   status,
@@ -21,25 +19,19 @@ const MentoringLinkCard = ({
   eventId,
   onCancel,
 }: Props) => {
-  const [updatedStatus, setUpdatedStatus] = useState(status);
+  const [updatedStatus, setUpdatedStatus] = useState<OptionStatus>(status);
 
-  const statusToPortugueseMap: Record<string, string> = {
-    PENDING: "Agendada",
-    DONE: "Realizada",
-    CANCELLED: "Cancelada",
-    CONFIRMED: "Agendada",
-  };
-  const handleStatusCard = (status: string) => {
+  const handleStatusCard = (status: OptionStatus) => {
     const statusToVariantMap: StatusToVariantMap = {
-      "Não realizada": "primary",
-      Realizada: "chipCards",
-      "A confirmar": "tertiary",
+      "Não realizada": "chipCanceled",
+      Realizada: "chipRealized",
+      "A confirmar": "chipCards",
       Agendada: "chipCards",
-      Cancelada: "chipCards",
+      Cancelada: "chipCanceled",
     };
 
-    const variant = statusToVariantMap[statusToPortugueseMap[status]];
-    return <Chip variant={variant}>{statusToPortugueseMap[status]}</Chip>;
+    const variant = statusToVariantMap[eventStatusToPortugueseMap[status]];
+    return <Chip variant={variant}>{eventStatusToPortugueseMap[status]}</Chip>;
   };
   const isDisabled = status === "DONE" || status === "CANCELLED";
 
@@ -95,7 +87,7 @@ const MentoringLinkCard = ({
               onCancel={onCancel}
               disabled={status === "DONE" || status === "CANCELLED"}
               setStatus={setUpdatedStatus}
-              nameUser={name}
+              name={name}
               hour={hour}
               date={date}
             />
@@ -103,141 +95,6 @@ const MentoringLinkCard = ({
         </div>
       </div>
     </div>
-  );
-};
-
-const SelectComponent = ({
-  eventId,
-  setStatus,
-  nameUser,
-  date,
-  hour,
-  onCancel,
-  disabled,
-}: {
-  date: React.ReactNode;
-  hour: React.ReactNode;
-  nameUser: string;
-  eventId: string;
-  status: string;
-  disabled?: boolean;
-  onCancel: () => void;
-  setStatus: (status: string) => void;
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
-  const [updateEventStatus, { loading }] = useMutation(UPDATE_EVENT);
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const handleCloseModal = () => {
-    setIsModalOpen(!isModalOpen);
-    setIsOpen(!isOpen);
-  };
-
-  const handleValueChange = (newValue: string) => {
-    setValue(newValue);
-    if (newValue == "Cancelar") {
-      setIsModalOpen(true);
-      setValue("");
-    }
-  };
-
-  const handleUpdateEventStatus = async (eventId: string) => {
-    setCurrentStep(currentStep + 1);
-    const updateEventInput = {
-      id: eventId,
-      status: "CANCELLED",
-    };
-    try {
-      await updateEventStatus({ variables: { updateEventInput } });
-      setStatus("CANCELLED");
-      onCancel();
-    } catch (error) {
-      console.error("Error updating event status:", error);
-    }
-  };
-  return (
-    <>
-      <Modal
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        closeModalComponent={<button onClick={handleCloseModal}></button>}
-      >
-        {currentStep === 1 && (
-          <>
-            <p className="text-2xl font-bold px-20">
-              Deseja realmente cancelar sua mentoria?
-            </p>
-            <div className="flex mt-16 px-20 gap-4">
-              <Button
-                size="small"
-                variant="secondary"
-                onClick={handleCloseModal}
-              >
-                Cancelar
-              </Button>
-              <Button
-                size="small"
-                onClick={() => handleUpdateEventStatus(eventId)}
-              >
-                Confirmar
-              </Button>
-            </div>
-          </>
-        )}
-        {currentStep === 2 && !loading && (
-          <>
-            <p className="text-2xl font-bold px-20 text-success-01 text-center">
-              Sua mentoria foi cancelada com sucesso!
-            </p>
-            <p className="font-bold px-20 text-base mt-4">{nameUser}</p>
-            <p className=" px-14 text-base mt-4 text-gray-03">
-              Seu mentorado será notificado do seu cancelamento da mentoria
-            </p>
-            <p className=" px-20 text-base mt-4">
-              <span className="font-bold">Horário:</span> {hour}
-            </p>
-            <p className=" px-20 text-base mt-4">
-              <span className="font-bold"> Data:</span> {date}
-            </p>
-          </>
-        )}
-      </Modal>
-      <Select.Root
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        value={value}
-        disabled={disabled}
-        onValueChange={handleValueChange}
-      >
-        <Select.Trigger className="flex items-center justify-center cursor-pointer focus:outline-none">
-          {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
-        </Select.Trigger>
-        <Select.Content
-          position="popper"
-          alignOffset={30}
-          side="left"
-          className={clsx(
-            "bg-neutral-01 dark:bg-secondary-02 border border-gra p-4 rounded-lg mt-2"
-          )}
-        >
-          {/* <Select.Item
-            data-testid="remarcar-option"
-            value="Remarcar"
-            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
-          >
-            Remarcar
-          </Select.Item> */}
-          <Select.Item
-            value="Cancelar"
-            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
-          >
-            Cancelar
-          </Select.Item>
-        </Select.Content>
-      </Select.Root>
-    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { maskEmail } from "utils/email/maskEmail";
+import { Props } from "./InfoCard.types";
 
 export const InfoCard = ({
   title,
@@ -7,15 +8,9 @@ export const InfoCard = ({
   content,
   contentToValidate,
   alignRight,
-}: {
-  title: string;
-  content: string;
-  label: string;
-  alignRight?: boolean;
-  contentToValidate?: unknown;
-}) => {
+}: Props) => {
   return (
-    <article className={clsx("w-2/5", alignRight ? "ml-0 lg:ml-auto" : "")}>
+    <article className={clsx("w-2/5", alignRight && "ml-0 lg:mr-auto")}>
       <h2 className="text-lg font-bold leading-normal text-secondary-02">
         {title}
       </h2>

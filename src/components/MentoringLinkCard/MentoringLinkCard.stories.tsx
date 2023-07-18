@@ -37,7 +37,7 @@ export const Default: Story = {
   args: {
     name: "João Silva",
     job: "Desenvolvedor Full Stack",
-    status: "A confirmar",
+    status: "PENDING",
     date: format(new Date(), "EEEE", { locale: ptBR }),
     hour: formatHour(new Date()),
     eventId: "123",

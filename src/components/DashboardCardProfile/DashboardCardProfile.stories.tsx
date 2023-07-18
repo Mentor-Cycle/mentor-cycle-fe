@@ -35,6 +35,6 @@ export const Default: Story = {
     name: "Ronald Richards",
     job: "Software Engineer at Apple",
     skills: ["Full-Stack", "Back-End", "Front-End"],
-    avatar: "/imgCard.png",
+    avatarUrl: "/imgCard.png",
   },
 };

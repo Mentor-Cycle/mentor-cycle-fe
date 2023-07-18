@@ -1,15 +1,9 @@
-import Button from "@components/Button";
-import Link from "next/link";
 import { EmptyValueProps } from "./validateEmptyComponent";
 
-const StudentDashboard = ({
-  selectedFilter,
-  statusOptions,
-  data,
-}: EmptyValueProps) => {
+const StudentDashboard = ({ data }: EmptyValueProps) => {
   return (
     <div className=" flex flex-col">
-      {!data?.findEvents.length && (
+      {data && !data.findEvents.length && (
         <h3 className="text-gray-02 text-base">
           Você ainda não possui mentorias realizadas e marcadas
         </h3>

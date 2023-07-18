@@ -47,7 +47,7 @@ const NavbarLP = () => {
         </li>
         <li className="min-w-[200px] hidden md:block">
           <Link href={"/signin"} className="focus:outline-none" tabIndex={1}>
-            <Button size="small">Registrar</Button>
+            <Button size="small">Entrar</Button>
           </Link>
         </li>
       </ul>

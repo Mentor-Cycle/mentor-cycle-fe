@@ -5,17 +5,18 @@ import { useRouter } from "next/router";
 import { initialValue } from "providers/user/AppContext";
 import { useEffect, useState } from "react";
 import { BsFillHouseDoorFill, BsFillPeopleFill } from "react-icons/bs";
-import { MdNotifications } from "react-icons/md";
-import Modal from "@components/Modal/Modal";
 import NavBar from "@components/NavBar/NavBar";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { LOGOUT_USER } from "services/apollo/mutations";
-import { GET_ME } from "services/apollo/queries";
-import ModalNotifications from "./ModalNotifications";
-import ModalSettings from "./ModalSettings";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { useTypedQuery } from "@hooks/useTypedQuery";
+import { removeTypenameProperty } from "utils/removeTypename";
+import { MdNotifications } from "react-icons/md";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
@@ -31,53 +32,39 @@ const DynamicThemedImage = dynamic(
 export default function Header() {
   const { user, setUser } = useUser();
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const [toggleMenuProfile, setToggleMenuProfile] = useState(false);
-  const [showModal, setShowModal] = useState<string>();
+  const [showModal, setShowModal] = useState<ModalActionTypes | "">();
+  const { openModal } = useModal();
 
-  const [signOutUser] = useMutation(LOGOUT_USER);
-  const [me, { data }] = useLazyQuery(GET_ME);
-  const { setTheme, resolvedTheme } = useTheme();
-  const [isToggle, setIsToogle] = useState(true);
-
-  useEffect(() => {
-    if (!user.isLogged) {
-      me();
-    }
-    if (data) {
+  const { error: errorMe } = useTypedQuery(api.GET_ME, {
+    skip: user.isLogged,
+    onCompleted(data) {
+      const me = removeTypenameProperty(data.me);
       setUser({
-        firstName: data.me.firstName,
-        lastName: data.me.lastName,
-        photoUrl: data.me.photoUrl,
-        biography: data.me.biography,
-        description: data.me.description,
-        country: data.me.country,
-        state: data.me.state,
-        yearsOfExperience: data.me.yearsOfExperience,
-        skills: data.me.skills,
-        github: data.me.github,
-        linkedin: data.me.linkedin,
-        email: data.me.email,
-        jobTitle: data.me.jobTitle,
-        isMentor: data.me.isMentor,
-        id: data.me.id,
-        availability: data.me.availability,
+        ...me,
+        notifications: me.notifications ?? null,
+        availability: me.availability?.map(removeTypenameProperty) ?? null,
         isLogged: true,
       });
-    }
-  }, [data, user.isLogged, me, router, setUser]);
+    },
+  });
+  if (errorMe?.error) console.log("errorMe", errorMe);
+
+  const [signOutUser] = useMutation(LOGOUT_USER);
+
+  const { setTheme, resolvedTheme } = useTheme();
+  const [isToggle, setIsToogle] = useState(true);
+  const [itemsMenu] = useState({ text: "", action: "" });
 
   const menuOptions: Array<{
     text: string;
     action: keyof typeof menuClickActions;
   }> = [
-    { text: "Editar Perfil", action: "editprofile" },
+    { text: "Meu Perfil", action: "editprofile" },
     { text: "Dark Mode", action: "darkmode" },
     { text: "Configurações", action: "settings" },
     { text: "Sair", action: "logout" },
   ];
-
-  const [itemsMenu] = useState({ text: "", action: "" });
 
   const logOutUser = () => async () => {
     await signOutUser();
@@ -90,7 +77,7 @@ export default function Header() {
     editprofile: () => router.push("/profile"),
     darkmode: () => setDarkMode(),
     settings: () => {
-      setShowModal("settings");
+      setShowModal(ModalActionTypes.SETTINGS_MODAL);
       setToggleMenuProfile(false);
     },
     logout: logOutUser(),
@@ -103,7 +90,7 @@ export default function Header() {
     }
   };
 
-  const { isLogged, firstName, lastName, photoUrl, isMentor, email, id } = user;
+  const { isLogged, firstName, photoUrl, isMentor } = user;
 
   const userIsLogged = isLogged ? "/dashboard" : "/signin";
 
@@ -117,6 +104,11 @@ export default function Header() {
       console.error("Error ao definir o tema:", error);
     }
   };
+
+  useEffect(() => {
+    if (showModal) openModal(showModal);
+    setShowModal("");
+  }, [showModal, openModal]);
 
   return (
     <header className="flex justify-center w-full h-20 bg-neutral-01 dark:bg-secondary-02 border-gray-02 border-b m-auto sticky top-0 z-30">
@@ -134,23 +126,23 @@ export default function Header() {
                 <span className="hidden lg:inline-block">Home</span>
               </Link>
             </li>
-            {/* <li className={linkStyle}>
+            <li className={linkStyle}>
+              <Link className={itemsMenuStyle} href="/mentors">
+                <BsFillPeopleFill size={24} />
+                <span className="hidden lg:inline-block">Mentores</span>
+              </Link>
+            </li>
+            <li className={linkStyle}>
               <button
                 className={itemsMenuStyle}
                 onClick={() => {
-                  setShowModal("notifications");
+                  setShowModal(ModalActionTypes.NOTIFICATIONS_MODAL);
                   setToggleMenuProfile(false);
                 }}
               >
                 <MdNotifications size={24} />
                 <span className="hidden lg:inline-block">Notificações</span>
               </button>
-            </li> */}
-            <li className={linkStyle}>
-              <Link className={itemsMenuStyle} href="/mentors">
-                <BsFillPeopleFill size={24} />
-                <span className="hidden lg:inline-block">Mentores</span>
-              </Link>
             </li>
             <li className={clsx(linkStyle)}>
               <div className="flex justify-center items-center">
@@ -194,24 +186,6 @@ export default function Header() {
               </div>
             </li>
           </ul>
-        )}
-        {showModal === "notifications" && (
-          <Modal open={true} onOpenChange={() => setShowModal("")}>
-            {<ModalNotifications setShowModal={setShowModal} />}
-          </Modal>
-        )}
-        {showModal === "settings" && (
-          <Modal open={isModalOpen} onOpenChange={() => setShowModal("")}>
-            {
-              <ModalSettings
-                setIsModalOpen={setIsModalOpen}
-                firstName={firstName}
-                email={email}
-                id={id}
-                lastName={lastName}
-              />
-            }
-          </Modal>
         )}
       </div>
     </header>

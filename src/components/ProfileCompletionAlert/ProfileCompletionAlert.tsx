@@ -1,12 +1,13 @@
 import { InfoPopUp } from "@components/InfoPopUp";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
+import { IUserSession } from "types/user.types";
 
 const ProfileCompletionAlert = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  const REQUIRED_FIELDS = [
+  const REQUIRED_FIELDS: (keyof IUserSession)[] = [
     "firstName",
     "lastName",
     "photoUrl",
@@ -31,21 +32,15 @@ const ProfileCompletionAlert = () => {
 
   const isProfileCompleted = !thereAreFieldsToFill;
 
-  return (
-    <>
-      {!isProfileCompleted ? (
-        <InfoPopUp
-          description="Complete seu perfil e deixe ele mais interessante"
-          buttonName="Completar perfil"
-          variant="primary_black"
-          onButtonClick={() => {
-            router.push("/profile?edit=true");
-          }}
-        />
-      ) : (
-        <></>
-      )}
-    </>
+  return isProfileCompleted ? null : (
+    <InfoPopUp
+      description="Complete seu perfil e deixe ele mais interessante"
+      buttonName="Completar perfil"
+      variant="primary_black"
+      onButtonClick={() => {
+        router.push("/profile?edit=true");
+      }}
+    />
   );
 };
 
