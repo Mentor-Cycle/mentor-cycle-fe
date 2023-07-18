@@ -12,13 +12,12 @@ export const formatMentorCardData = (
       const location = `${validateUndefined(country)} ${validateUndefined(
         state
       )}`;
-
       return {
         ...mentor,
         chips: skills,
         image: photoUrl || imgCard,
         jobTitle: jobTitle || "Profissão não fornecida",
-        location,
+        location: location || "Localização não fornecida",
       };
     }
   );
