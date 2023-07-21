@@ -13,6 +13,9 @@ export const DATE_USER_TOO_OLD = "Coloque uma data válida. (150 anos)";
 export const ACCEPT_TERMS = "Você deve aceitar os termos de serviço para prosseguir.";
 
 export const EMAIL_INVALID = "Formato de e-mail inválido.";
+export const EMAIL_INVALID_USERNAME = "Modifique o valor antes do @.";
+export const EMAIL_INVALID_DOMAIN = "Modifique o valor depois do @.";
+export const EMAIL_INVALID_TOP_LEVEL_DOMAIN = "Modifique depois do ponto.";
 
 export const PASSWORD_TOO_SHORT = "Senha muito curta.";
 export const PASSWORD_TOO_LONG = "Senha muito longa";
