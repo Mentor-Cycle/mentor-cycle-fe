@@ -57,6 +57,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
       <ModalNotifications />
       <ModalAlert />
       <EditProfileModal />
+      <ModalAlert />
     </ModalContext.Provider>
   );
 };

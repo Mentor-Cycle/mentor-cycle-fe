@@ -17,7 +17,7 @@ import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/Schedule
 import StepperSmall from "@components/Stepper/StepperSmall";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
-import { Modal } from "../Modal";
+import { Modal } from "../ModalRoot";
 
 const ScheduleMentorshipModal = () => {
   const { user } = useUser();

@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
 import { FormEvent, SetStateAction, useState } from "react";
+import { FormEvent, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
@@ -23,7 +24,7 @@ import { createStringRequirements } from "utils/regex";
 import { IUserSession } from "types/user.types";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
-import { Modal } from "../Modal";
+import { Modal } from "../ModalRoot";
 import Dropzone from "@components/Dropzone/Dropzone";
 
 const ModalSettings = () => {
@@ -202,9 +203,164 @@ const ModalSettings = () => {
 
   return (
     <Modal.Root
+    <Modal.Root
       open={SETTINGS_MODAL}
       onOpenChange={() => closeModal(ModalActionTypes.SETTINGS_MODAL)}
     >
+      <Modal.Content>
+        <div className="flex flex-col min-w-[92vw] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
+          <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
+            Configurações
+          </h1>
+          {dataSucessChange ? (
+            <div className=" px-16">
+              <main className="flex flex-col items-center">
+                <div className="flex flex-col gap-6 items-center border-b border-b-gray-01 pb-16 ">
+                  <h1 className="text-secondary-02 text-5xl text-center">
+                    Seus dados foram alterados com sucesso!!!
+                  </h1>
+                </div>
+                <div className="flex flex-col py-16">
+                  <strong className="text-secondary-02 dark:text-gray-01">
+                    {firstName}.
+                  </strong>
+                  <span className="text-center text-success-01 dark:text-success-02">
+                    Seus dados foram alterados com sucesso
+                  </span>
+                </div>
+              </main>
+            </div>
+          ) : (
+            <div className="flex flex-col lg:flex lg:flex-row">
+              <StepperVertical
+                setCurrentStep={setCurretStep}
+                steps={["Perfil", "Sistema", "Segurança"]}
+                currentStep={currentStep}
+                className="text-start"
+                clickable
+              />
+              {currentStep === 1 && (
+                <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700 min-h-[480px] ">
+                  <div className="flex flex-col justify-center items-center sm:justify-start  m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
+                    <Image
+                      src={user.photoUrl || "/imgCard.png"}
+                      alt=""
+                      width={136}
+                      height={136}
+                      className="rounded-lg"
+                    />
+                    <Dropzone />
+                  </div>
+                  <form
+                    className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
+                    onSubmit={handleUpdateUserData}
+                  >
+                    <div className="flex flex-col gap-6">
+                      <Input
+                        name="firstName"
+                        label="Nome"
+                        defaultValue={firstName}
+                      />
+                      <Input
+                        name="lastName"
+                        label="Sobrenome"
+                        defaultValue={lastName ?? ""}
+                      />
+                      <Input
+                        name="email"
+                        type="email"
+                        label="Email"
+                        defaultValue={email}
+                      />
+                    </div>
+                    <Button type="submit" variant="secondary" className="mt-10">
+                      Salvar alterações
+                    </Button>
+                  </form>
+                </div>
+              )}
+              {currentStep === 2 && (
+                <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2 mt-8 lg:mt-0 min-h-[480px] ">
+                  <div className="flex flex-col gap-6  w-full  m-auto sm:m-0">
+                    <div className="text-start">
+                      <label className=" text-secondary-03 font-bold">
+                        Tipo de perfil
+                      </label>
+                      <Select
+                        options={optionsPerfilAfterLogin}
+                        defaultValue={
+                          user.isMentor ? optionsPerfil[0] : optionsPerfil[1]
+                        }
+                        // value={selectedChangeProfile}
+                        onChange={(option) =>
+                          handleSelectedProfile(option?.value)
+                        }
+                        unstyled
+                        classNames={{
+                          option: ({ isSelected }) =>
+                            `py-2 px-2 rounded-md cursor-pointer text-gray-05 hover:bg-primary-01 hover:text-neutral-01 dark:text-neutral-05 dark:hover:text-neutral-01 dark:hover:bg-primary-02`,
+                          control: (state) =>
+                            `bg-neutral-03 hover:bg-neutral-01 hover:cursor-pointer rounded-md p-4 dark:bg-secondary-03 dark:text-neutral-01 border border-gray-03 mt-2 mb-2 sm:min-w-[180px]`,
+                          menu: (state) =>
+                            `p-4 bg-neutral-01 mt-2 rounded-md border border-gray-03 dark:bg-secondary-01`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    className={clsx(currentStep === 2 && "hidden")}
+                    variant="secondary"
+                  >
+                    Salvar alterações
+                  </Button>
+                </div>
+              )}
+              {currentStep === 3 && (
+                <div className="flex gap-10 sm:min-w-[328px] justify-center min-h-[480px] ">
+                  <form
+                    className="flex flex-col text-start w-full"
+                    onSubmit={handleChangePassword}
+                  >
+                    <div className="flex flex-col gap-6 mt-8 lg:mt-0">
+                      <Input
+                        type="password"
+                        name="newPassword"
+                        label="Senha"
+                        pattern={passwordRequirements.toString().slice(1, -1)}
+                        placeholder="**************"
+                      />
+                      <Input
+                        type="password"
+                        name="newPasswordConfirm"
+                        label="Confirmar senha"
+                        pattern={passwordRequirements.toString().slice(1, -1)}
+                        placeholder="**************"
+                      />
+                      <div className="flex flex-col gap-6">
+                        <button
+                          type="button"
+                          className="text-primary-03 self-start "
+                          onClick={handleDeleteAccount}
+                        >
+                          Deletar conta
+                        </button>
+                      </div>
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                        isLoading={loading}
+                      >
+                        Salvar alterações
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Modal.Content>
+    </Modal.Root>
       <Modal.Content>
         <div className="flex flex-col min-w-[92vw] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
           <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
