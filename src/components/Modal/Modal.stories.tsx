@@ -19,5 +19,6 @@ export const Default: Story = {
     ),
     open: false,
     onOpenChange: () => {},
+    type: "modal",
   },
 };

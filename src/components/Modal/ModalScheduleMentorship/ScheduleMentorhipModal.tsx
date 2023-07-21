@@ -1,4 +1,3 @@
-import Modal from "@components/Modal";
 import Calendar from "@components/Calendar/Calendar";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -18,6 +17,7 @@ import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/Schedule
 import StepperSmall from "@components/Stepper/StepperSmall";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { Modal } from "../ModalRoot";
 
 const ScheduleMentorshipModal = () => {
   const { user } = useUser();
@@ -257,124 +257,131 @@ const ScheduleMentorshipModal = () => {
     );
 
   return (
-    <Modal open={SCHEDULE_MENTORSHIP_MODAL} onOpenChange={() => resetStates()}>
-      <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
-        {currentStep === 1 && (
-          <>
-            <div className="rounded-lg flex w-full justify-center items-center">
-              <Image
-                src={mentor?.photoUrl || "/imgCard.png"}
-                alt="avatar profile"
-                width={98}
-                height={98}
-                className="rounded-lg"
-              />
-            </div>
-            {mentor ? (
-              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
-                Mentoria com {mentor.firstName} {mentor.lastName}
+    <Modal.Root
+      open={SCHEDULE_MENTORSHIP_MODAL}
+      onOpenChange={() => resetStates()}
+    >
+      <Modal.Content>
+        <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
+          {currentStep === 1 && (
+            <>
+              <div className="rounded-lg flex w-full justify-center items-center">
+                <Image
+                  src={mentor?.photoUrl || "/imgCard.png"}
+                  alt="avatar profile"
+                  width={98}
+                  height={98}
+                  className="rounded-lg"
+                />
+              </div>
+              {mentor ? (
+                <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                  Mentoria com {mentor.firstName} {mentor.lastName}
+                </h2>
+              ) : (
+                <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                  Carregando...
+                </h2>
+              )}
+              <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
+                Escolha um dia para visualizar os horários disponíveis para
+                marcar sua mentoria
+              </p>
+            </>
+          )}
+          <StepperSmall steps={[1, 2, 3]} currentStep={currentStep} />
+          {currentStep === 1 && (
+            <>
+              <div className="mt-10">
+                <Calendar
+                  daySelected={daySelected}
+                  selectedDate={selectedDate}
+                  setDaySelected={setDaySelected}
+                  setSelectedDate={setSelectedDate}
+                  availableDays={availableDays}
+                />
+              </div>
+              <div className="w-full">
+                <h3 className="mb-6 mt-8 text-secondary-03">
+                  Horários disponíveis
+                </h3>
+                <ul className="grid grid-cols-3 xs:grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
+                  {convertedDaysAndTimes?.map((time) => (
+                    <li key={time} className="text-secondary-03">
+                      <Chip
+                        className="cursor-pointer w-[56px]"
+                        size="small"
+                        onClick={() => setSelectedStartTime(time)}
+                        key={time}
+                        variant={
+                          selectedStartTime === time ? "secondary" : "chipCards"
+                        }
+                      >
+                        {time}
+                      </Chip>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
+          {currentStep === 2 && (
+            <>
+              <div className="min-w-[280px]">
+                <hr className="text-gray-02 w-full mt-16" />
+                <h2 className="mt-16 font-bold text-2xl text-secondary-02">
+                  Mentoria de 30 minutos
+                </h2>
+                <p className="mt-6 text-secondary-02">
+                  <span className="font-bold text-secondary-02 dark:text-neutral-03">
+                    Horário:
+                  </span>{" "}
+                  {selectedStartTime.replace(":", "h")} até as{" "}
+                  {selectedEndTime.replace(":", "h")}
+                </p>
+                <p className="mt-2 text-secondary-02">
+                  <span className="font-bold">Data:</span>{" "}
+                  {getDateNamePhrase(selectedDate || new Date())}
+                </p>
+              </div>
+            </>
+          )}
+          {currentStep === 3 && (
+            <>
+              <div className="min-w-[280px]"></div>
+              <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
+                Mentoria agendada!
               </h2>
-            ) : (
-              <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
-                Carregando...
-              </h2>
-            )}
-            <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
-              Escolha um dia para visualizar os horários disponíveis para marcar
-              sua mentoria
-            </p>
-          </>
-        )}
-        <StepperSmall steps={[1, 2, 3]} currentStep={currentStep} />
-        {currentStep === 1 && (
-          <>
-            <div className="mt-10">
-              <Calendar
-                daySelected={daySelected}
-                selectedDate={selectedDate}
-                setDaySelected={setDaySelected}
-                setSelectedDate={setSelectedDate}
-                availableDays={availableDays}
-              />
-            </div>
-            <div className="w-full">
-              <h3 className="mb-6 mt-8 text-secondary-03">
-                Horários disponíveis
-              </h3>
-              <ul className="grid grid-cols-3 xs:grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
-                {convertedDaysAndTimes?.map((time) => (
-                  <li key={time} className="text-secondary-03">
-                    <Chip
-                      className="cursor-pointer w-[56px]"
-                      size="small"
-                      onClick={() => setSelectedStartTime(time)}
-                      key={time}
-                      variant={
-                        selectedStartTime === time ? "secondary" : "chipCards"
-                      }
-                    >
-                      {time}
-                    </Chip>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </>
-        )}
-        {currentStep === 2 && (
-          <>
-            <div className="min-w-[280px]">
-              <hr className="text-gray-02 w-full mt-16" />
-              <h2 className="mt-16 font-bold text-2xl text-secondary-02">
-                Mentoria de 30 minutos
-              </h2>
-              <p className="mt-6 text-secondary-02">
-                <span className="font-bold text-secondary-02 dark:text-neutral-03">
-                  Horário:
-                </span>{" "}
-                {selectedStartTime.replace(":", "h")} até as{" "}
-                {selectedEndTime.replace(":", "h")}
-              </p>
-              <p className="mt-2 text-secondary-02">
-                <span className="font-bold">Data:</span>{" "}
-                {getDateNamePhrase(selectedDate || new Date())}
-              </p>
-            </div>
-          </>
-        )}
-        {currentStep === 3 && (
-          <>
-            <div className="min-w-[280px]"></div>
-            <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
-              Mentoria agendada!
-            </h2>
-            {mentor ? (
-              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-                Sua mentoria foi agendada no seu calendário e do(a){" "}
-                {mentor.firstName} {mentor.lastName}
-              </p>
-            ) : (
-              <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
-                Sua mentoria foi agendada no seu calendário e do(a){" "}
-                Carregando...
-              </p>
-            )}
-          </>
-        )}
-        <div className="mt-11 min-w-[183px]">
-          <Button
-            size="small"
-            type="button"
-            disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
-            variant={stepButtons[currentStep].variant}
-            onClick={handleSteps}
-            isLoading={loadingMentor || eventLoading}
-          >
-            {stepButtons[currentStep].text}
-          </Button>
+              {mentor ? (
+                <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                  Sua mentoria foi agendada no seu calendário e do(a){" "}
+                  {mentor.firstName} {mentor.lastName}
+                </p>
+              ) : (
+                <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                  Sua mentoria foi agendada no seu calendário e do(a){" "}
+                  Carregando...
+                </p>
+              )}
+            </>
+          )}
+          <div className="mt-11 min-w-[183px]">
+            <Button
+              size="small"
+              type="button"
+              disabled={
+                currentStep === 1 && (!daySelected || !selectedStartTime)
+              }
+              variant={stepButtons[currentStep].variant}
+              onClick={handleSteps}
+              isLoading={loadingMentor || eventLoading}
+            >
+              {stepButtons[currentStep].text}
+            </Button>
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 
