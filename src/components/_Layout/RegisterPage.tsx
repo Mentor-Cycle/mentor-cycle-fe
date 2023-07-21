@@ -2,20 +2,20 @@
 import { CenteredContainer } from "@components/CenteredContainer";
 import Stepper from "@components/Stepper/Stepper";
 import StepperVertical from "@components/StepperVertical";
-import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
-import { Personal } from "SIGNUP_SRC/steps/Personal";
-import { IFormValues } from "SIGNUP_SRC/types";
+import { useMultistepForm } from "@hooks/useMultistepForm";
+import { Personal } from "@components/SignUpFormSteps/Personal";
+import { Professional } from "@components/SignUpFormSteps/Professional";
+import { Location } from "@components/SignUpFormSteps/Location";
+import { IFormValues } from "providers/signup/register/types";
 import { useFormContext } from "react-hook-form";
-import { Location } from "SIGNUP_SRC/steps/Location";
-import { Professional } from "SIGNUP_SRC/steps/Professional";
-import { useCountriesFactory } from "SIGNUP_SRC/steps/factories/useCountriesFactory";
-import { useStatesFactory } from "SIGNUP_SRC/steps/factories/useStatesFactory";
-import { useCitiesFactory } from "SIGNUP_SRC/steps/factories/useCitiesFactory";
-import { useSkillsFactory } from "SIGNUP_SRC/steps/factories/useSkillsFactory";
-import { IUseGeoStates } from "SIGNUP_SRC/hooks/useGeoStates/types";
-import { IUseGeoCities } from "SIGNUP_SRC/hooks/useGeoCities/types";
-import { Form } from "SIGNUP_SRC/components/Form";
-import { Sign } from "SIGNUP_SRC/components/sign";
+import { useCountriesFactory } from "factories/useCountriesFactory";
+import { useStatesFactory } from "factories/useStatesFactory";
+import { useCitiesFactory } from "factories/useCitiesFactory";
+import { useSkillsFactory } from "factories/useSkillsFactory";
+import { IUseGeoStates } from "@hooks/useGeoStates/types";
+import { IUseGeoCities } from "@hooks/useGeoCities/types";
+import { Form } from "@components/Form";
+import { Sign } from "@components/sign";
 import { useRouter } from "next/router";
 
 export const validationPerStep: Record<number, (keyof IFormValues)[]> = {

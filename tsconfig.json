@@ -18,15 +18,10 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@types/*": ["types/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src",
-    "node_modules/@types"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src", "node_modules/@types"],
   "exclude": ["node_modules", "./cypress.config.ts", "cypress", "**/*.cy.tsx"]
 }

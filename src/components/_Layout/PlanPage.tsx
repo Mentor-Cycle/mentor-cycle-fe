@@ -1,8 +1,8 @@
 import { CenteredContainer } from "@components/CenteredContainer";
 import ProfileCardToggle from "@components/ProfileCardToggle";
-import { Form } from "SIGNUP_SRC/components/Form";
-import { Sign } from "SIGNUP_SRC/components/sign";
-import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
+import { Form } from "@components/Form";
+import { Sign } from "@components/sign";
+import { useMultistepForm } from "@hooks/useMultistepForm";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 

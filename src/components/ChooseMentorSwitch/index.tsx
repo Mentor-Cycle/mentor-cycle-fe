@@ -1,7 +1,7 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import { TextToggle } from "SIGNUP_SRC/components/Form/TextToggle";
-import { RootProps } from "SIGNUP_SRC/components/Form/TextToggle/Root";
+import { TextToggle } from "@components/Form/TextToggle";
+import { RootProps } from "@components/Form/TextToggle/Root";
 
 interface ChooseMentorSwitchProps extends RootProps {}
 

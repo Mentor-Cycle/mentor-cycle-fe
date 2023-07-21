@@ -7,16 +7,12 @@ import { useUser } from "@hooks/useUser";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
-import {
-  IEditProfileFormData,
-  ILocationInterface,
-} from "./EditProfileModal.types";
+import { IEditProfileFormData, ILocationInterface } from "./EditProfileModal.types";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
 import { SubmitHandler, useForm } from "react-hook-form";
-import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import {
   IEditProfileSubmitData,
@@ -44,10 +40,8 @@ const EditProfileModal = () => {
   );
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
-  const [selectedCountry, setSelectedCountry] =
-    useState<ILocationInterface | null>(null);
-  const [selectedStates, setSelectedStates] =
-    useState<ILocationInterface | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<ILocationInterface | null>(null);
+  const [selectedStates, setSelectedStates] = useState<ILocationInterface | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const { getCountries, getStates } = useFetch();
 
@@ -224,18 +218,13 @@ const EditProfileModal = () => {
                   : "0"
               }
             />
-            <SelectSkillsInput
+            {/* <SelectSkillsInput
               label="Especialização"
               state={[selectedSkills, setSelectedSkills]}
               options={options}
-            />
+            /> */}
           </div>
-          <Button
-            type="submit"
-            className="mt-7"
-            disabled={loading}
-            isLoading={loading}
-          >
+          <Button type="submit" className="mt-7" disabled={loading} isLoading={loading}>
             Salvar
           </Button>
         </form>

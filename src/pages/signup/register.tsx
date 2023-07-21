@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useMultistepForm } from "SIGNUP_SRC/hooks/useMultistepForm";
+import { useMultistepForm } from "@hooks/useMultistepForm";
 import Providers from "providers/signup/register";
 import { PlanPage } from "@components/_Layout/PlanPage";
 import { RegisterPage } from "@components/_Layout/RegisterPage";

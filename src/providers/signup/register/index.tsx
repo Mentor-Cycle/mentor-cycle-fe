@@ -1,10 +1,10 @@
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { IFormValues } from "SIGNUP_SRC/types";
-import { defaultValues } from "SIGNUP_SRC/constants";
-import { signupFormSchema } from "SIGNUP_SRC/forms/signup";
-import { MultistepFormContext } from "SIGNUP_SRC/hooks/useMultistepForm";
+import { IFormValues } from "providers/signup/register/types";
+import { defaultValues } from "providers/signup/register/constants";
+import { signupFormSchema } from "forms/signup";
+import { MultistepFormContext } from "@hooks/useMultistepForm";
 import { SetStateAction, useCallback, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";

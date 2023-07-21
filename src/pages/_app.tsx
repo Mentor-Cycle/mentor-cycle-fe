@@ -1,11 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import Header from "@components/Header";
 import type { AppProps } from "next/app";
-import {
-  initialValue,
-  IUserContext,
-  UserContext,
-} from "providers/user/AppContext";
+import { initialValue, IUserContext, UserContext } from "providers/user/AppContext";
 import { useState, useMemo } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +9,6 @@ import client from "services/apollo/apollo-client";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
 import { ROUTES_WITHOUT_HEADER } from "config/constants";
-import { MultiStepFormProvider } from "providers/form";
 import { ThemeProvider } from "next-themes";
 import ClientOnly from "@components/LandingPage/ClientOnly";
 import { ModalProvider } from "contexts/ModalContext";
@@ -32,11 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <UserContext.Provider value={userContextValue}>
           <ModalProvider>
             {showHeader && <Header />}
-            <MultiStepFormProvider>
-              <ClientOnly>
-                <Component {...pageProps} />
-              </ClientOnly>
-            </MultiStepFormProvider>
+            <ClientOnly>
+              <Component {...pageProps} />
+            </ClientOnly>
             <ToastContainer />
           </ModalProvider>
         </UserContext.Provider>

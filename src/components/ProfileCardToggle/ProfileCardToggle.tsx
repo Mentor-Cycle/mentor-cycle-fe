@@ -1,11 +1,8 @@
 import clsx from "clsx";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
-import {
-  ProfileCardToggleProps,
-  ProfileProps,
-} from "./ProfileCardToggle.types";
+import { ProfileProps } from "./ProfileCardToggle.types";
 import { useFormContext } from "react-hook-form";
-import { IFormValues } from "SIGNUP_SRC/types";
+import { IFormValues } from "providers/signup/register/types";
 
 export const ProfileCard = ({
   active,
@@ -53,9 +50,7 @@ export const ProfileCardToggle = () => {
           <MdPermIdentity
             size={64}
             className={`${
-              !isMentor
-                ? "text-primary-03 dark:text-neutral-01"
-                : "text-gray-02"
+              !isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"
             } transition duration-500 ease-in-out`}
           />
         }
@@ -72,9 +67,7 @@ export const ProfileCardToggle = () => {
         Icon={
           <MdMenu
             size={64}
-            className={
-              isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"
-            }
+            className={isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"}
           />
         }
       />

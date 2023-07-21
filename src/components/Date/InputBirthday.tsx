@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { DateSize, InputBirthdayProps } from "./Date.types";
 import * as Label from "@radix-ui/react-label";
 import InputMask from "react-input-mask";
-import useForm from "@hooks/useForm";
 import { isValidDate } from "./dateHelpers";
 
 const InputBirthday: FC<InputBirthdayProps> = ({
@@ -15,11 +14,13 @@ const InputBirthday: FC<InputBirthdayProps> = ({
 }) => {
   const [invalid, setInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { formData, updateBirthday } = useForm();
+
+  // Mocked! Needs to be refactored
+  const updateBirthday = () => {};
+  const formData = { birthDate: "" };
 
   const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    const isValidBirthDate =
-      event.target.value === "" || isValidDate(event.target.value);
+    const isValidBirthDate = event.target.value === "" || isValidDate(event.target.value);
     setInvalid(!isValidBirthDate);
     setErrorMessage(isValidBirthDate ? "" : "Data de nascimento inválida.");
   };
@@ -51,19 +52,13 @@ const InputBirthday: FC<InputBirthdayProps> = ({
         value={formData.birthDate || undefined}
         onChange={updateBirthday}
         {...props}
-        className={clsx(
-          sizesDate[size],
-          invalid && "input-invalid",
-          "input-default"
-        )}
+        className={clsx(sizesDate[size], invalid && "input-invalid", "input-default")}
         onBlur={handleBlur}
         disabled={disabled}
         pattern="\d{2}/\d{2}/\d{4}"
       />
       {errorMessage && !disabled && (
-        <div className={"font-normal my-2 text-danger-01 text-sm"}>
-          {errorMessage}
-        </div>
+        <div className={"font-normal my-2 text-danger-01 text-sm"}>{errorMessage}</div>
       )}
     </Label.Root>
   );
