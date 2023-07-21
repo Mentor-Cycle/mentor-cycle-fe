@@ -6,7 +6,6 @@ export type ModalRootProps = {
 };
 
 export type ModalContentProps = {
-  type?: string;
   children: React.ReactNode;
   closeModalComponent?: React.ReactElement;
 };
