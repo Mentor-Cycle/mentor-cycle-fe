@@ -1,6 +1,6 @@
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
-import { Modal } from "../ModalRoot";
+import { Modal } from "../Modal";
 import * as Dialog from "@radix-ui/react-dialog";
 import Button from "@components/Button";
 
