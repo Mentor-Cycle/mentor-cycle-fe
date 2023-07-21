@@ -1,6 +1,7 @@
 import { z } from "zod";
 import moment from "moment";
 import * as t from "SIGNUP_SRC/forms/signup/texts";
+import { concat } from "utils/concat";
 
 export const birthDateSchema = z
   .string()
@@ -24,7 +25,7 @@ export const birthDateSchema = z
     const now = moment();
     const isDateInputBeforeNow = dateInput.isBefore(now);
     return isDateInputBeforeNow;
-  }, t.DATE_BEFORE_NOW)
+  }, concat(t.DATE_INVALID, t.DATE_BEFORE_NOW))
   .refine((stringDate) => {
     const dateInput = moment(stringDate, "DD/MM/YYYY");
     const date18YearsAgo = moment().subtract(18, "years");
@@ -36,7 +37,7 @@ export const birthDateSchema = z
     const dateMaxTimeAgo = moment().subtract(150, "years");
     const isDateInputAfterDateMaxTimeAgo = dateInput.isAfter(dateMaxTimeAgo);
     return isDateInputAfterDateMaxTimeAgo;
-  }, t.DATE_USER_TOO_OLD)
+  }, concat(t.DATE_INVALID, t.DATE_USER_TOO_OLD))
   .transform((stringDate) => {
     const dateInput = moment(stringDate, "DD/MM/YYYY");
     return dateInput.toISOString();
