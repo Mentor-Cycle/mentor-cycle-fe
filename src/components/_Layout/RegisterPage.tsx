@@ -49,9 +49,6 @@ export const RegisterPage = () => {
   const City = useCitiesFactory(methods, geoCitiesOptions);
   const Skills = useSkillsFactory(methods);
 
-  const formHasErrors = Object.keys(errors).length;
-  if (formHasErrors) console.log("FormErrors", errors);
-
   const atLeastOneValidationFailed = validationPerStep[formCurrentStep].some(
     (fieldInThisStep) => fieldInThisStep in errors
   );
