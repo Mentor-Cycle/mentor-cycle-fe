@@ -16,8 +16,11 @@ const Dropzone = () => {
   });
   const { user } = useUser();
   const { theme } = useTheme();
+
   const { openModal, closeModal } = useModal();
+
   const onDrop = async (acceptedFiles: File[]) => {
+    closeModal(ModalActionTypes.SETTINGS_MODAL);
     closeModal(ModalActionTypes.SETTINGS_MODAL);
     const [selectedFile] = acceptedFiles;
     Swal.fire({
@@ -34,6 +37,7 @@ const Dropzone = () => {
       confirmButtonText: "Sim, mudar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
+      openModal(ModalActionTypes.SETTINGS_MODAL);
       openModal(ModalActionTypes.SETTINGS_MODAL);
       if (result.isConfirmed) {
         try {
