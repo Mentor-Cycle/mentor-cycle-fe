@@ -2,21 +2,21 @@ import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
 import EditProfile from "@components/EditProfile/EditProfile";
+import { InfoCard } from "@components/InfoCard";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { groupEventsByDay } from "utils/dashboard-helpers";
-import { validateUndefined } from "utils/nullable/validateUndefined";
-import { InfoCard } from "@components/InfoCard";
 import { useRouter } from "next/router";
-import { useTypedQuery } from "@hooks/useTypedQuery";
+import { useEffect, useState } from "react";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay } from "types/dashboard.types";
+import { groupEventsByDay } from "utils/dashboard-helpers";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);

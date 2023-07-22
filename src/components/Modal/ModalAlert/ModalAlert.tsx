@@ -11,12 +11,8 @@ const ModalAlert = () => {
     >
       <Modal.ContentAlert>
         <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20 ">
-          <Modal.Title>
-            <h1 className="font-bold text-2xl">
-              Tem certeza que deseja mudar a foto do perfil?
-            </h1>
-          </Modal.Title>
-          <Modal.Description> </Modal.Description>
+          <Modal.Title text="Tem certeza que deseja mudar a foto do perfil?" />
+          <Modal.Description text=" " />
         </div>
       </Modal.ContentAlert>
     </Modal.Root>
