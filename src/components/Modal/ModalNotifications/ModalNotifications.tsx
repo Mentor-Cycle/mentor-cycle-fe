@@ -28,8 +28,8 @@ const ModalNotifications = () => {
       onOpenChange={() => closeModal(ModalActionTypes.NOTIFICATIONS_MODAL)}
     >
       <Modal.Content>
-        <div className="flex flex-col p-6 gap-12 m-auto ">
-          <h1 className=" self-start text-secondary-02 text-2xl font-bold">
+        <div className="m-auto flex flex-col gap-12 p-6 ">
+          <h1 className=" self-start text-2xl font-bold text-secondary-02">
             Notificações
           </h1>
           <div className="flex flex-col gap-8 ">
@@ -48,36 +48,7 @@ const ModalNotifications = () => {
                   />
                 ))
             ) : (
-              <p className="text-secondary-02 text-xl font-bold">
-                Nenhuma notificação
-              </p>
-            )}
-          </div>
-        </div>
-      </Modal.Content>
-   
-      <Modal.Content>
-        <div className="flex flex-col p-6 gap-12 m-auto ">
-          <h1 className=" self-start text-secondary-02 text-2xl font-bold">
-            Notificações
-          </h1>
-          <div className="flex flex-col gap-8 ">
-            {notifications?.length ? (
-              notifications
-                ?.slice(0, 5)
-                .map((notification) => (
-                  <CardNotification
-                    key={notification.id}
-                    description={getTranslatedText(
-                      notification.data?.description
-                    )}
-                    name={notification.data?.title || ""}
-                    imgUrl={notification.data?.imageUrl || ""}
-                    alreadyViewed={notification.read}
-                  />
-                ))
-            ) : (
-              <p className="text-secondary-02 text-xl font-bold">
+              <p className="text-xl font-bold text-secondary-02">
                 Nenhuma notificação
               </p>
             )}

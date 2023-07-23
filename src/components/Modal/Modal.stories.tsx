@@ -1,9 +1,9 @@
-import Modal from "./Modal";
+import { Modal } from "./Modal";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
   title: "Data Display/Modal",
-  component: Modal,
+  component: Modal.Root,
 } satisfies Meta<typeof Modal>;
 
 export default meta;
