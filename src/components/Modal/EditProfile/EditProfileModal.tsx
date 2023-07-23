@@ -1,24 +1,32 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
 import Input from "@components/Input";
-import Modal from "@components/Modal";
+import SelectLocation from "@components/LocationSelector/SelectLocation";
+import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import Textarea from "@components/Textarea/Textarea";
+import { useFetch } from "@hooks/useFetch";
+import { Country, State } from "@hooks/useFetch.types";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
+import { GET_ME, GET_MENTORS } from "services/apollo/queries";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { z } from "zod";
+import { Modal } from "../Modal";
+import {
+  IEditProfileSubmitData,
+  editProfileFormSchema,
+} from "./EditProfileModal.form";
 import {
   IEditProfileFormData,
   ILocationInterface,
 } from "./EditProfileModal.types";
-import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { Country, State } from "@hooks/useFetch.types";
-import { useFetch } from "@hooks/useFetch";
-import { GET_ME, GET_MENTORS } from "services/apollo/queries";
-import { SubmitHandler, useForm } from "react-hook-form";
-import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
-  
+
 const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
   const { EDIT_PROFILE_MODAL, closeModal } = useModal();
