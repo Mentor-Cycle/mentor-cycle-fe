@@ -8,7 +8,6 @@ import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
 import { useRouter } from "next/router";
 import { FormEvent, SetStateAction, useState } from "react";
-import { FormEvent, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
@@ -203,20 +202,19 @@ const ModalSettings = () => {
 
   return (
     <Modal.Root
-    <Modal.Root
       open={SETTINGS_MODAL}
       onOpenChange={() => closeModal(ModalActionTypes.SETTINGS_MODAL)}
     >
       <Modal.Content>
-        <div className="flex flex-col min-w-[92vw] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
-          <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
+        <div className="flex min-h-[80vh] min-w-[92vw] flex-col p-2 sm:min-w-[420px] sm:p-10 md:min-w-[600px] lg:min-w-[920px] lg:p-20 2xl:min-w-[1100px]">
+          <h1 className="mb-4 self-center text-2xl font-bold text-secondary-02 sm:mb-0 lg:mb-16 lg:self-start">
             Configurações
           </h1>
           {dataSucessChange ? (
             <div className=" px-16">
               <main className="flex flex-col items-center">
-                <div className="flex flex-col gap-6 items-center border-b border-b-gray-01 pb-16 ">
-                  <h1 className="text-secondary-02 text-5xl text-center">
+                <div className="flex flex-col items-center gap-6 border-b border-b-gray-01 pb-16 ">
+                  <h1 className="text-center text-5xl text-secondary-02">
                     Seus dados foram alterados com sucesso!!!
                   </h1>
                 </div>
@@ -240,8 +238,8 @@ const ModalSettings = () => {
                 clickable
               />
               {currentStep === 1 && (
-                <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700 min-h-[480px] ">
-                  <div className="flex flex-col justify-center items-center sm:justify-start  m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
+                <div className="flex min-h-[480px] flex-col justify-center transition-all duration-700 lg:flex lg:min-w-[504px] lg:flex-row ">
+                  <div className="m-auto flex flex-col items-center justify-center  sm:justify-start lg:m-0 lg:mr-10 lg:flex lg:flex-col">
                     <Image
                       src={user.photoUrl || "/imgCard.png"}
                       alt=""
@@ -252,7 +250,7 @@ const ModalSettings = () => {
                     <Dropzone />
                   </div>
                   <form
-                    className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
+                    className="m-auto flex w-full max-w-[328px] flex-col px-2 text-start lg:m-0 lg:p-0 "
                     onSubmit={handleUpdateUserData}
                   >
                     <div className="flex flex-col gap-6">
@@ -280,10 +278,10 @@ const ModalSettings = () => {
                 </div>
               )}
               {currentStep === 2 && (
-                <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2 mt-8 lg:mt-0 min-h-[480px] ">
-                  <div className="flex flex-col gap-6  w-full  m-auto sm:m-0">
+                <div className="mt-8 flex min-h-[480px] flex-col items-end gap-[80px] px-2 sm:min-w-[340px] lg:mt-0 ">
+                  <div className="m-auto flex w-full  flex-col  gap-6 sm:m-0">
                     <div className="text-start">
-                      <label className=" text-secondary-03 font-bold">
+                      <label className=" font-bold text-secondary-03">
                         Tipo de perfil
                       </label>
                       <Select
@@ -316,12 +314,12 @@ const ModalSettings = () => {
                 </div>
               )}
               {currentStep === 3 && (
-                <div className="flex gap-10 sm:min-w-[328px] justify-center min-h-[480px] ">
+                <div className="flex min-h-[480px] justify-center gap-10 sm:min-w-[328px] ">
                   <form
-                    className="flex flex-col text-start w-full"
+                    className="flex w-full flex-col text-start"
                     onSubmit={handleChangePassword}
                   >
-                    <div className="flex flex-col gap-6 mt-8 lg:mt-0">
+                    <div className="mt-8 flex flex-col gap-6 lg:mt-0">
                       <Input
                         type="password"
                         name="newPassword"
@@ -339,7 +337,7 @@ const ModalSettings = () => {
                       <div className="flex flex-col gap-6">
                         <button
                           type="button"
-                          className="text-primary-03 self-start "
+                          className="self-start text-primary-03 "
                           onClick={handleDeleteAccount}
                         >
                           Deletar conta
@@ -360,17 +358,17 @@ const ModalSettings = () => {
           )}
         </div>
       </Modal.Content>
-    </Modal.Root>
+
       <Modal.Content>
-        <div className="flex flex-col min-w-[92vw] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[920px] 2xl:min-w-[1100px] min-h-[80vh] p-2 sm:p-10 lg:p-20">
-          <h1 className="self-center mb-4 sm:mb-0 lg:self-start text-secondary-02 text-2xl font-bold lg:mb-16">
+        <div className="flex min-h-[80vh] min-w-[92vw] flex-col p-2 sm:min-w-[420px] sm:p-10 md:min-w-[600px] lg:min-w-[920px] lg:p-20 2xl:min-w-[1100px]">
+          <h1 className="mb-4 self-center text-2xl font-bold text-secondary-02 sm:mb-0 lg:mb-16 lg:self-start">
             Configurações
           </h1>
           {dataSucessChange ? (
             <div className=" px-16">
               <main className="flex flex-col items-center">
-                <div className="flex flex-col gap-6 items-center border-b border-b-gray-01 pb-16 ">
-                  <h1 className="text-secondary-02 text-5xl text-center">
+                <div className="flex flex-col items-center gap-6 border-b border-b-gray-01 pb-16 ">
+                  <h1 className="text-center text-5xl text-secondary-02">
                     Seus dados foram alterados com sucesso!!!
                   </h1>
                 </div>
@@ -394,8 +392,8 @@ const ModalSettings = () => {
                 clickable
               />
               {currentStep === 1 && (
-                <div className="flex flex-col lg:flex lg:flex-row justify-center lg:min-w-[504px] transition-all duration-700 min-h-[480px] ">
-                  <div className="flex flex-col justify-center items-center sm:justify-start  m-auto lg:m-0 lg:flex lg:flex-col lg:mr-10">
+                <div className="flex min-h-[480px] flex-col justify-center transition-all duration-700 lg:flex lg:min-w-[504px] lg:flex-row ">
+                  <div className="m-auto flex flex-col items-center justify-center  sm:justify-start lg:m-0 lg:mr-10 lg:flex lg:flex-col">
                     <Image
                       src={user.photoUrl || "/imgCard.png"}
                       alt=""
@@ -406,7 +404,7 @@ const ModalSettings = () => {
                     <Dropzone />
                   </div>
                   <form
-                    className="flex flex-col m-auto lg:m-0 px-2 lg:p-0 text-start w-full max-w-[328px] "
+                    className="m-auto flex w-full max-w-[328px] flex-col px-2 text-start lg:m-0 lg:p-0 "
                     onSubmit={handleUpdateUserData}
                   >
                     <div className="flex flex-col gap-6">
@@ -434,10 +432,10 @@ const ModalSettings = () => {
                 </div>
               )}
               {currentStep === 2 && (
-                <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2 mt-8 lg:mt-0 min-h-[480px] ">
-                  <div className="flex flex-col gap-6  w-full  m-auto sm:m-0">
+                <div className="mt-8 flex min-h-[480px] flex-col items-end gap-[80px] px-2 sm:min-w-[340px] lg:mt-0 ">
+                  <div className="m-auto flex w-full  flex-col  gap-6 sm:m-0">
                     <div className="text-start">
-                      <label className=" text-secondary-03 font-bold">
+                      <label className=" font-bold text-secondary-03">
                         Tipo de perfil
                       </label>
                       <Select
@@ -470,12 +468,12 @@ const ModalSettings = () => {
                 </div>
               )}
               {currentStep === 3 && (
-                <div className="flex gap-10 sm:min-w-[328px] justify-center min-h-[480px] ">
+                <div className="flex min-h-[480px] justify-center gap-10 sm:min-w-[328px] ">
                   <form
-                    className="flex flex-col text-start w-full"
+                    className="flex w-full flex-col text-start"
                     onSubmit={handleChangePassword}
                   >
-                    <div className="flex flex-col gap-6 mt-8 lg:mt-0">
+                    <div className="mt-8 flex flex-col gap-6 lg:mt-0">
                       <Input
                         type="password"
                         name="newPassword"
@@ -493,7 +491,7 @@ const ModalSettings = () => {
                       <div className="flex flex-col gap-6">
                         <button
                           type="button"
-                          className="text-primary-03 self-start "
+                          className="self-start text-primary-03 "
                           onClick={handleDeleteAccount}
                         >
                           Deletar conta
