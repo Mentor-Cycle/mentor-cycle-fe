@@ -8,6 +8,7 @@ import ModalAlert from "@components/Modal/ModalAlert";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Cross1Icon } from "@radix-ui/react-icons";
 
+
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({

@@ -19,6 +19,7 @@ import { ModalActionTypes } from "contexts/types";
 import { groupEventsByDay } from "utils/dashboard-helpers";
 import { validateUndefined } from "utils/nullable/validateUndefined";
 
+
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
   const { openModal, closeModal } = useModal();
