@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
 import Input from "@components/Input";
-
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import {
   IEditProfileSubmitData,
@@ -19,14 +18,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
-import { GET_ME, GET_MENTORS } from "services/apollo/queries";
+import { GET_ME, GET_MENTORS, GET_SKILLS } from "services/apollo/queries";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { z } from "zod";
 import { Modal } from "../Modal";
-import {
-  IEditProfileFormData,
-  ILocationInterface,
-} from "./EditProfileModal.types";
+import { IEditProfileFormData, ILocationInterface } from "./EditProfileModal.types";
 
 const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
@@ -133,12 +129,12 @@ const EditProfileModal = () => {
       onOpenChange={() => closeModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
     >
       <Modal.Content>
-        <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
+        <div className="w-[300px] p-2 py-16 max-xl:px-5 xs:w-[380px] sm:w-[600px] md:w-auto lg:px-20">
           <form
-            className="max-md:w-auto md:w-[672px] text-start"
+            className="text-start max-md:w-auto md:w-[672px]"
             onSubmit={handleSubmit(submitHandler)}
           >
-            <div className="flex flex-col md:flex-row gap-2 w-full">
+            <div className="flex w-full flex-col gap-2 md:flex-row">
               <Input
                 type="text"
                 {...register("firstName")}

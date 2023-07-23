@@ -1,17 +1,11 @@
 import ModalNotifications from "@components/Modal/ModalNotifications";
 import ScheduleMentorshipModal from "@components/Modal/ModalScheduleMentorship";
 import EditProfileModal from "@components/Modal/EditProfile/EditProfileModal";
+import { ModalActionTypes, ModalContextType, ModalState } from "./types";
+import { ReactNode, createContext, useContext, useContext, useState } from "react";
 import ModalSettings from "@components/Modal/ModalSettings";
 import ModalAlert from "@components/Modal/ModalAlert";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import React, {
-  Children,
-  ReactNode,
-  createContext,
-  useContext,
-  useState,
-} from "react";
-import { ModalActionTypes, ModalContextType, ModalState } from "./types";
 import { Cross1Icon } from "@radix-ui/react-icons";
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
