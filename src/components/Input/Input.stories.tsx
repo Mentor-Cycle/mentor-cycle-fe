@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import Input from "./Input";
+import { InputElement } from "./Input";
 
 const meta = {
   title: "Forms/Input",
-  component: Input,
+  component: InputElement,
   parameters: {
     design: {
       type: "figma",
@@ -20,7 +20,7 @@ const meta = {
       control: { type: "select" },
     },
   },
-} satisfies Meta<typeof Input>;
+} satisfies Meta<typeof InputElement>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

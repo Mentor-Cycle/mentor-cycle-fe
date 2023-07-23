@@ -2,7 +2,7 @@ import { IEditProfileSubmitData } from "@components/Modal/EditProfile/EditProfil
 
 export type IEditProfileFormData = Omit<
   IEditProfileSubmitData,
-  "countries" | "state" | "skills" | "id"
+  "countries" | "state" | "id"
 >;
 
 export interface ILocationInterface {

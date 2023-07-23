@@ -1,14 +1,12 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
-import Input from "@components/Input";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
@@ -16,6 +14,7 @@ import { GET_IS_USER_LOGGED } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
 import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPrivacyPopup";
+import { InputElement } from "@components/Input";
 
 const SignIn: NextPage = () => {
   const router = useRouter();
@@ -122,14 +121,14 @@ const SignIn: NextPage = () => {
             className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[800px]"
           >
             <div className="mt-8">
-              <Input
+              <InputElement
                 name="email"
                 type="email"
                 placeholder="user1@gmail.com"
                 label="Email"
                 required
               />
-              <Input
+              <InputElement
                 name="password"
                 type="password"
                 placeholder="******************"

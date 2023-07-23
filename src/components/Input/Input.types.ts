@@ -2,8 +2,7 @@ import { Ref } from "react";
 export type InputSize = "standard" | "small";
 
 export interface InputProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, "size"> {
-  name: string;
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   size?: InputSize;
   label?: string;
   required?: boolean;
@@ -13,7 +12,6 @@ export interface InputProps
   maxLength?: number;
   placeholder?: string;
   mask?: string;
-  type?: string;
   disabled?: boolean;
   ref?: React.Ref<HTMLInputElement>;
   onValidChange?: (valid: boolean) => void;

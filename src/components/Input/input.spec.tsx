@@ -1,10 +1,10 @@
+import { InputElement } from "@components/Input/Input";
 import { render } from "@testing-library/react";
-import Input from "./Input";
 
 describe("input", () => {
   it("input", () => {
     const { getByPlaceholderText } = render(
-      <Input name="name" placeholder="teste" />
+      <InputElement name="name" placeholder="teste" />
     );
 
     const input = getByPlaceholderText("teste");
@@ -13,7 +13,7 @@ describe("input", () => {
 
   it("input disabled", () => {
     const { getByPlaceholderText } = render(
-      <Input name="name" placeholder="teste" disabled />
+      <InputElement name="name" placeholder="teste" disabled />
     );
 
     const input = getByPlaceholderText("teste");

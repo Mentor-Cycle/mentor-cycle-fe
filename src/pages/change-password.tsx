@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
-import Input from "@components/Input/Input";
+import { InputElement } from "@components/Input";
 import clsx from "clsx";
 
 import Link from "next/link";
@@ -95,14 +95,10 @@ const ChangePassword = () => {
               <h1 className="text-success-01 text-5xl text-center">
                 Sua senha foi alterada com sucesso!!!
               </h1>
-              <span className="text-gray-04 ">
-                Você será direcionado a área de login
-              </span>
+              <span className="text-gray-04 ">Você será direcionado a área de login</span>
             </div>
             <div className=" py-16">
-              <span className="text-center">
-                Sua senha foi alterada com sucesso
-              </span>
+              <span className="text-center">Sua senha foi alterada com sucesso</span>
             </div>
           </main>
         </div>
@@ -111,15 +107,13 @@ const ChangePassword = () => {
           <h1 className="text-primary-05 text-5xl max-md:text-center">
             Alteração de senha
           </h1>
-          <h2 className="text-sm text-gray-04 mt-1">
-            Aqui você vai alterar a sua senha
-          </h2>
+          <h2 className="text-sm text-gray-04 mt-1">Aqui você vai alterar a sua senha</h2>
           <form
             className="flex flex-col gap-3 w-full mt-8"
             onSubmit={handleChangeNewPassword}
             ref={formRef}
           >
-            <Input
+            <InputElement
               type="password"
               name="newPassword"
               label="Nova senha"
@@ -129,7 +123,7 @@ const ChangePassword = () => {
               required
               className={clsx(!isPasswordValid && "input-invalid")}
             />
-            <Input
+            <InputElement
               type="password"
               name="newPasswordConfirm"
               label="Confirmar nova senha"

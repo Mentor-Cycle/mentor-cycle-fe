@@ -1,5 +1,4 @@
 import Button from "@components/Button/Button";
-import Input from "@components/Input/Input";
 import StepperVertical from "@components/StepperVertical/StepperVertical";
 import { initialValue } from "providers/user/AppContext";
 import Image from "next/image";
@@ -25,6 +24,7 @@ import { useModal } from "contexts/ModalContext";
 import Modal from "../Modal";
 import { ModalActionTypes } from "contexts/types";
 import Dropzone from "@components/Dropzone";
+import { InputElement } from "@components/Input";
 
 const ModalSettings = () => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
@@ -64,9 +64,7 @@ const ModalSettings = () => {
 
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { newPassword, newPasswordConfirm } = Object.fromEntries(
-      formData.entries()
-    );
+    const { newPassword, newPasswordConfirm } = Object.fromEntries(formData.entries());
     try {
       if (newPassword != newPasswordConfirm) {
         toast.error("As senhas precisam ser iguais");
@@ -252,17 +250,17 @@ const ModalSettings = () => {
                   onSubmit={handleUpdateUserData}
                 >
                   <div className="flex flex-col gap-6">
-                    <Input
+                    <InputElement
                       name="firstName"
                       label="Nome"
                       defaultValue={firstName}
                     />
-                    <Input
+                    <InputElement
                       name="lastName"
                       label="Sobrenome"
                       defaultValue={lastName ?? ""}
                     />
-                    <Input
+                    <InputElement
                       name="email"
                       type="email"
                       label="Email"
@@ -279,18 +277,12 @@ const ModalSettings = () => {
               <div className="flex flex-col items-end sm:min-w-[340px] gap-[80px] px-2 mt-8 lg:mt-0 min-h-[480px] ">
                 <div className="flex flex-col gap-6  w-full  m-auto sm:m-0">
                   <div className="text-start">
-                    <label className=" text-secondary-03 font-bold">
-                      Tipo de perfil
-                    </label>
+                    <label className=" text-secondary-03 font-bold">Tipo de perfil</label>
                     <Select
                       options={optionsPerfilAfterLogin}
-                      defaultValue={
-                        user.isMentor ? optionsPerfil[0] : optionsPerfil[1]
-                      }
+                      defaultValue={user.isMentor ? optionsPerfil[0] : optionsPerfil[1]}
                       // value={selectedChangeProfile}
-                      onChange={(option) =>
-                        handleSelectedProfile(option?.value)
-                      }
+                      onChange={(option) => handleSelectedProfile(option?.value)}
                       unstyled
                       classNames={{
                         option: ({ isSelected }) =>
@@ -318,14 +310,14 @@ const ModalSettings = () => {
                   onSubmit={handleChangePassword}
                 >
                   <div className="flex flex-col gap-6 mt-8 lg:mt-0">
-                    <Input
+                    <InputElement
                       type="password"
                       name="newPassword"
                       label="Senha"
                       pattern={passwordRequirements.toString().slice(1, -1)}
                       placeholder="**************"
                     />
-                    <Input
+                    <InputElement
                       type="password"
                       name="newPasswordConfirm"
                       label="Confirmar senha"
@@ -341,11 +333,7 @@ const ModalSettings = () => {
                         Deletar conta
                       </button>
                     </div>
-                    <Button
-                      type="submit"
-                      variant="secondary"
-                      isLoading={loading}
-                    >
+                    <Button type="submit" variant="secondary" isLoading={loading}>
                       Salvar alterações
                     </Button>
                   </div>

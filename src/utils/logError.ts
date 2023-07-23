@@ -4,6 +4,8 @@ export function logError(error: IError) {
   const errorEntries = Object.entries(error);
   errorEntries.forEach(([errorName, error]) => {
     if (!error) return;
-    console.log(errorName, error);
+    if (process.env.NODE_ENV === "development") {
+      console.log(errorName, error);
+    }
   });
 }
