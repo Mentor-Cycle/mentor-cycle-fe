@@ -1,23 +1,22 @@
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
-import { useMentorProfile } from "@hooks/useMentorProfile";
-import { NextPage } from "next";
-import { useRouter } from "next/router";
-import React from "react";
-import { validateUndefined } from "utils/nullable/validateUndefined";
-import { AvailabilitySlots } from "@components/Modal/ModalScheduleMentorship/types";
-import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { useUser } from "@hooks/useUser";
-import Spinner from "@components/Spinner";
 import { InfoCard } from "@components/InfoCard";
+import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
+import { AvailabilitySlots } from "@components/Modal/ModalScheduleMentorship/types";
+import Spinner from "@components/Spinner";
+import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useTypedQuery } from "@hooks/useTypedQuery";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { useUser } from "@hooks/useUser";
 import { TWeekday_Lowercase } from "config/constants";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
@@ -125,7 +124,7 @@ const MentorProfile: NextPage = () => {
             <InfoCard
               title="País/Estado"
               label="Não informado"
-              content={`${validateUndefined(mentor?.country) || "País"}${
+              content={`${validateUndefined(mentor?.country ?? "") || "País"}${
                 mentor?.country === "Brasil" && mentor?.state
                   ? `/${validateUndefined(mentor?.state)}`
                   : ""

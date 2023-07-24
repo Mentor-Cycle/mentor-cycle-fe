@@ -183,7 +183,7 @@ const Mentors: NextPage = () => {
                     id={mentor.id}
                     key={index}
                     chips={mentor.chips}
-                    description={mentor.description}
+                    description={mentor?.description ?? ""}
                     image={mentor.image}
                     jobTitle={user.jobTitle || (mentor.jobTitle ?? "")}
                     location={mentor.location || ""}

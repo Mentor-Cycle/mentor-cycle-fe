@@ -1,15 +1,15 @@
 import { IMentorClient, mentorClientSchema } from "schemas/mentor";
-import imgCard from "../../public/imgCard.png";
-import { validateUndefined } from "./nullable/validateUndefined";
 import { TGET_MENTORS_queryDataSchema as IMentorAPIReponse } from "services/apollo/queries/queries-properties";
 import { z } from "zod";
+import imgCard from "../../public/imgCard.png";
+import { validateUndefined } from "./nullable/validateUndefined";
 
 export const formatMentorCardData = (
   mentors: IMentorAPIReponse[]
 ): IMentorClient[] => {
   const mentorsClient = mentors.map(
     ({ photoUrl, skills, country, jobTitle, state, ...mentor }) => {
-      const location = `${validateUndefined(country)} ${validateUndefined(
+      const location = `${validateUndefined(country ?? "")} ${validateUndefined(
         state
       )}`;
       return {
