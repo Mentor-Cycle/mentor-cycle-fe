@@ -1,23 +1,23 @@
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
+import { InfoCard } from "@components/InfoCard";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
-import { useUser } from "@hooks/useUser";
-import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { groupEventsByDay } from "utils/dashboard-helpers";
-import { validateUndefined } from "utils/nullable/validateUndefined";
-import { InfoCard } from "@components/InfoCard";
-import { useRouter } from "next/router";
 import { useTypedQuery } from "@hooks/useTypedQuery";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { IGroupEventsByDay } from "types/dashboard.types";
+import { useUser } from "@hooks/useUser";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { IGroupEventsByDay } from "types/dashboard.types";
+import { groupEventsByDay } from "utils/dashboard-helpers";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
@@ -118,7 +118,7 @@ const Profile: NextPage = () => {
                 : "text-gray-05"
             }`}
           >
-            {user.description.length
+            {user?.description?.length
               ? user.description
               : "Escreva suas principais experiências profissionais"}
           </p>
@@ -133,7 +133,7 @@ const Profile: NextPage = () => {
               alignRight
               title="País/Estado"
               label="Não informado"
-              content={`${validateUndefined(user.country) || "País"}${
+              content={`${validateUndefined(user?.country ?? "") || "País"}${
                 user.country === "Brasil" && user.state
                   ? `/${validateUndefined(user.state)}`
                   : ""
