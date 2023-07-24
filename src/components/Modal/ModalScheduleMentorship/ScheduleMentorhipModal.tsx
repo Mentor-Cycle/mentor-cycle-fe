@@ -17,7 +17,7 @@ import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/Schedule
 import StepperSmall from "@components/Stepper/StepperSmall";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
-import { Modal } from "../ModalRoot";
+import { Modal } from "../Modal";
 
 const ScheduleMentorshipModal = () => {
   const { user } = useUser();
@@ -253,10 +253,10 @@ const ScheduleMentorshipModal = () => {
       onOpenChange={() => resetStates()}
     >
       <Modal.Content>
-        <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center px-4 py-4 xs:px-4 sm:px-16 sm:py-12">
           {currentStep === 1 && (
             <>
-              <div className="rounded-lg flex w-full justify-center items-center">
+              <div className="flex w-full items-center justify-center rounded-lg">
                 <Image
                   src={mentor?.photoUrl || "/imgCard.png"}
                   alt="avatar profile"
@@ -266,15 +266,15 @@ const ScheduleMentorshipModal = () => {
                 />
               </div>
               {mentor ? (
-                <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                <h2 className="mt-10 text-2xl font-semibold text-secondary-03">
                   Mentoria com {mentor.firstName} {mentor.lastName}
                 </h2>
               ) : (
-                <h2 className="text-2xl text-secondary-03 font-semibold mt-10">
+                <h2 className="mt-10 text-2xl font-semibold text-secondary-03">
                   Carregando...
                 </h2>
               )}
-              <p className="text-base text-gray-05 text-center max-w-md mt-4 mb-10">
+              <p className="mb-10 mt-4 max-w-md text-center text-base text-gray-05">
                 Escolha um dia para visualizar os horários disponíveis para
                 marcar sua mentoria
               </p>
@@ -296,11 +296,11 @@ const ScheduleMentorshipModal = () => {
                 <h3 className="mb-6 mt-8 text-secondary-03">
                   Horários disponíveis
                 </h3>
-                <ul className="grid grid-cols-3 xs:grid-cols-6 gap-4 max-w-md place-items-center mx-auto">
+                <ul className="mx-auto grid max-w-md grid-cols-3 place-items-center gap-4 xs:grid-cols-6">
                   {convertedDaysAndTimes?.map((time) => (
                     <li key={time} className="text-secondary-03">
                       <Chip
-                        className="cursor-pointer w-[56px]"
+                        className="w-[56px] cursor-pointer"
                         size="small"
                         onClick={() => setSelectedStartTime(time)}
                         key={time}
@@ -319,8 +319,8 @@ const ScheduleMentorshipModal = () => {
           {currentStep === 2 && (
             <>
               <div className="min-w-[280px]">
-                <hr className="text-gray-02 w-full mt-16" />
-                <h2 className="mt-16 font-bold text-2xl text-secondary-02">
+                <hr className="mt-16 w-full text-gray-02" />
+                <h2 className="mt-16 text-2xl font-bold text-secondary-02">
                   Mentoria de 30 minutos
                 </h2>
                 <p className="mt-6 text-secondary-02">
@@ -340,16 +340,16 @@ const ScheduleMentorshipModal = () => {
           {currentStep === 3 && (
             <>
               <div className="min-w-[280px]"></div>
-              <h2 className="font-bold text-3xl order-[-2] text-secondary-02">
+              <h2 className="order-[-2] text-3xl font-bold text-secondary-02">
                 Mentoria agendada!
               </h2>
               {mentor ? (
-                <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                <p className="order-[-1] mb-16 mt-2 max-w-sm text-gray-03">
                   Sua mentoria foi agendada no seu calendário e do(a){" "}
                   {mentor.firstName} {mentor.lastName}
                 </p>
               ) : (
-                <p className="mt-2 mb-16 max-w-sm order-[-1] text-gray-03">
+                <p className="order-[-1] mb-16 mt-2 max-w-sm text-gray-03">
                   Sua mentoria foi agendada no seu calendário e do(a){" "}
                   Carregando...
                 </p>

@@ -4,7 +4,7 @@ import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
 import { OptionStatus } from "schemas/create_event_output";
 import { eventStatusToPortugueseMap } from "utils/parser/eventStatusToPortuguese";
-import { Modal } from "../ModalRoot";
+import { Modal } from "../Modal";
 
 const ModalNotifications = () => {
   const { user } = useUser();

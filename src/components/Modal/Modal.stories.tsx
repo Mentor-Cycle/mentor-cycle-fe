@@ -1,24 +1,36 @@
-import { Modal } from "./Modal";
 import { Meta, StoryObj } from "@storybook/react";
+import { Modal } from "./Modal";
+import ModalRoot from "./ModalRoot/ModalRoot";
 
 const meta = {
   title: "Data Display/Modal",
   component: Modal.Root,
-} satisfies Meta<typeof Modal>;
-
+};
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ModalRoot>;
 
 export const Default: Story = {
   args: {
     children: (
-      <div>
-        <h1>Title</h1>
-        <p>Content</p>
-      </div>
+      <Modal.Content>
+        <Modal.Title text="Title" />
+        <Modal.Description text="Description" />
+        <div>Content</div>
+      </Modal.Content>
     ),
     open: false,
     onOpenChange: () => {},
-    type: "modal",
+  },
+};
+
+export const ModalAlert: Story = {
+  args: {
+    children: (
+      <Modal.ContentAlert>
+        <Modal.Title text="Title" />
+        <Modal.Description text="Description" />
+      </Modal.ContentAlert>
+    ),
+    open: false,
   },
 };

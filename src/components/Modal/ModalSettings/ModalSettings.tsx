@@ -23,9 +23,8 @@ import { createStringRequirements } from "utils/regex";
 import { IUserSession } from "types/user.types";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
-import { Modal } from "../ModalRoot";
+import { Modal } from "../Modal";
 import Dropzone from "@components/Dropzone/Dropzone";
-
 
 const ModalSettings = () => {
   const [dataSucessChange, setDataSucessChange] = useState(false);
