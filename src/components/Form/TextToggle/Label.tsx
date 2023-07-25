@@ -1,4 +1,3 @@
-import { useTheme } from "next-themes";
 import React, { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -7,9 +6,6 @@ interface LabelProps extends HTMLAttributes<HTMLParagraphElement> {
 }
 
 export function Label({ text, ...props }: LabelProps) {
-  const { theme } = useTheme();
-  const isLightMode = theme === "light";
-
   return (
     <p
       {...props}

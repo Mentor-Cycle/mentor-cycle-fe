@@ -30,7 +30,7 @@ const SelectLocation = ({
   htmlFor?: string;
 }) => {
   const autoId = useId();
-  const selectId = htmlFor || autoId;
+  const selectId = htmlFor ?? autoId;
 
   return (
     <div

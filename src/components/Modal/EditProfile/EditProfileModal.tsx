@@ -12,7 +12,7 @@ import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import {
   IEditProfileSubmitData,
   editProfileFormSchema,
@@ -21,7 +21,6 @@ import { z } from "zod";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
 import { Input } from "@components/InputForm";
-import { Controller } from "react-hook-form";
 import { useSkillsFactory } from "factories/useSkillsFactory";
 import { IUserSession } from "types/user.types";
 
@@ -46,7 +45,7 @@ const EditProfileModal = () => {
   const methods = useForm<IEditProfileFormData>({
     defaultValues: getDefaultValues<IEditProfileFormData>(userCurrent),
   });
-  const { register, reset, handleSubmit, control, watch } = methods;
+  const { register, reset, handleSubmit, control } = methods;
 
   const Skills = useSkillsFactory(methods as any);
 

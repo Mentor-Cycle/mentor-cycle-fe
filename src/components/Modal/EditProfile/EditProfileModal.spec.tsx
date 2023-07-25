@@ -26,16 +26,13 @@ jest.mock("@hooks/useUser", () => ({
   })),
 }));
 
-const getCountries = jest.fn(
-  () =>
-    new Promise((res) =>
-      res([
-        {
-          value: "BR",
-          label: "Brasil",
-        },
-      ])
-    )
+const getCountries = jest.fn(() =>
+  Promise.resolve([
+    {
+      value: "BR",
+      label: "Brasil",
+    },
+  ])
 );
 
 const getStates = jest.fn();

@@ -2,7 +2,6 @@ import { Input } from "@components/InputForm";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
 
 const renderComponent = () => {
   const app = render(
