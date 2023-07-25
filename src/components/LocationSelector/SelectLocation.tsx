@@ -1,7 +1,8 @@
 import Select from "react-select";
 import { City, Country, State } from "@hooks/useFetch.types";
 import clsx from "clsx";
-import React from "react";
+import React, { useId } from "react";
+import * as Label from "@radix-ui/react-label";
 
 const SelectLocation = ({
   options,
@@ -14,6 +15,7 @@ const SelectLocation = ({
   requiredField,
   defaultValue,
   autoFocus,
+  htmlFor,
 }: {
   options: State[] | City[] | Country[];
   onSelect: any;
@@ -25,22 +27,29 @@ const SelectLocation = ({
   isDisabled?: boolean;
   defaultValue?: any;
   autoFocus?: boolean;
+  htmlFor?: string;
 }) => {
+  const autoId = useId();
+  const selectId = htmlFor || autoId;
+
   return (
-    <label
-      htmlFor={name}
+    <div
       className={clsx(
         " font-semibold w-full",
         isDisabled ? "opacity-50 cursor-not-allowed" : "text-secondary-01"
       )}
     >
-      {label}
+      <Label.Root role="label" htmlFor={selectId}>
+        {label}
+      </Label.Root>
       {requiredField && (
         <span title="Obrigatório" className="text-danger-01 mx-1">
           *
         </span>
       )}
       <Select
+        data-testid="select"
+        inputId={selectId}
         required={requiredField}
         name={name}
         value={value}
@@ -74,7 +83,7 @@ const SelectLocation = ({
             `rounded-full hover:text-secondary-01 dark:hover:text-primary-02 ml-1 `,
         }}
       />
-    </label>
+    </div>
   );
 };
 

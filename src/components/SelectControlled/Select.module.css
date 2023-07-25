@@ -1,3 +1,11 @@
+.wrapper:has([role="combobox"]:focus, > input:focus) > [role="combobox"] {
+  outline: 1px solid theme("colors.gray.05");
+}
+
+.wrapper_dark:has([role="combobox"]:focus, > input:focus) > [role="combobox"] {
+  outline: 1px solid theme("colors.neutral.01");
+}
+
 .wrapper:has(.container:hover) > .container {
   background-color: theme("colors.neutral.01");
 }

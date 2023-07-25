@@ -15,6 +15,7 @@ export function InputLabel({ required, disabled, label, ...rest }: InputLabelPro
   return (
     <label
       {...rest}
+      role="label"
       data-disabled={disabled}
       data-required={required}
       className={twMerge(

@@ -13,9 +13,9 @@ export function ButtonClearAllOptions({
 
   return (
     <button
+      {...rest}
       type="button"
       className={"p-1.5 rounded-full absolute right-4 top-1/2 -translate-y-1/2" + _cn}
-      {...rest}
     >
       {children}
     </button>

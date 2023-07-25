@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import clsx from "clsx";
 import { InputProps, InputSize } from "./Input.types";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -7,6 +7,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
   ({ size = "standard", label, search, mask, type, onValidChange, ...props }, ref) => {
+    const inputId = useId();
     const [invalid, setInvalid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -39,15 +40,16 @@ export const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <Label.Root
+      <div
         className={clsx(
           props.disabled && "input-label-disabled",
           "input-label",
           sizesLabel[size]
         )}
-        htmlFor={props.name}
       >
-        {label}
+        <Label.Root role="label" htmlFor={inputId}>
+          {label}
+        </Label.Root>
         {props.required && (
           <span title="Obrigatório" className="text-danger-01 mx-1">
             *
@@ -56,6 +58,7 @@ export const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
         <div className="flex items-center relative">
           <input
             {...props}
+            id={inputId}
             ref={ref}
             type={type === "password" ? inputType : type}
             className={clsx(
@@ -97,7 +100,7 @@ export const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
         {errorMessage && !props.disabled && props.name !== "repeatPassword" && (
           <div className={"font-normal my-2 text-danger-01 text-sm"}>{errorMessage}</div>
         )}
-      </Label.Root>
+      </div>
     );
   }
 );
