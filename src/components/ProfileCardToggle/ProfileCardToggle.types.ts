@@ -7,6 +7,5 @@ export type ProfileProps = {
 };
 
 export type ProfileCardToggleProps = {
-  handleIsMentor: (isMentor: boolean) => void;
   isMentor: boolean;
 };

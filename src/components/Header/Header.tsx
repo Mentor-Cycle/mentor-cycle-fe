@@ -17,17 +17,15 @@ import { removeTypenameProperty } from "utils/removeTypename";
 import { MdNotifications } from "react-icons/md";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { logError } from "utils/logError";
 
 const linkStyle = "flex items-center justify-center";
 const itemsMenuStyle =
   "flex gap-2 items-center justify-center hover:text-gray-04 dark:hover:text-gray-01";
 
-const DynamicThemedImage = dynamic(
-  () => import("@components/Header/ThemeImage"),
-  {
-    ssr: false,
-  }
-);
+const DynamicThemedImage = dynamic(() => import("@components/Header/ThemeImage"), {
+  ssr: false,
+});
 
 export default function Header() {
   const { user, setUser } = useUser();
@@ -48,7 +46,7 @@ export default function Header() {
       });
     },
   });
-  if (errorMe?.error) console.log("errorMe", errorMe);
+  logError({ errorMe });
 
   const [signOutUser] = useMutation(LOGOUT_USER);
 

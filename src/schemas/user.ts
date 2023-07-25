@@ -1,7 +1,4 @@
-import {
-  availabilityAPISchema,
-  availabilitySchema,
-} from "schemas/availability";
+import { availabilityAPISchema, availabilitySchema } from "schemas/availability";
 import { z } from "zod";
 import { notificationAPISchema, notificationSchema } from "./notification";
 

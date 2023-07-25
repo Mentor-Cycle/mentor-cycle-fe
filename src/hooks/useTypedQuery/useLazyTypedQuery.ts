@@ -65,12 +65,14 @@ export function useLazyTypedQuery<
           setData(parsedData);
           if (options?.onCompleted) options.onCompleted(parsedData);
         })
-        .catch((error) =>
+        .catch((error) => {
           setError({
             error,
             type: "PARSING_API_RESPONSE_DATA",
-          })
-        )
+            issue_cause: unparsedData,
+          });
+          if (options?.onCompleted) options.onCompleted(unparsedData);
+        })
         .finally(() => setLoading(false));
     },
   });
@@ -92,6 +94,7 @@ export function useLazyTypedQuery<
               setError({
                 error,
                 type: "PARSING_VARIABLES",
+                issue_cause: options.variables,
               });
               setLoading(false);
             });

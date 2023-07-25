@@ -93,3 +93,41 @@ Tudo 100% tipado e validado, o que falhar na validação, é lançado no error, 
 * Existe duas tipagens similares, que são union de strings com os dias da semana, umas possuem a inicial maiúsculas e outras não, isso pode ser redundante, uma task averiguando poderia ser bom.
 `src/utils/dashboard-helpers.tsx` (L27)
 `src/config/constants.ts` (L23)
+
+
+
+
+---
+
+# useGeoStates
+O hook `useGeoStates` foi criado para tratar o array de estados do Brasil.
+
+O primeiro argumento aceita `null` ou um array desse tipo:
+```tsx
+type ReactSelectInterface = {
+  label: string;
+  value: string;
+}
+```
+
+O segundo argumento, ele aceita um objeto opcional para o tratamento desse array.
+```tsx
+export interface IUseGeoStates {
+  sort?: "asceding" | "descending";
+  limit?: number;
+  // ...
+}
+```
+
+Caso você queira criar um objeto separado para passar os options, para abstrair e reduzir a verbosidade do código por exemplo, você pode declarar seu objeto essa tipagem `IUseGeoStates` e ele estará tipado adequadamente.
+
+Você pode remover e adicionar quais métodos você deseja usar dentro do corpo do hook no arquivo `useGeoStates/hook.tsx`:
+```tsx
+useEffect(() => {
+  const GeoStates = createGeoStates(statesInitialState);
+  GeoStates.order(order); // método de ordenação
+  GeoStates.limit(limit); // método de limite de quantos são vistos
+
+  setStates(GeoStates.getStates());
+}, [statesInitialState, limit, order]);
+```

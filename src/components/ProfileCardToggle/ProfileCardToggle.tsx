@@ -1,9 +1,8 @@
 import clsx from "clsx";
 import { MdPermIdentity, MdMenu } from "react-icons/md";
-import {
-  ProfileCardToggleProps,
-  ProfileProps,
-} from "./ProfileCardToggle.types";
+import { ProfileProps } from "./ProfileCardToggle.types";
+import { useFormContext } from "react-hook-form";
+import { IFormValues } from "providers/signup/register/types";
 
 export const ProfileCard = ({
   active,
@@ -35,33 +34,29 @@ export const ProfileCard = ({
   );
 };
 
-export const ProfileCardToggle = ({
-  handleIsMentor,
-  isMentor,
-}: ProfileCardToggleProps) => {
+export const ProfileCardToggle = () => {
+  const { setValue, watch } = useFormContext<IFormValues>();
+
+  const isMentor = watch("isMentor");
+
   return (
     <main className="flex flex-col p-2 sm:flex-row justify-center items-center m-auto gap-8 sm:gap-4">
       <ProfileCard
-        onClick={() => handleIsMentor(false)}
+        onClick={() => setValue("isMentor", false)}
         active={!isMentor}
-        title="Quero ser 
-um mentorado"
-        description="Aqui você terá acesso à
-nossa plataforma de mentores,que irão te ajudar na sua
-carreira profissional"
+        title="Quero ser um mentorado"
+        description="Aqui você terá acesso à nossa plataforma de mentores,que irão te ajudar na sua carreira profissional"
         Icon={
           <MdPermIdentity
             size={64}
             className={`${
-              !isMentor
-                ? "text-primary-03 dark:text-neutral-01"
-                : "text-gray-02"
+              !isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"
             } transition duration-500 ease-in-out`}
           />
         }
       />
       <ProfileCard
-        onClick={() => handleIsMentor(true)}
+        onClick={() => setValue("isMentor", true)}
         active={isMentor}
         title="Quero ajudar
         como mentor"
@@ -72,9 +67,7 @@ carreira profissional"
         Icon={
           <MdMenu
             size={64}
-            className={
-              isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"
-            }
+            className={isMentor ? "text-primary-03 dark:text-neutral-01" : "text-gray-02"}
           />
         }
       />

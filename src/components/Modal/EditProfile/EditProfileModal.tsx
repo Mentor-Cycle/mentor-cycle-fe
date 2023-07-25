@@ -1,40 +1,53 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
-import Input from "@components/Input";
+import { InputElement } from "@components/Input";
 import Modal from "@components/Modal";
 import Textarea from "@components/Textarea/Textarea";
 import { useUser } from "@hooks/useUser";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
-import {
-  IEditProfileFormData,
-  ILocationInterface,
-} from "./EditProfileModal.types";
+import { IEditProfileFormData, ILocationInterface } from "./EditProfileModal.types";
 import SelectLocation from "@components/LocationSelector/SelectLocation";
 import { Country, State } from "@hooks/useFetch.types";
 import { useFetch } from "@hooks/useFetch";
 import { GET_ME, GET_MENTORS } from "services/apollo/queries";
-import { SubmitHandler, useForm } from "react-hook-form";
-import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import {
   IEditProfileSubmitData,
   editProfileFormSchema,
 } from "@components/Modal/EditProfile/EditProfileModal.form";
 import { z } from "zod";
-import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { Input } from "@components/InputForm";
+import { useSkillsFactory } from "factories/useSkillsFactory";
+import { IUserSession } from "types/user.types";
+
+function getDefaultValues<T>(userCurrent: IUserSession): T {
+  return {
+    firstName: userCurrent.firstName,
+    lastName: userCurrent.lastName,
+    biography: userCurrent.biography ?? "",
+    country: userCurrent.country,
+    description: userCurrent.description,
+    github: userCurrent.github ?? "",
+    linkedin: userCurrent.linkedin ?? "",
+    jobTitle: userCurrent.jobTitle ?? "",
+    skills: userCurrent.skills ?? [],
+    yearsOfExperience: userCurrent.yearsOfExperience || 0,
+  } as T;
+}
 
 const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
   const { EDIT_PROFILE_MODAL, closeModal } = useModal();
-  const { register, reset, handleSubmit } = useForm<IEditProfileFormData>();
-  const { data: skills, error } = useTypedQuery(api.GET_SKILLS);
-  if (error?.error) console.log("error", error);
+  const methods = useForm<IEditProfileFormData>({
+    defaultValues: getDefaultValues<IEditProfileFormData>(userCurrent),
+  });
+  const { register, reset, handleSubmit, control } = methods;
 
-  const options = skills ? skills?.findAllSkills.map((opt) => opt.name) : [];
+  const Skills = useSkillsFactory(methods as any);
 
   const [updateUser, { loading }] = useMutation<{}, IEditProfileSubmitData>(
     USER_UPDATE_DATA,
@@ -44,11 +57,8 @@ const EditProfileModal = () => {
   );
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
-  const [selectedCountry, setSelectedCountry] =
-    useState<ILocationInterface | null>(null);
-  const [selectedStates, setSelectedStates] =
-    useState<ILocationInterface | null>(null);
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<ILocationInterface | null>(null);
+  const [selectedStates, setSelectedStates] = useState<ILocationInterface | null>(null);
   const { getCountries, getStates } = useFetch();
 
   useEffect(() => {
@@ -61,17 +71,12 @@ const EditProfileModal = () => {
     }
   }, [getCountries, getStates, selectedCountry]);
 
-  useEffect(() => {
-    if (userCurrent.skills) setSelectedSkills(userCurrent.skills);
-  }, [userCurrent.skills]);
-
   const submitHandler: SubmitHandler<IEditProfileFormData> = async (form) => {
     try {
       const updatedUser = editProfileFormSchema.parse({
         ...form,
         country: selectedCountry?.label || userCurrent.country,
         state: selectedStates?.label || userCurrent.state,
-        skills: selectedSkills,
         id: userCurrent.id,
       });
 
@@ -87,7 +92,6 @@ const EditProfileModal = () => {
 
         toast.success("Alterações realizadas com sucesso!");
         closeModal(ModalActionTypes.EDIT_PROFILE_MODAL);
-        reset();
       }
     } catch (error) {
       handleErrors(error);
@@ -126,6 +130,12 @@ const EditProfileModal = () => {
       setState({ label, value });
     };
 
+  useEffect(() => {
+    if (EDIT_PROFILE_MODAL) {
+      reset(getDefaultValues(userCurrent));
+    }
+  }, [EDIT_PROFILE_MODAL]);
+
   return (
     <Modal
       open={EDIT_PROFILE_MODAL}
@@ -137,39 +147,28 @@ const EditProfileModal = () => {
           onSubmit={handleSubmit(submitHandler)}
         >
           <div className="flex flex-col md:flex-row gap-2 w-full">
-            <Input
+            <InputElement
               type="text"
-              {...register("firstName")}
               label="Nome"
               pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.firstName}
+              {...register("firstName")}
             />
-            <Input
+            <InputElement
               type="text"
-              {...register("lastName")}
               label="Sobrenome"
               pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.lastName ?? ""}
+              {...register("lastName")}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Input
+            <InputElement
               type="text"
-              {...register("jobTitle")}
               label="Profissão"
               pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.jobTitle ?? ""}
+              {...register("jobTitle")}
             />
-            <Textarea
-              {...register("biography")}
-              label="Bio"
-              defaultValue={userCurrent.biography ?? ""}
-            />
-            <Textarea
-              {...register("description")}
-              label="Experiência"
-              defaultValue={userCurrent.description ?? ""}
-            />
+            <Textarea label="Bio" {...register("biography")} />
+            <Textarea label="Experiência" {...register("description")} />
             <SelectLocation
               onSelect={handleLocationChange(setSelectedCountry)}
               name="country"
@@ -199,43 +198,51 @@ const EditProfileModal = () => {
               }
               isDisabled={selectedCountry?.value !== "Brasil"}
             />
-            <Input
+            <InputElement
               label="Linkedin"
-              {...register("linkedin")}
               placeholder="linkedin.com/in/usuario1"
-              defaultValue={userCurrent.linkedin ?? ""}
+              {...register("linkedin")}
             />
-            <Input
-              {...register("github")}
+            <InputElement
               label="Portifólio/Github"
               placeholder="portfóliousuário.com.br"
-              defaultValue={userCurrent.github ?? ""}
+              {...register("github")}
             />
-            <Input
+            <InputElement
               type="number"
               max={45}
               min={0}
-              {...register("yearsOfExperience")}
               label="Anos experiência"
               required
-              defaultValue={
-                userCurrent.yearsOfExperience
-                  ? userCurrent.yearsOfExperience.toString()
-                  : "0"
-              }
+              {...register("yearsOfExperience")}
             />
-            <SelectSkillsInput
-              label="Especialização"
-              state={[selectedSkills, setSelectedSkills]}
-              options={options}
-            />
+            <Input.Root grow={1} className="my-2.5">
+              <Input.Label
+                label="Especialização"
+                htmlFor={Skills.inputId}
+                aria-label={`skills-${Skills.inputId}`}
+                required
+              />
+              <Controller
+                name="skills"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <Input.MultiSelect
+                      {...field}
+                      id={Skills.inputId}
+                      options={Skills.options}
+                      tabIndex={0}
+                      isLoading={Skills.isLoading}
+                      ref={null}
+                    />
+                  );
+                }}
+              />
+              <Input.Error errorMessage={Skills.errors} />
+            </Input.Root>
           </div>
-          <Button
-            type="submit"
-            className="mt-7"
-            disabled={loading}
-            isLoading={loading}
-          >
+          <Button type="submit" className="mt-7" disabled={loading} isLoading={loading}>
             Salvar
           </Button>
         </form>

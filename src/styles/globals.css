@@ -19,7 +19,7 @@ a {
 
 @layer base {
   body {
-    @apply dark:bg-secondary-03 bg-neutral-03;
+    @apply dark:bg-secondary-03 bg-neutral-03 overflow-y-scroll;
   }
   h1,
   h2,
@@ -32,6 +32,10 @@ a {
 }
 
 @layer components {
+  .input-sign {
+    @apply p-3 min-h-[3rem] rounded-lg text-neutral-02 outline-none focus:outline-1 focus:outline-gray-03 focus:outline-offset-2 bg-secondary-04 border border-gray-05 placeholder:text-gray-03;
+  }
+
   .input-invalid {
     @apply invalid:border-danger-01 invalid:focus:ring-1 invalid:focus:ring-danger-01 invalid:text-danger-01 invalid:placeholder:text-danger-01 dark:invalid:placeholder:text-danger-01;
   }
@@ -75,4 +79,50 @@ a {
   background-color: #f36b6b;
   border-radius: 14px;
   border: none;
+}
+
+:root {
+  --background: var(--neutral-03);
+
+  --primary-05: #580505;
+  --primary-04: #790404;
+  --primary-03: #ba0000;
+  --primary-02: #e43d3d;
+  --primary-01: #f36b6b;
+
+  --secondary-05: #0b0c0d;
+  --secondary-04: #0c0e0f;
+  --secondary-03: #171818;
+  --secondary-02: #212324;
+  --secondary-01: #343434;
+
+  --gray-05: #3e3e3e;
+  --gray-04: #535353;
+  --gray-03: #7c7c7c;
+  --gray-02: #989898;
+  --gray-01: #cecece;
+
+  --neutral-05: #e4e4e4;
+  --neutral-04: #f3eeee;
+  --neutral-03: #f3f3f3;
+  --neutral-02: #f8f8f8;
+  --neutral-01: #fefefe;
+
+  --success-01: #237c00;
+  --success-02: #3eb80e;
+  --success-03: #e4f9da;
+
+  --danger-01: #ea172e;
+  --danger-02: #ee4b4b;
+  --danger-03: #fcd2d2;
+
+  --info-01: #1f62a5;
+  --info-02: #61aee7;
+  --info-03: #c7deef;
+
+  --waiting-01: #f8ba1b;
+  --waiting-02: #ffd234;
+
+  --link-01: #3201be;
+  --link-02: #2420f9;
 }

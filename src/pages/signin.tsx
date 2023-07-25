@@ -1,14 +1,12 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button";
 import Checkbox from "@components/Checkbox";
-import Input from "@components/Input";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { GrLinkedinOption } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
@@ -16,6 +14,7 @@ import { GET_IS_USER_LOGGED } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
 import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPrivacyPopup";
+import { InputElement } from "@components/Input";
 
 const SignIn: NextPage = () => {
   const router = useRouter();
@@ -30,9 +29,7 @@ const SignIn: NextPage = () => {
   const { setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const hasAgreedToTermsAndPrivacy = localStorage.getItem(
-      "hasAgreedToTermsAndPrivacy"
-    );
+    const hasAgreedToTermsAndPrivacy = localStorage.getItem("hasAgreedToTermsAndPrivacy");
     if (!hasAgreedToTermsAndPrivacy) {
       setTimeout(() => {
         setOpen(true);
@@ -44,9 +41,7 @@ const SignIn: NextPage = () => {
     e.preventDefault();
     const formElement = e.target as HTMLFormElement;
     const formData = new FormData(formElement);
-    const { email, password, rememberMe } = Object.fromEntries(
-      formData.entries()
-    );
+    const { email, password, rememberMe } = Object.fromEntries(formData.entries());
 
     const isValid = refForm.current?.checkValidity();
 
@@ -99,8 +94,7 @@ const SignIn: NextPage = () => {
             Comece o seu aprendizado por aqui!
           </h2>
           <p className="text-neutral-01 mt-2 text-sm sm:text-base text-center md:text-left p-2 sm:p-0 2xl:text-xl">
-            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
-            dúvidas.
+            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem dúvidas.
           </p>
         </div>
         <div className="absolute hidden md:block md:bottom-3 md:-right-11">
@@ -127,14 +121,14 @@ const SignIn: NextPage = () => {
             className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[800px]"
           >
             <div className="mt-8">
-              <Input
+              <InputElement
                 name="email"
                 type="email"
                 placeholder="user1@gmail.com"
                 label="Email"
                 required
               />
-              <Input
+              <InputElement
                 name="password"
                 type="password"
                 placeholder="******************"
@@ -186,7 +180,7 @@ const SignIn: NextPage = () => {
             <p className="text-primary-05 dark:text-neutral-01 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
               Não tem uma conta?{" "}
               <Link
-                href="/signup/plan"
+                href="/signup/register"
                 className="text-primary-03 dark:text-primary-01 hover:text-primary-02 dark:hover:text-primary-03"
               >
                 Se registre aqui!

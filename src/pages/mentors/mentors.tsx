@@ -1,5 +1,5 @@
 import CardProfile from "@components/CardProfile";
-import Input from "@components/Input/Input";
+import { InputElement } from "@components/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
 import SkeletonCardProfile from "@components/Skeleton/Cards/SkeletonCardProfile";
@@ -97,15 +97,12 @@ const Mentors: NextPage = () => {
     }));
   }, []);
 
-  const handleSkillsChange = useCallback(
-    (selectedSkills: TVariables["skills"]) => {
-      setFilter((prevFilter) => ({
-        ...prevFilter,
-        skills: selectedSkills,
-      }));
-    },
-    []
-  );
+  const handleSkillsChange = useCallback((selectedSkills: TVariables["skills"]) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      skills: selectedSkills,
+    }));
+  }, []);
 
   const handlePeriodChange = useCallback((selectedPeriod: Filter["period"]) => {
     setFilter((prevFilter) => ({
@@ -146,7 +143,7 @@ const Mentors: NextPage = () => {
         </div>
         <div className="flex flex-col lg:flex lg:flex-row justify-between items-center mt-10">
           <div className="w-full max-w-[550px] 2xl:max-w-2xl">
-            <Input
+            <InputElement
               name="findMentors"
               placeholder="Ronald Richards"
               onChange={handleSearchChange}
@@ -158,10 +155,7 @@ const Mentors: NextPage = () => {
               placeholder="Especialidade"
               setSelectedSkills={handleSkillsChange}
             />
-            <TimeSelect
-              setSelectedTime={handlePeriodChange}
-              placeholder="Horários"
-            />
+            <TimeSelect setSelectedTime={handlePeriodChange} placeholder="Horários" />
           </div>
         </div>
         {loadingMentor ? (

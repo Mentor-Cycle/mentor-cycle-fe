@@ -1,18 +1,16 @@
 import Image from "next/image";
-import Input from "@components/Input";
 import Button from "@components/Button";
 import { useMutation } from "@apollo/client";
 import { SEND_RESET_PASSWORD } from "services/apollo/mutations";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import Modal from "@components/Modal";
+import { InputElement } from "@components/Input";
 
 function ChangePassword() {
   const [open, setOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
-  const [sendResetPasswordEmail, { loading }] =
-    useMutation(SEND_RESET_PASSWORD);
+  const [sendResetPasswordEmail, { loading }] = useMutation(SEND_RESET_PASSWORD);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -47,8 +45,7 @@ function ChangePassword() {
             Comece o seu aprendizado por aqui!
           </h2>
           <p className="text-neutral-01 mt-5 text-sm sm:text-base text-center md:text-left md:mt-4 md:pr-4 md:ml-9 p-2 sm:p-0">
-            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
-            dúvidas.
+            Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem dúvidas.
           </p>
         </div>
         <div className="absolute hidden md:block md:bottom-20 sm:pl-80 sm:left-6 lg:pl-96 lg:left-[60px] xl:left-40">
@@ -74,7 +71,7 @@ function ChangePassword() {
             className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[800px]"
           >
             <div className="mt-8 mb-6">
-              <Input
+              <InputElement
                 name="email"
                 type="email"
                 placeholder="user1@gmail.com"
@@ -84,12 +81,7 @@ function ChangePassword() {
                 required
               />
             </div>
-            <Button
-              isLoading={loading}
-              type="submit"
-              size="small"
-              className="md:mb-12"
-            >
+            <Button isLoading={loading} type="submit" size="small" className="md:mb-12">
               Solicitar troca de senha
             </Button>
           </form>
