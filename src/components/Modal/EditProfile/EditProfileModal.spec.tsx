@@ -1,22 +1,29 @@
-import { RenderResult, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import React from "react";
 import EditProfileModal from "@components/Modal/EditProfile/EditProfileModal";
-import { ModalProvider, useModal } from "contexts/ModalContext";
+import * as user from "mocks/user";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { UserProvider } from "providers/user/AppContext";
-import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
-import React, { useState } from "react";
 import { ModalActionTypes } from "contexts/types";
-import * as Dialog from "@radix-ui/react-dialog";
+import { useModal } from "contexts/ModalContext";
+import "@testing-library/jest-dom";
+
+jest.mock("contexts/ModalContext");
 
 jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      query: {
-        id: "Vitor",
-      },
-    };
-  },
+  useRouter: jest.fn(() => ({
+    query: {
+      id: "Vitor",
+    },
+  })),
+}));
+
+jest.mock("@hooks/useUser", () => ({
+  useUser: jest.fn(() => ({
+    user: {
+      ...user.guyHawkins,
+    },
+    setUser: jest.fn(),
+  })),
 }));
 
 const getCountries = jest.fn(
@@ -31,36 +38,19 @@ const getCountries = jest.fn(
     )
 );
 
-const getStates = jest.fn(
-  () =>
-    new Promise((res) =>
-      res([
-        {
-          value: "RS",
-          label: "Rio Grande do Sul",
-        },
-      ])
-    )
-);
-
-const appOpenModal = async (
-  app: RenderResult<
-    typeof import("/home/vitormarkist998/mentor-cycle-fe/node_modules/@testing-library/dom/types/queries"),
-    HTMLElement,
-    HTMLElement
-  >
-) => {
-  await waitFor(() => {
-    const element = app.getByText("Open Modal");
-    fireEvent.click(element);
-  });
-};
+const getStates = jest.fn();
 
 jest.mock("@hooks/useFetch", () => ({
   useFetch: () => ({
     getCountries,
     getStates,
   }),
+}));
+
+jest.mock("factories/useSkillsFactory", () => ({
+  useSkillsFactory: jest.fn(() => ({
+    isLoading: false,
+  })),
 }));
 
 const renderComponent = () => {
@@ -70,17 +60,27 @@ const renderComponent = () => {
 
   const app = render(
     <ApolloProvider client={queryClient}>
-      <UserProvider>
-        <ModalProvider>
-          <EditProfileModal />
-          <OpenModal />
-        </ModalProvider>
-      </UserProvider>
+      <EditProfileModal />
+      <OpenModal />
     </ApolloProvider>
   );
 
   return { app, queryClient };
 };
+
+const expectedInputLabels = [
+  "Nome",
+  "Sobrenome",
+  "Profissão",
+  "Bio",
+  "Experiência",
+  "Pais",
+  "Estado",
+  "Linkedin",
+  "Portifólio/Github",
+  "Anos experiência",
+  /skills-/,
+];
 
 describe("EditProfileModal component test suite", () => {
   it("should throw when element is outside context provider", () => {
@@ -89,62 +89,73 @@ describe("EditProfileModal component test suite", () => {
   });
 
   it("should render modal when clicks a button", async () => {
+    const openModal = jest.fn();
+    (useModal as jest.Mock).mockImplementation(() => ({
+      EDIT_PROFILE_MODAL: false,
+      closeModal: jest.fn(),
+      openModal,
+    }));
     const { app } = renderComponent();
 
-    await waitFor(() => {
-      const modals = app.queryAllByTestId("edit-profile-modal-wrapper");
-      expect(modals.length).toBe(0);
-      expect(getCountries).toHaveBeenCalledTimes(2); // should be 1
-      expect(getStates).toHaveBeenCalledTimes(0);
-    });
+    const modals = app.queryAllByRole("dialog");
+    expect(modals.length).toBe(0);
+    expect(getCountries).toHaveBeenCalledTimes(1);
+    expect(getStates).toHaveBeenCalledTimes(0);
+
+    const openModalButton = app.getByText(/open modal/i);
+    fireEvent.click(openModalButton);
+    expect(openModal).toHaveBeenCalledWith("EDIT_PROFILE_MODAL");
+
+    (useModal as jest.Mock).mockImplementation(() => ({
+      EDIT_PROFILE_MODAL: true,
+      closeModal: jest.fn(),
+      openModal,
+    }));
 
     await waitFor(() => {
-      const element = app.getByText("Open Modal");
-      fireEvent.click(element);
-      const modals = app.queryAllByTestId("edit-profile-modal-wrapper");
-      expect(modals.length).toBe(2);
+      const modals = app.queryAllByRole("dialog");
+      expect(modals.length).toBe(1);
     });
   });
 
   it("should render all fields properly", async () => {
-    const { app } = renderComponent();
+    (useModal as jest.Mock).mockImplementation(() => ({
+      EDIT_PROFILE_MODAL: true,
+      closeModal: jest.fn(),
+    }));
+    renderComponent();
 
-    await waitFor(() => {
-      const element = app.getByRole("button", {
-        name: /open modal/i,
+    for (const inputLabelText of expectedInputLabels) {
+      const label = screen.getByRole("label", {
+        name: inputLabelText,
       });
-      fireEvent.click(element);
-    });
-
-    const expectedTexts = [
-      /nome/i,
-      /sobrenome/i,
-      /profissão/i,
-      /bio/i,
-      /experiência/i,
-      /pais/i,
-      /estado/i,
-      /linkedin/i,
-      /portifólio\/github/i,
-      /anos experiência/i,
-      /especialização/i,
-    ];
-
-    for (const textRegex of expectedTexts) {
-      await waitFor(() => {
-        const [element] = screen.getAllByText(textRegex);
-        expect(element).toBeTruthy();
-      });
+      expect(label).toBeInTheDocument();
     }
+  });
+
+  it("should render quantity of inputs", async () => {
+    (useModal as jest.Mock).mockImplementation(() => ({
+      EDIT_PROFILE_MODAL: true,
+      closeModal: jest.fn(),
+    }));
+    renderComponent();
+    const aditionalLabels = 0;
+    const expectedLabelsQuantity = expectedInputLabels.length + aditionalLabels;
+
+    const inputs = [];
+    for (const inputLabelText of expectedInputLabels) {
+      const input = screen.getByLabelText(inputLabelText);
+      inputs.push(input);
+    }
+
+    expect(inputs.length).toBe(expectedLabelsQuantity);
   });
 });
 
 export function OpenModal() {
   const { openModal } = useModal();
 
-  return (
-    <button onClick={() => openModal(ModalActionTypes.EDIT_PROFILE_MODAL)}>
-      Open Modal
-    </button>
-  );
+  const handleClick = () => openModal(ModalActionTypes.EDIT_PROFILE_MODAL);
+
+  return <button onClick={handleClick}>Open Modal</button>;
 }

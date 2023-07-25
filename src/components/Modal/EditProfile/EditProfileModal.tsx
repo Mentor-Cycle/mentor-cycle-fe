@@ -142,10 +142,7 @@ const EditProfileModal = () => {
       open={EDIT_PROFILE_MODAL}
       onOpenChange={() => closeModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
     >
-      <div
-        data-testid="edit-profile-modal-wrapper"
-        className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20"
-      >
+      <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
         <form
           className="max-md:w-auto md:w-[672px] text-start"
           onSubmit={handleSubmit(submitHandler)}
@@ -221,18 +218,23 @@ const EditProfileModal = () => {
               {...register("yearsOfExperience")}
             />
             <Input.Root grow={1} className="my-2.5">
-              <Input.Label label="Especialização" htmlFor={Skills.inputId} required />
+              <Input.Label
+                label="Especialização"
+                htmlFor={Skills.inputId}
+                aria-label={`skills-${Skills.inputId}`}
+                required
+              />
               <Controller
                 name="skills"
                 control={control}
                 render={({ field }) => {
                   return (
                     <Input.MultiSelect
+                      {...field}
                       id={Skills.inputId}
                       options={Skills.options}
-                      tabIndex={20}
+                      tabIndex={0}
                       isLoading={Skills.isLoading}
-                      {...field}
                       ref={null}
                     />
                   );

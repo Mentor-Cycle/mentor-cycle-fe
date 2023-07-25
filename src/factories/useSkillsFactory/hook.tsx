@@ -14,7 +14,7 @@ export function useSkillsFactory(
   const errors = fsErrors.skills?.message;
 
   const { data: skillsResponse, error, loading } = useTypedQuery(api.GET_SKILLS);
-  logError({ "Location/createSkillsFactory/useTypedQuery": error });
+  logError({ "Modal/EditProfile/EditProfileModal.tsx": error });
 
   const inputId = useId();
   const options = skillsResponse?.findAllSkills?.map((skill) => skill.name) ?? [];
