@@ -190,7 +190,12 @@ export const ScheduleMentorshipModal = ({
       const availableDays = Object.keys(daysAndTimes);
       setAvailableDays(availableDays);
     }
-  }, [convertAvailabilitiyDays, availabilitiesResponse, daysAndTimes]);
+  }, [
+    convertAvailabilitiyDays,
+    availabilitiesResponse,
+    daysAndTimes,
+    availabilities,
+  ]);
 
   useEffect(() => {
     const time = rangeTime.find((time) => time[0] === selectedStartTime);
