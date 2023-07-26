@@ -191,13 +191,13 @@ const SignIn: NextPage = () => {
             {/*   Entrar com Google */}
             {/* </Button> */}
             <div className="flex flex-col gap-4">
-              {LOGIN_OPTIONS.map((option) => {
+              {LOGIN_OPTIONS.map((option, index) => {
                 return (
                   <Button
                     size="small"
                     variant="terciary"
                     onClick={() => handleStrategyLogin(option.authPath)}
-                    key={Math.random()}
+                    key={index}
                   >
                     <Button.Icon
                       icon={option.icon}
