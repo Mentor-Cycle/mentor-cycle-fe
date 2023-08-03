@@ -1,9 +1,13 @@
-import ModalSettings from "@components/Modal/ModalSettings";
-import React, { createContext, useContext, useState, ReactNode } from "react";
 import ModalNotifications from "@components/Modal/ModalNotifications";
-import { ModalActionTypes, ModalContextType, ModalState } from "./types";
 import ScheduleMentorshipModal from "@components/Modal/ModalScheduleMentorship";
 import EditProfileModal from "@components/Modal/EditProfile/EditProfileModal";
+import { ModalActionTypes, ModalContextType, ModalState } from "./types";
+import { ReactNode, createContext, useContext, useState } from "react";
+import ModalSettings from "@components/Modal/ModalSettings";
+import ModalAlert from "@components/Modal/ModalAlert";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { Cross1Icon } from "@radix-ui/react-icons";
+
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -16,6 +20,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     [ModalActionTypes.SETTINGS_MODAL]: false,
     [ModalActionTypes.NOTIFICATIONS_MODAL]: false,
     [ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL]: false,
+    [ModalActionTypes.ALERT_MODAL]: false,
   });
 
   const openModal = (modalName: string) => {
@@ -45,7 +50,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
       <ScheduleMentorshipModal />
       <ModalSettings />
       <ModalNotifications />
+      <ModalAlert />
       <EditProfileModal />
+      <ModalAlert />
     </ModalContext.Provider>
   );
 };

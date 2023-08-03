@@ -1,31 +1,31 @@
 import { useMutation } from "@apollo/client";
 import Button from "@components/Button/Button";
 import Input from "@components/Input";
-import Modal from "@components/Modal";
+import SelectLocation from "@components/LocationSelector/SelectLocation";
+import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
 import Textarea from "@components/Textarea/Textarea";
+import { useFetch } from "@hooks/useFetch";
+import { Country, State } from "@hooks/useFetch.types";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { USER_UPDATE_DATA } from "services/apollo/mutations";
+import { GET_ME, GET_MENTORS } from "services/apollo/queries";
+import { queriesIndex as api } from "services/apollo/queries/queries.index";
+import { z } from "zod";
+import { Modal } from "../Modal";
+import {
+  IEditProfileSubmitData,
+  editProfileFormSchema,
+} from "./EditProfileModal.form";
 import {
   IEditProfileFormData,
   ILocationInterface,
 } from "./EditProfileModal.types";
-import SelectLocation from "@components/LocationSelector/SelectLocation";
-import { Country, State } from "@hooks/useFetch.types";
-import { useFetch } from "@hooks/useFetch";
-import { GET_ME, GET_MENTORS } from "services/apollo/queries";
-import { SubmitHandler, useForm } from "react-hook-form";
-import SelectSkillsInput from "@components/MultiSelect/SelectSkillsInput";
-import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import {
-  IEditProfileSubmitData,
-  editProfileFormSchema,
-} from "@components/Modal/EditProfile/EditProfileModal.form";
-import { z } from "zod";
-import { useTypedQuery } from "@hooks/useTypedQuery";
-import { useModal } from "contexts/ModalContext";
-import { ModalActionTypes } from "contexts/types";
 
 const EditProfileModal = () => {
   const { user: userCurrent, setUser } = useUser();
@@ -127,120 +127,122 @@ const EditProfileModal = () => {
     };
 
   return (
-    <Modal
+    <Modal.Root
       open={EDIT_PROFILE_MODAL}
       onOpenChange={() => closeModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
     >
-      <div className="max-xl:px-5 py-16 w-[300px] xs:w-[380px] sm:w-[600px] md:w-auto p-2 lg:px-20">
-        <form
-          className="max-md:w-auto md:w-[672px] text-start"
-          onSubmit={handleSubmit(submitHandler)}
-        >
-          <div className="flex flex-col md:flex-row gap-2 w-full">
-            <Input
-              type="text"
-              {...register("firstName")}
-              label="Nome"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.firstName}
-            />
-            <Input
-              type="text"
-              {...register("lastName")}
-              label="Sobrenome"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.lastName ?? ""}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Input
-              type="text"
-              {...register("jobTitle")}
-              label="Profissão"
-              pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
-              defaultValue={userCurrent.jobTitle ?? ""}
-            />
-            <Textarea
-              {...register("biography")}
-              label="Bio"
-              defaultValue={userCurrent.biography ?? ""}
-            />
-            <Textarea
-              {...register("description")}
-              label="Experiência"
-              defaultValue={userCurrent.description ?? ""}
-            />
-            <SelectLocation
-              onSelect={handleLocationChange(setSelectedCountry)}
-              name="country"
-              label="Pais"
-              requiredField={true}
-              options={countries}
-              placeholder="Selecione um Pais"
-              value={
-                selectedCountry || {
-                  label: userCurrent.country,
-                  value: userCurrent.country,
-                }
-              }
-            />
-            <SelectLocation
-              onSelect={handleLocationChange(setSelectedStates)}
-              label="Estado"
-              name="state"
-              requiredField={true}
-              options={states}
-              placeholder="Selecione um Estado"
-              value={
-                selectedStates || {
-                  label: userCurrent.state,
-                  value: userCurrent.state,
-                }
-              }
-              isDisabled={selectedCountry?.value !== "Brasil"}
-            />
-            <Input
-              label="Linkedin"
-              {...register("linkedin")}
-              placeholder="linkedin.com/in/usuario1"
-              defaultValue={userCurrent.linkedin ?? ""}
-            />
-            <Input
-              {...register("github")}
-              label="Portifólio/Github"
-              placeholder="portfóliousuário.com.br"
-              defaultValue={userCurrent.github ?? ""}
-            />
-            <Input
-              type="number"
-              max={45}
-              min={0}
-              {...register("yearsOfExperience")}
-              label="Anos experiência"
-              required
-              defaultValue={
-                userCurrent.yearsOfExperience
-                  ? userCurrent.yearsOfExperience.toString()
-                  : "0"
-              }
-            />
-            <SelectSkillsInput
-              label="Especialização"
-              state={[selectedSkills, setSelectedSkills]}
-              options={options}
-            />
-          </div>
-          <Button
-            type="submit"
-            className="mt-7"
-            disabled={loading}
-            isLoading={loading}
+      <Modal.Content>
+        <div className="w-[300px] p-2 py-16 max-xl:px-5 xs:w-[380px] sm:w-[600px] md:w-auto lg:px-20">
+          <form
+            className="text-start max-md:w-auto md:w-[672px]"
+            onSubmit={handleSubmit(submitHandler)}
           >
-            Salvar
-          </Button>
-        </form>
-      </div>
-    </Modal>
+            <div className="flex w-full flex-col gap-2 md:flex-row">
+              <Input
+                type="text"
+                {...register("firstName")}
+                label="Nome"
+                pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
+                defaultValue={userCurrent.firstName}
+              />
+              <Input
+                type="text"
+                {...register("lastName")}
+                label="Sobrenome"
+                pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
+                defaultValue={userCurrent.lastName ?? ""}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Input
+                type="text"
+                {...register("jobTitle")}
+                label="Profissão"
+                pattern="^[A-Za-zÀ-ÿ ,.'-]+$"
+                defaultValue={userCurrent.jobTitle ?? ""}
+              />
+              <Textarea
+                {...register("biography")}
+                label="Bio"
+                defaultValue={userCurrent.biography ?? ""}
+              />
+              <Textarea
+                {...register("description")}
+                label="Experiência"
+                defaultValue={userCurrent.description ?? ""}
+              />
+              <SelectLocation
+                onSelect={handleLocationChange(setSelectedCountry)}
+                name="country"
+                label="Pais"
+                requiredField={true}
+                options={countries}
+                placeholder="Selecione um Pais"
+                value={
+                  selectedCountry || {
+                    label: userCurrent.country,
+                    value: userCurrent.country,
+                  }
+                }
+              />
+              <SelectLocation
+                onSelect={handleLocationChange(setSelectedStates)}
+                label="Estado"
+                name="state"
+                requiredField={true}
+                options={states}
+                placeholder="Selecione um Estado"
+                value={
+                  selectedStates || {
+                    label: userCurrent.state,
+                    value: userCurrent.state,
+                  }
+                }
+                isDisabled={selectedCountry?.value !== "Brasil"}
+              />
+              <Input
+                label="Linkedin"
+                {...register("linkedin")}
+                placeholder="linkedin.com/in/usuario1"
+                defaultValue={userCurrent.linkedin ?? ""}
+              />
+              <Input
+                {...register("github")}
+                label="Portifólio/Github"
+                placeholder="portfóliousuário.com.br"
+                defaultValue={userCurrent.github ?? ""}
+              />
+              <Input
+                type="number"
+                max={45}
+                min={0}
+                {...register("yearsOfExperience")}
+                label="Anos experiência"
+                required
+                defaultValue={
+                  userCurrent.yearsOfExperience
+                    ? userCurrent.yearsOfExperience.toString()
+                    : "0"
+                }
+              />
+              <SelectSkillsInput
+                label="Especialização"
+                state={[selectedSkills, setSelectedSkills]}
+                options={options}
+              />
+            </div>
+            <Button
+              type="submit"
+              className="mt-7"
+              disabled={loading}
+              isLoading={loading}
+            >
+              Salvar
+            </Button>
+          </form>
+        </div>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 

@@ -6,7 +6,6 @@ import { SEND_RESET_PASSWORD } from "services/apollo/mutations";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import Modal from "@components/Modal";
 
 function ChangePassword() {
   const [open, setOpen] = useState<boolean>(false);
@@ -33,25 +32,25 @@ function ChangePassword() {
     }
   };
   return (
-    <main className="grid grid-cols-1 md:grid-cols-[395px,1fr] lg:grid-cols-[495px,1fr] xl:grid-cols-[595px,1fr] min-h-screen">
+    <main className="grid min-h-screen grid-cols-1 md:grid-cols-[395px,1fr] lg:grid-cols-[495px,1fr] xl:grid-cols-[595px,1fr]">
       <div className="bg-gradient-to-r from-primary-04 to-primary-02 dark:from-primary-04 dark:to-primary-05">
         <Image
           alt="Mentor Cycle Logo"
           src={"/logo.png"}
           width={96}
           height={88}
-          className="relative mx-auto mt-22 md:ml-14 md:mb-64 lg:ml-24 xl:ml-40"
+          className="relative mx-auto mt-22 md:mb-64 md:ml-14 lg:ml-24 xl:ml-40"
         />
-        <div className="flex flex-col justify-center max-w-[357px] m-auto md:mt-64">
-          <h2 className="text-neutral-01 text-3xl font-bold text-center sm:text-4.5xl sm:leading-11 md:text-left md:pr-5 md:ml-8 lg:ml-9">
+        <div className="m-auto flex max-w-[357px] flex-col justify-center md:mt-64">
+          <h2 className="text-center text-3xl font-bold text-neutral-01 sm:text-4.5xl sm:leading-11 md:ml-8 md:pr-5 md:text-left lg:ml-9">
             Comece o seu aprendizado por aqui!
           </h2>
-          <p className="text-neutral-01 mt-5 text-sm sm:text-base text-center md:text-left md:mt-4 md:pr-4 md:ml-9 p-2 sm:p-0">
+          <p className="mt-5 p-2 text-center text-sm text-neutral-01 sm:p-0 sm:text-base md:ml-9 md:mt-4 md:pr-4 md:text-left">
             Tire suas dúvidas de forma rápida e prática. Construa seu futuro sem
             dúvidas.
           </p>
         </div>
-        <div className="absolute hidden md:block md:bottom-20 sm:pl-80 sm:left-6 lg:pl-96 lg:left-[60px] xl:left-40">
+        <div className="absolute hidden sm:left-6 sm:pl-80 md:bottom-20 md:block lg:left-[60px] lg:pl-96 xl:left-40">
           <Image
             alt="logo mentor cycle -circle"
             src={"/circle.png"}
@@ -62,18 +61,18 @@ function ChangePassword() {
         </div>
       </div>
       <div className="py-20 md:px-8">
-        <div className="sm:max-w-xl mx-auto px-4 sm:px-0 ">
-          <h1 className="mb-4 text-primary-05 text-4xl text-center sm:text-5xl md:text-left">
+        <div className="mx-auto px-4 sm:max-w-xl sm:px-0 ">
+          <h1 className="mb-4 text-center text-4xl text-primary-05 sm:text-5xl md:text-left">
             Alteração de senha
           </h1>
-          <p className="mt-2 text-center md:text-left max-w-[415px] text-gray-04 text-sm ">
+          <p className="mt-2 max-w-[415px] text-center text-sm text-gray-04 md:text-left ">
             Preencha o campo para alterar sua senha
           </p>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col max-w-[557px] mx-auto md:mx-0 3xl:max-w-[800px]"
+            className="mx-auto flex max-w-[557px] flex-col md:mx-0 3xl:max-w-[800px]"
           >
-            <div className="mt-8 mb-6">
+            <div className="mb-6 mt-8">
               <Input
                 name="email"
                 type="email"
