@@ -28,11 +28,11 @@ const ModalNotifications = () => {
       onOpenChange={() => closeModal(ModalActionTypes.NOTIFICATIONS_MODAL)}
     >
       <Modal.Content>
-        <div className="m-auto flex flex-col gap-12 p-6 ">
-          <h1 className=" self-start text-2xl font-bold text-secondary-02">
+        <div className="m-auto flex flex-col gap-4 sm:p-6 ">
+          <h1 className="self-start text-2xl font-bold text-secondary-02">
             Notificações
           </h1>
-          <div className="flex flex-col gap-8 ">
+          <div className="flex flex-col gap-4 ">
             {notifications?.length ? (
               notifications
                 ?.slice(0, 5)
