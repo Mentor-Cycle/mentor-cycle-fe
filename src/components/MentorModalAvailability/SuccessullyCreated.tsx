@@ -1,5 +1,5 @@
 import Button from "@components/Button";
-import Modal from "@components/Modal/Modal";
+import { Modal } from "@components/Modal/Modal";
 
 export const SuccessfullyCreated = ({
   open,
@@ -9,7 +9,7 @@ export const SuccessfullyCreated = ({
   onClose: () => void;
 }) => {
   return (
-    <Modal open={open} onOpenChange={onClose}>
+    <Modal.Root open={open} onOpenChange={onClose}>
       <section className="py-10 px-16">
         <h1 className="text-3xl font-extrabold text-secondary-02">
           Agenda criada!
@@ -26,6 +26,6 @@ export const SuccessfullyCreated = ({
           Finalizar
         </Button>
       </section>
-    </Modal>
+    </Modal.Root>
   );
 };

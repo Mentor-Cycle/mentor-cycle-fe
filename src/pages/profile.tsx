@@ -1,23 +1,23 @@
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
+import { InfoCard } from "@components/InfoCard";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
 import Spinner from "@components/Spinner";
 import { useMentorProfile } from "@hooks/useMentorProfile";
+import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { groupEventsByDay } from "utils/dashboard-helpers";
-import { validateUndefined } from "utils/nullable/validateUndefined";
-import { InfoCard } from "@components/InfoCard";
 import { useRouter } from "next/router";
-import { useTypedQuery } from "@hooks/useTypedQuery";
+import { useEffect, useState } from "react";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay } from "types/dashboard.types";
 import { useModal } from "contexts/ModalContext";
 import { ModalActionTypes } from "contexts/types";
+import { groupEventsByDay } from "utils/dashboard-helpers";
+import { validateUndefined } from "utils/nullable/validateUndefined";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
@@ -71,7 +71,7 @@ const Profile: NextPage = () => {
   if (loadingMentor || loadingClasses)
     return (
       <>
-        <div className="min-h-screen flex justify-center items-center">
+        <div className="flex min-h-screen items-center justify-center">
           <Spinner />
         </div>
       </>
@@ -83,8 +83,8 @@ const Profile: NextPage = () => {
   return (
     <>
       <header>
-        <section className="bg-header-dashboard min-h-[200px] bg-no-repeat bg-cover flex justify-center items-center">
-          <div className="flex justify-start container ">
+        <section className="flex min-h-[200px] items-center justify-center bg-header-dashboard bg-cover bg-no-repeat">
+          <div className="container flex justify-start ">
             <DashboardCardProfile
               avatarUrl={user.photoUrl || "/imgCard.png"}
               job={user.jobTitle || ""}
@@ -94,27 +94,27 @@ const Profile: NextPage = () => {
           </div>
         </section>
       </header>
-      <main className="grid grid-cols-1 md:grid-cols-2 container min-h-screen mb-28 mt-12">
+      <main className="container mb-28 mt-12 grid min-h-screen grid-cols-1 md:grid-cols-2">
         <aside>
-          <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02">
+          <h2 className="mb-4 text-2xl font-bold leading-normal text-secondary-02">
             Sobre mim
           </h2>
           <p
-            className={`text-base w-full ${
+            className={`w-full text-base ${
               user.biography
-                ? "text-secondary-05 overflow-hidden break-words"
+                ? "overflow-hidden break-words text-secondary-05"
                 : "text-gray-05"
             }`}
           >
             {user.biography || "Complete seu sobre mim"}
           </p>
-          <h2 className="text-2xl font-bold leading-normal mb-4 text-secondary-02 mt-12">
+          <h2 className="mb-4 mt-12 text-2xl font-bold leading-normal text-secondary-02">
             Experiência profissional
           </h2>
           <p
-            className={`text-base w-full mb-12 ${
+            className={`mb-12 w-full text-base ${
               user.description
-                ? "text-secondary-05 overflow-hidden break-words"
+                ? "overflow-hidden break-words text-secondary-05"
                 : "text-gray-05"
             }`}
           >
@@ -122,7 +122,7 @@ const Profile: NextPage = () => {
               ? user.description
               : "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="text-start pt-12 pb-12 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
+          <section className="flex flex-col flex-wrap gap-y-8 border-t border-solid border-gray-03 pb-12 pt-12 text-start lg:flex-row">
             <InfoCard
               title="Portfólio/GitHub"
               label="Não informado"
@@ -165,14 +165,14 @@ const Profile: NextPage = () => {
             />
           </section>
         </aside>
-        <aside className="flex justify-center md:justify-end md:items-start">
+        <aside className="flex justify-center md:items-start md:justify-end">
           <div className="max-w-[290px]">
-            <h2 className="text-2xl font-bold mb-12 text-secondary-02 text-center sm:text-start ">
+            <h2 className="mb-12 text-center text-2xl font-bold text-secondary-02 sm:text-start ">
               Agenda {user.isMentor ? "do Mentor" : "de Mentorias"}
             </h2>
             {user.isMentor &&
               (mentor?.availability?.length ? (
-                <div className="w-[290px] m-auto">
+                <div className="m-auto w-[290px]">
                   <div className="flex flex-col gap-4">
                     {mentor.availability.map((availability, index) => {
                       return (
@@ -191,7 +191,7 @@ const Profile: NextPage = () => {
                   </div>
                 </div>
               ) : (
-                <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
+                <div className="flex h-[136px] w-full max-w-xs items-center justify-center rounded-lg border border-gray-03">
                   <p className="text-center text-gray-03">
                     Não possui nenhuma mentoria agendada
                   </p>
@@ -202,7 +202,7 @@ const Profile: NextPage = () => {
                 {classes.findEvents.length && !loadingMentor ? (
                   renderMentoringWeekCard(eventsByDay)
                 ) : (
-                  <div className="max-w-xs border border-gray-03 flex justify-center items-center w-full h-[136px] rounded-lg">
+                  <div className="flex h-[136px] w-full max-w-xs items-center justify-center rounded-lg border border-gray-03">
                     <p className="text-center text-gray-03">
                       Não possui nenhuma mentoria agendada
                     </p>
@@ -215,7 +215,7 @@ const Profile: NextPage = () => {
               setOpen={setOpenModalAvailability}
               refetchMentorProfile={refetchMentor}
             />
-            <div className="max-w-[300px] m-auto">
+            <div className="m-auto max-w-[300px]">
               {user.isMentor && (
                 <Button
                   className="mt-12"

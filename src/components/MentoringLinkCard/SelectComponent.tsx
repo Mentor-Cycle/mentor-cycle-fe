@@ -3,10 +3,10 @@ import clsx from "clsx";
 import { useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import Button from "../../components/Button";
-import Modal from "@components/Modal/Modal";
 import { useMutation } from "@apollo/client";
 import { UPDATE_EVENT } from "services/apollo/mutations";
 import { IUpdateEventInput, Props } from "./SelectComponent.types";
+import { Modal } from "@components/Modal/Modal";
 
 export const SelectComponent = ({
   eventId,
@@ -53,17 +53,17 @@ export const SelectComponent = ({
   };
   return (
     <>
-      <Modal
+      <Modal.Root
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         closeModalComponent={<button onClick={handleCloseModal}></button>}
       >
         {currentStep === 1 && (
           <>
-            <p className="text-2xl font-bold px-20">
+            <p className="px-20 text-2xl font-bold">
               Deseja realmente cancelar sua mentoria?
             </p>
-            <div className="flex mt-16 px-20 gap-4">
+            <div className="mt-16 flex gap-4 px-20">
               <Button
                 size="small"
                 variant="secondary"
@@ -82,22 +82,22 @@ export const SelectComponent = ({
         )}
         {currentStep === 2 && !loadingUpdatingEvent && (
           <>
-            <p className="text-2xl font-bold px-20 text-success-01 text-center">
+            <p className="px-20 text-center text-2xl font-bold text-success-01">
               Sua mentoria foi cancelada com sucesso!
             </p>
-            <p className="font-bold px-20 text-base mt-4">{nameUser}</p>
-            <p className=" px-14 text-base mt-4 text-gray-03">
+            <p className="mt-4 px-20 text-base font-bold">{nameUser}</p>
+            <p className=" mt-4 px-14 text-base text-gray-03">
               Seu mentorado será notificado do seu cancelamento da mentoria
             </p>
-            <p className=" px-20 text-base mt-4">
+            <p className=" mt-4 px-20 text-base">
               <span className="font-bold">Horário:</span> {hour}
             </p>
-            <p className=" px-20 text-base mt-4">
+            <p className=" mt-4 px-20 text-base">
               <span className="font-bold"> Data:</span> {date}
             </p>
           </>
         )}
-      </Modal>
+      </Modal.Root>
       <Select.Root
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -105,7 +105,7 @@ export const SelectComponent = ({
         disabled={disabled}
         onValueChange={handleValueChange}
       >
-        <Select.Trigger className="flex items-center justify-center cursor-pointer focus:outline-none">
+        <Select.Trigger className="flex cursor-pointer items-center justify-center focus:outline-none">
           {isOpen ? <BiChevronUp size={24} /> : <BiChevronDown size={24} />}
         </Select.Trigger>
         <Select.Content
@@ -113,7 +113,7 @@ export const SelectComponent = ({
           alignOffset={30}
           side="left"
           className={clsx(
-            "bg-neutral-01 dark:bg-secondary-02 border border-gra p-4 rounded-lg mt-2"
+            "border-gra mt-2 rounded-lg border bg-neutral-01 p-4 dark:bg-secondary-02"
           )}
         >
           {/* <Select.Item
@@ -125,7 +125,7 @@ export const SelectComponent = ({
           </Select.Item> */}
           <Select.Item
             value="Cancelar"
-            className="hover:bg-primary-01 hover:text-neutral-01 focus:text-neutral-01 rounded-lg p-2 focus:bg-primary-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
+            className="rounded-lg p-2 hover:bg-primary-01 hover:text-neutral-01 focus:bg-primary-01 focus:text-neutral-01 focus:outline-none focus:ring-0 focus:ring-primary-03"
           >
             Cancelar
           </Select.Item>
