@@ -1,11 +1,10 @@
 import CardNotification from "@components/CardNotification/CardNotification";
 import { useUser } from "@hooks/useUser";
 import { useModal } from "contexts/ModalContext";
-import Modal from "..";
 import { ModalActionTypes } from "contexts/types";
-import { eventStatusToPortugueseMap } from "utils/parser/eventStatusToPortuguese";
 import { OptionStatus } from "schemas/create_event_output";
-import { tr } from "date-fns/locale";
+import { eventStatusToPortugueseMap } from "utils/parser/eventStatusToPortuguese";
+import Modal from "..";
 
 const ModalNotifications = () => {
   const { user } = useUser();
@@ -32,7 +31,7 @@ const ModalNotifications = () => {
         <h1 className=" self-start text-secondary-02 text-2xl font-bold">
           Notificações
         </h1>
-        <div className="flex flex-col gap-8 ">
+        <div className="flex flex-col gap-8">
           {notifications?.length ? (
             notifications
               ?.slice(0, 5)
