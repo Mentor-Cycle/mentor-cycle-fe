@@ -1,6 +1,5 @@
-import Image from "next/image";
 import clsx from "clsx";
-import Link from "next/link";
+import Image from "next/image";
 import { CardNotificationProps } from "./CardNotification.types";
 
 const CardNotification = ({
@@ -10,7 +9,6 @@ const CardNotification = ({
   alreadyViewed = false,
 }: CardNotificationProps) => {
   return (
-    // change approach after automatically add closing modal
     <div
       data-testid="card"
       className={clsx(
@@ -20,9 +18,19 @@ const CardNotification = ({
         }
       )}
     >
-      <Image src={imgUrl || "/imgCard.png"} alt="" width={62} height={56} />
+      <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0 sm:mr-4">
+        <div className="w-16 h-16 sm:w-20 sm:h-20">
+          <Image
+            src={imgUrl || "/imgCard.png"}
+            alt=""
+            layout="responsive"
+            width={64}
+            height={64}
+          />
+        </div>
+      </div>
       <div
-        className={clsx("flex flex-col ml-4 h-full", {
+        className={clsx("flex flex-col h-full", {
           " text-gray-04": alreadyViewed,
           "text-neutral-01": !alreadyViewed,
         })}

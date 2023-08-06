@@ -17,7 +17,7 @@ const Dropzone = () => {
   const { user } = useUser();
   const { theme } = useTheme();
   const { openModal, closeModal } = useModal();
-  
+
   const onDrop = async (acceptedFiles: File[]) => {
     closeModal(ModalActionTypes.SETTINGS_MODAL);
     const [selectedFile] = acceptedFiles;
