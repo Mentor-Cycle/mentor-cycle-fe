@@ -1,4 +1,3 @@
-import * as Select from "@radix-ui/react-select";
 import Image from "next/image";
 import Chip from "../../components/Chip";
 import clsx from "clsx";
@@ -7,6 +6,7 @@ import { Props, StatusToVariantMap } from "./MentoringLinkCard.types";
 import Button from "../../components/Button";
 import { OptionStatus } from "schemas/create_event_output";
 import { SelectComponent } from "@components/MentoringLinkCard/SelectComponent";
+import { eventStatusToPortugueseMap } from "utils/parser/eventStatusToPortuguese";
 
 const MentoringLinkCard = ({
   avatarUrl: avatar,
@@ -21,23 +21,17 @@ const MentoringLinkCard = ({
 }: Props) => {
   const [updatedStatus, setUpdatedStatus] = useState<OptionStatus>(status);
 
-  const statusToPortugueseMap: Record<OptionStatus, string> = {
-    PENDING: "Agendada",
-    DONE: "Realizada",
-    CANCELLED: "Cancelada",
-    CONFIRMED: "Agendada",
-  };
   const handleStatusCard = (status: OptionStatus) => {
     const statusToVariantMap: StatusToVariantMap = {
-      "Não realizada": "primary",
-      Realizada: "chipCards",
-      "A confirmar": "tertiary",
+      "Não realizada": "chipCanceled",
+      Realizada: "chipRealized",
+      "A confirmar": "chipCards",
       Agendada: "chipCards",
-      Cancelada: "chipCards",
+      Cancelada: "chipCanceled",
     };
 
-    const variant = statusToVariantMap[statusToPortugueseMap[status]];
-    return <Chip variant={variant}>{statusToPortugueseMap[status]}</Chip>;
+    const variant = statusToVariantMap[eventStatusToPortugueseMap[status]];
+    return <Chip variant={variant}>{eventStatusToPortugueseMap[status]}</Chip>;
   };
   const isDisabled = status === "DONE" || status === "CANCELLED";
 

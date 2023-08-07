@@ -10,7 +10,7 @@ export const cardMock: CardProps[] = [
     location: "São Paulo, SP - Brasil",
     description:
       "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum id quis ad qu minim sss ss... ",
-    image: cardImage,
+    image: cardImage.src,
     chips: ["Backend", "FrontEnd"],
     // chips: [
     //   { variant: "primary", children: "Backend" },

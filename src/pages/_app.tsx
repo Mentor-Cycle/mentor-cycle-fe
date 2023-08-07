@@ -16,6 +16,7 @@ import { ROUTES_WITHOUT_HEADER } from "config/constants";
 import { MultiStepFormProvider } from "providers/form";
 import { ThemeProvider } from "next-themes";
 import ClientOnly from "@components/LandingPage/ClientOnly";
+import { ModalProvider } from "contexts/ModalContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState(initialValue);
@@ -29,13 +30,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider enableSystem={true} defaultTheme="dark" attribute="class">
       <ApolloProvider client={client}>
         <UserContext.Provider value={userContextValue}>
-          {showHeader && <Header />}
-          <MultiStepFormProvider>
-            <ClientOnly>
-              <Component {...pageProps} />
-            </ClientOnly>
-          </MultiStepFormProvider>
-          <ToastContainer />
+          <ModalProvider>
+            {showHeader && <Header />}
+            <MultiStepFormProvider>
+              <ClientOnly>
+                <Component {...pageProps} />
+              </ClientOnly>
+            </MultiStepFormProvider>
+            <ToastContainer />
+          </ModalProvider>
         </UserContext.Provider>
       </ApolloProvider>
     </ThemeProvider>

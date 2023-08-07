@@ -62,7 +62,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(
       <div className="relative font-normal" ref={SelectRef} tabIndex={0}>
         <SelectInput
           className={clsx(
-            "my-2 py-4 px-6 border border-neutral-01 bg-secondary-03",
+            "my-2 py-4 px-6 border bg-neutral-02 dark:border-neutral-01 dark:bg-secondary-03",
             className
           )}
           onClick={handleClickSelect}
@@ -73,7 +73,7 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(
             state.map((selectedOption) => (
               <SelectedOption
                 key={selectedOption}
-                className="py-1 px-4 bg-secondary-01"
+                className="py-1 px-4 bg-gray-03 text-neutral-02 dark:bg-secondary-01"
               >
                 <span className="select-none">{selectedOption}</span>
                 <ButtonRemoveSelectedOption
@@ -93,11 +93,14 @@ export const Select = React.forwardRef<HTMLDivElement, ISelect>(
             onClick={handleClearAllOptions}
             className="hover:bg-primary-02"
           >
-            <IconTrash size={18} className="text-neutral-01" />
+            <IconTrash
+              size={18}
+              className="text-secondary-02 dark:text-neutral-01"
+            />
           </ButtonClearAllOptions>
         </SelectInput>
         {isShowingOptionsModal ? (
-          <ModalSelectOptions className="p-4 bg-secondary-01">
+          <ModalSelectOptions className="p-4 bg-neutral-02 dark:bg-secondary-01">
             {showingOptions.length === 0 ? (
               <ModalTextAllOptionsSelected className="px-2 text-neutral-01">
                 {textAllOptionsSelected ?? "Todas opções foram selecionadas."}

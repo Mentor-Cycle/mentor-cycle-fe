@@ -16,7 +16,7 @@ const Stepper: React.FC<StepperProps> = ({
   };
 
   const containerClasses = clsx(
-    "flex justify-between items-center mb-4 w-full max-w-2xl"
+    "flex justify-between items-center w-full max-w-2xl"
   );
   const stepClasses = clsx(
     " flex items-center justify-center relative  text-neutral-01 transition-colors duration-500 z-10"

@@ -5,9 +5,9 @@ import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { validateUndefined } from "utils/nullable/validateUndefined";
-import { AvailabilitySlots } from "@components/ScheduleMentorshipModal/types";
+import { AvailabilitySlots } from "@components/Modal/ModalScheduleMentorship/types";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@hooks/useUser";
@@ -15,12 +15,13 @@ import Spinner from "@components/Spinner";
 import { InfoCard } from "@components/InfoCard";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
-import { ScheduleMentorshipModal } from "@components/ScheduleMentorshipModal";
 import { TWeekday_Lowercase } from "config/constants";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const MentorProfile: NextPage = () => {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState(false);
+  const { openModal } = useModal();
   const { user } = useUser();
   const id = router.query.id as string;
   const {
@@ -116,19 +117,14 @@ const MentorProfile: NextPage = () => {
           </p>
           <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
-              title="E-mail"
-              label="example@email.com"
-              content={mentor?.email || ""}
-            />
-            <InfoCard
               title="Portfólio/GitHub"
-              label="exemplo.com.br"
+              label="Não informado"
               content={mentor?.github || ""}
               alignRight
             />
             <InfoCard
               title="País/Estado"
-              label="example@email.com"
+              label="Não informado"
               content={`${validateUndefined(mentor?.country) || "País"}${
                 mentor?.country === "Brasil" && mentor?.state
                   ? `/${validateUndefined(mentor?.state)}`
@@ -138,7 +134,7 @@ const MentorProfile: NextPage = () => {
             />
             <InfoCard
               title="Carreira"
-              label="example@email.com"
+              label="Não informado"
               content={
                 mentor?.yearsOfExperience
                   ? `${parseInt(
@@ -148,14 +144,14 @@ const MentorProfile: NextPage = () => {
                     )} ${
                       mentor?.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
-                  : "experiência que você possui"
+                  : "Não informado"
               }
               contentToValidate={mentor?.yearsOfExperience}
               alignRight
             />
             <InfoCard
               title="Linkedin"
-              label="linkedin.com/in/example"
+              label="Não informado"
               content={mentor?.linkedin || ""}
             />
           </section>
@@ -190,7 +186,6 @@ const MentorProfile: NextPage = () => {
                 </p>
               </div>
             )}
-            <ScheduleMentorshipModal open={openModal} setOpen={setOpenModal} />
             {user.isMentor ? (
               <>
                 <div className="max-w-xs mt-4">
@@ -206,7 +201,9 @@ const MentorProfile: NextPage = () => {
                 disabled={Boolean(!availabilities?.length)}
                 size="regular"
                 variant="primary"
-                onClick={() => setOpenModal(true)}
+                onClick={() =>
+                  openModal(ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL)
+                }
               >
                 Agendar mentoria
               </Button>

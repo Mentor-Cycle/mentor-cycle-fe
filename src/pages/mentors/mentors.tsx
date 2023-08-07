@@ -2,6 +2,7 @@ import CardProfile from "@components/CardProfile";
 import Input from "@components/Input/Input";
 import SelectSkills from "@components/MultiSelect/SelectSkills";
 import TimeSelect from "@components/MultiSelect/TimeSelect";
+import SkeletonCardProfile from "@components/Skeleton/Cards/SkeletonCardProfile";
 import Spinner from "@components/Spinner";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { useUser } from "@hooks/useUser";
@@ -128,6 +129,10 @@ const Mentors: NextPage = () => {
     );
   }
 
+  const skeletonArray = Array.from({ length: pageSize }, (_, index) => (
+    <SkeletonCardProfile key={index} />
+  ));
+
   return (
     <>
       <main className="min-h-screen xs:container m-auto mt-16 p-2 overflow-auto mb-5">
@@ -159,15 +164,15 @@ const Mentors: NextPage = () => {
             />
           </div>
         </div>
-        {loadingMentor && mentors.length === 0 ? (
-          <div className="min-h-screen flex justify-center items-center">
-            <Spinner size={50} />
+        {loadingMentor ? (
+          <div className="min-h-screen overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-auto items-center sm:items-start justify-center sm:justify-between gap-4 mt-8 justify-items-center">
+            {skeletonArray}
           </div>
         ) : (
           <div>
             <InfiniteScroll
               dataLength={mentors.length}
-              loader={<Spinner size={50} />}
+              loader={<Spinner size={18} />}
               next={handleLoadMore}
               hasMore={mentors.length >= pageSize}
               className="min-h-screen overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 m-auto items-center sm:items-start justify-center sm:justify-between gap-4 mt-8 justify-items-center"
@@ -181,7 +186,7 @@ const Mentors: NextPage = () => {
                     description={mentor.description}
                     image={mentor.image}
                     jobTitle={user.jobTitle || (mentor.jobTitle ?? "")}
-                    location={mentor.location}
+                    location={mentor.location || ""}
                     name={mentor.firstName}
                     lastName={mentor.lastName ?? ""}
                     isCurrentMentor={user.isLogged && user.id === mentor.id}

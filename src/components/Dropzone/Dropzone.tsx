@@ -1,32 +1,30 @@
 import { useMutation } from "@apollo/client";
 import Spinner from "@components/Spinner";
 import { useUser } from "@hooks/useUser";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 import { useTheme } from "next-themes";
-import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { UPDATE_USER_PHOTO } from "services/apollo/mutations";
 import { GET_ME } from "services/apollo/queries";
 import Swal from "sweetalert2";
 
-interface IDropzone {
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const Dropzone = ({ setIsModalOpen }: IDropzone) => {
+const Dropzone = () => {
   const [uploadImage, { loading }] = useMutation(UPDATE_USER_PHOTO, {
     refetchQueries: [GET_ME],
   });
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const { theme } = useTheme();
-
+  const { openModal, closeModal } = useModal();
   const onDrop = async (acceptedFiles: File[]) => {
-    setIsModalOpen(false);
+    closeModal(ModalActionTypes.SETTINGS_MODAL);
     const [selectedFile] = acceptedFiles;
     Swal.fire({
       customClass: {
         container: "swal-overlay",
         popup: "swal-overlay",
+        title: "!text-xl",
       },
       title: "Tem certeza que deseja mudar sua foto de perfil?",
       background: `${theme === "dark" ? "#212324" : "#FAFAFA"}`,
@@ -36,7 +34,7 @@ const Dropzone = ({ setIsModalOpen }: IDropzone) => {
       confirmButtonText: "Sim, mudar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
-      setIsModalOpen(true);
+      openModal(ModalActionTypes.SETTINGS_MODAL);
       if (result.isConfirmed) {
         try {
           await uploadImage({

@@ -1,7 +1,6 @@
 import Button from "@components/Button";
 import Chip from "@components/Chip";
 import DashboardCardProfile from "@components/DashboardCardProfile";
-import EditProfile from "@components/EditProfile/EditProfile";
 import { MentorModalAvailability } from "@components/MentorModalAvailability/MentorModalAvailability";
 import MentoringWeekCard from "@components/MentoringWeekCard/MentoringWeekCard";
 import { renderMentoringWeekCard } from "@components/MentoringWeekCard/renderMentoringWeekCards";
@@ -17,10 +16,12 @@ import { useRouter } from "next/router";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { IGroupEventsByDay } from "types/dashboard.types";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
 const Profile: NextPage = () => {
   const [openModalAvailability, setOpenModalAvailability] = useState(false);
-  const [openEditProfile, setOpenEditProfile] = useState(false);
+  const { openModal, closeModal } = useModal();
   const [eventsByDay, setEventsByDay] = useState<IGroupEventsByDay>({});
   const { user } = useUser();
   const router = useRouter();
@@ -48,17 +49,16 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (router.query.edit) {
-      setOpenEditProfile(true);
+      closeModal(ModalActionTypes.EDIT_PROFILE_MODAL);
     }
     if (router.query.availability) {
       setOpenModalAvailability(true);
     }
     window.history.replaceState(null, "", "/profile");
-  }, [router.query]);
+  }, [router.query.availability, router.query.edit, closeModal]);
 
   useEffect(() => {
     // essa lógica pode ser colocada dentro do onCompleted do useTypedQuery e evitar um useEffect
-
     if (classes) {
       const filteredEvents = classes.findEvents.filter((mentor) => {
         return mentor.mentorId !== user.id && !user.isMentor;
@@ -70,9 +70,11 @@ const Profile: NextPage = () => {
 
   if (loadingMentor || loadingClasses)
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Spinner />
-      </div>
+      <>
+        <div className="min-h-screen flex justify-center items-center">
+          <Spinner />
+        </div>
+      </>
     );
 
   const handleOpenModalAvailability = () =>
@@ -120,21 +122,17 @@ const Profile: NextPage = () => {
               ? user.description
               : "Escreva suas principais experiências profissionais"}
           </p>
-          <section className="pt-12 pb-12 px-4 pl-0 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
-            <InfoCard
-              title="E-mail"
-              label="example@email.com"
-              content={user.email}
-            />
+          <section className="text-start pt-12 pb-12 flex flex-col lg:flex-row flex-wrap gap-y-8 border-gray-03 border-t border-solid">
             <InfoCard
               title="Portfólio/GitHub"
-              label="exemplo.com.br"
+              label="Não informado"
               content={user.github ?? ""}
               alignRight
             />
             <InfoCard
+              alignRight
               title="País/Estado"
-              label="example@email.com"
+              label="Não informado"
               content={`${validateUndefined(user.country) || "País"}${
                 user.country === "Brasil" && user.state
                   ? `/${validateUndefined(user.state)}`
@@ -144,7 +142,7 @@ const Profile: NextPage = () => {
             />
             <InfoCard
               title="Carreira"
-              label="example@email.com"
+              label="Não informado"
               content={
                 user.yearsOfExperience
                   ? `${
@@ -154,15 +152,16 @@ const Profile: NextPage = () => {
                     } ${
                       user.yearsOfExperience > 1 ? "anos" : "ano"
                     } de experiência`
-                  : "experiência que você possui"
+                  : "Não informado"
               }
               contentToValidate={user.yearsOfExperience}
               alignRight
             />
             <InfoCard
               title="Linkedin"
-              label="linkedin.com/in/example"
+              label="Não informado"
               content={user.linkedin ?? ""}
+              alignRight
             />
           </section>
         </aside>
@@ -233,7 +232,7 @@ const Profile: NextPage = () => {
                 className="mt-5"
                 size="regular"
                 variant="secondary"
-                onClick={() => setOpenEditProfile((isOpen) => !isOpen)}
+                onClick={() => openModal(ModalActionTypes.EDIT_PROFILE_MODAL)}
               >
                 Editar Perfil
               </Button>
@@ -241,12 +240,6 @@ const Profile: NextPage = () => {
           </div>
         </aside>
       </main>
-      {
-        <EditProfile
-          openEditProfile={openEditProfile}
-          setOpenEditProfile={setOpenEditProfile}
-        />
-      }
     </>
   );
 };

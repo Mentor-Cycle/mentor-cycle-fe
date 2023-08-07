@@ -10,7 +10,7 @@ export const InfoCard = ({
   alignRight,
 }: Props) => {
   return (
-    <article className={clsx("w-2/5", alignRight && "ml-0 lg:ml-auto")}>
+    <article className={clsx("w-2/5", alignRight && "ml-0 lg:mr-auto")}>
       <h2 className="text-lg font-bold leading-normal text-secondary-02">
         {title}
       </h2>

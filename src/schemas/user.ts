@@ -3,6 +3,7 @@ import {
   availabilitySchema,
 } from "schemas/availability";
 import { z } from "zod";
+import { notificationAPISchema, notificationSchema } from "./notification";
 
 export const userSchema = z.object({
   id: z.string(),
@@ -35,6 +36,7 @@ export const userSchema = z.object({
   isMentor: z.boolean(),
   status: z.string(),
   availability: z.array(availabilitySchema),
+  notifications: z.array(notificationSchema),
 });
 
 export const userAPISchema = z
@@ -69,6 +71,7 @@ export const userAPISchema = z
     isMentor: userSchema.shape.isMentor.nullable(),
     status: userSchema.shape.status.nullable(),
     availability: z.array(availabilityAPISchema).nullable(),
+    notifications: z.array(notificationAPISchema).nullable(),
     __typename: z.literal("User"),
   })
   .strict();
@@ -93,6 +96,15 @@ export const userSessionSchema = userAPISchema
   })
   .extend({
     isLogged: z.boolean(),
+    notifications: z
+      .array(
+        z.object({
+          id: notificationAPISchema.shape.id,
+          read: notificationAPISchema.shape.read,
+          data: notificationAPISchema.shape.data,
+        })
+      )
+      .nullable(),
     availability: z
       .array(
         z.object({

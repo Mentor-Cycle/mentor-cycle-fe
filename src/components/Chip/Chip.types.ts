@@ -9,7 +9,9 @@ export type ChipVariant =
   | "secondary_dark"
   | "outlined"
   | "chipCards"
-  | "chipCardsMentors";
+  | "chipCardsMentors"
+  | "chipCanceled"
+  | "chipRealized";
 
 export interface ChipProps {
   children: string;

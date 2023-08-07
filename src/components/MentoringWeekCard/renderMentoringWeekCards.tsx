@@ -16,8 +16,8 @@ export const renderMentoringWeekCard = (
 ) => {
   const statusDisplay: Record<OptionStatus, IStatusDisplay> = {
     PENDING: { label: "Agendado", variant: "chipCards" },
-    CANCELLED: { label: "Cancelada", variant: "chipCards" },
-    DONE: { label: "Realizada", variant: "secondary" },
+    CANCELLED: { label: "Cancelada", variant: "chipCanceled" },
+    DONE: { label: "Realizada", variant: "chipRealized" },
     CONFIRMED: { label: "Agendado", variant: "chipCards" },
   };
 
@@ -35,7 +35,7 @@ export const renderMentoringWeekCard = (
             events.events.length
           } mentoria(s) marcada(s) para o dia ${format(data, "dd/MM/yyyy")}`}
           chips={events.events.map((event) => (
-            <>
+            <div key={event.id} className="flex gap-1">
               <Chip
                 key={`variant_${event.id}`}
                 variant={statusDisplay[event.status].variant}
@@ -46,7 +46,7 @@ export const renderMentoringWeekCard = (
               <Chip key={`hour_${event.id}`} variant="secondary">
                 {formatHour(new Date(event.startDate))}
               </Chip>
-            </>
+            </div>
           ))}
         />
       );

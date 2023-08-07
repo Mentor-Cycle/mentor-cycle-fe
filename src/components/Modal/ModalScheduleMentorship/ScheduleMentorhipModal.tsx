@@ -1,30 +1,27 @@
 import Modal from "@components/Modal";
 import Calendar from "@components/Calendar/Calendar";
 import Image from "next/image";
-import Stepper from "@components/Stepper/Stepper";
 import { useCallback, useEffect, useState } from "react";
-import { buttonVariant } from "@components/Button/Button.types";
 import Chip from "@components/Chip";
 import { useMentorProfile } from "@hooks/useMentorProfile";
 import { useRouter } from "next/router";
 import Spinner from "@components/Spinner";
 import Button from "@components/Button";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useUser } from "@hooks/useUser";
-import { CREATE_EVENT } from "services/apollo/mutations";
+import { CREATE_EVENT, UPDATE_EVENT } from "services/apollo/mutations";
 import { toast } from "react-toastify";
 import { useTypedQuery } from "@hooks/useTypedQuery";
 import { queriesIndex as api } from "services/apollo/queries/queries.index";
 import { TGET_AVAILABILITIES_queryDataSchema as TUserAvailability } from "services/apollo/queries/queries-properties";
-import { TStepButtons } from "@components/ScheduleMentorshipModal/ScheduleMentorhipModal.types";
+import { TStepButtons } from "@components/Modal/ModalScheduleMentorship/ScheduleMentorhipModal.types";
+import StepperSmall from "@components/Stepper/StepperSmall";
+import { useModal } from "contexts/ModalContext";
+import { ModalActionTypes } from "contexts/types";
 
-export const ScheduleMentorshipModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}) => {
+const ScheduleMentorshipModal = () => {
+  const { user } = useUser();
+  const { closeModal, SCHEDULE_MENTORSHIP_MODAL } = useModal();
   const router = useRouter();
   const id = router.query.id;
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
@@ -49,14 +46,19 @@ export const ScheduleMentorshipModal = ({
     loading: loadingMentor,
     error: errorMentor,
   } = useMentorProfile(id as string, {
-    skip: !id,
+    skip: !id || !SCHEDULE_MENTORSHIP_MODAL,
   });
   if (errorMentor?.error) console.log("errorMentor", errorMentor);
 
-  const { user } = useUser();
-  const [createEvent, { loading: loadingEvent, error: errorEvent }] =
-    useMutation(CREATE_EVENT);
-  if (errorEvent) console.log("errorEvent", errorEvent);
+  const [createEvent, { loading: eventLoading }] = useMutation(CREATE_EVENT);
+  const [updateEventStatus] = useMutation(UPDATE_EVENT);
+  const { data: events } = useTypedQuery(api.GET_EVENTS, {
+    variables: {
+      learnerId: !user.isMentor ? user.id : null,
+      mentorId: user.isMentor ? user.id : null,
+    },
+    skip: !user.isLogged || !SCHEDULE_MENTORSHIP_MODAL,
+  });
 
   const stepButtons: TStepButtons = {
     1: {
@@ -75,7 +77,7 @@ export const ScheduleMentorshipModal = ({
 
   const {
     data: availabilitiesResponse,
-    refetch: refetchAvailabitities,
+    refetch: refetchAvailabilities,
     error: errorAvailabilitiesResponse,
   } = useTypedQuery(api.GET_AVAILABILITIES, {
     variables: {
@@ -90,35 +92,65 @@ export const ScheduleMentorshipModal = ({
     availabilitiesResponse?.findMentorAvailability.availability ?? null;
 
   const handleSteps = async () => {
-    await refetchAvailabitities();
-    if (currentStep === 3) {
-      resetStates();
-      return setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
-    }
-
-    if (currentStep === 2) {
-      const [day, month, year] = daySelected.split("/");
-      const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
-      const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
-      const payload = {
-        startDate,
-        endDate,
-        mentorId: id,
-        learnerId: user.id,
-        active: true,
-        status: "CONFIRMED",
-      };
-      await createEvent({ variables: { event: payload } });
-      if (errorEvent) {
-        return toast.error("Erro ao criar evento");
+    try {
+      if (!events) {
+        throw new Error("Events is null");
       }
-      resetStates(false, false);
-    }
 
-    if (open) {
-      setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-    } else {
-      setCurrentStep(1);
+      if (SCHEDULE_MENTORSHIP_MODAL) {
+        setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
+      } else {
+        setCurrentStep(1);
+      }
+
+      await refetchAvailabilities();
+
+      switch (currentStep) {
+        case 2:
+          const [day, month, year] = daySelected.split("/");
+          const startDate = `${year}-${month}-${day}T${selectedStartTime}:00`;
+          const endDate = `${year}-${month}-${day}T${selectedEndTime}:00`;
+          const payload = {
+            startDate,
+            endDate,
+            mentorId: id,
+            learnerId: user.id,
+            active: true,
+            status: "CONFIRMED",
+          };
+
+          const eventsData = events.findEvents;
+
+          // Check whether user has already created the event at exact time and day
+          let updateEventInput: { id?: string; status?: string } = {};
+          eventsData.forEach((eventData) => {
+            if (eventData.startDate === payload.startDate) {
+              updateEventInput = {
+                id: eventData.id,
+                status: "CONFIRMED",
+              };
+            }
+          });
+
+          if (updateEventInput.id) {
+            await updateEventStatus({ variables: { updateEventInput } });
+            resetStates(false, false);
+            break;
+          }
+
+          await createEvent({ variables: { event: payload } });
+          resetStates(false, false);
+          break;
+
+        case 3:
+          resetStates();
+          return setConvertedDaysAndTimes([
+            ...new Set(daysAndTimes[daySelected]),
+          ]);
+      }
+    } catch (error) {
+      console.error(error);
+      return toast.error("Erro ao criar evento");
     }
   };
 
@@ -154,7 +186,7 @@ export const ScheduleMentorshipModal = ({
     [daysAndTimes]
   );
 
-  const resetStates = async (close: boolean = true, resetStep = true) => {
+  const resetStates = async (close = true, resetStep = true) => {
     setSelectedStartTime("");
     setSelectedEndTime("");
     setSelectedDate(undefined);
@@ -166,9 +198,9 @@ export const ScheduleMentorshipModal = ({
       setCurrentStep(1);
     }
     if (close) {
-      setOpen(false);
+      closeModal(ModalActionTypes.SCHEDULE_MENTORSHIP_MODAL);
     }
-    await refetchAvailabitities();
+    await refetchAvailabilities();
   };
 
   const getDateNamePhrase = (date: Date) => {
@@ -215,17 +247,8 @@ export const ScheduleMentorshipModal = ({
     setConvertedDaysAndTimes([...new Set(daysAndTimes[daySelected])]);
   }, [daySelected, daysAndTimes]);
 
-  if (loadingMentor)
-    return (
-      <>
-        <div className="min-h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
-      </>
-    );
-
   return (
-    <Modal open={open} onOpenChange={() => resetStates()}>
+    <Modal open={SCHEDULE_MENTORSHIP_MODAL} onOpenChange={() => resetStates()}>
       <div className="px-4 py-4 xs:px-4 sm:px-16 sm:py-12 flex flex-col justify-center items-center">
         {currentStep === 1 && (
           <>
@@ -253,7 +276,7 @@ export const ScheduleMentorshipModal = ({
             </p>
           </>
         )}
-        <Stepper size="small" steps={[1, 2, 3]} currentStep={currentStep} />
+        <StepperSmall steps={[1, 2, 3]} currentStep={currentStep} />
         {currentStep === 1 && (
           <>
             <div className="mt-10">
@@ -297,7 +320,9 @@ export const ScheduleMentorshipModal = ({
                 Mentoria de 30 minutos
               </h2>
               <p className="mt-6 text-secondary-02">
-                <span className="font-bold text-secondary-02">Horário:</span>{" "}
+                <span className="font-bold text-secondary-02 dark:text-neutral-03">
+                  Horário:
+                </span>{" "}
                 {selectedStartTime.replace(":", "h")} até as{" "}
                 {selectedEndTime.replace(":", "h")}
               </p>
@@ -334,7 +359,7 @@ export const ScheduleMentorshipModal = ({
             disabled={currentStep === 1 && (!daySelected || !selectedStartTime)}
             variant={stepButtons[currentStep].variant}
             onClick={handleSteps}
-            isLoading={loadingMentor || loadingEvent}
+            isLoading={loadingMentor || eventLoading}
           >
             {stepButtons[currentStep].text}
           </Button>
@@ -343,3 +368,5 @@ export const ScheduleMentorshipModal = ({
     </Modal>
   );
 };
+
+export default ScheduleMentorshipModal;
