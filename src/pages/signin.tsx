@@ -9,13 +9,28 @@ import { useRouter } from "next/router";
 import { UserContext, initialValue } from "providers/user/AppContext";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { GrLinkedinOption } from "react-icons/gr";
+import { GrLinkedinOption, GrGithub } from "react-icons/gr";
 import { toast } from "react-toastify";
 import { SIGN_IN_USER } from "services/apollo/mutations";
 import { GET_IS_USER_LOGGED } from "services/apollo/queries";
 
 import client from "services/apollo/apollo-client";
 import TermsAndPrivacyPopup from "@components/TermsAndPrivacyPopup/TermsAndPrivacyPopup";
+
+const LOGIN_OPTIONS = [
+  {
+    authPath: "/auth/github",
+    icon: GrGithub,
+    iconClassname: "text-[#000]",
+    innerText: "Entrar com Github",
+  },
+  {
+    authPath: "/auth/linkedin",
+    icon: GrLinkedinOption,
+    iconClassname: "text-[#0e76a8]",
+    innerText: "Entrar com Linkedin",
+  },
+];
 
 const SignIn: NextPage = () => {
   const router = useRouter();
@@ -175,14 +190,24 @@ const SignIn: NextPage = () => {
             {/*   <Button.Icon icon={FcGoogle} /> */}
             {/*   Entrar com Google */}
             {/* </Button> */}
-            <Button
-              onClick={() => handleStrategyLogin("/auth/linkedin")}
-              size="small"
-              variant="terciary"
-            >
-              <Button.Icon icon={GrLinkedinOption} className="text-[#0e76a8]" />
-              Entrar com Linkedin
-            </Button>
+            <div className="flex flex-col gap-4">
+              {LOGIN_OPTIONS.map((option, index) => {
+                return (
+                  <Button
+                    size="small"
+                    variant="terciary"
+                    onClick={() => handleStrategyLogin(option.authPath)}
+                    key={index}
+                  >
+                    <Button.Icon
+                      icon={option.icon}
+                      className={option.iconClassname}
+                    />
+                    {option.innerText}
+                  </Button>
+                );
+              })}
+            </div>
             <p className="text-primary-05 dark:text-neutral-01 mt-6 md:mt-14 md:ml-4 text-center md:text-left">
               Não tem uma conta?{" "}
               <Link
